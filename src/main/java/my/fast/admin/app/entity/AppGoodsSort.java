@@ -1,9 +1,10 @@
-package com.macro.mall.model;
+package my.fast.admin.app.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class AppGoodsSort implements Serializable {
     private Long id;

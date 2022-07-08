@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.mapper.AppConveyMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppConvey">
+  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppConvey">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
@@ -86,7 +86,7 @@
     id, member_id, AMOUNT, ADDTIME, ENDTIME, STATUS, COMMISSION, C_STATUS, ADD_ID, GOODS_ID, 
     GOODS_COUNT, HID, SAN, QIANG, LIANDANNO, ISLIANDAN, LID, LNO, MIN, MAX, SIGN
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.AppConveyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppConveyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -110,13 +110,13 @@
     delete from app_convey
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppConveyExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppConveyExample">
     delete from app_convey
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.AppConvey">
+  <insert id="insert" parameterType="my.fast.admin.app.entity.AppConvey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -135,7 +135,7 @@
       #{lid,jdbcType=VARCHAR}, #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, 
       #{sign,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.AppConvey">
+  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppConvey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -265,7 +265,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.AppConveyExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppConveyExample" resultType="java.lang.Long">
     select count(*) from app_convey
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -369,7 +369,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppConvey">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppConvey">
     update app_convey
     <set>
       <if test="memberId != null">
@@ -435,7 +435,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppConvey">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppConvey">
     update app_convey
     set member_id = #{memberId,jdbcType=BIGINT},
       AMOUNT = #{amount,jdbcType=DECIMAL},

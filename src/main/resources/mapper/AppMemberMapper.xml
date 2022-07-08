@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.mapper.AppMemberMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppMember">
+  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMember">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
     <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
@@ -42,7 +42,7 @@
     <result column="match_min" jdbcType="INTEGER" property="matchMin" />
     <result column="match_max" jdbcType="INTEGER" property="matchMax" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.AppMember">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.AppMember">
     <result column="top_pic" jdbcType="LONGVARCHAR" property="topPic" />
     <result column="bot_pic" jdbcType="LONGVARCHAR" property="botPic" />
   </resultMap>
@@ -115,7 +115,7 @@
   <sql id="Blob_Column_List">
     top_pic, bot_pic
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.AppMemberExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.app.entity.AppMemberExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -131,7 +131,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.macro.mall.model.AppMemberExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -157,13 +157,13 @@
     delete from app_member
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppMemberExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberExample">
     delete from app_member
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.AppMember">
+  <insert id="insert" parameterType="my.fast.admin.app.entity.AppMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -196,7 +196,7 @@
       #{matchMin,jdbcType=INTEGER}, #{matchMax,jdbcType=INTEGER}, #{topPic,jdbcType=LONGVARCHAR}, 
       #{botPic,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.AppMember">
+  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -446,7 +446,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.AppMemberExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultType="java.lang.Long">
     select count(*) from app_member
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -675,7 +675,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppMember">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMember">
     update app_member
     <set>
       <if test="memberLevelId != null">
@@ -801,7 +801,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.AppMember">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.app.entity.AppMember">
     update app_member
     set member_level_id = #{memberLevelId,jdbcType=BIGINT},
       user_account = #{userAccount,jdbcType=VARCHAR},
@@ -845,7 +845,7 @@
       bot_pic = #{botPic,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppMember">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMember">
     update app_member
     set member_level_id = #{memberLevelId,jdbcType=BIGINT},
       user_account = #{userAccount,jdbcType=VARCHAR},

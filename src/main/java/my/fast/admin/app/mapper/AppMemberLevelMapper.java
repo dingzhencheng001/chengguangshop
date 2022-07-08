@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppMemberLevel;
-import com.macro.mall.model.AppMemberLevelExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppMemberLevel;
+import my.fast.admin.app.entity.AppMemberLevelExample;
 
 public interface AppMemberLevelMapper {
     long countByExample(AppMemberLevelExample example);

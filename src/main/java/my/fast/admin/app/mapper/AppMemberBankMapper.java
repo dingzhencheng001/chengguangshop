@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppMemberBank;
-import com.macro.mall.model.AppMemberBankExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppMemberBank;
+import my.fast.admin.app.entity.AppMemberBankExample;
 
 public interface AppMemberBankMapper {
     long countByExample(AppMemberBankExample example);

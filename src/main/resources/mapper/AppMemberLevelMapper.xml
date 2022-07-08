@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.mapper.AppMemberLevelMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppMemberLevel">
+  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMemberLevel">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="members_name" jdbcType="VARCHAR" property="membersName" />
     <result column="order_num" jdbcType="INTEGER" property="orderNum" />
@@ -17,7 +17,7 @@
     <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
     <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.AppMemberLevel">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.AppMemberLevel">
     <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -86,7 +86,7 @@
   <sql id="Blob_Column_List">
     pic
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.AppMemberLevelExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.app.entity.AppMemberLevelExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -102,7 +102,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.macro.mall.model.AppMemberLevelExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberLevelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -128,13 +128,13 @@
     delete from app_member_level
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppMemberLevelExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberLevelExample">
     delete from app_member_level
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.AppMemberLevel">
+  <insert id="insert" parameterType="my.fast.admin.app.entity.AppMemberLevel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -149,7 +149,7 @@
       #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
       #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.AppMemberLevel">
+  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMemberLevel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -243,7 +243,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.AppMemberLevelExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberLevelExample" resultType="java.lang.Long">
     select count(*) from app_member_level
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -343,7 +343,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppMemberLevel">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMemberLevel">
     update app_member_level
     <set>
       <if test="membersName != null">
@@ -391,7 +391,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.AppMemberLevel">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.app.entity.AppMemberLevel">
     update app_member_level
     set members_name = #{membersName,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=INTEGER},
@@ -409,7 +409,7 @@
       pic = #{pic,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppMemberLevel">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMemberLevel">
     update app_member_level
     set members_name = #{membersName,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=INTEGER},

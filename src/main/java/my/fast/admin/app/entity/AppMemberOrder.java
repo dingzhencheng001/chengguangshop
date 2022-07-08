@@ -1,7 +1,8 @@
-package com.macro.mall.model;
+package my.fast.admin.app.entity;
+
+import java.io.Serializable;
 
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 
 public class AppMemberOrder implements Serializable {
     @ApiModelProperty(value = "id")

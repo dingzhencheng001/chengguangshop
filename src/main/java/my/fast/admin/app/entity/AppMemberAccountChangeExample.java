@@ -1,4 +1,4 @@
-package com.macro.mall.model;
+package my.fast.admin.app.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

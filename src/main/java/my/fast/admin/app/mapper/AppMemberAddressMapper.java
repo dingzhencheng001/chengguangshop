@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppMemberAddress;
-import com.macro.mall.model.AppMemberAddressExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppMemberAddress;
+import my.fast.admin.app.entity.AppMemberAddressExample;
 
 public interface AppMemberAddressMapper {
     long countByExample(AppMemberAddressExample example);

@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppConvey;
-import com.macro.mall.model.AppConveyExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppConvey;
+import my.fast.admin.app.entity.AppConveyExample;
 
 public interface AppConveyMapper {
     long countByExample(AppConveyExample example);

@@ -1,4 +1,4 @@
-package com.macro.mall.model;
+package my.fast.admin.app.entity;
 
 import java.util.ArrayList;
 import java.util.List;

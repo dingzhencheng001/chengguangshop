@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppGoodsSort;
-import com.macro.mall.model.AppGoodsSortExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppGoodsSort;
+import my.fast.admin.app.entity.AppGoodsSortExample;
 
 public interface AppGoodsSortMapper {
     long countByExample(AppGoodsSortExample example);

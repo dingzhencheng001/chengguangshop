@@ -1,8 +1,9 @@
-package com.macro.mall.model;
+package my.fast.admin.app.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class AppConvey implements Serializable {
     private Long id;

@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppMemberOrder;
-import com.macro.mall.model.AppMemberOrderExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppMemberOrder;
+import my.fast.admin.app.entity.AppMemberOrderExample;
 
 public interface AppMemberOrderMapper {
     long countByExample(AppMemberOrderExample example);

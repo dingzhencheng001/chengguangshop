@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.mapper.AppMemberBankMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppMemberBank">
+  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMemberBank">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
@@ -76,7 +76,7 @@
     id, member_id, bank_name, bank_number, card_num, account_name, site, bank_country, 
     tel, status, email
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.AppMemberBankExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberBankExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -100,13 +100,13 @@
     delete from app_member_bank
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppMemberBankExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberBankExample">
     delete from app_member_bank
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.AppMemberBank">
+  <insert id="insert" parameterType="my.fast.admin.app.entity.AppMemberBank">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -119,7 +119,7 @@
       #{bankCountry,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{email,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.AppMemberBank">
+  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMemberBank">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -189,7 +189,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.AppMemberBankExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberBankExample" resultType="java.lang.Long">
     select count(*) from app_member_bank
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -253,7 +253,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppMemberBank">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMemberBank">
     update app_member_bank
     <set>
       <if test="memberId != null">
@@ -289,7 +289,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppMemberBank">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMemberBank">
     update app_member_bank
     set member_id = #{memberId,jdbcType=INTEGER},
       bank_name = #{bankName,jdbcType=VARCHAR},

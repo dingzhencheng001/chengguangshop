@@ -1,9 +1,11 @@
-package com.macro.mall.mapper;
+package my.fast.admin.app.mapper;
 
-import com.macro.mall.model.AppMemberAccountChange;
-import com.macro.mall.model.AppMemberAccountChangeExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import my.fast.admin.app.entity.AppMemberAccountChange;
+import my.fast.admin.app.entity.AppMemberAccountChangeExample;
 
 public interface AppMemberAccountChangeMapper {
     long countByExample(AppMemberAccountChangeExample example);
