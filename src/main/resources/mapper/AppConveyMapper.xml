@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.AppConveyMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppConvey">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="ADDTIME" jdbcType="VARCHAR" property="addtime" />
+    <result column="ENDTIME" jdbcType="VARCHAR" property="endtime" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="COMMISSION" jdbcType="DECIMAL" property="commission" />
+    <result column="C_STATUS" jdbcType="VARCHAR" property="cStatus" />
+    <result column="ADD_ID" jdbcType="BIGINT" property="addId" />
+    <result column="GOODS_ID" jdbcType="BIGINT" property="goodsId" />
+    <result column="GOODS_COUNT" jdbcType="VARCHAR" property="goodsCount" />
+    <result column="HID" jdbcType="VARCHAR" property="hid" />
+    <result column="SAN" jdbcType="VARCHAR" property="san" />
+    <result column="QIANG" jdbcType="VARCHAR" property="qiang" />
+    <result column="LIANDANNO" jdbcType="VARCHAR" property="liandanno" />
+    <result column="ISLIANDAN" jdbcType="VARCHAR" property="isliandan" />
+    <result column="LID" jdbcType="VARCHAR" property="lid" />
+    <result column="LNO" jdbcType="VARCHAR" property="lno" />
+    <result column="MIN" jdbcType="DECIMAL" property="min" />
+    <result column="MAX" jdbcType="DECIMAL" property="max" />
+    <result column="SIGN" jdbcType="VARCHAR" property="sign" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, member_id, AMOUNT, ADDTIME, ENDTIME, STATUS, COMMISSION, C_STATUS, ADD_ID, GOODS_ID, 
+    GOODS_COUNT, HID, SAN, QIANG, LIANDANNO, ISLIANDAN, LID, LNO, MIN, MAX, SIGN
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.model.AppConveyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_convey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_convey
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_convey
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppConveyExample">
+    delete from app_convey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.AppConvey">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_convey (member_id, AMOUNT, ADDTIME, 
+      ENDTIME, STATUS, COMMISSION, 
+      C_STATUS, ADD_ID, GOODS_ID, 
+      GOODS_COUNT, HID, SAN, 
+      QIANG, LIANDANNO, ISLIANDAN, 
+      LID, LNO, MIN, MAX, 
+      SIGN)
+    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, 
+      #{cStatus,jdbcType=VARCHAR}, #{addId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
+      #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{san,jdbcType=VARCHAR}, 
+      #{qiang,jdbcType=VARCHAR}, #{liandanno,jdbcType=VARCHAR}, #{isliandan,jdbcType=VARCHAR}, 
+      #{lid,jdbcType=VARCHAR}, #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, 
+      #{sign,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.AppConvey">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_convey
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+      <if test="endtime != null">
+        ENDTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="commission != null">
+        COMMISSION,
+      </if>
+      <if test="cStatus != null">
+        C_STATUS,
+      </if>
+      <if test="addId != null">
+        ADD_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT,
+      </if>
+      <if test="hid != null">
+        HID,
+      </if>
+      <if test="san != null">
+        SAN,
+      </if>
+      <if test="qiang != null">
+        QIANG,
+      </if>
+      <if test="liandanno != null">
+        LIANDANNO,
+      </if>
+      <if test="isliandan != null">
+        ISLIANDAN,
+      </if>
+      <if test="lid != null">
+        LID,
+      </if>
+      <if test="lno != null">
+        LNO,
+      </if>
+      <if test="min != null">
+        MIN,
+      </if>
+      <if test="max != null">
+        MAX,
+      </if>
+      <if test="sign != null">
+        SIGN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commission != null">
+        #{commission,jdbcType=DECIMAL},
+      </if>
+      <if test="cStatus != null">
+        #{cStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="addId != null">
+        #{addId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCount != null">
+        #{goodsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null">
+        #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="san != null">
+        #{san,jdbcType=VARCHAR},
+      </if>
+      <if test="qiang != null">
+        #{qiang,jdbcType=VARCHAR},
+      </if>
+      <if test="liandanno != null">
+        #{liandanno,jdbcType=VARCHAR},
+      </if>
+      <if test="isliandan != null">
+        #{isliandan,jdbcType=VARCHAR},
+      </if>
+      <if test="lid != null">
+        #{lid,jdbcType=VARCHAR},
+      </if>
+      <if test="lno != null">
+        #{lno,jdbcType=VARCHAR},
+      </if>
+      <if test="min != null">
+        #{min,jdbcType=DECIMAL},
+      </if>
+      <if test="max != null">
+        #{max,jdbcType=DECIMAL},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.AppConveyExample" resultType="java.lang.Long">
+    select count(*) from app_convey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_convey
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.amount != null">
+        AMOUNT = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addtime != null">
+        ADDTIME = #{record.addtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null">
+        ENDTIME = #{record.endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commission != null">
+        COMMISSION = #{record.commission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cStatus != null">
+        C_STATUS = #{record.cStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addId != null">
+        ADD_ID = #{record.addId,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsId != null">
+        GOODS_ID = #{record.goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsCount != null">
+        GOODS_COUNT = #{record.goodsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hid != null">
+        HID = #{record.hid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.san != null">
+        SAN = #{record.san,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qiang != null">
+        QIANG = #{record.qiang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liandanno != null">
+        LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isliandan != null">
+        ISLIANDAN = #{record.isliandan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lid != null">
+        LID = #{record.lid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lno != null">
+        LNO = #{record.lno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.min != null">
+        MIN = #{record.min,jdbcType=DECIMAL},
+      </if>
+      <if test="record.max != null">
+        MAX = #{record.max,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sign != null">
+        SIGN = #{record.sign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_convey
+    set id = #{record.id,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      AMOUNT = #{record.amount,jdbcType=DECIMAL},
+      ADDTIME = #{record.addtime,jdbcType=VARCHAR},
+      ENDTIME = #{record.endtime,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      COMMISSION = #{record.commission,jdbcType=DECIMAL},
+      C_STATUS = #{record.cStatus,jdbcType=VARCHAR},
+      ADD_ID = #{record.addId,jdbcType=BIGINT},
+      GOODS_ID = #{record.goodsId,jdbcType=BIGINT},
+      GOODS_COUNT = #{record.goodsCount,jdbcType=VARCHAR},
+      HID = #{record.hid,jdbcType=VARCHAR},
+      SAN = #{record.san,jdbcType=VARCHAR},
+      QIANG = #{record.qiang,jdbcType=VARCHAR},
+      LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
+      ISLIANDAN = #{record.isliandan,jdbcType=VARCHAR},
+      LID = #{record.lid,jdbcType=VARCHAR},
+      LNO = #{record.lno,jdbcType=VARCHAR},
+      MIN = #{record.min,jdbcType=DECIMAL},
+      MAX = #{record.max,jdbcType=DECIMAL},
+      SIGN = #{record.sign,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppConvey">
+    update app_convey
+    <set>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="addtime != null">
+        ADDTIME = #{addtime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        ENDTIME = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commission != null">
+        COMMISSION = #{commission,jdbcType=DECIMAL},
+      </if>
+      <if test="cStatus != null">
+        C_STATUS = #{cStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="addId != null">
+        ADD_ID = #{addId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT = #{goodsCount,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null">
+        HID = #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="san != null">
+        SAN = #{san,jdbcType=VARCHAR},
+      </if>
+      <if test="qiang != null">
+        QIANG = #{qiang,jdbcType=VARCHAR},
+      </if>
+      <if test="liandanno != null">
+        LIANDANNO = #{liandanno,jdbcType=VARCHAR},
+      </if>
+      <if test="isliandan != null">
+        ISLIANDAN = #{isliandan,jdbcType=VARCHAR},
+      </if>
+      <if test="lid != null">
+        LID = #{lid,jdbcType=VARCHAR},
+      </if>
+      <if test="lno != null">
+        LNO = #{lno,jdbcType=VARCHAR},
+      </if>
+      <if test="min != null">
+        MIN = #{min,jdbcType=DECIMAL},
+      </if>
+      <if test="max != null">
+        MAX = #{max,jdbcType=DECIMAL},
+      </if>
+      <if test="sign != null">
+        SIGN = #{sign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppConvey">
+    update app_convey
+    set member_id = #{memberId,jdbcType=BIGINT},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      ADDTIME = #{addtime,jdbcType=VARCHAR},
+      ENDTIME = #{endtime,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      COMMISSION = #{commission,jdbcType=DECIMAL},
+      C_STATUS = #{cStatus,jdbcType=VARCHAR},
+      ADD_ID = #{addId,jdbcType=BIGINT},
+      GOODS_ID = #{goodsId,jdbcType=BIGINT},
+      GOODS_COUNT = #{goodsCount,jdbcType=VARCHAR},
+      HID = #{hid,jdbcType=VARCHAR},
+      SAN = #{san,jdbcType=VARCHAR},
+      QIANG = #{qiang,jdbcType=VARCHAR},
+      LIANDANNO = #{liandanno,jdbcType=VARCHAR},
+      ISLIANDAN = #{isliandan,jdbcType=VARCHAR},
+      LID = #{lid,jdbcType=VARCHAR},
+      LNO = #{lno,jdbcType=VARCHAR},
+      MIN = #{min,jdbcType=DECIMAL},
+      MAX = #{max,jdbcType=DECIMAL},
+      SIGN = #{sign,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

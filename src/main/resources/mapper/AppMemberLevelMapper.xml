@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.AppMemberLevelMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.AppMemberLevel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="members_name" jdbcType="VARCHAR" property="membersName" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="commission" jdbcType="TIMESTAMP" property="commission" />
+    <result column="members_level" jdbcType="INTEGER" property="membersLevel" />
+    <result column="withdrawal_times" jdbcType="INTEGER" property="withdrawalTimes" />
+    <result column="withdrawal_min" jdbcType="INTEGER" property="withdrawalMin" />
+    <result column="withdrawal_max" jdbcType="INTEGER" property="withdrawalMax" />
+    <result column="num_min" jdbcType="INTEGER" property="numMin" />
+    <result column="withdrawal_nim_order" jdbcType="INTEGER" property="withdrawalNimOrder" />
+    <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
+    <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.AppMemberLevel">
+    <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, members_name, order_num, member_price, register_time, commission, members_level, 
+    withdrawal_times, withdrawal_min, withdrawal_max, num_min, withdrawal_nim_order, 
+    auto_vip_xu_num, service_charge
+  </sql>
+  <sql id="Blob_Column_List">
+    pic
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.AppMemberLevelExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from app_member_level
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.macro.mall.model.AppMemberLevelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_member_level
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from app_member_level
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_member_level
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.AppMemberLevelExample">
+    delete from app_member_level
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.AppMemberLevel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_member_level (members_name, order_num, member_price, 
+      register_time, commission, members_level, 
+      withdrawal_times, withdrawal_min, withdrawal_max, 
+      num_min, withdrawal_nim_order, auto_vip_xu_num, 
+      service_charge, pic)
+    values (#{membersName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
+      #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=TIMESTAMP}, #{membersLevel,jdbcType=INTEGER}, 
+      #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=INTEGER}, #{withdrawalMax,jdbcType=INTEGER}, 
+      #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
+      #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.AppMemberLevel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_member_level
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="membersName != null">
+        members_name,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="memberPrice != null">
+        member_price,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+      <if test="commission != null">
+        commission,
+      </if>
+      <if test="membersLevel != null">
+        members_level,
+      </if>
+      <if test="withdrawalTimes != null">
+        withdrawal_times,
+      </if>
+      <if test="withdrawalMin != null">
+        withdrawal_min,
+      </if>
+      <if test="withdrawalMax != null">
+        withdrawal_max,
+      </if>
+      <if test="numMin != null">
+        num_min,
+      </if>
+      <if test="withdrawalNimOrder != null">
+        withdrawal_nim_order,
+      </if>
+      <if test="autoVipXuNum != null">
+        auto_vip_xu_num,
+      </if>
+      <if test="serviceCharge != null">
+        service_charge,
+      </if>
+      <if test="pic != null">
+        pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="membersName != null">
+        #{membersName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="memberPrice != null">
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commission != null">
+        #{commission,jdbcType=TIMESTAMP},
+      </if>
+      <if test="membersLevel != null">
+        #{membersLevel,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalTimes != null">
+        #{withdrawalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalMin != null">
+        #{withdrawalMin,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalMax != null">
+        #{withdrawalMax,jdbcType=INTEGER},
+      </if>
+      <if test="numMin != null">
+        #{numMin,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalNimOrder != null">
+        #{withdrawalNimOrder,jdbcType=INTEGER},
+      </if>
+      <if test="autoVipXuNum != null">
+        #{autoVipXuNum,jdbcType=INTEGER},
+      </if>
+      <if test="serviceCharge != null">
+        #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.AppMemberLevelExample" resultType="java.lang.Long">
+    select count(*) from app_member_level
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_member_level
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.membersName != null">
+        members_name = #{record.membersName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNum != null">
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberPrice != null">
+        member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.registerTime != null">
+        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commission != null">
+        commission = #{record.commission,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.membersLevel != null">
+        members_level = #{record.membersLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.withdrawalTimes != null">
+        withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.withdrawalMin != null">
+        withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
+      </if>
+      <if test="record.withdrawalMax != null">
+        withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
+      </if>
+      <if test="record.numMin != null">
+        num_min = #{record.numMin,jdbcType=INTEGER},
+      </if>
+      <if test="record.withdrawalNimOrder != null">
+        withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.autoVipXuNum != null">
+        auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceCharge != null">
+        service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pic != null">
+        pic = #{record.pic,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update app_member_level
+    set id = #{record.id,jdbcType=BIGINT},
+      members_name = #{record.membersName,jdbcType=VARCHAR},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      commission = #{record.commission,jdbcType=TIMESTAMP},
+      members_level = #{record.membersLevel,jdbcType=INTEGER},
+      withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
+      withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
+      withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
+      num_min = #{record.numMin,jdbcType=INTEGER},
+      withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
+      auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
+      service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      pic = #{record.pic,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_member_level
+    set id = #{record.id,jdbcType=BIGINT},
+      members_name = #{record.membersName,jdbcType=VARCHAR},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      commission = #{record.commission,jdbcType=TIMESTAMP},
+      members_level = #{record.membersLevel,jdbcType=INTEGER},
+      withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
+      withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
+      withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
+      num_min = #{record.numMin,jdbcType=INTEGER},
+      withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
+      auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
+      service_charge = #{record.serviceCharge,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.AppMemberLevel">
+    update app_member_level
+    <set>
+      <if test="membersName != null">
+        members_name = #{membersName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="memberPrice != null">
+        member_price = #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commission != null">
+        commission = #{commission,jdbcType=TIMESTAMP},
+      </if>
+      <if test="membersLevel != null">
+        members_level = #{membersLevel,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalTimes != null">
+        withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalMin != null">
+        withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalMax != null">
+        withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
+      </if>
+      <if test="numMin != null">
+        num_min = #{numMin,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawalNimOrder != null">
+        withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
+      </if>
+      <if test="autoVipXuNum != null">
+        auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
+      </if>
+      <if test="serviceCharge != null">
+        service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.AppMemberLevel">
+    update app_member_level
+    set members_name = #{membersName,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      commission = #{commission,jdbcType=TIMESTAMP},
+      members_level = #{membersLevel,jdbcType=INTEGER},
+      withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
+      withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
+      withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
+      num_min = #{numMin,jdbcType=INTEGER},
+      withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
+      auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
+      service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      pic = #{pic,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.AppMemberLevel">
+    update app_member_level
+    set members_name = #{membersName,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      commission = #{commission,jdbcType=TIMESTAMP},
+      members_level = #{membersLevel,jdbcType=INTEGER},
+      withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
+      withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
+      withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
+      num_min = #{numMin,jdbcType=INTEGER},
+      withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
+      auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
+      service_charge = #{serviceCharge,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
