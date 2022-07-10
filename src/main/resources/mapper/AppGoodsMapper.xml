@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.AppGoodsMapper">
+<mapper namespace="my.fast.admin.app.mapper.AppGoodsMapper">
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppGoods">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
@@ -115,9 +115,9 @@
     from app_goods
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_goods
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppGoodsExample">
     delete from app_goods

@@ -12,7 +12,7 @@ public interface AppGoodsMapper {
 
     int deleteByExample(AppGoodsExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(AppGoods record);
 
