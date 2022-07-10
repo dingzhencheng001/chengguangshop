@@ -1,0 +1,28 @@
+package my.fast.admin.app.config;
+
+import org.springframework.context.annotation.Configuration;
+
+import my.fast.admin.app.common.constant.BaseSwaggerConfig;
+import my.fast.admin.app.common.constant.SwaggerProperties;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+/**
+ * Swagger API文档相关配置
+ * Created by macro on 2018/4/26.
+ */
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig extends BaseSwaggerConfig {
+
+    @Override
+    public SwaggerProperties swaggerProperties() {
+        return SwaggerProperties.builder()
+                .apiBasePackage("com.macro.mall.controller")
+                .title("mall后台系统")
+                .description("mall后台相关接口文档")
+                .contactName("macro")
+                .version("1.0")
+                .enableSecurity(true)
+                .build();
+    }
+}

@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppGoods;
+import my.fast.admin.app.model.AppGoodsParam;
 import my.fast.admin.app.service.AppGoodsControllerService;
 
 /**
@@ -71,11 +70,10 @@ public class AppGoodsController {
 
     @ApiOperation(value = "更新商品")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @GetMapping(value = "/update/{id}")
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoods appGoods) {
+    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.updateBrand(id, appGoods);
+        int count = appGoodsControllerService.updateBrand(id, appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -85,11 +83,11 @@ public class AppGoodsController {
     }
 
     @ApiOperation(value = "添加商品")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppGoods appGoods) {
+    public CommonResult create(@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.createBrand(appGoods);
+        int count = appGoodsControllerService.createBrand(appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

@@ -137,7 +137,7 @@
       #{goodsPic,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_goods

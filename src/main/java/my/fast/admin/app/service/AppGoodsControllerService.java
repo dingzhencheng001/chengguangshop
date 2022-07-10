@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.app.entity.AppGoods;
+import my.fast.admin.app.model.AppGoodsParam;
 
 /**
  * TODO
@@ -35,11 +36,11 @@ public interface AppGoodsControllerService {
     /**
      * 创建品牌
      */
-    int createBrand(AppGoods appGoods);
+    int createBrand(AppGoodsParam appGoodsParam);
 
     /**
      * 修改品牌
      */
     @Transactional
-    int updateBrand(Long id, AppGoods appGoods);
+    int updateBrand(Long id, AppGoodsParam appGoodsParam);
 }

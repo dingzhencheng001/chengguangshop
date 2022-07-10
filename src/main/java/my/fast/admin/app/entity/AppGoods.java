@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class AppGoods implements Serializable {
     @ApiModelProperty(value = "id")
-    private String id;
+    private Long id;
 
     @ApiModelProperty(value = "商店名称")
     private String shopName;
@@ -33,11 +33,11 @@ public class AppGoods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

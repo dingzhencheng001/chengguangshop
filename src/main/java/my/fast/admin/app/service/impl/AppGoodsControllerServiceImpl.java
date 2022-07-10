@@ -3,6 +3,7 @@ package my.fast.admin.app.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -12,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.entity.AppGoodsExample;
 import my.fast.admin.app.mapper.AppGoodsMapper;
+import my.fast.admin.app.model.AppGoodsParam;
 import my.fast.admin.app.service.AppGoodsControllerService;
 
 /**
@@ -53,15 +55,17 @@ public class AppGoodsControllerServiceImpl implements AppGoodsControllerService 
     }
 
     @Override
-    public int createBrand(AppGoods appGoods) {
+    public int createBrand(AppGoodsParam appGoodsParam) {
+        AppGoods appGoods = new AppGoods();
+        BeanUtils.copyProperties(appGoodsParam, appGoods);
         return appGoodsMapper.insertSelective(appGoods);
     }
 
     @Override
-    public int updateBrand(Long id, AppGoods appGoods) {
-        AppGoodsExample appGoodsExample = new AppGoodsExample();
-        appGoodsExample.createCriteria().andIdEqualTo(id);
-        appGoodsMapper.updateByExampleSelective(appGoods,appGoodsExample);
+    public int updateBrand(Long id, AppGoodsParam appGoodsParam) {
+        AppGoods appGoods = new AppGoods();
+        BeanUtils.copyProperties(appGoodsParam, appGoods);
+        appGoods.setId(id);
         return appGoodsMapper.updateByPrimaryKeySelective(appGoods);
 
     }
