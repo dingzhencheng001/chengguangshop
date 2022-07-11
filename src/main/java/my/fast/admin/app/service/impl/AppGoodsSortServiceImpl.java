@@ -11,7 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.app.entity.AppGoodsSort;
 import my.fast.admin.app.entity.AppGoodsSortExample;
 import my.fast.admin.app.mapper.AppGoodsSortMapper;
-import my.fast.admin.app.service.AppGoodsSortControllerService;
+import my.fast.admin.app.service.AppGoodsSortService;
 
 /**
  * TODO
@@ -21,7 +21,7 @@ import my.fast.admin.app.service.AppGoodsSortControllerService;
  * @since 2022/7/10 10:40
  */
 @Service
-public class AppGoodsSortControllerServiceImpl implements AppGoodsSortControllerService {
+public class AppGoodsSortServiceImpl implements AppGoodsSortService {
 
     @Autowired
     private AppGoodsSortMapper appGoodsSortMapper;

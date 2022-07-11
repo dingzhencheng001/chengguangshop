@@ -11,7 +11,7 @@ import my.fast.admin.app.entity.AppConvey;
  * @version V1.0
  * @since 2022/7/10 10:38
  */
-public interface AppConveyControllerService {
+public interface AppConveyService {
 
     /**
      * 获取所有交易订单

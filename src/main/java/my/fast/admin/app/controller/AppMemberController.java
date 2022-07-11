@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMember;
-import my.fast.admin.app.service.AppMemberControllerService;
+import my.fast.admin.app.service.AppMemberService;
 
 /**
  * TODO
@@ -30,13 +30,13 @@ import my.fast.admin.app.service.AppMemberControllerService;
 @RequestMapping("/member")
 public class AppMemberController {
     @Autowired
-    private AppMemberControllerService appMemberControllerService;
+    private AppMemberService appMemberService;
 
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppMember> appMember = appMemberControllerService.listAll();
+        List<AppMember> appMember = appMemberService.listAll();
         return CommonResult.success(appMember);
     }
 
@@ -46,7 +46,7 @@ public class AppMemberController {
     public CommonResult<CommonPage<AppMember>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppMember appMember) {
-        List<AppMember> appMemberList = appMemberControllerService.listMember(appMember, pageNum, pageSize);
+        List<AppMember> appMemberList = appMemberService.listMember(appMember, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberList));
     }
 
@@ -55,7 +55,7 @@ public class AppMemberController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appMemberControllerService.deleteMemberById(id);
+        int count = appMemberService.deleteMemberById(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -68,7 +68,7 @@ public class AppMemberController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id,@RequestBody AppMember appMember) {
         CommonResult commonResult;
-        int count = appMemberControllerService.updateMember(id, appMember);
+        int count = appMemberService.updateMember(id, appMember);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -82,7 +82,7 @@ public class AppMemberController {
     @ResponseBody
     public CommonResult create(@RequestBody AppMember appMember) {
         CommonResult commonResult;
-        int count = appMemberControllerService.createMember(appMember);
+        int count = appMemberService.createMember(appMember);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

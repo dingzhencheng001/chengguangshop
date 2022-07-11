@@ -18,7 +18,7 @@ import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.model.AppGoodsParam;
-import my.fast.admin.app.service.AppGoodsControllerService;
+import my.fast.admin.app.service.AppGoodsService;
 
 /**
  * TODO
@@ -32,13 +32,13 @@ import my.fast.admin.app.service.AppGoodsControllerService;
 @RequestMapping("/goods")
 public class AppGoodsController {
     @Autowired
-    private AppGoodsControllerService appGoodsControllerService;
+    private AppGoodsService appGoodsService;
 
     @ApiOperation("获取商品列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppGoods> appGoods = appGoodsControllerService.listAll();
+        List<AppGoods> appGoods = appGoodsService.listAll();
         return CommonResult.success(appGoods);
     }
 
@@ -51,7 +51,7 @@ public class AppGoodsController {
         @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<AppGoods> goodsList = appGoodsControllerService.listGoods(goodsName, pageNum, pageSize, minPrice,
+        List<AppGoods> goodsList = appGoodsService.listGoods(goodsName, pageNum, pageSize, minPrice,
             maxPrice);
         return CommonResult.success(CommonPage.restPage(goodsList));
     }
@@ -60,7 +60,7 @@ public class AppGoodsController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appGoodsControllerService.deleteGoods(id);
+        int count = appGoodsService.deleteGoods(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -73,7 +73,7 @@ public class AppGoodsController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.updateGoods(id, appGoodsParam);
+        int count = appGoodsService.updateGoods(id, appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -87,7 +87,7 @@ public class AppGoodsController {
     @ResponseBody
     public CommonResult create(@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.createGoods(appGoodsParam);
+        int count = appGoodsService.createGoods(appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

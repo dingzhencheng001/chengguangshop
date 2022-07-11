@@ -11,7 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.app.entity.AppConvey;
 import my.fast.admin.app.entity.AppConveyExample;
 import my.fast.admin.app.mapper.AppConveyMapper;
-import my.fast.admin.app.service.AppConveyControllerService;
+import my.fast.admin.app.service.AppConveyService;
 
 /**
  * TODO
@@ -21,7 +21,7 @@ import my.fast.admin.app.service.AppConveyControllerService;
  * @since 2022/7/10 10:40
  */
 @Service
-public class AppConveyControllerServiceImpl implements AppConveyControllerService {
+public class AppConveyServiceImpl implements AppConveyService {
 
     @Autowired
     private AppConveyMapper appConveyMapper;

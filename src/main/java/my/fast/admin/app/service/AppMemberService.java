@@ -13,7 +13,7 @@ import my.fast.admin.app.entity.AppMember;
  * @version V1.0
  * @since 2022/7/10 10:38
  */
-public interface AppMemberControllerService {
+public interface AppMemberService {
 
     /**
      * 获取所有会员

@@ -12,7 +12,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.mapper.AppMemberMapper;
-import my.fast.admin.app.service.AppMemberControllerService;
+import my.fast.admin.app.service.AppMemberService;
 
 /**
  * TODO
@@ -22,7 +22,7 @@ import my.fast.admin.app.service.AppMemberControllerService;
  * @since 2022/7/10 10:40
  */
 @Service
-public class AppMemberControllerServiceImpl implements AppMemberControllerService {
+public class AppMemberServiceImpl implements AppMemberService {
 
     @Autowired
     private AppMemberMapper appMemberMapper;

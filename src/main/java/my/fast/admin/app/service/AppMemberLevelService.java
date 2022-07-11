@@ -13,7 +13,7 @@ import my.fast.admin.app.entity.AppMemberLevel;
  * @version V1.0
  * @since 2022/7/11 14:34
  */
-public interface AppMemberLevelControllerService {
+public interface AppMemberLevelService {
 
     /**
      * 获取所有会员等级信息

@@ -15,7 +15,7 @@ import my.fast.admin.app.model.AppGoodsParam;
  * @version V1.0
  * @since 2022/7/10 10:38
  */
-public interface AppGoodsControllerService {
+public interface AppGoodsService {
 
     /**
      * 获取所有商品

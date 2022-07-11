@@ -12,7 +12,7 @@ public interface AppMemberBankMapper {
 
     int deleteByExample(AppMemberBankExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(AppMemberBank record);
 

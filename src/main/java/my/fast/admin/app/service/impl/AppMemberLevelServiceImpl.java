@@ -2,17 +2,15 @@ package my.fast.admin.app.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
-import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.entity.AppMemberLevel;
 import my.fast.admin.app.entity.AppMemberLevelExample;
 import my.fast.admin.app.mapper.AppMemberLevelMapper;
-import my.fast.admin.app.service.AppMemberLevelControllerService;
+import my.fast.admin.app.service.AppMemberLevelService;
 
 /**
  * TODO
@@ -22,7 +20,7 @@ import my.fast.admin.app.service.AppMemberLevelControllerService;
  * @since 2022/7/11 14:34
  */
 @Service
-public class AppMemberLevelControllerServiceImpl implements AppMemberLevelControllerService {
+public class AppMemberLevelServiceImpl implements AppMemberLevelService {
 
     @Autowired
     private AppMemberLevelMapper appMemberLevelMapper;

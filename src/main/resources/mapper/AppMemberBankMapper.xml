@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.AppMemberBankMapper">
+<mapper namespace="my.fast.admin.app.mapper.AppMemberBankMapper">
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMemberBank">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
     <result column="bank_number" jdbcType="VARCHAR" property="bankNumber" />
     <result column="card_num" jdbcType="VARCHAR" property="cardNum" />
@@ -98,7 +98,7 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_member_bank
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberBankExample">
     delete from app_member_bank
@@ -114,7 +114,7 @@
       card_num, account_name, site, 
       bank_country, tel, status, 
       email)
-    values (#{memberId,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, 
+    values (#{memberId,jdbcType=BIGINT}, #{bankName,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR},
       #{cardNum,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, 
       #{bankCountry,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{email,jdbcType=VARCHAR})
@@ -158,7 +158,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
-        #{memberId,jdbcType=INTEGER},
+        #{memberId,jdbcType=BIGINT},
       </if>
       <if test="bankName != null">
         #{bankName,jdbcType=VARCHAR},
@@ -257,7 +257,7 @@
     update app_member_bank
     <set>
       <if test="memberId != null">
-        member_id = #{memberId,jdbcType=INTEGER},
+        member_id = #{memberId,jdbcType=BIGINT},
       </if>
       <if test="bankName != null">
         bank_name = #{bankName,jdbcType=VARCHAR},
@@ -287,11 +287,11 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMemberBank">
     update app_member_bank
-    set member_id = #{memberId,jdbcType=INTEGER},
+    set member_id = #{memberId,jdbcType=BIGINT},
       bank_name = #{bankName,jdbcType=VARCHAR},
       bank_number = #{bankNumber,jdbcType=VARCHAR},
       card_num = #{cardNum,jdbcType=VARCHAR},
@@ -301,6 +301,6 @@
       tel = #{tel,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

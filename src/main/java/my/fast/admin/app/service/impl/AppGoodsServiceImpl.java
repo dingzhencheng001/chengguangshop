@@ -14,7 +14,7 @@ import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.entity.AppGoodsExample;
 import my.fast.admin.app.mapper.AppGoodsMapper;
 import my.fast.admin.app.model.AppGoodsParam;
-import my.fast.admin.app.service.AppGoodsControllerService;
+import my.fast.admin.app.service.AppGoodsService;
 
 /**
  * TODO
@@ -24,7 +24,7 @@ import my.fast.admin.app.service.AppGoodsControllerService;
  * @since 2022/7/10 10:40
  */
 @Service
-public class AppGoodsControllerServiceImpl implements AppGoodsControllerService {
+public class AppGoodsServiceImpl implements AppGoodsService {
 
     @Autowired
     private AppGoodsMapper appGoodsMapper;

@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMemberLevel;
-import my.fast.admin.app.service.AppMemberLevelControllerService;
+import my.fast.admin.app.service.AppMemberLevelService;
 
 /**
  * TODO
@@ -31,13 +31,13 @@ import my.fast.admin.app.service.AppMemberLevelControllerService;
 public class AppMemberLevelController {
 
     @Autowired
-    private AppMemberLevelControllerService appMemberLevelControllerService;
+    private AppMemberLevelService appMemberLevelService;
 
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppMemberLevel> appMemberLevels = appMemberLevelControllerService.listAll();
+        List<AppMemberLevel> appMemberLevels = appMemberLevelService.listAll();
         return CommonResult.success(appMemberLevels);
     }
 
@@ -47,7 +47,7 @@ public class AppMemberLevelController {
     public CommonResult<CommonPage<AppMemberLevel>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<AppMemberLevel> appMemberLevels = appMemberLevelControllerService.listLevels(pageNum, pageSize);
+        List<AppMemberLevel> appMemberLevels = appMemberLevelService.listLevels(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberLevels));
     }
 
@@ -55,7 +55,7 @@ public class AppMemberLevelController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appMemberLevelControllerService.deleteLevels(id);
+        int count = appMemberLevelService.deleteLevels(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -68,7 +68,7 @@ public class AppMemberLevelController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberLevel appMemberLevel) {
         CommonResult commonResult;
-        int count = appMemberLevelControllerService.updateLevels(id, appMemberLevel);
+        int count = appMemberLevelService.updateLevels(id, appMemberLevel);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -82,7 +82,7 @@ public class AppMemberLevelController {
     @ResponseBody
     public CommonResult create(@RequestBody AppMemberLevel appMemberLevel) {
         CommonResult commonResult;
-        int count = appMemberLevelControllerService.createLevels(appMemberLevel);
+        int count = appMemberLevelService.createLevels(appMemberLevel);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppGoodsSort;
-import my.fast.admin.app.service.AppGoodsSortControllerService;
+import my.fast.admin.app.service.AppGoodsSortService;
 
 /**
  * TODO
@@ -30,13 +30,13 @@ import my.fast.admin.app.service.AppGoodsSortControllerService;
 @RequestMapping("/goodsSort")
 public class AppGoodsSortController {
     @Autowired
-    private AppGoodsSortControllerService appGoodsSortControllerService;
+    private AppGoodsSortService appGoodsSortService;
 
     @ApiOperation("获取商品分类列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppGoodsSort> appGoodsSort = appGoodsSortControllerService.listAll();
+        List<AppGoodsSort> appGoodsSort = appGoodsSortService.listAll();
         return CommonResult.success(appGoodsSort);
     }
 
@@ -46,7 +46,7 @@ public class AppGoodsSortController {
     public CommonResult<CommonPage<AppGoodsSort>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppGoodsSort appGoodsSort ) {
-        List<AppGoodsSort> goodsList = appGoodsSortControllerService.listGoodsSort(appGoodsSort, pageNum, pageSize);
+        List<AppGoodsSort> goodsList = appGoodsSortService.listGoodsSort(appGoodsSort, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(goodsList));
     }
 
@@ -54,7 +54,7 @@ public class AppGoodsSortController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appGoodsSortControllerService.deleteGoodsSort(id);
+        int count = appGoodsSortService.deleteGoodsSort(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -67,7 +67,7 @@ public class AppGoodsSortController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsSort appGoodsSort) {
         CommonResult commonResult;
-        int count = appGoodsSortControllerService.updateGoodsSort(id, appGoodsSort);
+        int count = appGoodsSortService.updateGoodsSort(id, appGoodsSort);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -81,7 +81,7 @@ public class AppGoodsSortController {
     @ResponseBody
     public CommonResult create(@RequestBody AppGoodsSort appGoodsSort) {
         CommonResult commonResult;
-        int count = appGoodsSortControllerService.createGoodsSort(appGoodsSort);
+        int count = appGoodsSortService.createGoodsSort(appGoodsSort);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

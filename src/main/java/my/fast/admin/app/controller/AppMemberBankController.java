@@ -10,51 +10,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
-import my.fast.admin.app.entity.AppConvey;
-import my.fast.admin.app.service.AppConveyService;
+import my.fast.admin.app.entity.AppMemberBank;
+import my.fast.admin.app.service.AppMemberBankService;
 
 /**
  * TODO
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/11 10:32
+ * @since 2022/7/11 15:09
  */
 @Controller
-@Api(tags = "AppConveyController", description = "交易订单管理")
-@RequestMapping("/convey")
-public class AppConveyController {
-    @Autowired
-    private AppConveyService appConveyService;
+@Api(tags = "AppMemberBankController", description = "会员银行卡信息管理")
+@RequestMapping("/bank")
+public class AppMemberBankController {
 
-    @ApiOperation("获取交易订单列表")
+    @Autowired
+    private AppMemberBankService appMemberBankService;
+
+    @ApiOperation("获取会员银行卡信息")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppConvey> appConvey = appConveyService.listAll();
-        return CommonResult.success(appConvey);
+        List<AppMemberBank> appMemberBanks = appMemberBankService.listAll();
+        return CommonResult.success(appMemberBanks);
     }
 
-    @ApiOperation(value = "根据条件获取分页列表")
+    @ApiOperation(value = "获取会员银行卡信息列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<AppConvey>> getList(
+    public CommonResult<CommonPage<AppMemberBank>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppConvey appConvey) {
-        List<AppConvey> conveyList = appConveyService.listConvey(appConvey, pageNum, pageSize);
-        return CommonResult.success(CommonPage.restPage(conveyList));
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+        List<AppMemberBank> appMemberBankList = appMemberBankService.listBanks( pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(appMemberBankList));
     }
 
-    
-    @ApiOperation(value = "删除交易订单")
+    @ApiOperation(value = "删除会员银行卡信息")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appConveyService.deleteConveyById(id);
+        int count = appMemberBankService.deleteBanks(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -62,12 +63,12 @@ public class AppConveyController {
         }
     }
 
-    @ApiOperation(value = "更新交易订单")
+    @ApiOperation(value = "更新会员银行卡信息")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppConvey appConvey) {
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberBank appMemberBank) {
         CommonResult commonResult;
-        int count = appConveyService.updateConvey(id, appConvey);
+        int count = appMemberBankService.updateBanks(id, appMemberBank);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -76,12 +77,12 @@ public class AppConveyController {
         return commonResult;
     }
 
-    @ApiOperation(value = "添加交易订单")
+    @ApiOperation(value = "添加会员银行卡")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppConvey appConvey) {
+    public CommonResult create(@RequestBody AppMemberBank appMemberBank ) {
         CommonResult commonResult;
-        int count = appConveyService.createConvey(appConvey);
+        int count = appMemberBankService.createBanks(appMemberBank);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

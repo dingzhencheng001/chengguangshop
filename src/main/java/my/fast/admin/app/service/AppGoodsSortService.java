@@ -13,7 +13,7 @@ import my.fast.admin.app.entity.AppGoodsSort;
  * @version V1.0
  * @since 2022/7/10 10:38
  */
-public interface AppGoodsSortControllerService {
+public interface AppGoodsSortService {
 
     /**
      * 获取所有商品分类

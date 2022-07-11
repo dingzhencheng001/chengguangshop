@@ -5,10 +5,10 @@ import java.io.Serializable;
 import io.swagger.annotations.ApiModelProperty;
 
 public class AppMemberBank implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "会员ID")
-    private Integer memberId;
+    private Long memberId;
 
     @ApiModelProperty(value = "银行名称")
     private String bankName;
@@ -39,19 +39,19 @@ public class AppMemberBank implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Integer memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 
