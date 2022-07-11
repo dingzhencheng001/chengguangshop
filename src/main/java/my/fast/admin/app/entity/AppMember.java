@@ -1,13 +1,12 @@
 package my.fast.admin.app.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import io.swagger.annotations.ApiModelProperty;
-
 public class AppMember implements Serializable {
-    private Long id;
+    private Long id; 
 
     @ApiModelProperty(value = "会员等级id")
     private Long memberLevelId;
@@ -122,6 +121,18 @@ public class AppMember implements Serializable {
 
     @ApiModelProperty(value = "最大匹配")
     private Integer matchMax;
+
+    @ApiModelProperty(value = "会员注册时间")
+    private Date registrationTime;
+
+    @ApiModelProperty(value = "会员状态:1.真人2.假人")
+    private Integer memberStatus;
+
+    @ApiModelProperty(value = "注册ip")
+    private String registerIp;
+
+    @ApiModelProperty(value = "注册国家")
+    private String registerCountry;
 
     @ApiModelProperty(value = "身份证正面图")
     private String topPic;
@@ -443,6 +454,38 @@ public class AppMember implements Serializable {
         this.matchMax = matchMax;
     }
 
+    public Date getRegistrationTime() {
+        return registrationTime;
+    }
+
+    public void setRegistrationTime(Date registrationTime) {
+        this.registrationTime = registrationTime;
+    }
+
+    public Integer getMemberStatus() {
+        return memberStatus;
+    }
+
+    public void setMemberStatus(Integer memberStatus) {
+        this.memberStatus = memberStatus;
+    }
+
+    public String getRegisterIp() {
+        return registerIp;
+    }
+
+    public void setRegisterIp(String registerIp) {
+        this.registerIp = registerIp;
+    }
+
+    public String getRegisterCountry() {
+        return registerCountry;
+    }
+
+    public void setRegisterCountry(String registerCountry) {
+        this.registerCountry = registerCountry;
+    }
+
     public String getTopPic() {
         return topPic;
     }
@@ -504,6 +547,10 @@ public class AppMember implements Serializable {
         sb.append(", active=").append(active);
         sb.append(", matchMin=").append(matchMin);
         sb.append(", matchMax=").append(matchMax);
+        sb.append(", registrationTime=").append(registrationTime);
+        sb.append(", memberStatus=").append(memberStatus);
+        sb.append(", registerIp=").append(registerIp);
+        sb.append(", registerCountry=").append(registerCountry);
         sb.append(", topPic=").append(topPic);
         sb.append(", botPic=").append(botPic);
         sb.append(", serialVersionUID=").append(serialVersionUID);

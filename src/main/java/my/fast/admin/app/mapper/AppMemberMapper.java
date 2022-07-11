@@ -1,7 +1,6 @@
 package my.fast.admin.app.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.app.entity.AppMember;

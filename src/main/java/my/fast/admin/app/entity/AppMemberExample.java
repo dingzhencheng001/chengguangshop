@@ -2575,6 +2575,266 @@ public class AppMemberExample {
             addCriterion("match_max not between", value1, value2, "matchMax");
             return (Criteria) this;
         }
+
+        public Criteria andRegistrationTimeIsNull() {
+            addCriterion("registration_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeIsNotNull() {
+            addCriterion("registration_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeEqualTo(Date value) {
+            addCriterion("registration_time =", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeNotEqualTo(Date value) {
+            addCriterion("registration_time <>", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeGreaterThan(Date value) {
+            addCriterion("registration_time >", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("registration_time >=", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeLessThan(Date value) {
+            addCriterion("registration_time <", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeLessThanOrEqualTo(Date value) {
+            addCriterion("registration_time <=", value, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeIn(List<Date> values) {
+            addCriterion("registration_time in", values, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeNotIn(List<Date> values) {
+            addCriterion("registration_time not in", values, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeBetween(Date value1, Date value2) {
+            addCriterion("registration_time between", value1, value2, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegistrationTimeNotBetween(Date value1, Date value2) {
+            addCriterion("registration_time not between", value1, value2, "registrationTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIsNull() {
+            addCriterion("member_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIsNotNull() {
+            addCriterion("member_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusEqualTo(Integer value) {
+            addCriterion("member_status =", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotEqualTo(Integer value) {
+            addCriterion("member_status <>", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusGreaterThan(Integer value) {
+            addCriterion("member_status >", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("member_status >=", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusLessThan(Integer value) {
+            addCriterion("member_status <", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("member_status <=", value, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusIn(List<Integer> values) {
+            addCriterion("member_status in", values, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotIn(List<Integer> values) {
+            addCriterion("member_status not in", values, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusBetween(Integer value1, Integer value2) {
+            addCriterion("member_status between", value1, value2, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("member_status not between", value1, value2, "memberStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpIsNull() {
+            addCriterion("register_ip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpIsNotNull() {
+            addCriterion("register_ip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpEqualTo(String value) {
+            addCriterion("register_ip =", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpNotEqualTo(String value) {
+            addCriterion("register_ip <>", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpGreaterThan(String value) {
+            addCriterion("register_ip >", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpGreaterThanOrEqualTo(String value) {
+            addCriterion("register_ip >=", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpLessThan(String value) {
+            addCriterion("register_ip <", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpLessThanOrEqualTo(String value) {
+            addCriterion("register_ip <=", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpLike(String value) {
+            addCriterion("register_ip like", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpNotLike(String value) {
+            addCriterion("register_ip not like", value, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpIn(List<String> values) {
+            addCriterion("register_ip in", values, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpNotIn(List<String> values) {
+            addCriterion("register_ip not in", values, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpBetween(String value1, String value2) {
+            addCriterion("register_ip between", value1, value2, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterIpNotBetween(String value1, String value2) {
+            addCriterion("register_ip not between", value1, value2, "registerIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryIsNull() {
+            addCriterion("register_country is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryIsNotNull() {
+            addCriterion("register_country is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryEqualTo(String value) {
+            addCriterion("register_country =", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryNotEqualTo(String value) {
+            addCriterion("register_country <>", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryGreaterThan(String value) {
+            addCriterion("register_country >", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryGreaterThanOrEqualTo(String value) {
+            addCriterion("register_country >=", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryLessThan(String value) {
+            addCriterion("register_country <", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryLessThanOrEqualTo(String value) {
+            addCriterion("register_country <=", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryLike(String value) {
+            addCriterion("register_country like", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryNotLike(String value) {
+            addCriterion("register_country not like", value, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryIn(List<String> values) {
+            addCriterion("register_country in", values, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryNotIn(List<String> values) {
+            addCriterion("register_country not in", values, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryBetween(String value1, String value2) {
+            addCriterion("register_country between", value1, value2, "registerCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegisterCountryNotBetween(String value1, String value2) {
+            addCriterion("register_country not between", value1, value2, "registerCountry");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

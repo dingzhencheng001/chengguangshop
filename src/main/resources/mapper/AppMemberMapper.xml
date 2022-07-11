@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.AppMemberMapper">
+<mapper namespace="my.fast.admin.app.mapper.AppMemberMapper">
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMember">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
@@ -41,6 +41,10 @@
     <result column="active" jdbcType="INTEGER" property="active" />
     <result column="match_min" jdbcType="INTEGER" property="matchMin" />
     <result column="match_max" jdbcType="INTEGER" property="matchMax" />
+    <result column="registration_time" jdbcType="TIMESTAMP" property="registrationTime" />
+    <result column="member_status" jdbcType="INTEGER" property="memberStatus" />
+    <result column="register_ip" jdbcType="VARCHAR" property="registerIp" />
+    <result column="register_country" jdbcType="VARCHAR" property="registerCountry" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.AppMember">
     <result column="top_pic" jdbcType="LONGVARCHAR" property="topPic" />
@@ -110,7 +114,8 @@
     parent_user_id, parent_user_name, is_agent, agent_level, status, email, phone_number, 
     del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, 
     company_id, invite_code, deal_status, deal_error, deal_reward_count, deal_count, 
-    deal_time, active, match_min, match_max
+    deal_time, active, match_min, match_max, registration_time, member_status, register_ip, 
+    register_country
   </sql>
   <sql id="Blob_Column_List">
     top_pic, bot_pic
@@ -179,8 +184,9 @@
       remark, company_id, invite_code, 
       deal_status, deal_error, deal_reward_count, 
       deal_count, deal_time, active, 
-      match_min, match_max, top_pic, 
-      bot_pic)
+      match_min, match_max, registration_time, 
+      member_status, register_ip, register_country, 
+      top_pic, bot_pic)
     values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, #{idCardNum,jdbcType=VARCHAR}, #{idStatus,jdbcType=INTEGER}, 
       #{balance,jdbcType=DECIMAL}, #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL}, 
@@ -193,8 +199,9 @@
       #{remark,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{inviteCode,jdbcType=VARCHAR}, 
       #{dealStatus,jdbcType=INTEGER}, #{dealError,jdbcType=INTEGER}, #{dealRewardCount,jdbcType=INTEGER}, 
       #{dealCount,jdbcType=INTEGER}, #{dealTime,jdbcType=TIMESTAMP}, #{active,jdbcType=INTEGER}, 
-      #{matchMin,jdbcType=INTEGER}, #{matchMax,jdbcType=INTEGER}, #{topPic,jdbcType=LONGVARCHAR}, 
-      #{botPic,jdbcType=LONGVARCHAR})
+      #{matchMin,jdbcType=INTEGER}, #{matchMax,jdbcType=INTEGER}, #{registrationTime,jdbcType=TIMESTAMP}, 
+      #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR}, #{registerCountry,jdbcType=VARCHAR}, 
+      #{topPic,jdbcType=LONGVARCHAR}, #{botPic,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -315,6 +322,18 @@
       </if>
       <if test="matchMax != null">
         match_max,
+      </if>
+      <if test="registrationTime != null">
+        registration_time,
+      </if>
+      <if test="memberStatus != null">
+        member_status,
+      </if>
+      <if test="registerIp != null">
+        register_ip,
+      </if>
+      <if test="registerCountry != null">
+        register_country,
       </if>
       <if test="topPic != null">
         top_pic,
@@ -437,6 +456,18 @@
       </if>
       <if test="matchMax != null">
         #{matchMax,jdbcType=INTEGER},
+      </if>
+      <if test="registrationTime != null">
+        #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberStatus != null">
+        #{memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerIp != null">
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCountry != null">
+        #{registerCountry,jdbcType=VARCHAR},
       </if>
       <if test="topPic != null">
         #{topPic,jdbcType=LONGVARCHAR},
@@ -572,6 +603,18 @@
       <if test="record.matchMax != null">
         match_max = #{record.matchMax,jdbcType=INTEGER},
       </if>
+      <if test="record.registrationTime != null">
+        registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.memberStatus != null">
+        member_status = #{record.memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.registerIp != null">
+        register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerCountry != null">
+        register_country = #{record.registerCountry,jdbcType=VARCHAR},
+      </if>
       <if test="record.topPic != null">
         top_pic = #{record.topPic,jdbcType=LONGVARCHAR},
       </if>
@@ -624,6 +667,10 @@
       active = #{record.active,jdbcType=INTEGER},
       match_min = #{record.matchMin,jdbcType=INTEGER},
       match_max = #{record.matchMax,jdbcType=INTEGER},
+      registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{record.memberStatus,jdbcType=INTEGER},
+      register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      register_country = #{record.registerCountry,jdbcType=VARCHAR},
       top_pic = #{record.topPic,jdbcType=LONGVARCHAR},
       bot_pic = #{record.botPic,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -670,7 +717,11 @@
       deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
       active = #{record.active,jdbcType=INTEGER},
       match_min = #{record.matchMin,jdbcType=INTEGER},
-      match_max = #{record.matchMax,jdbcType=INTEGER}
+      match_max = #{record.matchMax,jdbcType=INTEGER},
+      registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{record.memberStatus,jdbcType=INTEGER},
+      register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      register_country = #{record.registerCountry,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -792,6 +843,18 @@
       <if test="matchMax != null">
         match_max = #{matchMax,jdbcType=INTEGER},
       </if>
+      <if test="registrationTime != null">
+        registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberStatus != null">
+        member_status = #{memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerIp != null">
+        register_ip = #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCountry != null">
+        register_country = #{registerCountry,jdbcType=VARCHAR},
+      </if>
       <if test="topPic != null">
         top_pic = #{topPic,jdbcType=LONGVARCHAR},
       </if>
@@ -841,6 +904,10 @@
       active = #{active,jdbcType=INTEGER},
       match_min = #{matchMin,jdbcType=INTEGER},
       match_max = #{matchMax,jdbcType=INTEGER},
+      registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{memberStatus,jdbcType=INTEGER},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      register_country = #{registerCountry,jdbcType=VARCHAR},
       top_pic = #{topPic,jdbcType=LONGVARCHAR},
       bot_pic = #{botPic,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -884,7 +951,11 @@
       deal_time = #{dealTime,jdbcType=TIMESTAMP},
       active = #{active,jdbcType=INTEGER},
       match_min = #{matchMin,jdbcType=INTEGER},
-      match_max = #{matchMax,jdbcType=INTEGER}
+      match_max = #{matchMax,jdbcType=INTEGER},
+      registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{memberStatus,jdbcType=INTEGER},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      register_country = #{registerCountry,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
