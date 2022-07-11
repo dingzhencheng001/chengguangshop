@@ -35,7 +35,7 @@ public class AppGoodsControllerServiceImpl implements AppGoodsControllerService 
     }
 
     @Override
-    public List<AppGoods> listBrand(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
+    public List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
         BigDecimal maxPrice) {
         PageHelper.startPage(pageNum, pageSize);
         AppGoodsExample appGoodsExample = new AppGoodsExample();
@@ -50,19 +50,19 @@ public class AppGoodsControllerServiceImpl implements AppGoodsControllerService 
     }
 
     @Override
-    public int deleteBrand(Long id) {
+    public int deleteGoods(Long id) {
         return appGoodsMapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    public int createBrand(AppGoodsParam appGoodsParam) {
+    public int createGoods(AppGoodsParam appGoodsParam) {
         AppGoods appGoods = new AppGoods();
         BeanUtils.copyProperties(appGoodsParam, appGoods);
         return appGoodsMapper.insertSelective(appGoods);
     }
 
     @Override
-    public int updateBrand(Long id, AppGoodsParam appGoodsParam) {
+    public int updateGoods(Long id, AppGoodsParam appGoodsParam) {
         AppGoods appGoods = new AppGoods();
         BeanUtils.copyProperties(appGoodsParam, appGoods);
         appGoods.setId(id);

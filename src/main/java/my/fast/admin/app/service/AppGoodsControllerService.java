@@ -25,22 +25,22 @@ public interface AppGoodsControllerService {
     /**
      * 分页查询品牌
      */
-    List<AppGoods> listBrand(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
+    List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
         BigDecimal maxPrice);
 
     /**
      * 删除商品
      */
-    int deleteBrand(Long id);
+    int deleteGoods(Long id);
 
     /**
      * 创建品牌
      */
-    int createBrand(AppGoodsParam appGoodsParam);
+    int createGoods(AppGoodsParam appGoodsParam);
 
     /**
      * 修改品牌
      */
     @Transactional
-    int updateBrand(Long id, AppGoodsParam appGoodsParam);
+    int updateGoods(Long id, AppGoodsParam appGoodsParam);
 }

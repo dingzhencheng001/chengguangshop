@@ -51,7 +51,7 @@ public class AppGoodsController {
         @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<AppGoods> goodsList = appGoodsControllerService.listBrand(goodsName, pageNum, pageSize, minPrice,
+        List<AppGoods> goodsList = appGoodsControllerService.listGoods(goodsName, pageNum, pageSize, minPrice,
             maxPrice);
         return CommonResult.success(CommonPage.restPage(goodsList));
     }
@@ -60,7 +60,7 @@ public class AppGoodsController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appGoodsControllerService.deleteBrand(id);
+        int count = appGoodsControllerService.deleteGoods(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -73,7 +73,7 @@ public class AppGoodsController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.updateBrand(id, appGoodsParam);
+        int count = appGoodsControllerService.updateGoods(id, appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -87,7 +87,7 @@ public class AppGoodsController {
     @ResponseBody
     public CommonResult create(@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = appGoodsControllerService.createBrand(appGoodsParam);
+        int count = appGoodsControllerService.createGoods(appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
