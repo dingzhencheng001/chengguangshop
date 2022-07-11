@@ -21,7 +21,7 @@ public interface AppMemberLevelService {
     List<AppMemberLevel> listAll();
 
     /**
-     * 获取所有会员等级信息列表
+     * 获取会员等级信息列表
      */
     List<AppMemberLevel> listLevels(Integer pageNum, Integer pageSize);
 
