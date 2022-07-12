@@ -2,16 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.app.mapper.AppGoodsMapper">
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppGoods">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo" />
     <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+    <result column="goods_pic" jdbcType="VARCHAR" property="goodsPic" />
     <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.AppGoods">
-    <result column="goods_pic" jdbcType="LONGVARCHAR" property="goodsPic" />
+    <result column="goods_sort_id" jdbcType="BIGINT" property="goodsSortId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,27 +71,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_name, goods_name, goods_info, goods_price, goods_add_time, status
+    id, shop_name, goods_name, goods_info, goods_price, goods_pic, goods_add_time, status, 
+    goods_sort_id
   </sql>
-  <sql id="Blob_Column_List">
-    goods_pic
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.app.entity.AppGoodsExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from app_goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppGoodsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -107,13 +88,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from app_goods
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_goods
@@ -126,15 +105,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="my.fast.admin.app.entity.AppGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_goods (shop_name, goods_name, goods_info, 
-      goods_price, goods_add_time, status, 
-      goods_pic)
+      goods_price, goods_pic, goods_add_time, 
+      status, goods_sort_id)
     values (#{shopName,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsInfo,jdbcType=VARCHAR}, 
-      #{goodsPrice,jdbcType=DECIMAL}, #{goodsAddTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{goodsPic,jdbcType=LONGVARCHAR})
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsPic,jdbcType=VARCHAR}, #{goodsAddTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{goodsSortId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -154,14 +133,17 @@
       <if test="goodsPrice != null">
         goods_price,
       </if>
+      <if test="goodsPic != null">
+        goods_pic,
+      </if>
       <if test="goodsAddTime != null">
         goods_add_time,
       </if>
       <if test="status != null">
         status,
       </if>
-      <if test="goodsPic != null">
-        goods_pic,
+      <if test="goodsSortId != null">
+        goods_sort_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -177,14 +159,17 @@
       <if test="goodsPrice != null">
         #{goodsPrice,jdbcType=DECIMAL},
       </if>
+      <if test="goodsPic != null">
+        #{goodsPic,jdbcType=VARCHAR},
+      </if>
       <if test="goodsAddTime != null">
         #{goodsAddTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="goodsPic != null">
-        #{goodsPic,jdbcType=LONGVARCHAR},
+      <if test="goodsSortId != null">
+        #{goodsSortId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -198,7 +183,7 @@
     update app_goods
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.shopName != null">
         shop_name = #{record.shopName,jdbcType=VARCHAR},
@@ -212,43 +197,34 @@
       <if test="record.goodsPrice != null">
         goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.goodsPic != null">
+        goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
+      </if>
       <if test="record.goodsAddTime != null">
         goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
-      <if test="record.goodsPic != null">
-        goods_pic = #{record.goodsPic,jdbcType=LONGVARCHAR},
+      <if test="record.goodsSortId != null">
+        goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update app_goods
-    set id = #{record.id,jdbcType=VARCHAR},
-      shop_name = #{record.shopName,jdbcType=VARCHAR},
-      goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
-      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER},
-      goods_pic = #{record.goodsPic,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByExample" parameterType="map">
     update app_goods
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
       shop_name = #{record.shopName,jdbcType=VARCHAR},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
       goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
       goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
       goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -268,28 +244,20 @@
       <if test="goodsPrice != null">
         goods_price = #{goodsPrice,jdbcType=DECIMAL},
       </if>
+      <if test="goodsPic != null">
+        goods_pic = #{goodsPic,jdbcType=VARCHAR},
+      </if>
       <if test="goodsAddTime != null">
         goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="goodsPic != null">
-        goods_pic = #{goodsPic,jdbcType=LONGVARCHAR},
+      <if test="goodsSortId != null">
+        goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.app.entity.AppGoods">
-    update app_goods
-    set shop_name = #{shopName,jdbcType=VARCHAR},
-      goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_info = #{goodsInfo,jdbcType=VARCHAR},
-      goods_price = #{goodsPrice,jdbcType=DECIMAL},
-      goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      goods_pic = #{goodsPic,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppGoods">
     update app_goods
@@ -297,8 +265,10 @@
       goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_info = #{goodsInfo,jdbcType=VARCHAR},
       goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_pic = #{goodsPic,jdbcType=VARCHAR},
       goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
+      status = #{status,jdbcType=INTEGER},
+      goods_sort_id = #{goodsSortId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

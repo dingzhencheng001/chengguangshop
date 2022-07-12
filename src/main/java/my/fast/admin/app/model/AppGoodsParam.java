@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class AppGoodsParam {
-
     @ApiModelProperty(value = "商店名称")
     private String shopName;
 
@@ -30,13 +29,16 @@ public class AppGoodsParam {
     @ApiModelProperty(value = "商品价格")
     private BigDecimal goodsPrice;
 
+    @ApiModelProperty(value = "商品展示图片")
+    private String goodsPic;
+
     @ApiModelProperty(value = "商品添加时间")
     private Date goodsAddTime;
 
     @ApiModelProperty(value = "上架状态 0不上架 1上架")
     private Integer status;
 
-    @ApiModelProperty(value = "商品展示图片")
-    private String goodsPic;
+    @ApiModelProperty(value = "商品分类id")
+    private Long goodsSortId;
 
 }

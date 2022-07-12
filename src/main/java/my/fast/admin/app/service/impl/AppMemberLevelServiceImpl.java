@@ -44,9 +44,8 @@ public class AppMemberLevelServiceImpl implements AppMemberLevelService {
 
     @Override
     public int updateLevels(Long id, AppMemberLevel appMemberLevel) {
-        AppMemberLevel appMemberLevels = new AppMemberLevel();
-        appMemberLevels.setId(id);
-        return appMemberLevelMapper.updateByPrimaryKeySelective(appMemberLevels);
+        appMemberLevel.setId(id);
+        return appMemberLevelMapper.updateByPrimaryKeySelective(appMemberLevel);
     }
 
     @Override

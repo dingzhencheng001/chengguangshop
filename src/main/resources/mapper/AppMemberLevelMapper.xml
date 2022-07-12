@@ -7,7 +7,7 @@
     <result column="order_num" jdbcType="INTEGER" property="orderNum" />
     <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
     <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
-    <result column="commission" jdbcType="TIMESTAMP" property="commission" />
+    <result column="commission" jdbcType="DECIMAL" property="commission" />
     <result column="members_level" jdbcType="INTEGER" property="membersLevel" />
     <result column="withdrawal_times" jdbcType="INTEGER" property="withdrawalTimes" />
     <result column="withdrawal_min" jdbcType="INTEGER" property="withdrawalMin" />
@@ -144,7 +144,7 @@
       num_min, withdrawal_nim_order, auto_vip_xu_num, 
       service_charge, pic)
     values (#{membersName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=TIMESTAMP}, #{membersLevel,jdbcType=INTEGER}, 
+      #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=DECIMAL}, #{membersLevel,jdbcType=INTEGER},
       #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=INTEGER}, #{withdrawalMax,jdbcType=INTEGER}, 
       #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
       #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR})
@@ -212,7 +212,7 @@
         #{registerTime,jdbcType=TIMESTAMP},
       </if>
       <if test="commission != null">
-        #{commission,jdbcType=TIMESTAMP},
+        #{commission,jdbcType=DECIMAL},
       </if>
       <if test="membersLevel != null">
         #{membersLevel,jdbcType=INTEGER},
@@ -268,7 +268,7 @@
         register_time = #{record.registerTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.commission != null">
-        commission = #{record.commission,jdbcType=TIMESTAMP},
+        commission = #{record.commission,jdbcType=DECIMAL},
       </if>
       <if test="record.membersLevel != null">
         members_level = #{record.membersLevel,jdbcType=INTEGER},
@@ -309,7 +309,7 @@
       order_num = #{record.orderNum,jdbcType=INTEGER},
       member_price = #{record.memberPrice,jdbcType=DECIMAL},
       register_time = #{record.registerTime,jdbcType=TIMESTAMP},
-      commission = #{record.commission,jdbcType=TIMESTAMP},
+      commission = #{record.commission,jdbcType=DECIMAL},
       members_level = #{record.membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
       withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
@@ -330,7 +330,7 @@
       order_num = #{record.orderNum,jdbcType=INTEGER},
       member_price = #{record.memberPrice,jdbcType=DECIMAL},
       register_time = #{record.registerTime,jdbcType=TIMESTAMP},
-      commission = #{record.commission,jdbcType=TIMESTAMP},
+      commission = #{record.commission,jdbcType=DECIMAL},
       members_level = #{record.membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
       withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
@@ -359,7 +359,7 @@
         register_time = #{registerTime,jdbcType=TIMESTAMP},
       </if>
       <if test="commission != null">
-        commission = #{commission,jdbcType=TIMESTAMP},
+        commission = #{commission,jdbcType=DECIMAL},
       </if>
       <if test="membersLevel != null">
         members_level = #{membersLevel,jdbcType=INTEGER},
@@ -397,7 +397,7 @@
       order_num = #{orderNum,jdbcType=INTEGER},
       member_price = #{memberPrice,jdbcType=DECIMAL},
       register_time = #{registerTime,jdbcType=TIMESTAMP},
-      commission = #{commission,jdbcType=TIMESTAMP},
+      commission = #{commission,jdbcType=DECIMAL},
       members_level = #{membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
       withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
@@ -415,7 +415,7 @@
       order_num = #{orderNum,jdbcType=INTEGER},
       member_price = #{memberPrice,jdbcType=DECIMAL},
       register_time = #{registerTime,jdbcType=TIMESTAMP},
-      commission = #{commission,jdbcType=TIMESTAMP},
+      commission = #{commission,jdbcType=DECIMAL},
       members_level = #{membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
       withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},

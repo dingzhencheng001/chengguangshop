@@ -2,6 +2,8 @@ package my.fast.admin.app.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import my.fast.admin.app.entity.AppMemberBank;
 
 /**
@@ -31,6 +33,7 @@ public interface AppMemberBankService {
     /**
      * 更新会员银行卡信息
      */
+    @Transactional
     int updateBanks(Long id, AppMemberBank appMemberBank);
 
 

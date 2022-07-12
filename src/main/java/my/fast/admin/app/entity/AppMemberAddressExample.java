@@ -1,6 +1,7 @@
 package my.fast.admin.app.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AppMemberAddressExample {
@@ -504,143 +505,133 @@ public class AppMemberAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultIsNull() {
-            addCriterion("isdefault is null");
+        public Criteria andDefaultAddrIsNull() {
+            addCriterion("default_addr is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultIsNotNull() {
-            addCriterion("isdefault is not null");
+        public Criteria andDefaultAddrIsNotNull() {
+            addCriterion("default_addr is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultEqualTo(String value) {
-            addCriterion("isdefault =", value, "isdefault");
+        public Criteria andDefaultAddrEqualTo(String value) {
+            addCriterion("default_addr =", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultNotEqualTo(String value) {
-            addCriterion("isdefault <>", value, "isdefault");
+        public Criteria andDefaultAddrNotEqualTo(String value) {
+            addCriterion("default_addr <>", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultGreaterThan(String value) {
-            addCriterion("isdefault >", value, "isdefault");
+        public Criteria andDefaultAddrGreaterThan(String value) {
+            addCriterion("default_addr >", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultGreaterThanOrEqualTo(String value) {
-            addCriterion("isdefault >=", value, "isdefault");
+        public Criteria andDefaultAddrGreaterThanOrEqualTo(String value) {
+            addCriterion("default_addr >=", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultLessThan(String value) {
-            addCriterion("isdefault <", value, "isdefault");
+        public Criteria andDefaultAddrLessThan(String value) {
+            addCriterion("default_addr <", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultLessThanOrEqualTo(String value) {
-            addCriterion("isdefault <=", value, "isdefault");
+        public Criteria andDefaultAddrLessThanOrEqualTo(String value) {
+            addCriterion("default_addr <=", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultLike(String value) {
-            addCriterion("isdefault like", value, "isdefault");
+        public Criteria andDefaultAddrLike(String value) {
+            addCriterion("default_addr like", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultNotLike(String value) {
-            addCriterion("isdefault not like", value, "isdefault");
+        public Criteria andDefaultAddrNotLike(String value) {
+            addCriterion("default_addr not like", value, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultIn(List<String> values) {
-            addCriterion("isdefault in", values, "isdefault");
+        public Criteria andDefaultAddrIn(List<String> values) {
+            addCriterion("default_addr in", values, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultNotIn(List<String> values) {
-            addCriterion("isdefault not in", values, "isdefault");
+        public Criteria andDefaultAddrNotIn(List<String> values) {
+            addCriterion("default_addr not in", values, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultBetween(String value1, String value2) {
-            addCriterion("isdefault between", value1, value2, "isdefault");
+        public Criteria andDefaultAddrBetween(String value1, String value2) {
+            addCriterion("default_addr between", value1, value2, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andIsdefaultNotBetween(String value1, String value2) {
-            addCriterion("isdefault not between", value1, value2, "isdefault");
+        public Criteria andDefaultAddrNotBetween(String value1, String value2) {
+            addCriterion("default_addr not between", value1, value2, "defaultAddr");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeIsNull() {
-            addCriterion("createtime is null");
+        public Criteria andFinishTimeIsNull() {
+            addCriterion("finish_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeIsNotNull() {
-            addCriterion("createtime is not null");
+        public Criteria andFinishTimeIsNotNull() {
+            addCriterion("finish_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeEqualTo(String value) {
-            addCriterion("createtime =", value, "createtime");
+        public Criteria andFinishTimeEqualTo(Date value) {
+            addCriterion("finish_time =", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeNotEqualTo(String value) {
-            addCriterion("createtime <>", value, "createtime");
+        public Criteria andFinishTimeNotEqualTo(Date value) {
+            addCriterion("finish_time <>", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeGreaterThan(String value) {
-            addCriterion("createtime >", value, "createtime");
+        public Criteria andFinishTimeGreaterThan(Date value) {
+            addCriterion("finish_time >", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeGreaterThanOrEqualTo(String value) {
-            addCriterion("createtime >=", value, "createtime");
+        public Criteria andFinishTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("finish_time >=", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeLessThan(String value) {
-            addCriterion("createtime <", value, "createtime");
+        public Criteria andFinishTimeLessThan(Date value) {
+            addCriterion("finish_time <", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeLessThanOrEqualTo(String value) {
-            addCriterion("createtime <=", value, "createtime");
+        public Criteria andFinishTimeLessThanOrEqualTo(Date value) {
+            addCriterion("finish_time <=", value, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeLike(String value) {
-            addCriterion("createtime like", value, "createtime");
+        public Criteria andFinishTimeIn(List<Date> values) {
+            addCriterion("finish_time in", values, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeNotLike(String value) {
-            addCriterion("createtime not like", value, "createtime");
+        public Criteria andFinishTimeNotIn(List<Date> values) {
+            addCriterion("finish_time not in", values, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeIn(List<String> values) {
-            addCriterion("createtime in", values, "createtime");
+        public Criteria andFinishTimeBetween(Date value1, Date value2) {
+            addCriterion("finish_time between", value1, value2, "finishTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreatetimeNotIn(List<String> values) {
-            addCriterion("createtime not in", values, "createtime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatetimeBetween(String value1, String value2) {
-            addCriterion("createtime between", value1, value2, "createtime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatetimeNotBetween(String value1, String value2) {
-            addCriterion("createtime not between", value1, value2, "createtime");
+        public Criteria andFinishTimeNotBetween(Date value1, Date value2) {
+            addCriterion("finish_time not between", value1, value2, "finishTime");
             return (Criteria) this;
         }
     }

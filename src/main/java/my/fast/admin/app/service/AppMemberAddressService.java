@@ -3,6 +3,7 @@ package my.fast.admin.app.service;
 import java.util.List;
 
 import my.fast.admin.app.entity.AppMemberAddress;
+import my.fast.admin.app.model.AppMemberAddressPram;
 
 /**
  * TODO
@@ -27,9 +28,11 @@ public interface AppMemberAddressService {
     /**
      * 更新会员地址
      */
-    int updateAddress(Long id, AppMemberAddress appMemberLevel);
+    @Transactional
+    int updateAddress(Long id, AppMemberAddress appMemberAddress);
     /**
      * 新增会员地址
+     * @param appMemberAddressPram
      */
-    int createAddress(AppMemberAddress appMemberLevel);
+    int createAddress(AppMemberAddressPram appMemberAddressPram);
 }

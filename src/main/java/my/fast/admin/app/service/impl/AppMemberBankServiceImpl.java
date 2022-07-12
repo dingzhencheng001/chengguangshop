@@ -46,9 +46,8 @@ public class AppMemberBankServiceImpl implements AppMemberBankService {
 
     @Override
     public int updateBanks(Long id, AppMemberBank appMemberBank) {
-        AppMemberBank appMemberLevels = new AppMemberBank();
-        appMemberLevels.setId(id);
-        return appMemberBankMapper.updateByPrimaryKeySelective(appMemberLevels);
+        appMemberBank.setId(id);
+        return appMemberBankMapper.updateByPrimaryKeySelective(appMemberBank);
     }
 
     @Override

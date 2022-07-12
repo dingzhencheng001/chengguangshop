@@ -1,6 +1,7 @@
 package my.fast.admin.app.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,10 +24,10 @@ public class AppMemberAddress implements Serializable {
     private String address;
 
     @ApiModelProperty(value = "默认地址")
-    private String isdefault;
+    private String defaultAddr;
 
     @ApiModelProperty(value = "完成交易时间")
-    private String createtime;
+    private Date finishTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -78,20 +79,20 @@ public class AppMemberAddress implements Serializable {
         this.address = address;
     }
 
-    public String getIsdefault() {
-        return isdefault;
+    public String getDefaultAddr() {
+        return defaultAddr;
     }
 
-    public void setIsdefault(String isdefault) {
-        this.isdefault = isdefault;
+    public void setDefaultAddr(String defaultAddr) {
+        this.defaultAddr = defaultAddr;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public Date getFinishTime() {
+        return finishTime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 
     @Override
@@ -106,8 +107,8 @@ public class AppMemberAddress implements Serializable {
         sb.append(", tel=").append(tel);
         sb.append(", area=").append(area);
         sb.append(", address=").append(address);
-        sb.append(", isdefault=").append(isdefault);
-        sb.append(", createtime=").append(createtime);
+        sb.append(", defaultAddr=").append(defaultAddr);
+        sb.append(", finishTime=").append(finishTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

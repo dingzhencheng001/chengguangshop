@@ -18,21 +18,15 @@ public interface AppGoodsMapper {
 
     int insertSelective(AppGoods record);
 
-    List<AppGoods> selectByExampleWithBLOBs(AppGoodsExample example);
-
     List<AppGoods> selectByExample(AppGoodsExample example);
 
-    AppGoods selectByPrimaryKey(String id);
+    AppGoods selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") AppGoods record, @Param("example") AppGoodsExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") AppGoods record, @Param("example") AppGoodsExample example);
 
     int updateByExample(@Param("record") AppGoods record, @Param("example") AppGoodsExample example);
 
     int updateByPrimaryKeySelective(AppGoods record);
-
-    int updateByPrimaryKeyWithBLOBs(AppGoods record);
 
     int updateByPrimaryKey(AppGoods record);
 }

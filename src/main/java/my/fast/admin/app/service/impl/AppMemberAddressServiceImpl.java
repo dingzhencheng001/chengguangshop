@@ -2,17 +2,17 @@ package my.fast.admin.app.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.entity.AppMemberAddress;
 import my.fast.admin.app.entity.AppMemberAddressExample;
-import my.fast.admin.app.entity.AppMemberLevel;
-import my.fast.admin.app.entity.AppMemberLevelExample;
 import my.fast.admin.app.mapper.AppMemberAddressMapper;
-import my.fast.admin.app.mapper.AppMemberLevelMapper;
+import my.fast.admin.app.model.AppMemberAddressPram;
 import my.fast.admin.app.service.AppMemberAddressService;
 
 /**
@@ -47,14 +47,15 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
     }
 
     @Override
-    public int updateAddress(Long id, AppMemberAddress appMemberLevel) {
-        AppMemberAddress appMemberAddress = new AppMemberAddress();
+    public int updateAddress(Long id, AppMemberAddress appMemberAddress) {
         appMemberAddress.setId(id);
         return appMemberAddressMapper.updateByPrimaryKeySelective(appMemberAddress);
     }
 
     @Override
-    public int createAddress(AppMemberAddress appMemberLevel) {
-        return appMemberAddressMapper.insertSelective(appMemberLevel);
+    public int createAddress(AppMemberAddressPram appMemberAddressPram) {
+        AppMemberAddress appMemberAddress = new AppMemberAddress();
+        BeanUtils.copyProperties(appMemberAddressPram, appMemberAddress);
+        return appMemberAddressMapper.insertSelective(appMemberAddress);
     }
 }

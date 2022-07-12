@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMemberAddress;
-import my.fast.admin.app.service.AppMemberAddressService;
+import my.fast.admin.app.model.AppMemberAddressPram;
 import my.fast.admin.app.service.AppMemberAddressService;
 
 /**
@@ -53,7 +53,7 @@ public class AppMemberAddressController {
         return CommonResult.success(CommonPage.restPage(appMemberLevels));
     }
 
-    @ApiOperation(value = "删除会员等级")
+    @ApiOperation(value = "删除会员地址列表")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
@@ -65,12 +65,12 @@ public class AppMemberAddressController {
         }
     }
 
-    @ApiOperation(value = "更新商品")
+    @ApiOperation(value = "更新会员地址")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberAddress appMemberLevel) {
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberAddress appMemberAddress) {
         CommonResult commonResult;
-        int count = appMemberAddressService.updateAddress(id, appMemberLevel);
+        int count = appMemberAddressService.updateAddress(id, appMemberAddress);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -79,12 +79,12 @@ public class AppMemberAddressController {
         return commonResult;
     }
 
-    @ApiOperation(value = "添加会员等级")
+    @ApiOperation(value = "添加会员地址")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppMemberAddress appMemberLevel) {
+    public CommonResult create(@RequestBody AppMemberAddressPram appMemberAddressPram) {
         CommonResult commonResult;
-        int count = appMemberAddressService.createAddress(appMemberLevel);
+        int count = appMemberAddressService.createAddress(appMemberAddressPram);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -92,9 +92,5 @@ public class AppMemberAddressController {
         }
         return commonResult;
     }
-
-
-
-
 
 }

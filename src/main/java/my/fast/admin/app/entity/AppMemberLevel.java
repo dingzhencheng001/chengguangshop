@@ -22,7 +22,7 @@ public class AppMemberLevel implements Serializable {
     private Date registerTime;
 
     @ApiModelProperty(value = "佣金比例")
-    private Date commission;
+    private BigDecimal commission;
 
     @ApiModelProperty(value = "会员等级")
     private Integer membersLevel;
@@ -93,11 +93,11 @@ public class AppMemberLevel implements Serializable {
         this.registerTime = registerTime;
     }
 
-    public Date getCommission() {
+    public BigDecimal getCommission() {
         return commission;
     }
 
-    public void setCommission(Date commission) {
+    public void setCommission(BigDecimal commission) {
         this.commission = commission;
     }
 

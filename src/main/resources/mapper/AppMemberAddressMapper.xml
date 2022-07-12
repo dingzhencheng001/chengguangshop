@@ -8,8 +8,8 @@
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="area" jdbcType="VARCHAR" property="area" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="isdefault" jdbcType="VARCHAR" property="isdefault" />
-    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="default_addr" jdbcType="VARCHAR" property="defaultAddr" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, name, tel, area, address, isdefault, createtime
+    id, member_id, name, tel, area, address, default_addr, finish_time
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberAddressExample" resultMap="BaseResultMap">
     select
@@ -107,11 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_member_address (member_id, name, tel, 
-      area, address, isdefault, 
-      createtime)
+      area, address, default_addr, 
+      finish_time)
     values (#{memberId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{isdefault,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=VARCHAR})
+      #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{defaultAddr,jdbcType=VARCHAR}, 
+      #{finishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMemberAddress">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -134,11 +134,11 @@
       <if test="address != null">
         address,
       </if>
-      <if test="isdefault != null">
-        isdefault,
+      <if test="defaultAddr != null">
+        default_addr,
       </if>
-      <if test="createtime != null">
-        createtime,
+      <if test="finishTime != null">
+        finish_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -157,11 +157,11 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="isdefault != null">
-        #{isdefault,jdbcType=VARCHAR},
+      <if test="defaultAddr != null">
+        #{defaultAddr,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=VARCHAR},
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -192,11 +192,11 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
-      <if test="record.isdefault != null">
-        isdefault = #{record.isdefault,jdbcType=VARCHAR},
+      <if test="record.defaultAddr != null">
+        default_addr = #{record.defaultAddr,jdbcType=VARCHAR},
       </if>
-      <if test="record.createtime != null">
-        createtime = #{record.createtime,jdbcType=VARCHAR},
+      <if test="record.finishTime != null">
+        finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -211,8 +211,8 @@
       tel = #{record.tel,jdbcType=VARCHAR},
       area = #{record.area,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
-      isdefault = #{record.isdefault,jdbcType=VARCHAR},
-      createtime = #{record.createtime,jdbcType=VARCHAR}
+      default_addr = #{record.defaultAddr,jdbcType=VARCHAR},
+      finish_time = #{record.finishTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -235,11 +235,11 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="isdefault != null">
-        isdefault = #{isdefault,jdbcType=VARCHAR},
+      <if test="defaultAddr != null">
+        default_addr = #{defaultAddr,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=VARCHAR},
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -251,8 +251,8 @@
       tel = #{tel,jdbcType=VARCHAR},
       area = #{area,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      isdefault = #{isdefault,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=VARCHAR}
+      default_addr = #{defaultAddr,jdbcType=VARCHAR},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
