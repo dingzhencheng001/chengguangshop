@@ -1,5 +1,6 @@
 package my.fast.admin.app.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -29,4 +30,6 @@ public interface AppGoodsMapper {
     int updateByPrimaryKeySelective(AppGoods record);
 
     int updateByPrimaryKey(AppGoods record);
+
+    AppGoods randomOrders(BigDecimal useBalance);
 }

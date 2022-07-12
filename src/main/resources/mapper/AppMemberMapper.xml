@@ -24,7 +24,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-    <result column="login_ip" jdbcType="TIMESTAMP" property="loginIp" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
     <result column="login_date" jdbcType="TIMESTAMP" property="loginDate" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -194,7 +194,7 @@
       #{password,jdbcType=VARCHAR}, #{parentUserId,jdbcType=BIGINT}, #{parentUserName,jdbcType=VARCHAR}, 
       #{isAgent,jdbcType=INTEGER}, #{agentLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
-      #{loginIp,jdbcType=TIMESTAMP}, #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{loginIp,jdbcType=VARCHAR}, #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{inviteCode,jdbcType=VARCHAR}, 
       #{dealStatus,jdbcType=INTEGER}, #{dealError,jdbcType=INTEGER}, #{dealRewardCount,jdbcType=INTEGER}, 
@@ -407,7 +407,7 @@
         #{delFlag,jdbcType=INTEGER},
       </if>
       <if test="loginIp != null">
-        #{loginIp,jdbcType=TIMESTAMP},
+        #{loginIp,jdbcType=VARCHAR},
       </if>
       <if test="loginDate != null">
         #{loginDate,jdbcType=TIMESTAMP},
@@ -553,7 +553,7 @@
         del_flag = #{record.delFlag,jdbcType=INTEGER},
       </if>
       <if test="record.loginIp != null">
-        login_ip = #{record.loginIp,jdbcType=TIMESTAMP},
+        login_ip = #{record.loginIp,jdbcType=VARCHAR},
       </if>
       <if test="record.loginDate != null">
         login_date = #{record.loginDate,jdbcType=TIMESTAMP},
@@ -650,7 +650,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
-      login_ip = #{record.loginIp,jdbcType=TIMESTAMP},
+      login_ip = #{record.loginIp,jdbcType=VARCHAR},
       login_date = #{record.loginDate,jdbcType=TIMESTAMP},
       create_by = #{record.createBy,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -701,7 +701,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
-      login_ip = #{record.loginIp,jdbcType=TIMESTAMP},
+      login_ip = #{record.loginIp,jdbcType=VARCHAR},
       login_date = #{record.loginDate,jdbcType=TIMESTAMP},
       create_by = #{record.createBy,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -793,7 +793,7 @@
         del_flag = #{delFlag,jdbcType=INTEGER},
       </if>
       <if test="loginIp != null">
-        login_ip = #{loginIp,jdbcType=TIMESTAMP},
+        login_ip = #{loginIp,jdbcType=VARCHAR},
       </if>
       <if test="loginDate != null">
         login_date = #{loginDate,jdbcType=TIMESTAMP},
@@ -887,7 +887,7 @@
       email = #{email,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
-      login_ip = #{loginIp,jdbcType=TIMESTAMP},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
       login_date = #{loginDate,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -935,7 +935,7 @@
       email = #{email,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
-      login_ip = #{loginIp,jdbcType=TIMESTAMP},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
       login_date = #{loginDate,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

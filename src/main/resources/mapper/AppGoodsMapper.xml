@@ -271,4 +271,10 @@
       goods_sort_id = #{goodsSortId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+    <select id="randomOrders" resultMap="BaseResultMap" parameterType="decimal">
+        SELECT t.* FROM (SELECT * FROM app_goods g WHERE
+        g.goods_price &lt;= #{useBalance,jdbcType=DECIMAL}
+        AND NOT EXISTS ( SELECT * FROM app_convey c WHERE g.id = c.goods_id )) t
+        ORDER BY RAND() LIMIT 0,1;
+    </select>
 </mapper>

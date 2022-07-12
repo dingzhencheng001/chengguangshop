@@ -72,7 +72,7 @@ public class AppMember implements Serializable {
     private Integer delFlag;
 
     @ApiModelProperty(value = "最后登录IP")
-    private Date loginIp;
+    private String loginIp;
 
     @ApiModelProperty(value = "最后登录时间")
     private Date loginDate;
@@ -318,11 +318,11 @@ public class AppMember implements Serializable {
         this.delFlag = delFlag;
     }
 
-    public Date getLoginIp() {
+    public String getLoginIp() {
         return loginIp;
     }
 
-    public void setLoginIp(Date loginIp) {
+    public void setLoginIp(String loginIp) {
         this.loginIp = loginIp;
     }
 
