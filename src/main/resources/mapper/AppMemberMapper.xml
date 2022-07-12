@@ -158,6 +158,47 @@
     from app_member
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <!-- add by  dzc 2022-07-12 -->
+   <select id="selectAppMemberByUserAccount" parameterType="String" resultMap="ResultMapWithBLOBs">
+        select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from app_member 
+    where user_account = #{userAccount}  limit 1
+    </select>
+        
+    <select id="selectAppMemberByCode" parameterType="String" resultMap="ResultMapWithBLOBs">
+            select 
+    	<include refid="Base_Column_List" />
+   		 ,
+   		 <include refid="Blob_Column_List" />
+   		 from app_member 
+        where invite_code = #{inviteCode}
+    </select>    
+
+	<select id="checkUserNameUnique" parameterType="String" resultType="int">
+		select count(1) from app_member where user_account = #{userAccount} limit 1
+	</select>
+	
+	<select id="checkPhoneUnique" parameterType="String" resultMap="ResultMapWithBLOBs">
+		   select 
+    	<include refid="Base_Column_List" />
+   		 ,
+   		 <include refid="Blob_Column_List" />
+   		 from app_member 
+		where  phone_number = #{phoneNumber} limit 1
+	</select>
+	
+	<select id="checkEmailUnique" parameterType="String" resultMap="ResultMapWithBLOBs">
+		   select 
+    	<include refid="Base_Column_List" />
+   		 ,
+   		 <include refid="Blob_Column_List" />
+   		 from app_member 
+		where email = #{email} limit 1
+	</select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_member
     where id = #{id,jdbcType=BIGINT}

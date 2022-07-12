@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import my.fast.admin.app.common.constant.UserConstants;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.mapper.AppMemberMapper;
 import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.framework.utils.CommonUtils;
 
 /**
  * TODO
@@ -72,4 +74,69 @@ public class AppMemberServiceImpl implements AppMemberService {
         return appMemberMapper.updateByPrimaryKeySelective(appMember);
 
     }
+    
+    @Override
+    public AppMember selectAppMemberByUserId(Long id)
+    {
+        return appMemberMapper.selectByPrimaryKey(id);
+    }
+    
+    @Override
+    public AppMember selectAppMemberByUserAccount(String userAccount)
+    {
+        return appMemberMapper.selectAppMemberByUserAccount(userAccount);
+    }
+
+	@Override
+	public AppMember selectAppMemberByCode(String code) {
+		
+		 return appMemberMapper.selectAppMemberByCode(code);
+	}
+
+	
+	/**
+     * 校验用户名是否唯一
+     */
+	@Override
+	public String checkUserNameUnique(String userName) {
+		int count = appMemberMapper.checkUserNameUnique(userName);
+        if (count > 0)
+        {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
+	}
+	
+	 
+	/**
+     * 校验手机号是否唯一
+     */
+	@Override
+	public String checkPhoneUnique(AppMember user) {
+		Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
+		AppMember info = appMemberMapper.checkPhoneUnique(user.getPhoneNumber());
+        if (CommonUtils.isNotNull(info) && info.getId().longValue() != userId.longValue())
+        {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
+	}
+	/**
+     * 校验邮箱是否唯一
+     */
+	@Override
+	public String checkEmailUnique(AppMember user) {
+		Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
+		AppMember info = appMemberMapper.checkEmailUnique(user.getEmail());
+        if (CommonUtils.isNotNull(info) && info.getId().longValue() != userId.longValue())
+        {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
+	}
+	
+	
+	
+	
+    
 }

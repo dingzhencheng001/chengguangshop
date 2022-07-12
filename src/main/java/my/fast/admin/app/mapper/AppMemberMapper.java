@@ -34,4 +34,28 @@ public interface AppMemberMapper {
     int updateByPrimaryKeyWithBLOBs(AppMember record);
 
     int updateByPrimaryKey(AppMember record);
+    
+    AppMember selectAppMemberByUserAccount(String userAccount);
+    
+    AppMember selectAppMemberByCode(String code);
+    
+    /**
+     * 校验用户名称是否唯一
+     * @return 结果
+     */
+    public int checkUserNameUnique(String userName);
+
+    /**
+     * 校验手机号码是否唯一
+     * @return 结果
+     */
+    public AppMember checkPhoneUnique(String phonenumber);
+
+    /**
+     * 校验email是否唯一
+     * @return 结果
+     */
+    public AppMember checkEmailUnique(String email);
+    
+    
 }

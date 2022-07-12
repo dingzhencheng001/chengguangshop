@@ -8,8 +8,6 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,18 +17,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.RedisKeyConstant;
 import my.fast.admin.app.common.constant.UserConstants;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.service.AppMemberService;
-import my.fast.admin.framework.log.WebLogAspect;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.Md5;
+import my.fast.admin.framework.utils.TokenUtils;
 
 @Slf4j
 @Controller
@@ -42,9 +39,6 @@ public class AppLoginController {
 	
     @Value("${token.timeout:360}")
     private Integer tokenTime;
-	
-//    @Autowired
-//    private ITbAppUserService tbAppUserService;
     
     @Autowired
     private AppMemberService appMemberService;
@@ -71,14 +65,14 @@ public class AppLoginController {
             return CommonResult.failed("帐号密码不能为空");
         }
         
-        AppMember appUserVO = new AppMember();// tbAppUserService.selectTbAppUserByUserName(loginVO.getUserAccount());
+        AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
 
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
         	CommonResult.failed("0xCUC47451");
             return CommonResult.failed("帐号不存在");
         }
         
-        if (!CommonUtils.matchesPassword(loginVO.getPassword(), appUserVO.getPassword())) {//!password.equals(appUserVO.getPassword())
+        if (!CommonUtils.matchesPassword(loginVO.getPassword(), appUserVO.getPassword())) {
             return CommonResult.failed( "密码错误");
         }
         
@@ -103,7 +97,7 @@ public class AppLoginController {
         claims.put("userid", appUserVO.getId());
         String md5 = Md5.md5Digest(appUserVO.getId().toString() + System.currentTimeMillis()).toLowerCase();
         String token = appUserVO.getId() + "-" + md5.substring(0, 16) + "-" + md5.substring(16, 32);
-        //String token = JWTUtils.createJWT(claims, null, tokenTime * 60 * 1000);
+        
         redisTemplate.opsForValue().set(RedisKeyConstant.LOGIN_TOKEN + token, RedisKeyConstant.LOGIN_TOKEN + username, tokenTime, TimeUnit.MINUTES);
         //同一账号只能一处登录
         redisTemplate.delete(RedisKeyConstant.LOGIN_TOKEN + username);
@@ -114,7 +108,7 @@ public class AppLoginController {
         //更新登录时间 TODO 登陆IP等获取
         log.info(System.currentTimeMillis() + " 登陆完成,更新登陆时间" );
         appUserVO.setLoginDate(new Date());
-//        tbAppUserService.updateTbAppUser(appUserVO);  TODO=
+        appMemberService.updateMember(appUserVO.getId(), appUserVO);
         resultMap.put("user", appUserVO);
         log.info(System.currentTimeMillis() + " 登陆完成返回 token ：",  appUserVO.getUserAccount() + " : " + token);
         return CommonResult.success(resultMap);
@@ -129,18 +123,6 @@ public class AppLoginController {
         if (userLoginVO == null || StringUtils.isEmpty(userLoginVO.getUserAccount()) || StringUtils.isEmpty(userLoginVO.getPassword())) {
             return CommonResult.failed("注册的帐号密码不能为空");
         }
-        /*Byte loginType = loginVO.getLoginType();
-        if (loginType == null || loginType != UserConstant.LOGIN_TYPE_USERNAME) {
-            return AjaxResult.error("0xCUC50651", "登陆校验类型错误");
-        }*/
-        //String password = userLoginVO.getPassword();
-        /*String decryptData;
-        try {
-            decryptData = RSA.decrypt(password, RSA.getPrivateKey(loginRsaPrivateKey));
-        } catch (Exception e) {
-            log.error("[0xCUC51035]密码格式有误,{},{}", password, userLoginVO.getUsername(), e);
-            return AjaxResult.error("0xCUC51051", "密码格式有误");
-        }*/
         
         //设置处理对象
         AppMember  tbAppUser = new  AppMember();
@@ -153,25 +135,25 @@ public class AppLoginController {
         {
             return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码失效或不存在");
         }
-    	AppMember  parentUser = new AppMember(); // tbAppUserService.selectTbAppUserByReCode(userLoginVO.getInviteCode());TODO=
+    	AppMember  parentUser =  appMemberService.selectAppMemberByCode(userLoginVO.getInviteCode());
     	if(parentUser==null || StringUtils.isEmpty(parentUser.getNickName())){
     		return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码用户已注销或不存在");
     	}
     	
-//    	if (UserConstants.NOT_UNIQUE.equals(tbAppUserService.checkUserNameUnique(userLoginVO.getUserAccount())))
-//        {
-//            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，账号已存在,请直接登陆");
-//        }
-//        else if (StringUtils.isNotEmpty(userLoginVO.getPhoneNumber())
-//                && UserConstants.NOT_UNIQUE.equals(tbAppUserService.checkPhoneUnique(tbAppUser)))
-//        {
-//            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，手机号码已存在,请直接登陆");
-//        }
-//        else if (StringUtils.isNotEmpty(userLoginVO.getEmail())
-//                && UserConstants.NOT_UNIQUE.equals(tbAppUserService.checkEmailUnique(tbAppUser)))
-//        {
-//            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邮箱账号已存在,请直接登陆");
-//        }
+    	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(userLoginVO.getUserAccount())))
+        {
+            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，账号已存在,请直接登陆");
+        }
+        else if (StringUtils.isNotEmpty(userLoginVO.getPhoneNumber())
+                && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(tbAppUser)))
+        {
+            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，手机号码已存在,请直接登陆");
+        }
+        else if (StringUtils.isNotEmpty(userLoginVO.getEmail())
+                && UserConstants.NOT_UNIQUE.equals(appMemberService.checkEmailUnique(tbAppUser)))
+        {
+            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邮箱账号已存在,请直接登陆");
+        }
     	
         //检验完成补充设置信息进行insert注册
     	tbAppUser.setPassword(CommonUtils.encryptPassword(userLoginVO.getPassword()));//注册密码用户自己输入
@@ -184,7 +166,7 @@ public class AppLoginController {
 //    	tbAppUser.setDelFlag("0");
     	tbAppUser.setCreateBy(tbAppUser.getUserAccount());//自己本人注册
     	log.info(System.currentTimeMillis() + "注册用户请求内容：", tbAppUser.getUserAccount());
-        int  row =  1 ;//this.tbAppUserService.insertTbAppUser(tbAppUser); TODO=
+        int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
         if (row > 0) {
         	return CommonResult.success("SUCCESS", "注册成功!当前用户账号为:"+tbAppUser.getUserAccount());
@@ -203,7 +185,7 @@ public class AppLoginController {
      * @param newPwd  新密码
      * @return MessageResult
      */
-    //@ApiOperation("修改登录密码")
+    @ApiOperation("修改登录密码")
     @PostMapping("/update/pwd")
     public CommonResult updatePwd(HttpServletRequest request, @RequestParam("oldPwd") String oldPwd,
                                    @RequestParam("newPwd") String newPwd, @RequestParam("token") String token) {
@@ -216,11 +198,11 @@ public class AppLoginController {
     	System.out.println(userId);
         TbAppUser appUserVO = tbAppUserService.selectTbAppUserByUserId(userId);*/
         
-    	AppMember appUserVO = new AppMember(); // tbAppUserService.selectTbAppUserByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         
-//        if(StringUtils.isNull(appUserVO)){
-//        	return CommonResult.failed("用户信息不存在");
-//        }
+        if(appUserVO==null || StringUtils.isEmpty(appUserVO.getUserAccount())){
+        	return CommonResult.failed("用户信息不存在");
+        }
     	Assert.isTrue(StringUtils.isNotBlank(oldPwd), "请输入旧密码");
         Assert.isTrue(StringUtils.isNotBlank(newPwd), "请输入新密码");
         Assert.isTrue(!oldPwd.equals(newPwd), "新旧密码一致");
@@ -233,8 +215,7 @@ public class AppLoginController {
             return CommonResult.failed("旧密码输入错误");
         }
         appUserVO.setPassword(CommonUtils.encryptPassword(newPwd));
-        int  row = 1; // tbAppUserService.updateTbAppUser(appUserVO); TODO=
-        
+        int  row =  appMemberService.updateMember(appUserVO.getId(), appUserVO);
         if (row > 0) {
         	return CommonResult.success("SUCCESS", "密码修改完成");
         } else {
