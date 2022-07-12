@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.AppGoodsSortMapper">
+<mapper namespace="my.fast.admin.app.mapper.AppGoodsSortMapper">
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppGoodsSort">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="commission" jdbcType="REAL" property="commission" />
