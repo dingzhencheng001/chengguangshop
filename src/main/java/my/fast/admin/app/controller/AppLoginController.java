@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,6 @@ import my.fast.admin.framework.utils.TokenUtils;
 @RequestMapping("/appuser/login")
 public class AppLoginController {
 
-//	private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 	
     @Value("${token.timeout:360}")
     private Integer tokenTime;
@@ -51,15 +51,17 @@ public class AppLoginController {
      * @return CommonResult
      */
     //@ApiOperation("登录")
+//    @PostMapping("/applogin")
+//    public CommonResult login(@RequestBody AppMember appMemberVo) {
+//        log.info("登录接口接收参数appMemberVo{}---------------", appMemberVo);
+//        //Assert.notNull(VO.getLoginType(), "登录类型为空");
+//        //Byte loginType = userLoginVO.getLoginType(); TODO 扩展登陆类型
+//        return loginWithAccount(appMemberVo);
+//    }
+    
+    @ApiOperation("登录")
     @PostMapping("/applogin")
-    public CommonResult login(@RequestBody AppMember appMemberVo) {
-        log.info("登录接口接收参数appMemberVo{}---------------", appMemberVo);
-        //Assert.notNull(VO.getLoginType(), "登录类型为空");
-        //Byte loginType = userLoginVO.getLoginType(); TODO 扩展登陆类型
-        return loginWithAccount(appMemberVo);
-    }
-
-    private CommonResult loginWithAccount(AppMember loginVO) {
+    public CommonResult login(@RequestBody AppMember  loginVO) {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
         if (loginVO == null || StringUtils.isEmpty(loginVO.getUserAccount()) || StringUtils.isEmpty(loginVO.getPassword())) {
             return CommonResult.failed("帐号密码不能为空");
@@ -71,12 +73,17 @@ public class AppLoginController {
         	CommonResult.failed("0xCUC47451");
             return CommonResult.failed("帐号不存在");
         }
-        
-        if (!CommonUtils.matchesPassword(loginVO.getPassword(), appUserVO.getPassword())) {
+        //后续加上密码加密串字段salt
+//        SimpleHash password = new SimpleHash("MD5", appUserVO.getPassword(), appUserVO.get);
+//        if (!password.toString().equals(loginVO.getPassword())) {
+//        	return CommonResult.failed( "密码错误");
+//        }
+        if (!loginVO.getPassword().equals(appUserVO.getPassword())) {
             return CommonResult.failed( "密码错误");
         }
         
-        return loginAction(appUserVO);
+        Map<String, Object> resultMap  = loginAction(appUserVO);
+        return CommonResult.success(resultMap);
     }
 
 	
@@ -86,9 +93,9 @@ public class AppLoginController {
      * @param fdBaseUserVO FdBaseUserVO
      * @return MessageResult
      */
-    private CommonResult loginAction(AppMember appUserVO) {
+    private Map<String, Object> loginAction(AppMember appUserVO) {
     	log.info(System.currentTimeMillis() +"执行登陆方法{}", appUserVO.getUserAccount());
-        Assert.isTrue("0" .equals(appUserVO.getStatus()) , "账号已禁用");
+//        Assert.isTrue("0" .equals(appUserVO.getStatus().toString()) , "账号已禁用");
         String username = appUserVO.getUserAccount();
         Map<String, Object> resultMap = new HashMap<>(8);
         Map<String, Object> claims = new HashMap<>(8);
@@ -111,7 +118,8 @@ public class AppLoginController {
         appMemberService.updateMember(appUserVO.getId(), appUserVO);
         resultMap.put("user", appUserVO);
         log.info(System.currentTimeMillis() + " 登陆完成返回 token ：",  appUserVO.getUserAccount() + " : " + token);
-        return CommonResult.success(resultMap);
+        return resultMap;
+//        return CommonResult.success(resultMap);
     }
 
     
@@ -156,11 +164,11 @@ public class AppLoginController {
         }
     	
         //检验完成补充设置信息进行insert注册
-    	tbAppUser.setPassword(CommonUtils.encryptPassword(userLoginVO.getPassword()));//注册密码用户自己输入
+    	tbAppUser.setPassword(userLoginVO.getPassword());//注册密码用户自己输入
     	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
     	tbAppUser.setParentUserName(parentUser.getNickName());//上级会员昵称
-//    	tbAppUser.setIsAgent("1");
-//    	tbAppUser.setAgentLevel("1");
+    	tbAppUser.setIsAgent(1);
+    	tbAppUser.setAgentLevel(1);
     	tbAppUser.setInviteCode(CommonUtils.getItemReCode(8)); //生成自己的邀请码 8位数字+字母
     	tbAppUser.setStatus(0);
 //    	tbAppUser.setDelFlag("0");
@@ -211,10 +219,13 @@ public class AppLoginController {
         Assert.isTrue(newPwd.length() >= 6 && newPwd.length() <= 32, "请输入6-32位密码");
         Assert.isTrue(newPwd.length() >= 6, "密码不能少于6位，请重新输入");
         
-        if (!CommonUtils.matchesPassword(oldPwd, appUserVO.getPassword())) {
-            return CommonResult.failed("旧密码输入错误");
+//        if (!CommonUtils.matchesPassword(oldPwd, appUserVO.getPassword())) {
+//            return CommonResult.failed("旧密码输入错误");
+//        }
+        if (!oldPwd.equals(appUserVO.getPassword())) {
+          return CommonResult.failed("旧密码输入错误");
         }
-        appUserVO.setPassword(CommonUtils.encryptPassword(newPwd));
+        appUserVO.setPassword(newPwd);
         int  row =  appMemberService.updateMember(appUserVO.getId(), appUserVO);
         if (row > 0) {
         	return CommonResult.success("SUCCESS", "密码修改完成");
