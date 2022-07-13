@@ -2,6 +2,7 @@ package my.fast.admin.app.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,10 +16,10 @@ public class AppConvey implements Serializable {
     private BigDecimal amount;
 
     @ApiModelProperty(value = "下单时间")
-    private String addtime;
+    private Date addtime;
 
     @ApiModelProperty(value = "完成交易时间")
-    private String endtime;
+    private Date endtime;
 
     @ApiModelProperty(value = "订单状态 0待付款 1交易完成 2用户取消 3强制完成 4强制取消 5交易冻结")
     private String status;
@@ -44,7 +45,7 @@ public class AppConvey implements Serializable {
     private String san;
 
     @ApiModelProperty(value = "抢单数")
-    private String qiang;
+    private Long qiang;
 
     private String liandanno;
 
@@ -89,19 +90,19 @@ public class AppConvey implements Serializable {
         this.amount = amount;
     }
 
-    public String getAddtime() {
+    public Date getAddtime() {
         return addtime;
     }
 
-    public void setAddtime(String addtime) {
+    public void setAddtime(Date addtime) {
         this.addtime = addtime;
     }
 
-    public String getEndtime() {
+    public Date getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(String endtime) {
+    public void setEndtime(Date endtime) {
         this.endtime = endtime;
     }
 
@@ -169,11 +170,11 @@ public class AppConvey implements Serializable {
         this.san = san;
     }
 
-    public String getQiang() {
+    public Long getQiang() {
         return qiang;
     }
 
-    public void setQiang(String qiang) {
+    public void setQiang(Long qiang) {
         this.qiang = qiang;
     }
 

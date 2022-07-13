@@ -1,10 +1,12 @@
 package my.fast.admin.app.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
+import my.fast.admin.app.model.AppMemberBalancePram;
 
 public interface AppMemberMapper {
     long countByExample(AppMemberExample example);
@@ -56,6 +58,12 @@ public interface AppMemberMapper {
      * @return 结果
      */
     public AppMember checkEmailUnique(String email);
-    
-    
+
+    /**
+     * 更改用户余额
+     *
+     */
+    void updateMemberBalance(AppMemberBalancePram appMemberBalancePram);
+
+
 }

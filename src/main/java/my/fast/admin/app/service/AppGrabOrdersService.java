@@ -1,5 +1,7 @@
 package my.fast.admin.app.service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.model.AppRandomOrderPram;
 
@@ -12,5 +14,13 @@ import my.fast.admin.app.model.AppRandomOrderPram;
  */
 public interface AppGrabOrdersService {
 
+    /**
+     * 随机生成商品订单
+     */
     AppGoods randomOrders(AppRandomOrderPram appRandomOrderPram) throws Exception;
+    /**
+     * 提交随机生成的商品订单
+     */
+    @Transactional
+    int submitOrders(AppGoods appGoods, Long memberId);
 }

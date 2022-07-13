@@ -5,8 +5,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
-    <result column="ADDTIME" jdbcType="VARCHAR" property="addtime" />
-    <result column="ENDTIME" jdbcType="VARCHAR" property="endtime" />
+    <result column="ADDTIME" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="ENDTIME" jdbcType="TIMESTAMP" property="endtime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
     <result column="COMMISSION" jdbcType="DECIMAL" property="commission" />
     <result column="C_STATUS" jdbcType="VARCHAR" property="cStatus" />
@@ -15,7 +15,7 @@
     <result column="GOODS_COUNT" jdbcType="VARCHAR" property="goodsCount" />
     <result column="HID" jdbcType="VARCHAR" property="hid" />
     <result column="SAN" jdbcType="VARCHAR" property="san" />
-    <result column="QIANG" jdbcType="VARCHAR" property="qiang" />
+    <result column="QIANG" jdbcType="BIGINT" property="qiang" />
     <result column="LIANDANNO" jdbcType="VARCHAR" property="liandanno" />
     <result column="ISLIANDAN" jdbcType="VARCHAR" property="isliandan" />
     <result column="LID" jdbcType="VARCHAR" property="lid" />
@@ -127,11 +127,11 @@
       QIANG, LIANDANNO, ISLIANDAN, 
       LID, LNO, MIN, MAX, 
       SIGN)
-    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=VARCHAR}, 
-      #{endtime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, 
+    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=TIMESTAMP},
+      #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL},
       #{cStatus,jdbcType=VARCHAR}, #{addId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
       #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{san,jdbcType=VARCHAR}, 
-      #{qiang,jdbcType=VARCHAR}, #{liandanno,jdbcType=VARCHAR}, #{isliandan,jdbcType=VARCHAR}, 
+      #{qiang,jdbcType=BIGINT}, #{liandanno,jdbcType=VARCHAR}, #{isliandan,jdbcType=VARCHAR},
       #{lid,jdbcType=VARCHAR}, #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, 
       #{sign,jdbcType=VARCHAR})
   </insert>
@@ -210,10 +210,10 @@
         #{amount,jdbcType=DECIMAL},
       </if>
       <if test="addtime != null">
-        #{addtime,jdbcType=VARCHAR},
+        #{addtime,jdbcType=TIMESTAMP},
       </if>
       <if test="endtime != null">
-        #{endtime,jdbcType=VARCHAR},
+        #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -240,7 +240,7 @@
         #{san,jdbcType=VARCHAR},
       </if>
       <if test="qiang != null">
-        #{qiang,jdbcType=VARCHAR},
+        #{qiang,jdbcType=BIGINT},
       </if>
       <if test="liandanno != null">
         #{liandanno,jdbcType=VARCHAR},
@@ -284,10 +284,10 @@
         AMOUNT = #{record.amount,jdbcType=DECIMAL},
       </if>
       <if test="record.addtime != null">
-        ADDTIME = #{record.addtime,jdbcType=VARCHAR},
+        ADDTIME = #{record.addtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endtime != null">
-        ENDTIME = #{record.endtime,jdbcType=VARCHAR},
+        ENDTIME = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
@@ -314,7 +314,7 @@
         SAN = #{record.san,jdbcType=VARCHAR},
       </if>
       <if test="record.qiang != null">
-        QIANG = #{record.qiang,jdbcType=VARCHAR},
+        QIANG = #{record.qiang,jdbcType=BIGINT},
       </if>
       <if test="record.liandanno != null">
         LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
@@ -347,8 +347,8 @@
     set id = #{record.id,jdbcType=BIGINT},
       member_id = #{record.memberId,jdbcType=BIGINT},
       AMOUNT = #{record.amount,jdbcType=DECIMAL},
-      ADDTIME = #{record.addtime,jdbcType=VARCHAR},
-      ENDTIME = #{record.endtime,jdbcType=VARCHAR},
+      ADDTIME = #{record.addtime,jdbcType=TIMESTAMP},
+      ENDTIME = #{record.endtime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR},
       COMMISSION = #{record.commission,jdbcType=DECIMAL},
       C_STATUS = #{record.cStatus,jdbcType=VARCHAR},
@@ -357,7 +357,7 @@
       GOODS_COUNT = #{record.goodsCount,jdbcType=VARCHAR},
       HID = #{record.hid,jdbcType=VARCHAR},
       SAN = #{record.san,jdbcType=VARCHAR},
-      QIANG = #{record.qiang,jdbcType=VARCHAR},
+      QIANG = #{record.qiang,jdbcType=BIGINT},
       LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
       ISLIANDAN = #{record.isliandan,jdbcType=VARCHAR},
       LID = #{record.lid,jdbcType=VARCHAR},
@@ -379,10 +379,10 @@
         AMOUNT = #{amount,jdbcType=DECIMAL},
       </if>
       <if test="addtime != null">
-        ADDTIME = #{addtime,jdbcType=VARCHAR},
+        ADDTIME = #{addtime,jdbcType=TIMESTAMP},
       </if>
       <if test="endtime != null">
-        ENDTIME = #{endtime,jdbcType=VARCHAR},
+        ENDTIME = #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
@@ -409,7 +409,7 @@
         SAN = #{san,jdbcType=VARCHAR},
       </if>
       <if test="qiang != null">
-        QIANG = #{qiang,jdbcType=VARCHAR},
+        QIANG = #{qiang,jdbcType=BIGINT},
       </if>
       <if test="liandanno != null">
         LIANDANNO = #{liandanno,jdbcType=VARCHAR},
@@ -439,8 +439,8 @@
     update app_convey
     set member_id = #{memberId,jdbcType=BIGINT},
       AMOUNT = #{amount,jdbcType=DECIMAL},
-      ADDTIME = #{addtime,jdbcType=VARCHAR},
-      ENDTIME = #{endtime,jdbcType=VARCHAR},
+      ADDTIME = #{addtime,jdbcType=TIMESTAMP},
+      ENDTIME = #{endtime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR},
       COMMISSION = #{commission,jdbcType=DECIMAL},
       C_STATUS = #{cStatus,jdbcType=VARCHAR},
@@ -449,7 +449,7 @@
       GOODS_COUNT = #{goodsCount,jdbcType=VARCHAR},
       HID = #{hid,jdbcType=VARCHAR},
       SAN = #{san,jdbcType=VARCHAR},
-      QIANG = #{qiang,jdbcType=VARCHAR},
+      QIANG = #{qiang,jdbcType=BIGINT},
       LIANDANNO = #{liandanno,jdbcType=VARCHAR},
       ISLIANDAN = #{isliandan,jdbcType=VARCHAR},
       LID = #{lid,jdbcType=VARCHAR},
