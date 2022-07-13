@@ -1,5 +1,6 @@
 package my.fast.admin.app.controller;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ import my.fast.admin.app.common.constant.UserConstants;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.framework.utils.CommonUtils;
+import my.fast.admin.framework.utils.DateFormat;
 import my.fast.admin.framework.utils.Md5;
 import my.fast.admin.framework.utils.TokenUtils;
 
@@ -172,15 +174,27 @@ public class AppLoginController {
         }
     	
         //检验完成补充设置信息进行insert注册
+    	tbAppUser.setMemberLevelId(1L);
+    	tbAppUser.setBalance(new BigDecimal(0.00));
+    	tbAppUser.setFreezeBalance(new BigDecimal(0.00));
+    	tbAppUser.setRechargeNum(new BigDecimal(0.00));
+    	tbAppUser.setDepositNum(new BigDecimal(0.00));
+    	tbAppUser.setDeductionNum(new BigDecimal(0.00));
     	tbAppUser.setPassword(userLoginVO.getPassword());//注册密码用户自己输入
     	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
     	tbAppUser.setParentUserName(parentUser.getNickName());//上级会员昵称
+    	tbAppUser.setCompanyId(parentUser.getCompanyId()); //对应机构Id
     	tbAppUser.setIsAgent(1);
     	tbAppUser.setAgentLevel(1);
     	tbAppUser.setInviteCode(CommonUtils.getItemReCode(8)); //生成自己的邀请码 8位数字+字母
     	tbAppUser.setStatus(0);
-//    	tbAppUser.setDelFlag("0");
+    	tbAppUser.setDelFlag(1);
     	tbAppUser.setCreateBy(tbAppUser.getUserAccount());//自己本人注册
+    	tbAppUser.setCreateTime(DateFormat.getNowDate());
+    	tbAppUser.setMemberStatus(1);
+    	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
+    	//注册IP  注册国家 ？
+    	
     	log.info(System.currentTimeMillis() + "注册用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
