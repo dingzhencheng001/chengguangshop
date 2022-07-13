@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,8 +62,10 @@ public class AppLoginController {
     
     @ApiOperation("登录")
     @PostMapping("/applogin")
+    @ResponseBody
     public CommonResult login(@RequestBody AppMember  loginVO) {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
+        CommonResult commonResult;
         if (loginVO == null || StringUtils.isEmpty(loginVO.getUserAccount()) || StringUtils.isEmpty(loginVO.getPassword())) {
             return CommonResult.failed("帐号密码不能为空");
         }
@@ -83,7 +86,10 @@ public class AppLoginController {
         }
         
         Map<String, Object> resultMap  = loginAction(appUserVO);
-        return CommonResult.success(resultMap);
+        
+        commonResult = CommonResult.success(resultMap);
+        
+        return commonResult;
     }
 
 	
@@ -113,11 +119,12 @@ public class AppLoginController {
         redisTemplate.expire(RedisKeyConstant.LOGIN_TOKEN + username, tokenTime, TimeUnit.MINUTES);
         resultMap.put("token", token);
         //更新登录时间 TODO 登陆IP等获取
-        log.info(System.currentTimeMillis() + " 登陆完成,更新登陆时间" );
+//        log.info(System.currentTimeMillis() + " 登陆完成,更新登陆时间" );
         appUserVO.setLoginDate(new Date());
         appMemberService.updateMember(appUserVO.getId(), appUserVO);
         resultMap.put("user", appUserVO);
-        log.info(System.currentTimeMillis() + " 登陆完成返回 token ：",  appUserVO.getUserAccount() + " : " + token);
+        System.out.println(token);
+        System.out.println((System.currentTimeMillis() + " 登陆完成返回 token ："+  appUserVO.getUserAccount() + " : " + token));
         return resultMap;
 //        return CommonResult.success(resultMap);
     }
@@ -126,6 +133,7 @@ public class AppLoginController {
     
     //@ApiOperation("帐号注册")
     @PostMapping("/registry")
+    @ResponseBody
     public CommonResult registry(@RequestBody AppMember userLoginVO) {
         log.info("[0xCUC50130]请求内容：{}", userLoginVO == null ? null : userLoginVO.toString());
         if (userLoginVO == null || StringUtils.isEmpty(userLoginVO.getUserAccount()) || StringUtils.isEmpty(userLoginVO.getPassword())) {
@@ -195,6 +203,7 @@ public class AppLoginController {
      */
     @ApiOperation("修改登录密码")
     @PostMapping("/update/pwd")
+    @ResponseBody
     public CommonResult updatePwd(HttpServletRequest request, @RequestParam("oldPwd") String oldPwd,
                                    @RequestParam("newPwd") String newPwd, @RequestParam("token") String token) {
         
