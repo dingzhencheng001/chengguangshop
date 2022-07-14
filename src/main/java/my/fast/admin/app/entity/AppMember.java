@@ -41,6 +41,9 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "扣除金额")
     private BigDecimal deductionNum;
 
+    @ApiModelProperty(value = "会员个人总佣金")
+    private BigDecimal totalCommission;
+
     @ApiModelProperty(value = "JSON下单规则")
     private String matching;
 
@@ -236,6 +239,14 @@ public class AppMember implements Serializable {
 
     public void setDeductionNum(BigDecimal deductionNum) {
         this.deductionNum = deductionNum;
+    }
+
+    public BigDecimal getTotalCommission() {
+        return totalCommission;
+    }
+
+    public void setTotalCommission(BigDecimal totalCommission) {
+        this.totalCommission = totalCommission;
     }
 
     public String getMatching() {
@@ -520,6 +531,7 @@ public class AppMember implements Serializable {
         sb.append(", rechargeNum=").append(rechargeNum);
         sb.append(", depositNum=").append(depositNum);
         sb.append(", deductionNum=").append(deductionNum);
+        sb.append(", totalCommission=").append(totalCommission);
         sb.append(", matching=").append(matching);
         sb.append(", password=").append(password);
         sb.append(", parentUserId=").append(parentUserId);
