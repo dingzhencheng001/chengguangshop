@@ -60,7 +60,7 @@ public class AppMemberAccountChangeController {
             return CommonResult.failed("用户未登录");
         }
     	//查询账户交易账变记录
-    	List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.listAccountChange(appMemberAccountChange, pageNum, pageSize);
+    	List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.listAccountChange("0",appMemberAccountChange, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }
 
@@ -105,4 +105,36 @@ public class AppMemberAccountChangeController {
         return commonResult;
     }
 
+    
+    @ApiOperation(value = "查询用户充值记录")
+    @RequestMapping(value = "/paylist", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<AppMemberAccountChange>> payList(
+        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppMemberAccountChange appMemberAccountChange,HttpServletRequest request) {
+    	
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户未登录");
+        }
+    	//查询账户交易账变记录
+    	List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.listAccountChange("1",appMemberAccountChange, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
+    }
+    
+    @ApiOperation(value = "查询用户提款记录")
+    @RequestMapping(value = "/drawlist", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<AppMemberAccountChange>> drawList(
+        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppMemberAccountChange appMemberAccountChange,HttpServletRequest request) {
+    	
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户未登录");
+        }
+    	//查询账户交易账变记录
+    	List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.listAccountChange("2",appMemberAccountChange, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
+    }
 }

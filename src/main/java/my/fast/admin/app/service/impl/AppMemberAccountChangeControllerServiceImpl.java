@@ -33,13 +33,20 @@ public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAcc
     }
 
     @Override
-    public List<AppMemberAccountChange> listAccountChange(AppMemberAccountChange appAccountChange, Integer pageNum, Integer pageSize) {
+    public List<AppMemberAccountChange> listAccountChange(String type,AppMemberAccountChange appAccountChange, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         AppMemberAccountChangeExample appExample = new AppMemberAccountChangeExample();
         AppMemberAccountChangeExample.Criteria criteria = appExample.createCriteria();
         if (!StringUtils.isEmpty(appAccountChange.getMemberId().toString())) {
         	criteria.andMemberIdEqualTo(appAccountChange.getMemberId());
 //            criteria.andGoodsNameLike("%" + goodsName + "%");
+        }
+        if (!StringUtils.isEmpty(appAccountChange.getOperaType().toString())) {
+	        if("1".equals(type)){//充值 类型
+	        	criteria.andOperaTypeEqualTo(1);
+	        }else if("2".equals(type)){ //提取 类型
+	        	criteria.andOperaTypeEqualTo(2);
+	        }
         }
         return appMemberAccountChangeMapper.selectByExample(appExample);
     }
