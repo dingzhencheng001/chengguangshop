@@ -21,6 +21,8 @@ public interface AppMemberBankMapper {
     List<AppMemberBank> selectByExample(AppMemberBankExample example);
 
     AppMemberBank selectByPrimaryKey(Integer id);
+    
+    AppMemberBank selectBymemberId(Long id);
 
     int updateByExampleSelective(@Param("record") AppMemberBank record, @Param("example") AppMemberBankExample example);
 

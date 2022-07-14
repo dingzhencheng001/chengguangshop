@@ -34,11 +34,18 @@ public interface AppMemberBankService {
      * 更新会员银行卡信息
      */
     @Transactional
-    int updateBanks(Long id, AppMemberBank appMemberBank);
+    int updateBanks(AppMemberBank appMemberBank);
 
 
     /**
      * 新增会员银行卡信息
      */
     int createBanks(AppMemberBank appMemberBank);
+    
+    
+    /**
+     * 查询会员银行卡信息
+     */
+    AppMemberBank getMemberBank(Long userId);
+    
 }

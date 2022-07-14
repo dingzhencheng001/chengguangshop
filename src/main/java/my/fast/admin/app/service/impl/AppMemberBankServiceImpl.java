@@ -45,8 +45,7 @@ public class AppMemberBankServiceImpl implements AppMemberBankService {
     }
 
     @Override
-    public int updateBanks(Long id, AppMemberBank appMemberBank) {
-        appMemberBank.setId(id);
+    public int updateBanks(AppMemberBank appMemberBank) {
         return appMemberBankMapper.updateByPrimaryKeySelective(appMemberBank);
     }
 
@@ -54,4 +53,9 @@ public class AppMemberBankServiceImpl implements AppMemberBankService {
     public int createBanks(AppMemberBank appMemberBank) {
         return appMemberBankMapper.insertSelective(appMemberBank);
     }
+
+	@Override
+	public AppMemberBank getMemberBank(Long userId) {
+		return appMemberBankMapper.selectBymemberId(userId);
+	}
 }

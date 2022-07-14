@@ -2,6 +2,7 @@ package my.fast.admin.app.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,15 +33,22 @@ public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAcc
     }
 
     @Override
-    public List<AppMemberAccountChange> listAccountChange(AppMemberAccountChange appAccountChange, Integer pageNum, Integer pageSize) {
+    public List<AppMemberAccountChange> listAccountChange(String type,AppMemberAccountChange appAccountChange, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        AppMemberAccountChangeExample appGoodsExample = new AppMemberAccountChangeExample();
-//        AppConveyExample.Criteria criteria = appGoodsExample.createCriteria();
-//        if (!StringUtils.isEmpty(appConvey.get)) {
+        AppMemberAccountChangeExample appExample = new AppMemberAccountChangeExample();
+        AppMemberAccountChangeExample.Criteria criteria = appExample.createCriteria();
+        if (!StringUtils.isEmpty(appAccountChange.getMemberId().toString())) {
+        	criteria.andMemberIdEqualTo(appAccountChange.getMemberId());
 //            criteria.andGoodsNameLike("%" + goodsName + "%");
-//        }
-        
-        return appMemberAccountChangeMapper.selectByExample(appGoodsExample);
+        }
+        if (!StringUtils.isEmpty(appAccountChange.getOperaType().toString())) {
+	        if("1".equals(type)){//充值 类型
+	        	criteria.andOperaTypeEqualTo(1);
+	        }else if("2".equals(type)){ //提取 类型
+	        	criteria.andOperaTypeEqualTo(2);
+	        }
+        }
+        return appMemberAccountChangeMapper.selectByExample(appExample);
     }
 
     @Override

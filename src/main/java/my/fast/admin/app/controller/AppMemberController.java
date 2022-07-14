@@ -1,7 +1,12 @@
 package my.fast.admin.app.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +21,11 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMember;
+import my.fast.admin.app.entity.AppMemberLevel;
+import my.fast.admin.app.service.AppMemberLevelService;
 import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.app.vo.AppMemberVo;
+import my.fast.admin.framework.utils.TokenUtils;
 
 /**
  * TODO
@@ -29,9 +38,13 @@ import my.fast.admin.app.service.AppMemberService;
 @Api(tags = "AppMemberController", description = "会员管理")
 @RequestMapping("/member")
 public class AppMemberController {
-    @Autowired
-    private AppMemberService appMemberService;
+	@Autowired
+	private AppMemberService appMemberService;
 
+	@Autowired
+	private AppMemberLevelService appMemberLevelService;
+	
+	
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
@@ -90,5 +103,66 @@ public class AppMemberController {
         }
         return commonResult;
     }
+    
+    
+    
+    
+    
+    @ApiOperation(value = "首页信息")
+    @RequestMapping(value = "/homePage", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public CommonResult homePage(HttpServletRequest request) {
+    	 
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户未登录");
+        }
+        AppMemberVo  reVo =  new AppMemberVo();
+        AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
+        if (voInfo == null) {
+        	return CommonResult.failed("用户信息不存在");
+        } 
+        BeanUtils.copyProperties(voInfo, reVo);
+        //首页设置余额
+        reVo.setBalance(voInfo.getBalance());
+        //今日佣金 -- 根据用户ID 从账变表 类型为佣金 取今日数据累加 TODO= 账变表字段加类型
+        reVo.setTodaySum(new BigDecimal(0));
+        //总佣金
+        reVo.setTotalCommission(voInfo.getTotalCommission());;
+        
+        //会员等级List
+        List<AppMemberLevel> levelList = appMemberLevelService.listAll();
+        if (levelList == null) {
+        	return CommonResult.failed("会员等级数据异常");
+        } 
+        reVo.setLevelList(levelList);
+        
+        //代理收益列表获取 ? 查找逻辑是 我的上级代理还是下级代理 ？
+        //	TODO=
+        
+        return CommonResult.success(reVo);
+    }
+    
+    
+    
+    
+    @ApiOperation(value = "会员信息")
+    @RequestMapping(value = "/memberInfo", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public CommonResult memberInfo(HttpServletRequest request) {
+    	 
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户信息不存在");
+        }
+        
+        AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
+        if (voInfo == null) {
+        	return CommonResult.failed("用户信息不存在");
+        } 
+        
+        return CommonResult.success(voInfo);
+    }
+    
 
 }
