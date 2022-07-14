@@ -1,9 +1,9 @@
 #连接池
 spring:
   datasource:
-    url: jdbc:mysql://119.3.204.184:3306/fast?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8&useSSL=false
+    url: jdbc:mysql://localhost:3306/fast?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8&useSSL=false
     username: root
-    password: itchengguang
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       filters: stat
@@ -21,7 +21,7 @@ spring:
       max-open-prepared-statements: 20
   redis:
     database: 1
-    host: 119.3.204.184
+    host: localhost
     port: 6379
 # 日志配置
 logging:
