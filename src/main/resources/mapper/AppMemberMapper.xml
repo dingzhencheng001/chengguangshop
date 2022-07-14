@@ -240,7 +240,8 @@
         values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
         #{realName,jdbcType=VARCHAR}, #{idCardNum,jdbcType=VARCHAR}, #{idStatus,jdbcType=INTEGER},
         #{balance,jdbcType=DECIMAL}, #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL},
-        #{depositNum,jdbcType=DECIMAL}, #{deductionNum,jdbcType=DECIMAL}, #{totalCommission,jdbcType=DECIMAL},#{matching,jdbcType=VARCHAR},
+        #{depositNum,jdbcType=DECIMAL}, #{deductionNum,jdbcType=DECIMAL},
+        #{totalCommission,jdbcType=DECIMAL},#{matching,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR}, #{parentUserId,jdbcType=BIGINT}, #{parentUserName,jdbcType=VARCHAR},
         #{isAgent,jdbcType=INTEGER}, #{agentLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
         #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER},
@@ -538,6 +539,31 @@
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
+    </select>
+    <select id="selectAppMemberParentAgent" resultType="my.fast.admin.app.entity.AppMember"
+            parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+        SELECT a.*
+        FROM app_member a
+                 INNER JOIN (
+            SELECT t.id
+            FROM (
+                     SELECT @id idlist,
+                            (SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
+                     FROM app_member
+                     WHERE FIND_IN_SET( id, @id )) sub FROM
+			app_member,
+			( SELECT @id := #{memberId,jdbcType=BIGINT} ) vars
+            WHERE
+                @id IS NOT NULL
+        ) tl,
+             app_member t
+        WHERE FIND_IN_SET(t.id, tl.idlist) ) b
+        ON a.id = b.id
+            AND a.id &lt;&gt; #{memberId,jdbcType=BIGINT}
+    </select>
+    <select id="selectParent" resultType="java.lang.String">
+        SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
+        FROM app_member
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_member
@@ -1030,23 +1056,20 @@
         where id = #{memberId,jdbcType=BIGINT}
     </update>
 
-    <update id="updateAgentMemberBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+    <update id="updateAgentMemberBalance" parameterType="map">
         update app_member
-        <trim prefix="set" suffixOverrides=",">
-            <trim prefix=" balance = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id, jdbcType=INTEGER} then #{item.balance,jdbcType=DECIMAL} +
-                    #{grabCommission,jdbcType=DECIMAL}
-                </foreach>
-            </trim>
-        </trim>
+        set balance =
+
         where id in
-        <foreach close=")" collection="list" item="item" open="(" separator=",">
+        <foreach close=")" collection="record" item="item" open="(" separator=",">
             #{item.memberId,jdbcType=BIGINT}
         </foreach>
     </update>
-
-
+    <update id="updateAgentBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+        update app_member
+        set balance = #{balance,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+    </update>
 
 
 </mapper>

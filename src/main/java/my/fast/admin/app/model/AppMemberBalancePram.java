@@ -1,6 +1,7 @@
 package my.fast.admin.app.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,4 +29,47 @@ public class AppMemberBalancePram {
 
     @ApiModelProperty(value = "佣金")
     private BigDecimal grabCommission;
+
+    @ApiModelProperty(value = "会员等级id列表")
+    private List<Long> memberLevelId;
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public BigDecimal getGrabCommission() {
+        return grabCommission;
+    }
+
+    public void setGrabCommission(BigDecimal grabCommission) {
+        this.grabCommission = grabCommission;
+    }
+
+    public List<Long> getMemberLevelId() {
+        return memberLevelId;
+    }
+
+    public void setMemberLevelId(List<Long> memberLevelId) {
+        this.memberLevelId = memberLevelId;
+    }
 }

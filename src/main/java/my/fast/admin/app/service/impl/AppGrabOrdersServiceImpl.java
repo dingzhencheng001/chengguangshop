@@ -3,6 +3,7 @@ package my.fast.admin.app.service.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     @Autowired
     private AppConveyMapper appConveyMapper;
 
-
     @Override
     public AppGoods randomOrders(AppRandomOrderPram appRandomOrderPram) throws Exception {
         Long memberId = appRandomOrderPram.getMemberId();
@@ -71,7 +71,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         BigDecimal goodsPrice = appGoods.getGoodsPrice();
-        BigDecimal balance = appMember.getBalance();
+        //BigDecimal balance = appMember.getBalance();
         //获取会员等级
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
         BigDecimal commission = appMemberLevel.getCommission();
@@ -94,6 +94,20 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberBalancePram.setBalance(appMember.getBalance());
         appMemberBalancePram.setGrabCommission(GrabCommission);
         appMemberMapper.updateMemberBalance(appMemberBalancePram);
+        //查询parentAgent
+        appMemberMapper.selectParent();
+        List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
+        //更新parentAgentBalance
+        //AppMemberBalancePram appMemberBalancePram2 = new AppMemberBalancePram();
+        //appMemberBalancePram.setMemberId(memberId);
+        //appMemberBalancePram.setGoodsPrice(goodsPrice);
+        //appMemberBalancePram.setMemberLevelId(getMemberLevelId);
+        //appMemberMapper.updateAgentMemberBalance(getMemberLevelId,goodsPrice,memberId);
+        calculateCommission(appMembers, goodsPrice);
+        //appMemberMapper.updateAgentMemberBalance();
+        //calculateCommission();
+        //appMemberMapper.updateAgentMemberBalance();
+        //appMemberMapper.updateAgentMemberBalance();
         //插入账目变动表信息
         AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         appMemberAccountChange.setMemberId(memberId);
@@ -108,6 +122,58 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChange.setCreateTime(date);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
+    }
+
+    /**
+     * 父级balance更新
+     */
+    private void calculateCommission(List<AppMember> appMembers, BigDecimal goodsPrice) {
+
+        for (AppMember appMember : appMembers) {
+            Long id = appMember.getId();
+            Long memberLevelId = appMember.getMemberLevelId();
+            BigDecimal balance = appMember.getBalance();
+            if (memberLevelId == 1L) {
+                BigDecimal parentBalance = appMember.getBalance();
+                appMember.setBalance(balance.add(goodsPrice.multiply(new BigDecimal(0.09))));
+                AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
+                appMemberBalancePram.setBalance(parentBalance);
+                appMemberBalancePram.setMemberId(id);
+                appMemberMapper.updateAgentBalance(appMemberBalancePram);
+            } else if (memberLevelId == 2L) {
+                appMember.setBalance(balance.add(goodsPrice.multiply(new BigDecimal(0.06))));
+                BigDecimal parentBalance = appMember.getBalance();
+                AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
+                appMemberBalancePram.setBalance(parentBalance);
+                appMemberBalancePram.setMemberId(id);
+                appMemberMapper.updateAgentBalance(appMemberBalancePram);
+            } else {
+                BigDecimal add = balance.add(goodsPrice.multiply(new BigDecimal(0.01)));
+                if (memberLevelId == 3L) {
+                    appMember.setBalance(add);
+                    BigDecimal parentBalance = appMember.getBalance();
+                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
+                    appMemberBalancePram.setBalance(parentBalance);
+                    appMemberBalancePram.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                } else if (memberLevelId == 4L) {
+                    appMember.setBalance(add);
+                    BigDecimal parentBalance = appMember.getBalance();
+                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
+                    appMemberBalancePram.setBalance(parentBalance);
+                    appMemberBalancePram.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                }
+                else if (memberLevelId == 5L) {
+                    appMember.setBalance(add);
+                    BigDecimal parentBalance = appMember.getBalance();
+                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
+                    appMemberBalancePram.setBalance(parentBalance);
+                    appMemberBalancePram.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                }
+            }
+        }
     }
 
     /**
@@ -126,5 +192,4 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         sb.append(num_str);
         return sb.toString();
     }
-
 }
