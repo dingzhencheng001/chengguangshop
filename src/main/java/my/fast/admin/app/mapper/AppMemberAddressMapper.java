@@ -21,6 +21,8 @@ public interface AppMemberAddressMapper {
     List<AppMemberAddress> selectByExample(AppMemberAddressExample example);
 
     AppMemberAddress selectByPrimaryKey(Long id);
+    
+    AppMemberAddress selectBymemberId(Long id);
 
     int updateByExampleSelective(@Param("record") AppMemberAddress record, @Param("example") AppMemberAddressExample example);
 

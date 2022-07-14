@@ -47,8 +47,7 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
     }
 
     @Override
-    public int updateAddress(Long id, AppMemberAddress appMemberAddress) {
-        appMemberAddress.setId(id);
+    public int updateAddress(AppMemberAddress appMemberAddress) {
         return appMemberAddressMapper.updateByPrimaryKeySelective(appMemberAddress);
     }
 
@@ -58,4 +57,10 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
         BeanUtils.copyProperties(appMemberAddressPram, appMemberAddress);
         return appMemberAddressMapper.insertSelective(appMemberAddress);
     }
+
+	@Override
+	public AppMemberAddress getMemberAddress(Long userId) {
+		
+		return appMemberAddressMapper.selectBymemberId(userId);
+	}
 }

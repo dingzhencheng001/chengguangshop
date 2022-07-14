@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.app.entity.AppMemberAddress;
+import my.fast.admin.app.entity.AppMemberBank;
 import my.fast.admin.app.model.AppMemberAddressPram;
 
 /**
@@ -31,10 +32,18 @@ public interface AppMemberAddressService {
      * 更新会员地址
      */
    @Transactional
-    int updateAddress(Long id, AppMemberAddress appMemberAddress);
+    int updateAddress(AppMemberAddress appMemberAddress);
     /**
      * 新增会员地址
      * @param appMemberAddressPram
      */
     int createAddress(AppMemberAddressPram appMemberAddressPram);
+    
+    
+    /**
+     * 查询会员地址信息
+     */
+    AppMemberAddress getMemberAddress(Long userId);
+    
+    
 }
