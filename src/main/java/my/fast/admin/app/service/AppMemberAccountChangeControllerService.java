@@ -23,7 +23,7 @@ public interface AppMemberAccountChangeControllerService {
     /**
      * 分页查询
      */
-    List<AppMemberAccountChange> listAccountChange(String type,AppMemberAccountChange appMemberAccountChange, Integer pageNum, Integer pageSize);
+    List<AppMemberAccountChange> listAccountChange(Integer type, Long memberId,Integer pageNum, Integer pageSize);
 
     /**
      * 删除用户账变
@@ -40,6 +40,6 @@ public interface AppMemberAccountChangeControllerService {
      */
     @Transactional
     int updateAccountChange(Long id,AppMemberAccountChange appMemberAccountChange);
-    
-    
+
+
 }

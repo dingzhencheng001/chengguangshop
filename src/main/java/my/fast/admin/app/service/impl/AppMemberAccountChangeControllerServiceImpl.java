@@ -2,7 +2,6 @@ package my.fast.admin.app.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,22 +32,13 @@ public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAcc
     }
 
     @Override
-    public List<AppMemberAccountChange> listAccountChange(String type,AppMemberAccountChange appAccountChange, Integer pageNum, Integer pageSize) {
+    public List<AppMemberAccountChange> listAccountChange(Integer type, Long memberId, Integer pageNum,
+        Integer pageSize) {
+
+        List<AppMemberAccountChange> appMemberAccountChanges = appMemberAccountChangeMapper.selectMemberAccountChange(
+            type, memberId);
         PageHelper.startPage(pageNum, pageSize);
-        AppMemberAccountChangeExample appExample = new AppMemberAccountChangeExample();
-        AppMemberAccountChangeExample.Criteria criteria = appExample.createCriteria();
-        if (!StringUtils.isEmpty(appAccountChange.getMemberId().toString())) {
-        	criteria.andMemberIdEqualTo(appAccountChange.getMemberId());
-//            criteria.andGoodsNameLike("%" + goodsName + "%");
-        }
-        if (!StringUtils.isEmpty(appAccountChange.getOperaType().toString())) {
-	        if("1".equals(type)){//充值 类型
-	        	criteria.andOperaTypeEqualTo(1);
-	        }else if("2".equals(type)){ //提取 类型
-	        	criteria.andOperaTypeEqualTo(2);
-	        }
-        }
-        return appMemberAccountChangeMapper.selectByExample(appExample);
+        return appMemberAccountChanges;
     }
 
     @Override
@@ -58,14 +48,14 @@ public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAcc
 
     @Override
     public int createAccountChange(AppMemberAccountChange appAccountChangeParam) {
-    	AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         BeanUtils.copyProperties(appAccountChangeParam, appMemberAccountChange);
         return appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
     }
 
     @Override
     public int updateAccountChange(Long id, AppMemberAccountChange appAccountChangeParam) {
-    	AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         BeanUtils.copyProperties(appAccountChangeParam, appMemberAccountChange);
         appMemberAccountChange.setId(id);
         return appMemberAccountChangeMapper.updateByPrimaryKeySelective(appMemberAccountChange);

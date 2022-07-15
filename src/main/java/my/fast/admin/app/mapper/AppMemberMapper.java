@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.model.AppMemberBalancePram;
-import my.fast.admin.app.model.AppMemberParam;
 
 public interface AppMemberMapper {
     long countByExample(AppMemberExample example);
@@ -42,21 +41,14 @@ public interface AppMemberMapper {
      *
      * @return 结果
      */
-    public int checkUserNameUnique(AppMemberParam appMemberParam);
+    public int checkUserNameUnique(String userName);
 
     /**
      * 校验手机号码是否唯一
      *
      * @return 结果
      */
-    public AppMember checkPhoneUnique(AppMemberParam appMemberParam);
-    
-    /**
-     * 手机号+ 渠道号 查询用户信息
-     *
-     * @return 结果
-     */
-    public AppMember selectAppMemberByUserPhone(AppMemberParam appMemberParam);
+    public AppMember checkPhoneUnique(String phonenumber);
 
     /**
      * 校验email是否唯一

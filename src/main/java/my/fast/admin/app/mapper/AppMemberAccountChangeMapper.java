@@ -29,4 +29,7 @@ public interface AppMemberAccountChangeMapper {
     int updateByPrimaryKeySelective(AppMemberAccountChange record);
 
     int updateByPrimaryKey(AppMemberAccountChange record);
+
+    List<AppMemberAccountChange> selectMemberAccountChange(@Param("type")Integer type, @Param("memberId")Long memberId);
+
 }

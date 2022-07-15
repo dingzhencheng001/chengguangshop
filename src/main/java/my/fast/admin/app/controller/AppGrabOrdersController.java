@@ -41,14 +41,13 @@ public class AppGrabOrdersController {
     @ApiOperation(value = "随机生成抢单商品")
     @RequestMapping(value = "/random", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult randomOrders(HttpServletRequest request, @RequestBody AppRandomOrderPram appRandomOrderPram)
-    throws Exception {
-
+    public CommonResult randomOrders(HttpServletRequest request) throws Exception {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
-
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户信息不存在");
         }
+        AppRandomOrderPram appRandomOrderPram = new AppRandomOrderPram();
+        appRandomOrderPram.setMemberId(appUserVO.getId());
         AppGoods appGoods = appGrabOrdersService.randomOrders(appRandomOrderPram);
         return CommonResult.success(appGoods);
     }
@@ -63,7 +62,7 @@ public class AppGrabOrdersController {
             return CommonResult.failed("用户信息不存在");
         }
         Long memberId = appUserVO.getId();
-        int count = appGrabOrdersService.submitOrders(appGoods,memberId);
+        int count = appGrabOrdersService.submitOrders(appGoods, memberId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
