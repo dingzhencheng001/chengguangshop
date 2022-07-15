@@ -69,14 +69,16 @@ public class AppLoginController {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
         CommonResult commonResult;
         if (loginVO == null || StringUtils.isEmpty(loginVO.getUserAccount()) || StringUtils.isEmpty(loginVO.getPassword())) {
-            return CommonResult.failed("帐号密码不能为空");
+            return CommonResult.failed("账号密码不能为空");
         }
         
         AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
-
+//        渠道号不为空
+//        AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
+        
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
         	CommonResult.failed("0xCUC47451");
-            return CommonResult.failed("帐号不存在");
+            return CommonResult.failed("账号不存在");
         }
         //后续加上密码加密串字段salt
 //        SimpleHash password = new SimpleHash("MD5", appUserVO.getPassword(), appUserVO.get);
@@ -128,12 +130,11 @@ public class AppLoginController {
         System.out.println(token);
         System.out.println((System.currentTimeMillis() + " 登陆完成返回 token ："+  appUserVO.getUserAccount() + " : " + token));
         return resultMap;
-//        return CommonResult.success(resultMap);
     }
 
     
     
-    //@ApiOperation("帐号注册")
+    @ApiOperation("帐号注册")
     @PostMapping("/registry")
     @ResponseBody
     public CommonResult registry(@RequestBody AppMember userLoginVO) {
@@ -145,7 +146,6 @@ public class AppLoginController {
         //设置处理对象
         AppMember  tbAppUser = new  AppMember();
         tbAppUser.setUserAccount(userLoginVO.getUserAccount());
-        tbAppUser.setNickName(userLoginVO.getNickName());
         tbAppUser.setPhoneNumber(userLoginVO.getPhoneNumber());
         tbAppUser.setEmail(userLoginVO.getEmail());
         
@@ -154,25 +154,19 @@ public class AppLoginController {
             return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码失效或不存在");
         }
     	AppMember  parentUser =  appMemberService.selectAppMemberByCode(userLoginVO.getInviteCode());
-    	if(parentUser==null || StringUtils.isEmpty(parentUser.getNickName())){
+    	if(parentUser==null){
     		return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码用户已注销或不存在");
     	}
-    	
-    	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(userLoginVO.getUserAccount())))
+    	tbAppUser.setCompanyId(parentUser.getCompanyId()); //设置机构id
+    	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(tbAppUser)))
         {
-            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，账号已存在,请直接登陆");
+            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，该机构下此账号已存在,请直接登陆");
         }
         else if (StringUtils.isNotEmpty(userLoginVO.getPhoneNumber())
                 && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(tbAppUser)))
         {
             return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，手机号码已存在,请直接登陆");
         }
-        else if (StringUtils.isNotEmpty(userLoginVO.getEmail())
-                && UserConstants.NOT_UNIQUE.equals(appMemberService.checkEmailUnique(tbAppUser)))
-        {
-            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邮箱账号已存在,请直接登陆");
-        }
-    	
         //检验完成补充设置信息进行insert注册
     	tbAppUser.setMemberLevelId(1L);
     	tbAppUser.setBalance(new BigDecimal(0.00));
@@ -182,7 +176,7 @@ public class AppLoginController {
     	tbAppUser.setDeductionNum(new BigDecimal(0.00));
     	tbAppUser.setPassword(userLoginVO.getPassword());//注册密码用户自己输入
     	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
-    	tbAppUser.setParentUserName(parentUser.getNickName());//上级会员昵称
+    	tbAppUser.setParentUserName(parentUser.getUserAccount());//上级会员昵称
     	tbAppUser.setCompanyId(parentUser.getCompanyId()); //对应机构Id
     	tbAppUser.setIsAgent(1);
     	tbAppUser.setAgentLevel(1);
@@ -199,7 +193,7 @@ public class AppLoginController {
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
         if (row > 0) {
-        	return CommonResult.success("SUCCESS", "注册成功!当前用户账号为:"+tbAppUser.getUserAccount());
+        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户注册成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getCompanyId());
         } else {
         	return CommonResult.failed( "注册失败，请联系管理员...");
         }
@@ -222,12 +216,6 @@ public class AppLoginController {
                                    @RequestParam("newPwd") String newPwd, @RequestParam("token") String token) {
         
     	//APP已登录用户 需带token 访问；根据token 获取用户信息 再做业务逻辑操作
-//    	Object obj = redisTemplate.opsForValue().get(token);
-//    	String username = redisTemplate.opsForValue().get(RedisKeyConstant.LOGIN_TOKEN+token).toString();
-    	//Map<String, Object> resultMap = (Map<String, Object>) redisTemplate.boundHashOps(username);
-/*    	Long userId = TokenUtils.getUserId(request);
-    	System.out.println(userId);
-        TbAppUser appUserVO = tbAppUserService.selectTbAppUserByUserId(userId);*/
         
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         

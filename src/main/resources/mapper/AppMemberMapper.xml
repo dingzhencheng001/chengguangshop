@@ -119,6 +119,52 @@
     from app_member
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
+  <!-- add by  dzc 2022-07-12 -->
+    <select id="selectAppMemberByUserAccount" parameterType="String" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List"/>
+        
+        from app_member
+        where user_account = #{userAccount} limit 1
+    </select>
+
+    <select id="selectAppMemberByCode" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/> 
+        from app_member
+        where invite_code = #{inviteCode}
+    </select>
+
+    <select id="checkUserNameUnique" parameterType="my.fast.admin.app.model.AppMemberParam" resultType="int">
+        select count(1) 
+        from app_member
+        where user_account = #{userAccount,jdbcType=BIGINT} and company_id = #{companyId,jdbcType=BIGINT}  limit 1
+    </select>
+
+    <select id="checkPhoneUnique" parameterType="my.fast.admin.app.model.AppMemberParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/> 
+        from app_member
+        where phone_number = #{phoneNumber,jdbcType=BIGINT} and company_id = #{companyId,jdbcType=BIGINT} limit 1
+    </select>
+
+
+   <select id="selectAppMemberByUserPhone" parameterType="my.fast.admin.app.model.AppMemberParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/> 
+        from app_member
+        where phone_number = #{phoneNumber,jdbcType=BIGINT} and company_id = #{companyId,jdbcType=BIGINT} limit 1
+    </select>
+
+    <select id="checkEmailUnique" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/> 
+        from app_member
+        where email = #{email} limit 1
+    </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_member
     where id = #{id,jdbcType=BIGINT}

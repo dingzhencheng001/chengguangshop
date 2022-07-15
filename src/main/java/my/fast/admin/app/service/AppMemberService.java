@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.app.entity.AppMember;
+import my.fast.admin.app.model.AppMemberParam;
 
 /**
  * TODO
@@ -59,6 +60,14 @@ public interface AppMemberService {
     
     
     /**
+     * 手机号+渠道号 查询 会员
+     * 
+     * @param appMember
+     * @return 会员
+     */
+    public AppMember selectAppMemberByUserPhone(AppMember appMember);
+    
+    /**
      * 根据邀请码查询上级会员用户
      * 
      * @param reCode 会员邀请码
@@ -72,7 +81,7 @@ public interface AppMemberService {
      * @param userName 用户名称
      * @return 结果
      */
-    public String checkUserNameUnique(String userName);
+    public String checkUserNameUnique(AppMember user);
 
     /**
      * 校验手机号码是否唯一

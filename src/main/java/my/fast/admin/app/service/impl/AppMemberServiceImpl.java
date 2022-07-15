@@ -13,6 +13,7 @@ import my.fast.admin.app.common.constant.UserConstants;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.mapper.AppMemberMapper;
+import my.fast.admin.app.model.AppMemberParam;
 import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.framework.utils.CommonUtils;
 
@@ -48,9 +49,7 @@ public class AppMemberServiceImpl implements AppMemberService {
         if (!StringUtils.isEmpty(appMember.getPhoneNumber())) {
             criteria.andPhoneNumberLike("%" + appMember.getPhoneNumber() + "%");
         }
-        if (!StringUtils.isEmpty(appMember.getNickName())) {
-            criteria.andNickNameLike("%" + appMember.getNickName() + "%");
-        }
+       
         return appMemberMapper.selectByExample(appMemberExample);
     }
 
@@ -98,8 +97,10 @@ public class AppMemberServiceImpl implements AppMemberService {
      * 校验用户名是否唯一
      */
 	@Override
-	public String checkUserNameUnique(String userName) {
-		int count = appMemberMapper.checkUserNameUnique(userName);
+	public String checkUserNameUnique(AppMember user) {
+		AppMemberParam appMemberParam = new AppMemberParam();
+		BeanUtils.copyProperties(user, appMemberParam);
+		int count = appMemberMapper.checkUserNameUnique(appMemberParam);
         if (count > 0)
         {
             return UserConstants.NOT_UNIQUE;
@@ -114,7 +115,9 @@ public class AppMemberServiceImpl implements AppMemberService {
 	@Override
 	public String checkPhoneUnique(AppMember user) {
 		Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
-		AppMember info = appMemberMapper.checkPhoneUnique(user.getPhoneNumber());
+		AppMemberParam appMemberParam = new AppMemberParam();
+		BeanUtils.copyProperties(user, appMemberParam);
+		AppMember info = appMemberMapper.checkPhoneUnique(appMemberParam);
         if (CommonUtils.isNotNull(info) && info.getId().longValue() != userId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
@@ -133,6 +136,15 @@ public class AppMemberServiceImpl implements AppMemberService {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
+	}
+
+	@Override
+	public AppMember selectAppMemberByUserPhone(AppMember appMember) {
+		AppMemberParam appMemberParam = new AppMemberParam();
+		BeanUtils.copyProperties(appMember, appMemberParam);
+		AppMember info = appMemberMapper.selectAppMemberByUserPhone(appMemberParam);
+        
+        return info;
 	}
 	
 	
