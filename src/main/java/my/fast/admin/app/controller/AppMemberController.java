@@ -54,7 +54,7 @@ public class AppMemberController {
     }
 
     @ApiOperation(value = "根据条件获取会员分页列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppMember>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
