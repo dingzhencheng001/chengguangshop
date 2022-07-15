@@ -30,7 +30,7 @@ public class AppConvey implements Serializable {
     @ApiModelProperty(value = "佣金发放状态 0未发放 1已发放 2账号冻结")
     private String cStatus;
 
-    @ApiModelProperty(value = "收货地址")
+    @ApiModelProperty(value = "会员收货地址id")
     private Long addId;
 
     @ApiModelProperty(value = "商品ID")
@@ -42,17 +42,10 @@ public class AppConvey implements Serializable {
     @ApiModelProperty(value = "0显示1隐藏")
     private String hid;
 
-    private String san;
-
     @ApiModelProperty(value = "抢单数")
     private Long qiang;
 
-    private String liandanno;
-
-    private String isliandan;
-
-    private String lid;
-
+    @ApiModelProperty(value = "订单号")
     private String lno;
 
     @ApiModelProperty(value = "最小价")
@@ -162,44 +155,12 @@ public class AppConvey implements Serializable {
         this.hid = hid;
     }
 
-    public String getSan() {
-        return san;
-    }
-
-    public void setSan(String san) {
-        this.san = san;
-    }
-
     public Long getQiang() {
         return qiang;
     }
 
     public void setQiang(Long qiang) {
         this.qiang = qiang;
-    }
-
-    public String getLiandanno() {
-        return liandanno;
-    }
-
-    public void setLiandanno(String liandanno) {
-        this.liandanno = liandanno;
-    }
-
-    public String getIsliandan() {
-        return isliandan;
-    }
-
-    public void setIsliandan(String isliandan) {
-        this.isliandan = isliandan;
-    }
-
-    public String getLid() {
-        return lid;
-    }
-
-    public void setLid(String lid) {
-        this.lid = lid;
     }
 
     public String getLno() {
@@ -252,11 +213,7 @@ public class AppConvey implements Serializable {
         sb.append(", goodsId=").append(goodsId);
         sb.append(", goodsCount=").append(goodsCount);
         sb.append(", hid=").append(hid);
-        sb.append(", san=").append(san);
         sb.append(", qiang=").append(qiang);
-        sb.append(", liandanno=").append(liandanno);
-        sb.append(", isliandan=").append(isliandan);
-        sb.append(", lid=").append(lid);
         sb.append(", lno=").append(lno);
         sb.append(", min=").append(min);
         sb.append(", max=").append(max);

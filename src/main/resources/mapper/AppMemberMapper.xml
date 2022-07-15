@@ -1,544 +1,623 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.app.mapper.AppMemberMapper">
-    <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMember">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId"/>
-        <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
-        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="id_card_num" jdbcType="VARCHAR" property="idCardNum"/>
-        <result column="id_status" jdbcType="INTEGER" property="idStatus"/>
-        <result column="balance" jdbcType="DECIMAL" property="balance"/>
-        <result column="freeze_balance" jdbcType="DECIMAL" property="freezeBalance"/>
-        <result column="recharge_num" jdbcType="DECIMAL" property="rechargeNum"/>
-        <result column="deposit_num" jdbcType="DECIMAL" property="depositNum"/>
-        <result column="deduction_num" jdbcType="DECIMAL" property="deductionNum"/>
-        <result column="total_commission" jdbcType="DECIMAL" property="totalCommission"/>
-        <result column="matching" jdbcType="VARCHAR" property="matching"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="parent_user_id" jdbcType="BIGINT" property="parentUserId"/>
-        <result column="parent_user_name" jdbcType="VARCHAR" property="parentUserName"/>
-        <result column="is_agent" jdbcType="INTEGER" property="isAgent"/>
-        <result column="agent_level" jdbcType="INTEGER" property="agentLevel"/>
-        <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
-        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
-        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
-        <result column="login_date" jdbcType="TIMESTAMP" property="loginDate"/>
-        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="company_id" jdbcType="BIGINT" property="companyId"/>
-        <result column="invite_code" jdbcType="VARCHAR" property="inviteCode"/>
-        <result column="deal_status" jdbcType="INTEGER" property="dealStatus"/>
-        <result column="deal_error" jdbcType="INTEGER" property="dealError"/>
-        <result column="deal_reward_count" jdbcType="INTEGER" property="dealRewardCount"/>
-        <result column="deal_count" jdbcType="INTEGER" property="dealCount"/>
-        <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime"/>
-        <result column="active" jdbcType="INTEGER" property="active"/>
-        <result column="match_min" jdbcType="INTEGER" property="matchMin"/>
-        <result column="match_max" jdbcType="INTEGER" property="matchMax"/>
-        <result column="registration_time" jdbcType="TIMESTAMP" property="registrationTime"/>
-        <result column="member_status" jdbcType="INTEGER" property="memberStatus"/>
-        <result column="register_ip" jdbcType="VARCHAR" property="registerIp"/>
-        <result column="register_country" jdbcType="VARCHAR" property="registerCountry"/>
-    </resultMap>
-    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.AppMember">
-        <result column="top_pic" jdbcType="LONGVARCHAR" property="topPic"/>
-        <result column="bot_pic" jdbcType="LONGVARCHAR" property="botPic"/>
-    </resultMap>
-    <sql id="Example_Where_Clause">
-        <where>
-            <foreach collection="oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" prefixOverrides="and" suffix=")">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
+  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMember">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="freeze_balance" jdbcType="DECIMAL" property="freezeBalance" />
+    <result column="recharge_num" jdbcType="DECIMAL" property="rechargeNum" />
+    <result column="deposit_num" jdbcType="DECIMAL" property="depositNum" />
+    <result column="deduction_num" jdbcType="DECIMAL" property="deductionNum" />
+    <result column="matching" jdbcType="VARCHAR" property="matching" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="parent_user_id" jdbcType="BIGINT" property="parentUserId" />
+    <result column="parent_user_name" jdbcType="VARCHAR" property="parentUserName" />
+    <result column="is_agent" jdbcType="INTEGER" property="isAgent" />
+    <result column="agent_level" jdbcType="INTEGER" property="agentLevel" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+    <result column="login_date" jdbcType="TIMESTAMP" property="loginDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
+    <result column="registration_time" jdbcType="TIMESTAMP" property="registrationTime" />
+    <result column="member_status" jdbcType="INTEGER" property="memberStatus" />
+    <result column="register_ip" jdbcType="VARCHAR" property="registerIp" />
+    <result column="register_country" jdbcType="VARCHAR" property="registerCountry" />
+    <result column="total_commission" jdbcType="DECIMAL" property="totalCommission" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
             </foreach>
-        </where>
-    </sql>
-    <sql id="Update_By_Example_Where_Clause">
-        <where>
-            <foreach collection="example.oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" prefixOverrides="and" suffix=")">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
             </foreach>
-        </where>
-    </sql>
-    <sql id="Base_Column_List">
-        id
-        , member_level_id, user_account, nick_name, real_name, id_card_num, id_status,
-    balance, freeze_balance, recharge_num, deposit_num, deduction_num, matching, password, 
-    parent_user_id, parent_user_name, is_agent, agent_level, status, email, phone_number, 
-    del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, 
-    company_id, invite_code, deal_status, deal_error, deal_reward_count, deal_count, 
-    deal_time, active, match_min, match_max, registration_time, member_status, register_ip, 
-    register_country
-    </sql>
-    <sql id="Blob_Column_List">
-        top_pic
-        , bot_pic
-    </sql>
-    <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.app.entity.AppMemberExample"
-            resultMap="ResultMapWithBLOBs">
-        select
-        <if test="distinct">
-            distinct
+          </trim>
         </if>
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
-    <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultMap="BaseResultMap">
-        select
-        <if test="distinct">
-            distinct
-        </if>
-        <include refid="Base_Column_List"/>
-        from app_member
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        where id = #{id,jdbcType=BIGINT}
-    </select>
-    <!-- add by  dzc 2022-07-12 -->
-    <select id="selectAppMemberByUserAccount" parameterType="String" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        where user_account = #{userAccount} limit 1
-    </select>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, member_level_id, user_account, balance, freeze_balance, recharge_num, deposit_num, 
+    deduction_num, matching, password, parent_user_id, parent_user_name, is_agent, agent_level, 
+    status, email, phone_number, del_flag, login_ip, login_date, create_by, create_time, 
+    remark, company_id, invite_code, registration_time, member_status, register_ip, register_country, 
+    total_commission
+  </sql>
+  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberExample">
+    delete from app_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="my.fast.admin.app.entity.AppMember">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_member (member_level_id, user_account, balance, 
+      freeze_balance, recharge_num, deposit_num, 
+      deduction_num, matching, password, 
+      parent_user_id, parent_user_name, is_agent, 
+      agent_level, status, email, 
+      phone_number, del_flag, login_ip, 
+      login_date, create_by, create_time, 
+      remark, company_id, invite_code, 
+      registration_time, member_status, register_ip, 
+      register_country, total_commission)
+    values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, 
+      #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL}, #{depositNum,jdbcType=DECIMAL}, 
+      #{deductionNum,jdbcType=DECIMAL}, #{matching,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{parentUserId,jdbcType=BIGINT}, #{parentUserName,jdbcType=VARCHAR}, #{isAgent,jdbcType=INTEGER}, 
+      #{agentLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{phoneNumber,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, 
+      #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{inviteCode,jdbcType=VARCHAR}, 
+      #{registrationTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR}, 
+      #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMember">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberLevelId != null">
+        member_level_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="freezeBalance != null">
+        freeze_balance,
+      </if>
+      <if test="rechargeNum != null">
+        recharge_num,
+      </if>
+      <if test="depositNum != null">
+        deposit_num,
+      </if>
+      <if test="deductionNum != null">
+        deduction_num,
+      </if>
+      <if test="matching != null">
+        matching,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="parentUserId != null">
+        parent_user_id,
+      </if>
+      <if test="parentUserName != null">
+        parent_user_name,
+      </if>
+      <if test="isAgent != null">
+        is_agent,
+      </if>
+      <if test="agentLevel != null">
+        agent_level,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="loginIp != null">
+        login_ip,
+      </if>
+      <if test="loginDate != null">
+        login_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="inviteCode != null">
+        invite_code,
+      </if>
+      <if test="registrationTime != null">
+        registration_time,
+      </if>
+      <if test="memberStatus != null">
+        member_status,
+      </if>
+      <if test="registerIp != null">
+        register_ip,
+      </if>
+      <if test="registerCountry != null">
+        register_country,
+      </if>
+      <if test="totalCommission != null">
+        total_commission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="freezeBalance != null">
+        #{freezeBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeNum != null">
+        #{rechargeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="depositNum != null">
+        #{depositNum,jdbcType=DECIMAL},
+      </if>
+      <if test="deductionNum != null">
+        #{deductionNum,jdbcType=DECIMAL},
+      </if>
+      <if test="matching != null">
+        #{matching,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUserId != null">
+        #{parentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="parentUserName != null">
+        #{parentUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgent != null">
+        #{isAgent,jdbcType=INTEGER},
+      </if>
+      <if test="agentLevel != null">
+        #{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginIp != null">
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null">
+        #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="inviteCode != null">
+        #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationTime != null">
+        #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberStatus != null">
+        #{memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerIp != null">
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCountry != null">
+        #{registerCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCommission != null">
+        #{totalCommission,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultType="java.lang.Long">
+    select count(*) from app_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberLevelId != null">
+        member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userAccount != null">
+        user_account = #{record.userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.balance != null">
+        balance = #{record.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.freezeBalance != null">
+        freeze_balance = #{record.freezeBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rechargeNum != null">
+        recharge_num = #{record.rechargeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.depositNum != null">
+        deposit_num = #{record.depositNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deductionNum != null">
+        deduction_num = #{record.deductionNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.matching != null">
+        matching = #{record.matching,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentUserId != null">
+        parent_user_id = #{record.parentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentUserName != null">
+        parent_user_name = #{record.parentUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAgent != null">
+        is_agent = #{record.isAgent,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentLevel != null">
+        agent_level = #{record.agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNumber != null">
+        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginIp != null">
+        login_ip = #{record.loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginDate != null">
+        login_date = #{record.loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inviteCode != null">
+        invite_code = #{record.inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationTime != null">
+        registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.memberStatus != null">
+        member_status = #{record.memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.registerIp != null">
+        register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerCountry != null">
+        register_country = #{record.registerCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalCommission != null">
+        total_commission = #{record.totalCommission,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_member
+    set id = #{record.id,jdbcType=BIGINT},
+      member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
+      user_account = #{record.userAccount,jdbcType=VARCHAR},
+      balance = #{record.balance,jdbcType=DECIMAL},
+      freeze_balance = #{record.freezeBalance,jdbcType=DECIMAL},
+      recharge_num = #{record.rechargeNum,jdbcType=DECIMAL},
+      deposit_num = #{record.depositNum,jdbcType=DECIMAL},
+      deduction_num = #{record.deductionNum,jdbcType=DECIMAL},
+      matching = #{record.matching,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      parent_user_id = #{record.parentUserId,jdbcType=BIGINT},
+      parent_user_name = #{record.parentUserName,jdbcType=VARCHAR},
+      is_agent = #{record.isAgent,jdbcType=INTEGER},
+      agent_level = #{record.agentLevel,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
+      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      login_ip = #{record.loginIp,jdbcType=VARCHAR},
+      login_date = #{record.loginDate,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=BIGINT},
+      invite_code = #{record.inviteCode,jdbcType=VARCHAR},
+      registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{record.memberStatus,jdbcType=INTEGER},
+      register_ip = #{record.registerIp,jdbcType=VARCHAR},
+      register_country = #{record.registerCountry,jdbcType=VARCHAR},
+      total_commission = #{record.totalCommission,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMember">
+    update app_member
+    <set>
+      <if test="memberLevelId != null">
+        member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="freezeBalance != null">
+        freeze_balance = #{freezeBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeNum != null">
+        recharge_num = #{rechargeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="depositNum != null">
+        deposit_num = #{depositNum,jdbcType=DECIMAL},
+      </if>
+      <if test="deductionNum != null">
+        deduction_num = #{deductionNum,jdbcType=DECIMAL},
+      </if>
+      <if test="matching != null">
+        matching = #{matching,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUserId != null">
+        parent_user_id = #{parentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="parentUserName != null">
+        parent_user_name = #{parentUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgent != null">
+        is_agent = #{isAgent,jdbcType=INTEGER},
+      </if>
+      <if test="agentLevel != null">
+        agent_level = #{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginIp != null">
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null">
+        login_date = #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="inviteCode != null">
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationTime != null">
+        registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberStatus != null">
+        member_status = #{memberStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerIp != null">
+        register_ip = #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCountry != null">
+        register_country = #{registerCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCommission != null">
+        total_commission = #{totalCommission,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMember">
+    update app_member
+    set member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=DECIMAL},
+      freeze_balance = #{freezeBalance,jdbcType=DECIMAL},
+      recharge_num = #{rechargeNum,jdbcType=DECIMAL},
+      deposit_num = #{depositNum,jdbcType=DECIMAL},
+      deduction_num = #{deductionNum,jdbcType=DECIMAL},
+      matching = #{matching,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      parent_user_id = #{parentUserId,jdbcType=BIGINT},
+      parent_user_name = #{parentUserName,jdbcType=VARCHAR},
+      is_agent = #{isAgent,jdbcType=INTEGER},
+      agent_level = #{agentLevel,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
+      login_date = #{loginDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=BIGINT},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
+      registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      member_status = #{memberStatus,jdbcType=INTEGER},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      register_country = #{registerCountry,jdbcType=VARCHAR},
+      total_commission = #{totalCommission,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateMemberBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+        update app_member
+        set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+    </update>
 
-    <select id="selectAppMemberByCode" parameterType="String" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        where invite_code = #{inviteCode}
-    </select>
-
-    <select id="checkUserNameUnique" parameterType="String" resultType="int">
-        select count(1)
-        from app_member
-        where user_account = #{userAccount} limit 1
-    </select>
-
-    <select id="checkPhoneUnique" parameterType="String" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        where phone_number = #{phoneNumber} limit 1
-    </select>
-
-    <select id="checkEmailUnique" parameterType="String" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from app_member
-        where email = #{email} limit 1
-    </select>
-
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from app_member
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
-    <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberExample">
-        delete from app_member
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-    </delete>
-    <insert id="insert" parameterType="my.fast.admin.app.entity.AppMember">
-        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into app_member (member_level_id, user_account, nick_name,
-        real_name, id_card_num, id_status,
-        balance, freeze_balance, recharge_num,
-        deposit_num, deduction_num, matching,
-        password, parent_user_id, parent_user_name,
-        is_agent, agent_level, status,
-        email, phone_number, del_flag,
-        login_ip, login_date, create_by,
-        create_time, update_by, update_time,
-        remark, company_id, invite_code,
-        deal_status, deal_error, deal_reward_count,
-        deal_count, deal_time, active,
-        match_min, match_max, registration_time,
-        member_status, register_ip, register_country,
-        top_pic, bot_pic)
-        values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
-        #{realName,jdbcType=VARCHAR}, #{idCardNum,jdbcType=VARCHAR}, #{idStatus,jdbcType=INTEGER},
-        #{balance,jdbcType=DECIMAL}, #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL},
-        #{depositNum,jdbcType=DECIMAL}, #{deductionNum,jdbcType=DECIMAL},
-        #{totalCommission,jdbcType=DECIMAL},#{matching,jdbcType=VARCHAR},
-        #{password,jdbcType=VARCHAR}, #{parentUserId,jdbcType=BIGINT}, #{parentUserName,jdbcType=VARCHAR},
-        #{isAgent,jdbcType=INTEGER}, #{agentLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-        #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER},
-        #{loginIp,jdbcType=VARCHAR}, #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
-        #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
-        #{remark,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{inviteCode,jdbcType=VARCHAR},
-        #{dealStatus,jdbcType=INTEGER}, #{dealError,jdbcType=INTEGER}, #{dealRewardCount,jdbcType=INTEGER},
-        #{dealCount,jdbcType=INTEGER}, #{dealTime,jdbcType=TIMESTAMP}, #{active,jdbcType=INTEGER},
-        #{matchMin,jdbcType=INTEGER}, #{matchMax,jdbcType=INTEGER}, #{registrationTime,jdbcType=TIMESTAMP},
-        #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR}, #{registerCountry,jdbcType=VARCHAR},
-        #{topPic,jdbcType=LONGVARCHAR}, #{botPic,jdbcType=LONGVARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMember">
-        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into app_member
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="memberLevelId != null">
-                member_level_id,
-            </if>
-            <if test="userAccount != null">
-                user_account,
-            </if>
-            <if test="nickName != null">
-                nick_name,
-            </if>
-            <if test="realName != null">
-                real_name,
-            </if>
-            <if test="idCardNum != null">
-                id_card_num,
-            </if>
-            <if test="idStatus != null">
-                id_status,
-            </if>
-            <if test="balance != null">
-                balance,
-            </if>
-            <if test="freezeBalance != null">
-                freeze_balance,
-            </if>
-            <if test="rechargeNum != null">
-                recharge_num,
-            </if>
-            <if test="depositNum != null">
-                deposit_num,
-            </if>
-            <if test="deductionNum != null">
-                deduction_num,
-            </if>
-            <if test="totalCommission != null">
-                total_commission,
-            </if>
-            <if test="matching != null">
-                matching,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="parentUserId != null">
-                parent_user_id,
-            </if>
-            <if test="parentUserName != null">
-                parent_user_name,
-            </if>
-            <if test="isAgent != null">
-                is_agent,
-            </if>
-            <if test="agentLevel != null">
-                agent_level,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="phoneNumber != null">
-                phone_number,
-            </if>
-            <if test="delFlag != null">
-                del_flag,
-            </if>
-            <if test="loginIp != null">
-                login_ip,
-            </if>
-            <if test="loginDate != null">
-                login_date,
-            </if>
-            <if test="createBy != null">
-                create_by,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateBy != null">
-                update_by,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="remark != null">
-                remark,
-            </if>
-            <if test="companyId != null">
-                company_id,
-            </if>
-            <if test="inviteCode != null">
-                invite_code,
-            </if>
-            <if test="dealStatus != null">
-                deal_status,
-            </if>
-            <if test="dealError != null">
-                deal_error,
-            </if>
-            <if test="dealRewardCount != null">
-                deal_reward_count,
-            </if>
-            <if test="dealCount != null">
-                deal_count,
-            </if>
-            <if test="dealTime != null">
-                deal_time,
-            </if>
-            <if test="active != null">
-                active,
-            </if>
-            <if test="matchMin != null">
-                match_min,
-            </if>
-            <if test="matchMax != null">
-                match_max,
-            </if>
-            <if test="registrationTime != null">
-                registration_time,
-            </if>
-            <if test="memberStatus != null">
-                member_status,
-            </if>
-            <if test="registerIp != null">
-                register_ip,
-            </if>
-            <if test="registerCountry != null">
-                register_country,
-            </if>
-            <if test="topPic != null">
-                top_pic,
-            </if>
-            <if test="botPic != null">
-                bot_pic,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="memberLevelId != null">
-                #{memberLevelId,jdbcType=BIGINT},
-            </if>
-            <if test="userAccount != null">
-                #{userAccount,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="idCardNum != null">
-                #{idCardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="idStatus != null">
-                #{idStatus,jdbcType=INTEGER},
-            </if>
-            <if test="balance != null">
-                #{balance,jdbcType=DECIMAL},
-            </if>
-            <if test="freezeBalance != null">
-                #{freezeBalance,jdbcType=DECIMAL},
-            </if>
-            <if test="rechargeNum != null">
-                #{rechargeNum,jdbcType=DECIMAL},
-            </if>
-            <if test="depositNum != null">
-                #{depositNum,jdbcType=DECIMAL},
-            </if>
-            <if test="deductionNum != null">
-                #{deductionNum,jdbcType=DECIMAL},
-            </if>
-            <if test="totalCommission != null">
-                #{totalCommission,jdbcType=DECIMAL},
-            </if>
-            <if test="matching != null">
-                #{matching,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="parentUserId != null">
-                #{parentUserId,jdbcType=BIGINT},
-            </if>
-            <if test="parentUserName != null">
-                #{parentUserName,jdbcType=VARCHAR},
-            </if>
-            <if test="isAgent != null">
-                #{isAgent,jdbcType=INTEGER},
-            </if>
-            <if test="agentLevel != null">
-                #{agentLevel,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="phoneNumber != null">
-                #{phoneNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="delFlag != null">
-                #{delFlag,jdbcType=INTEGER},
-            </if>
-            <if test="loginIp != null">
-                #{loginIp,jdbcType=VARCHAR},
-            </if>
-            <if test="loginDate != null">
-                #{loginDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="createBy != null">
-                #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                #{updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="companyId != null">
-                #{companyId,jdbcType=BIGINT},
-            </if>
-            <if test="inviteCode != null">
-                #{inviteCode,jdbcType=VARCHAR},
-            </if>
-            <if test="dealStatus != null">
-                #{dealStatus,jdbcType=INTEGER},
-            </if>
-            <if test="dealError != null">
-                #{dealError,jdbcType=INTEGER},
-            </if>
-            <if test="dealRewardCount != null">
-                #{dealRewardCount,jdbcType=INTEGER},
-            </if>
-            <if test="dealCount != null">
-                #{dealCount,jdbcType=INTEGER},
-            </if>
-            <if test="dealTime != null">
-                #{dealTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="active != null">
-                #{active,jdbcType=INTEGER},
-            </if>
-            <if test="matchMin != null">
-                #{matchMin,jdbcType=INTEGER},
-            </if>
-            <if test="matchMax != null">
-                #{matchMax,jdbcType=INTEGER},
-            </if>
-            <if test="registrationTime != null">
-                #{registrationTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="memberStatus != null">
-                #{memberStatus,jdbcType=INTEGER},
-            </if>
-            <if test="registerIp != null">
-                #{registerIp,jdbcType=VARCHAR},
-            </if>
-            <if test="registerCountry != null">
-                #{registerCountry,jdbcType=VARCHAR},
-            </if>
-            <if test="topPic != null">
-                #{topPic,jdbcType=LONGVARCHAR},
-            </if>
-            <if test="botPic != null">
-                #{botPic,jdbcType=LONGVARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultType="java.lang.Long">
-        select count(*) from app_member
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
+    <update id="updateAgentBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+        update app_member
+        set balance = #{balance,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+    </update>
+    <select id="selectParent" resultType="java.lang.String">
+        SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
+        FROM app_member
     </select>
     <select id="selectAppMemberParentAgent" resultType="my.fast.admin.app.entity.AppMember"
             parameterType="my.fast.admin.app.model.AppMemberBalancePram">
@@ -561,515 +640,8 @@
         ON a.id = b.id
             AND a.id &lt;&gt; #{memberId,jdbcType=BIGINT}
     </select>
-    <select id="selectParent" resultType="java.lang.String">
-        SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
-        FROM app_member
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
-        update app_member
-        <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=BIGINT},
-            </if>
-            <if test="record.memberLevelId != null">
-                member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
-            </if>
-            <if test="record.userAccount != null">
-                user_account = #{record.userAccount,jdbcType=VARCHAR},
-            </if>
-            <if test="record.nickName != null">
-                nick_name = #{record.nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.realName != null">
-                real_name = #{record.realName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.idCardNum != null">
-                id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="record.idStatus != null">
-                id_status = #{record.idStatus,jdbcType=INTEGER},
-            </if>
-            <if test="record.balance != null">
-                balance = #{record.balance,jdbcType=DECIMAL},
-            </if>
-            <if test="record.freezeBalance != null">
-                freeze_balance = #{record.freezeBalance,jdbcType=DECIMAL},
-            </if>
-            <if test="record.rechargeNum != null">
-                recharge_num = #{record.rechargeNum,jdbcType=DECIMAL},
-            </if>
-            <if test="record.depositNum != null">
-                deposit_num = #{record.depositNum,jdbcType=DECIMAL},
-            </if>
-            <if test="record.deductionNum != null">
-                deduction_num = #{record.deductionNum,jdbcType=DECIMAL},
-            </if>
-            <if test="record.totalCommission != null">
-                deduction_num = #{record.totalCommission,jdbcType=DECIMAL},
-            </if>
-            <if test="record.matching != null">
-                matching = #{record.matching,jdbcType=VARCHAR},
-            </if>
-            <if test="record.password != null">
-                password = #{record.password,jdbcType=VARCHAR},
-            </if>
-            <if test="record.parentUserId != null">
-                parent_user_id = #{record.parentUserId,jdbcType=BIGINT},
-            </if>
-            <if test="record.parentUserName != null">
-                parent_user_name = #{record.parentUserName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.isAgent != null">
-                is_agent = #{record.isAgent,jdbcType=INTEGER},
-            </if>
-            <if test="record.agentLevel != null">
-                agent_level = #{record.agentLevel,jdbcType=INTEGER},
-            </if>
-            <if test="record.status != null">
-                status = #{record.status,jdbcType=INTEGER},
-            </if>
-            <if test="record.email != null">
-                email = #{record.email,jdbcType=VARCHAR},
-            </if>
-            <if test="record.phoneNumber != null">
-                phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="record.delFlag != null">
-                del_flag = #{record.delFlag,jdbcType=INTEGER},
-            </if>
-            <if test="record.loginIp != null">
-                login_ip = #{record.loginIp,jdbcType=VARCHAR},
-            </if>
-            <if test="record.loginDate != null">
-                login_date = #{record.loginDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.createBy != null">
-                create_by = #{record.createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="record.createTime != null">
-                create_time = #{record.createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.updateBy != null">
-                update_by = #{record.updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="record.updateTime != null">
-                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.remark != null">
-                remark = #{record.remark,jdbcType=VARCHAR},
-            </if>
-            <if test="record.companyId != null">
-                company_id = #{record.companyId,jdbcType=BIGINT},
-            </if>
-            <if test="record.inviteCode != null">
-                invite_code = #{record.inviteCode,jdbcType=VARCHAR},
-            </if>
-            <if test="record.dealStatus != null">
-                deal_status = #{record.dealStatus,jdbcType=INTEGER},
-            </if>
-            <if test="record.dealError != null">
-                deal_error = #{record.dealError,jdbcType=INTEGER},
-            </if>
-            <if test="record.dealRewardCount != null">
-                deal_reward_count = #{record.dealRewardCount,jdbcType=INTEGER},
-            </if>
-            <if test="record.dealCount != null">
-                deal_count = #{record.dealCount,jdbcType=INTEGER},
-            </if>
-            <if test="record.dealTime != null">
-                deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.active != null">
-                active = #{record.active,jdbcType=INTEGER},
-            </if>
-            <if test="record.matchMin != null">
-                match_min = #{record.matchMin,jdbcType=INTEGER},
-            </if>
-            <if test="record.matchMax != null">
-                match_max = #{record.matchMax,jdbcType=INTEGER},
-            </if>
-            <if test="record.registrationTime != null">
-                registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.memberStatus != null">
-                member_status = #{record.memberStatus,jdbcType=INTEGER},
-            </if>
-            <if test="record.registerIp != null">
-                register_ip = #{record.registerIp,jdbcType=VARCHAR},
-            </if>
-            <if test="record.registerCountry != null">
-                register_country = #{record.registerCountry,jdbcType=VARCHAR},
-            </if>
-            <if test="record.topPic != null">
-                top_pic = #{record.topPic,jdbcType=LONGVARCHAR},
-            </if>
-            <if test="record.botPic != null">
-                bot_pic = #{record.botPic,jdbcType=LONGVARCHAR},
-            </if>
-        </set>
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByExampleWithBLOBs" parameterType="map">
-        update app_member
-        set id = #{record.id,jdbcType=BIGINT},
-        member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
-        user_account = #{record.userAccount,jdbcType=VARCHAR},
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
-        real_name = #{record.realName,jdbcType=VARCHAR},
-        id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
-        id_status = #{record.idStatus,jdbcType=INTEGER},
-        balance = #{record.balance,jdbcType=DECIMAL},
-        freeze_balance = #{record.freezeBalance,jdbcType=DECIMAL},
-        recharge_num = #{record.rechargeNum,jdbcType=DECIMAL},
-        deposit_num = #{record.depositNum,jdbcType=DECIMAL},
-        deduction_num = #{record.deductionNum,jdbcType=DECIMAL},
-        total_commission = #{record.totalCommission,jdbcType=DECIMAL},
-        matching = #{record.matching,jdbcType=VARCHAR},
-        password = #{record.password,jdbcType=VARCHAR},
-        parent_user_id = #{record.parentUserId,jdbcType=BIGINT},
-        parent_user_name = #{record.parentUserName,jdbcType=VARCHAR},
-        is_agent = #{record.isAgent,jdbcType=INTEGER},
-        agent_level = #{record.agentLevel,jdbcType=INTEGER},
-        status = #{record.status,jdbcType=INTEGER},
-        email = #{record.email,jdbcType=VARCHAR},
-        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
-        del_flag = #{record.delFlag,jdbcType=INTEGER},
-        login_ip = #{record.loginIp,jdbcType=VARCHAR},
-        login_date = #{record.loginDate,jdbcType=TIMESTAMP},
-        create_by = #{record.createBy,jdbcType=VARCHAR},
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-        update_by = #{record.updateBy,jdbcType=VARCHAR},
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-        remark = #{record.remark,jdbcType=VARCHAR},
-        company_id = #{record.companyId,jdbcType=BIGINT},
-        invite_code = #{record.inviteCode,jdbcType=VARCHAR},
-        deal_status = #{record.dealStatus,jdbcType=INTEGER},
-        deal_error = #{record.dealError,jdbcType=INTEGER},
-        deal_reward_count = #{record.dealRewardCount,jdbcType=INTEGER},
-        deal_count = #{record.dealCount,jdbcType=INTEGER},
-        deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
-        active = #{record.active,jdbcType=INTEGER},
-        match_min = #{record.matchMin,jdbcType=INTEGER},
-        match_max = #{record.matchMax,jdbcType=INTEGER},
-        registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
-        member_status = #{record.memberStatus,jdbcType=INTEGER},
-        register_ip = #{record.registerIp,jdbcType=VARCHAR},
-        register_country = #{record.registerCountry,jdbcType=VARCHAR},
-        top_pic = #{record.topPic,jdbcType=LONGVARCHAR},
-        bot_pic = #{record.botPic,jdbcType=LONGVARCHAR}
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByExample" parameterType="map">
-        update app_member
-        set id = #{record.id,jdbcType=BIGINT},
-        member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
-        user_account = #{record.userAccount,jdbcType=VARCHAR},
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
-        real_name = #{record.realName,jdbcType=VARCHAR},
-        id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
-        id_status = #{record.idStatus,jdbcType=INTEGER},
-        balance = #{record.balance,jdbcType=DECIMAL},
-        freeze_balance = #{record.freezeBalance,jdbcType=DECIMAL},
-        recharge_num = #{record.rechargeNum,jdbcType=DECIMAL},
-        deposit_num = #{record.depositNum,jdbcType=DECIMAL},
-        deduction_num = #{record.deductionNum,jdbcType=DECIMAL},
-        total_commission = #{record.totalCommission,jdbcType=DECIMAL},
-        matching = #{record.matching,jdbcType=VARCHAR},
-        password = #{record.password,jdbcType=VARCHAR},
-        parent_user_id = #{record.parentUserId,jdbcType=BIGINT},
-        parent_user_name = #{record.parentUserName,jdbcType=VARCHAR},
-        is_agent = #{record.isAgent,jdbcType=INTEGER},
-        agent_level = #{record.agentLevel,jdbcType=INTEGER},
-        status = #{record.status,jdbcType=INTEGER},
-        email = #{record.email,jdbcType=VARCHAR},
-        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
-        del_flag = #{record.delFlag,jdbcType=INTEGER},
-        login_ip = #{record.loginIp,jdbcType=VARCHAR},
-        login_date = #{record.loginDate,jdbcType=TIMESTAMP},
-        create_by = #{record.createBy,jdbcType=VARCHAR},
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-        update_by = #{record.updateBy,jdbcType=VARCHAR},
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-        remark = #{record.remark,jdbcType=VARCHAR},
-        company_id = #{record.companyId,jdbcType=BIGINT},
-        invite_code = #{record.inviteCode,jdbcType=VARCHAR},
-        deal_status = #{record.dealStatus,jdbcType=INTEGER},
-        deal_error = #{record.dealError,jdbcType=INTEGER},
-        deal_reward_count = #{record.dealRewardCount,jdbcType=INTEGER},
-        deal_count = #{record.dealCount,jdbcType=INTEGER},
-        deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
-        active = #{record.active,jdbcType=INTEGER},
-        match_min = #{record.matchMin,jdbcType=INTEGER},
-        match_max = #{record.matchMax,jdbcType=INTEGER},
-        registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
-        member_status = #{record.memberStatus,jdbcType=INTEGER},
-        register_ip = #{record.registerIp,jdbcType=VARCHAR},
-        register_country = #{record.registerCountry,jdbcType=VARCHAR}
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMember">
-        update app_member
-        <set>
-            <if test="memberLevelId != null">
-                member_level_id = #{memberLevelId,jdbcType=BIGINT},
-            </if>
-            <if test="userAccount != null">
-                user_account = #{userAccount,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                nick_name = #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                real_name = #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="idCardNum != null">
-                id_card_num = #{idCardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="idStatus != null">
-                id_status = #{idStatus,jdbcType=INTEGER},
-            </if>
-            <if test="balance != null">
-                balance = #{balance,jdbcType=DECIMAL},
-            </if>
-            <if test="freezeBalance != null">
-                freeze_balance = #{freezeBalance,jdbcType=DECIMAL},
-            </if>
-            <if test="rechargeNum != null">
-                recharge_num = #{rechargeNum,jdbcType=DECIMAL},
-            </if>
-            <if test="depositNum != null">
-                deposit_num = #{depositNum,jdbcType=DECIMAL},
-            </if>
-            <if test="deductionNum != null">
-                deduction_num = #{deductionNum,jdbcType=DECIMAL},
-            </if>
-            <if test="totalCommission != null">
-                total_commission = #{totalCommission,jdbcType=DECIMAL},
-            </if>
-            <if test="matching != null">
-                matching = #{matching,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="parentUserId != null">
-                parent_user_id = #{parentUserId,jdbcType=BIGINT},
-            </if>
-            <if test="parentUserName != null">
-                parent_user_name = #{parentUserName,jdbcType=VARCHAR},
-            </if>
-            <if test="isAgent != null">
-                is_agent = #{isAgent,jdbcType=INTEGER},
-            </if>
-            <if test="agentLevel != null">
-                agent_level = #{agentLevel,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="phoneNumber != null">
-                phone_number = #{phoneNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="delFlag != null">
-                del_flag = #{delFlag,jdbcType=INTEGER},
-            </if>
-            <if test="loginIp != null">
-                login_ip = #{loginIp,jdbcType=VARCHAR},
-            </if>
-            <if test="loginDate != null">
-                login_date = #{loginDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="createBy != null">
-                create_by = #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                update_by = #{updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="companyId != null">
-                company_id = #{companyId,jdbcType=BIGINT},
-            </if>
-            <if test="inviteCode != null">
-                invite_code = #{inviteCode,jdbcType=VARCHAR},
-            </if>
-            <if test="dealStatus != null">
-                deal_status = #{dealStatus,jdbcType=INTEGER},
-            </if>
-            <if test="dealError != null">
-                deal_error = #{dealError,jdbcType=INTEGER},
-            </if>
-            <if test="dealRewardCount != null">
-                deal_reward_count = #{dealRewardCount,jdbcType=INTEGER},
-            </if>
-            <if test="dealCount != null">
-                deal_count = #{dealCount,jdbcType=INTEGER},
-            </if>
-            <if test="dealTime != null">
-                deal_time = #{dealTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="active != null">
-                active = #{active,jdbcType=INTEGER},
-            </if>
-            <if test="matchMin != null">
-                match_min = #{matchMin,jdbcType=INTEGER},
-            </if>
-            <if test="matchMax != null">
-                match_max = #{matchMax,jdbcType=INTEGER},
-            </if>
-            <if test="registrationTime != null">
-                registration_time = #{registrationTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="memberStatus != null">
-                member_status = #{memberStatus,jdbcType=INTEGER},
-            </if>
-            <if test="registerIp != null">
-                register_ip = #{registerIp,jdbcType=VARCHAR},
-            </if>
-            <if test="registerCountry != null">
-                register_country = #{registerCountry,jdbcType=VARCHAR},
-            </if>
-            <if test="topPic != null">
-                top_pic = #{topPic,jdbcType=LONGVARCHAR},
-            </if>
-            <if test="botPic != null">
-                bot_pic = #{botPic,jdbcType=LONGVARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.app.entity.AppMember">
-        update app_member
-        set member_level_id   = #{memberLevelId,jdbcType=BIGINT},
-            user_account      = #{userAccount,jdbcType=VARCHAR},
-            nick_name         = #{nickName,jdbcType=VARCHAR},
-            real_name         = #{realName,jdbcType=VARCHAR},
-            id_card_num       = #{idCardNum,jdbcType=VARCHAR},
-            id_status         = #{idStatus,jdbcType=INTEGER},
-            balance           = #{balance,jdbcType=DECIMAL},
-            freeze_balance    = #{freezeBalance,jdbcType=DECIMAL},
-            recharge_num      = #{rechargeNum,jdbcType=DECIMAL},
-            deposit_num       = #{depositNum,jdbcType=DECIMAL},
-            deduction_num     = #{deductionNum,jdbcType=DECIMAL},
-            total_commission  = #{totalCommission,jdbcType=DECIMAL},
-            matching          = #{matching,jdbcType=VARCHAR},
-            password          = #{password,jdbcType=VARCHAR},
-            parent_user_id    = #{parentUserId,jdbcType=BIGINT},
-            parent_user_name  = #{parentUserName,jdbcType=VARCHAR},
-            is_agent          = #{isAgent,jdbcType=INTEGER},
-            agent_level       = #{agentLevel,jdbcType=INTEGER},
-            status            = #{status,jdbcType=INTEGER},
-            email             = #{email,jdbcType=VARCHAR},
-            phone_number      = #{phoneNumber,jdbcType=VARCHAR},
-            del_flag          = #{delFlag,jdbcType=INTEGER},
-            login_ip          = #{loginIp,jdbcType=VARCHAR},
-            login_date        = #{loginDate,jdbcType=TIMESTAMP},
-            create_by         = #{createBy,jdbcType=VARCHAR},
-            create_time       = #{createTime,jdbcType=TIMESTAMP},
-            update_by         = #{updateBy,jdbcType=VARCHAR},
-            update_time       = #{updateTime,jdbcType=TIMESTAMP},
-            remark            = #{remark,jdbcType=VARCHAR},
-            company_id        = #{companyId,jdbcType=BIGINT},
-            invite_code       = #{inviteCode,jdbcType=VARCHAR},
-            deal_status       = #{dealStatus,jdbcType=INTEGER},
-            deal_error        = #{dealError,jdbcType=INTEGER},
-            deal_reward_count = #{dealRewardCount,jdbcType=INTEGER},
-            deal_count        = #{dealCount,jdbcType=INTEGER},
-            deal_time         = #{dealTime,jdbcType=TIMESTAMP},
-            active            = #{active,jdbcType=INTEGER},
-            match_min         = #{matchMin,jdbcType=INTEGER},
-            match_max         = #{matchMax,jdbcType=INTEGER},
-            registration_time = #{registrationTime,jdbcType=TIMESTAMP},
-            member_status     = #{memberStatus,jdbcType=INTEGER},
-            register_ip       = #{registerIp,jdbcType=VARCHAR},
-            register_country  = #{registerCountry,jdbcType=VARCHAR},
-            top_pic           = #{topPic,jdbcType=LONGVARCHAR},
-            bot_pic           = #{botPic,jdbcType=LONGVARCHAR}
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMember">
-        update app_member
-        set member_level_id   = #{memberLevelId,jdbcType=BIGINT},
-            user_account      = #{userAccount,jdbcType=VARCHAR},
-            nick_name         = #{nickName,jdbcType=VARCHAR},
-            real_name         = #{realName,jdbcType=VARCHAR},
-            id_card_num       = #{idCardNum,jdbcType=VARCHAR},
-            id_status         = #{idStatus,jdbcType=INTEGER},
-            balance           = #{balance,jdbcType=DECIMAL},
-            freeze_balance    = #{freezeBalance,jdbcType=DECIMAL},
-            recharge_num      = #{rechargeNum,jdbcType=DECIMAL},
-            deposit_num       = #{depositNum,jdbcType=DECIMAL},
-            deduction_num     = #{deductionNum,jdbcType=DECIMAL},
-            total_commission  = #{totalCommission,jdbcType=DECIMAL},
-            matching          = #{matching,jdbcType=VARCHAR},
-            password          = #{password,jdbcType=VARCHAR},
-            parent_user_id    = #{parentUserId,jdbcType=BIGINT},
-            parent_user_name  = #{parentUserName,jdbcType=VARCHAR},
-            is_agent          = #{isAgent,jdbcType=INTEGER},
-            agent_level       = #{agentLevel,jdbcType=INTEGER},
-            status            = #{status,jdbcType=INTEGER},
-            email             = #{email,jdbcType=VARCHAR},
-            phone_number      = #{phoneNumber,jdbcType=VARCHAR},
-            del_flag          = #{delFlag,jdbcType=INTEGER},
-            login_ip          = #{loginIp,jdbcType=VARCHAR},
-            login_date        = #{loginDate,jdbcType=TIMESTAMP},
-            create_by         = #{createBy,jdbcType=VARCHAR},
-            create_time       = #{createTime,jdbcType=TIMESTAMP},
-            update_by         = #{updateBy,jdbcType=VARCHAR},
-            update_time       = #{updateTime,jdbcType=TIMESTAMP},
-            remark            = #{remark,jdbcType=VARCHAR},
-            company_id        = #{companyId,jdbcType=BIGINT},
-            invite_code       = #{inviteCode,jdbcType=VARCHAR},
-            deal_status       = #{dealStatus,jdbcType=INTEGER},
-            deal_error        = #{dealError,jdbcType=INTEGER},
-            deal_reward_count = #{dealRewardCount,jdbcType=INTEGER},
-            deal_count        = #{dealCount,jdbcType=INTEGER},
-            deal_time         = #{dealTime,jdbcType=TIMESTAMP},
-            active            = #{active,jdbcType=INTEGER},
-            match_min         = #{matchMin,jdbcType=INTEGER},
-            match_max         = #{matchMax,jdbcType=INTEGER},
-            registration_time = #{registrationTime,jdbcType=TIMESTAMP},
-            member_status     = #{memberStatus,jdbcType=INTEGER},
-            register_ip       = #{registerIp,jdbcType=VARCHAR},
-            register_country  = #{registerCountry,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateMemberBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
-        update app_member
-        set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT}
-    </update>
 
-    <update id="updateAgentMemberBalance" parameterType="map">
-        update app_member
-        set balance =
 
-        where id in
-        <foreach close=")" collection="record" item="item" open="(" separator=",">
-            #{item.memberId,jdbcType=BIGINT}
-        </foreach>
-    </update>
-    <update id="updateAgentBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
-        update app_member
-        set balance = #{balance,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT}
-    </update>
 
 
 </mapper>

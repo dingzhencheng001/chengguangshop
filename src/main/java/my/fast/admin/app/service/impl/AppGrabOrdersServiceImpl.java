@@ -117,7 +117,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //获取更新后的金额
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
         appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
-        appMemberAccountChange.setCreateBy(appMemberOpera.getRealName());
+        appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
         Date date = new Date(System.currentTimeMillis());
         appMemberAccountChange.setCreateTime(date);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);

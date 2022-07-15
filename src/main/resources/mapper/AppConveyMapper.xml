@@ -4,25 +4,21 @@
   <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppConvey">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
-    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
-    <result column="ADDTIME" jdbcType="TIMESTAMP" property="addtime" />
-    <result column="ENDTIME" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="COMMISSION" jdbcType="DECIMAL" property="commission" />
-    <result column="C_STATUS" jdbcType="VARCHAR" property="cStatus" />
-    <result column="ADD_ID" jdbcType="BIGINT" property="addId" />
-    <result column="GOODS_ID" jdbcType="BIGINT" property="goodsId" />
-    <result column="GOODS_COUNT" jdbcType="VARCHAR" property="goodsCount" />
-    <result column="HID" jdbcType="VARCHAR" property="hid" />
-    <result column="SAN" jdbcType="VARCHAR" property="san" />
-    <result column="QIANG" jdbcType="BIGINT" property="qiang" />
-    <result column="LIANDANNO" jdbcType="VARCHAR" property="liandanno" />
-    <result column="ISLIANDAN" jdbcType="VARCHAR" property="isliandan" />
-    <result column="LID" jdbcType="VARCHAR" property="lid" />
-    <result column="LNO" jdbcType="VARCHAR" property="lno" />
-    <result column="MIN" jdbcType="DECIMAL" property="min" />
-    <result column="MAX" jdbcType="DECIMAL" property="max" />
-    <result column="SIGN" jdbcType="VARCHAR" property="sign" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="commission" jdbcType="DECIMAL" property="commission" />
+    <result column="c_status" jdbcType="VARCHAR" property="cStatus" />
+    <result column="add_id" jdbcType="BIGINT" property="addId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_count" jdbcType="VARCHAR" property="goodsCount" />
+    <result column="hid" jdbcType="VARCHAR" property="hid" />
+    <result column="qiang" jdbcType="BIGINT" property="qiang" />
+    <result column="lno" jdbcType="VARCHAR" property="lno" />
+    <result column="min" jdbcType="DECIMAL" property="min" />
+    <result column="max" jdbcType="DECIMAL" property="max" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, AMOUNT, ADDTIME, ENDTIME, STATUS, COMMISSION, C_STATUS, ADD_ID, GOODS_ID, 
-    GOODS_COUNT, HID, SAN, QIANG, LIANDANNO, ISLIANDAN, LID, LNO, MIN, MAX, SIGN
+    id, member_id, amount, addtime, endtime, status, commission, c_status, add_id, goods_id, 
+    goods_count, hid, qiang, lno, min, max, sign
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppConveyExample" resultMap="BaseResultMap">
     select
@@ -120,20 +116,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into app_convey (member_id, AMOUNT, ADDTIME, 
-      ENDTIME, STATUS, COMMISSION, 
-      C_STATUS, ADD_ID, GOODS_ID, 
-      GOODS_COUNT, HID, SAN, 
-      QIANG, LIANDANNO, ISLIANDAN, 
-      LID, LNO, MIN, MAX, 
-      SIGN)
-    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=TIMESTAMP},
-      #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL},
+    insert into app_convey (member_id, amount, addtime, 
+      endtime, status, commission, 
+      c_status, add_id, goods_id, 
+      goods_count, hid, qiang, 
+      lno, min, max, sign
+      )
+    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, 
       #{cStatus,jdbcType=VARCHAR}, #{addId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
-      #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{san,jdbcType=VARCHAR}, 
-      #{qiang,jdbcType=BIGINT}, #{liandanno,jdbcType=VARCHAR}, #{isliandan,jdbcType=VARCHAR},
-      #{lid,jdbcType=VARCHAR}, #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, 
-      #{sign,jdbcType=VARCHAR})
+      #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{qiang,jdbcType=BIGINT}, 
+      #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, #{sign,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppConvey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -145,61 +139,49 @@
         member_id,
       </if>
       <if test="amount != null">
-        AMOUNT,
+        amount,
       </if>
       <if test="addtime != null">
-        ADDTIME,
+        addtime,
       </if>
       <if test="endtime != null">
-        ENDTIME,
+        endtime,
       </if>
       <if test="status != null">
-        STATUS,
+        status,
       </if>
       <if test="commission != null">
-        COMMISSION,
+        commission,
       </if>
       <if test="cStatus != null">
-        C_STATUS,
+        c_status,
       </if>
       <if test="addId != null">
-        ADD_ID,
+        add_id,
       </if>
       <if test="goodsId != null">
-        GOODS_ID,
+        goods_id,
       </if>
       <if test="goodsCount != null">
-        GOODS_COUNT,
+        goods_count,
       </if>
       <if test="hid != null">
-        HID,
-      </if>
-      <if test="san != null">
-        SAN,
+        hid,
       </if>
       <if test="qiang != null">
-        QIANG,
-      </if>
-      <if test="liandanno != null">
-        LIANDANNO,
-      </if>
-      <if test="isliandan != null">
-        ISLIANDAN,
-      </if>
-      <if test="lid != null">
-        LID,
+        qiang,
       </if>
       <if test="lno != null">
-        LNO,
+        lno,
       </if>
       <if test="min != null">
-        MIN,
+        min,
       </if>
       <if test="max != null">
-        MAX,
+        max,
       </if>
       <if test="sign != null">
-        SIGN,
+        sign,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -236,20 +218,8 @@
       <if test="hid != null">
         #{hid,jdbcType=VARCHAR},
       </if>
-      <if test="san != null">
-        #{san,jdbcType=VARCHAR},
-      </if>
       <if test="qiang != null">
         #{qiang,jdbcType=BIGINT},
-      </if>
-      <if test="liandanno != null">
-        #{liandanno,jdbcType=VARCHAR},
-      </if>
-      <if test="isliandan != null">
-        #{isliandan,jdbcType=VARCHAR},
-      </if>
-      <if test="lid != null">
-        #{lid,jdbcType=VARCHAR},
       </if>
       <if test="lno != null">
         #{lno,jdbcType=VARCHAR},
@@ -281,61 +251,49 @@
         member_id = #{record.memberId,jdbcType=BIGINT},
       </if>
       <if test="record.amount != null">
-        AMOUNT = #{record.amount,jdbcType=DECIMAL},
+        amount = #{record.amount,jdbcType=DECIMAL},
       </if>
       <if test="record.addtime != null">
-        ADDTIME = #{record.addtime,jdbcType=TIMESTAMP},
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endtime != null">
-        ENDTIME = #{record.endtime,jdbcType=TIMESTAMP},
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
-        STATUS = #{record.status,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=VARCHAR},
       </if>
       <if test="record.commission != null">
-        COMMISSION = #{record.commission,jdbcType=DECIMAL},
+        commission = #{record.commission,jdbcType=DECIMAL},
       </if>
       <if test="record.cStatus != null">
-        C_STATUS = #{record.cStatus,jdbcType=VARCHAR},
+        c_status = #{record.cStatus,jdbcType=VARCHAR},
       </if>
       <if test="record.addId != null">
-        ADD_ID = #{record.addId,jdbcType=BIGINT},
+        add_id = #{record.addId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
-        GOODS_ID = #{record.goodsId,jdbcType=BIGINT},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsCount != null">
-        GOODS_COUNT = #{record.goodsCount,jdbcType=VARCHAR},
+        goods_count = #{record.goodsCount,jdbcType=VARCHAR},
       </if>
       <if test="record.hid != null">
-        HID = #{record.hid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.san != null">
-        SAN = #{record.san,jdbcType=VARCHAR},
+        hid = #{record.hid,jdbcType=VARCHAR},
       </if>
       <if test="record.qiang != null">
-        QIANG = #{record.qiang,jdbcType=BIGINT},
-      </if>
-      <if test="record.liandanno != null">
-        LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isliandan != null">
-        ISLIANDAN = #{record.isliandan,jdbcType=VARCHAR},
-      </if>
-      <if test="record.lid != null">
-        LID = #{record.lid,jdbcType=VARCHAR},
+        qiang = #{record.qiang,jdbcType=BIGINT},
       </if>
       <if test="record.lno != null">
-        LNO = #{record.lno,jdbcType=VARCHAR},
+        lno = #{record.lno,jdbcType=VARCHAR},
       </if>
       <if test="record.min != null">
-        MIN = #{record.min,jdbcType=DECIMAL},
+        min = #{record.min,jdbcType=DECIMAL},
       </if>
       <if test="record.max != null">
-        MAX = #{record.max,jdbcType=DECIMAL},
+        max = #{record.max,jdbcType=DECIMAL},
       </if>
       <if test="record.sign != null">
-        SIGN = #{record.sign,jdbcType=VARCHAR},
+        sign = #{record.sign,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -346,25 +304,21 @@
     update app_convey
     set id = #{record.id,jdbcType=BIGINT},
       member_id = #{record.memberId,jdbcType=BIGINT},
-      AMOUNT = #{record.amount,jdbcType=DECIMAL},
-      ADDTIME = #{record.addtime,jdbcType=TIMESTAMP},
-      ENDTIME = #{record.endtime,jdbcType=TIMESTAMP},
-      STATUS = #{record.status,jdbcType=VARCHAR},
-      COMMISSION = #{record.commission,jdbcType=DECIMAL},
-      C_STATUS = #{record.cStatus,jdbcType=VARCHAR},
-      ADD_ID = #{record.addId,jdbcType=BIGINT},
-      GOODS_ID = #{record.goodsId,jdbcType=BIGINT},
-      GOODS_COUNT = #{record.goodsCount,jdbcType=VARCHAR},
-      HID = #{record.hid,jdbcType=VARCHAR},
-      SAN = #{record.san,jdbcType=VARCHAR},
-      QIANG = #{record.qiang,jdbcType=BIGINT},
-      LIANDANNO = #{record.liandanno,jdbcType=VARCHAR},
-      ISLIANDAN = #{record.isliandan,jdbcType=VARCHAR},
-      LID = #{record.lid,jdbcType=VARCHAR},
-      LNO = #{record.lno,jdbcType=VARCHAR},
-      MIN = #{record.min,jdbcType=DECIMAL},
-      MAX = #{record.max,jdbcType=DECIMAL},
-      SIGN = #{record.sign,jdbcType=VARCHAR}
+      amount = #{record.amount,jdbcType=DECIMAL},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      commission = #{record.commission,jdbcType=DECIMAL},
+      c_status = #{record.cStatus,jdbcType=VARCHAR},
+      add_id = #{record.addId,jdbcType=BIGINT},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
+      goods_count = #{record.goodsCount,jdbcType=VARCHAR},
+      hid = #{record.hid,jdbcType=VARCHAR},
+      qiang = #{record.qiang,jdbcType=BIGINT},
+      lno = #{record.lno,jdbcType=VARCHAR},
+      min = #{record.min,jdbcType=DECIMAL},
+      max = #{record.max,jdbcType=DECIMAL},
+      sign = #{record.sign,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -376,61 +330,49 @@
         member_id = #{memberId,jdbcType=BIGINT},
       </if>
       <if test="amount != null">
-        AMOUNT = #{amount,jdbcType=DECIMAL},
+        amount = #{amount,jdbcType=DECIMAL},
       </if>
       <if test="addtime != null">
-        ADDTIME = #{addtime,jdbcType=TIMESTAMP},
+        addtime = #{addtime,jdbcType=TIMESTAMP},
       </if>
       <if test="endtime != null">
-        ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+        endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="commission != null">
-        COMMISSION = #{commission,jdbcType=DECIMAL},
+        commission = #{commission,jdbcType=DECIMAL},
       </if>
       <if test="cStatus != null">
-        C_STATUS = #{cStatus,jdbcType=VARCHAR},
+        c_status = #{cStatus,jdbcType=VARCHAR},
       </if>
       <if test="addId != null">
-        ADD_ID = #{addId,jdbcType=BIGINT},
+        add_id = #{addId,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null">
-        GOODS_ID = #{goodsId,jdbcType=BIGINT},
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsCount != null">
-        GOODS_COUNT = #{goodsCount,jdbcType=VARCHAR},
+        goods_count = #{goodsCount,jdbcType=VARCHAR},
       </if>
       <if test="hid != null">
-        HID = #{hid,jdbcType=VARCHAR},
-      </if>
-      <if test="san != null">
-        SAN = #{san,jdbcType=VARCHAR},
+        hid = #{hid,jdbcType=VARCHAR},
       </if>
       <if test="qiang != null">
-        QIANG = #{qiang,jdbcType=BIGINT},
-      </if>
-      <if test="liandanno != null">
-        LIANDANNO = #{liandanno,jdbcType=VARCHAR},
-      </if>
-      <if test="isliandan != null">
-        ISLIANDAN = #{isliandan,jdbcType=VARCHAR},
-      </if>
-      <if test="lid != null">
-        LID = #{lid,jdbcType=VARCHAR},
+        qiang = #{qiang,jdbcType=BIGINT},
       </if>
       <if test="lno != null">
-        LNO = #{lno,jdbcType=VARCHAR},
+        lno = #{lno,jdbcType=VARCHAR},
       </if>
       <if test="min != null">
-        MIN = #{min,jdbcType=DECIMAL},
+        min = #{min,jdbcType=DECIMAL},
       </if>
       <if test="max != null">
-        MAX = #{max,jdbcType=DECIMAL},
+        max = #{max,jdbcType=DECIMAL},
       </if>
       <if test="sign != null">
-        SIGN = #{sign,jdbcType=VARCHAR},
+        sign = #{sign,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -438,25 +380,21 @@
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppConvey">
     update app_convey
     set member_id = #{memberId,jdbcType=BIGINT},
-      AMOUNT = #{amount,jdbcType=DECIMAL},
-      ADDTIME = #{addtime,jdbcType=TIMESTAMP},
-      ENDTIME = #{endtime,jdbcType=TIMESTAMP},
-      STATUS = #{status,jdbcType=VARCHAR},
-      COMMISSION = #{commission,jdbcType=DECIMAL},
-      C_STATUS = #{cStatus,jdbcType=VARCHAR},
-      ADD_ID = #{addId,jdbcType=BIGINT},
-      GOODS_ID = #{goodsId,jdbcType=BIGINT},
-      GOODS_COUNT = #{goodsCount,jdbcType=VARCHAR},
-      HID = #{hid,jdbcType=VARCHAR},
-      SAN = #{san,jdbcType=VARCHAR},
-      QIANG = #{qiang,jdbcType=BIGINT},
-      LIANDANNO = #{liandanno,jdbcType=VARCHAR},
-      ISLIANDAN = #{isliandan,jdbcType=VARCHAR},
-      LID = #{lid,jdbcType=VARCHAR},
-      LNO = #{lno,jdbcType=VARCHAR},
-      MIN = #{min,jdbcType=DECIMAL},
-      MAX = #{max,jdbcType=DECIMAL},
-      SIGN = #{sign,jdbcType=VARCHAR}
+      amount = #{amount,jdbcType=DECIMAL},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      commission = #{commission,jdbcType=DECIMAL},
+      c_status = #{cStatus,jdbcType=VARCHAR},
+      add_id = #{addId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_count = #{goodsCount,jdbcType=VARCHAR},
+      hid = #{hid,jdbcType=VARCHAR},
+      qiang = #{qiang,jdbcType=BIGINT},
+      lno = #{lno,jdbcType=VARCHAR},
+      min = #{min,jdbcType=DECIMAL},
+      max = #{max,jdbcType=DECIMAL},
+      sign = #{sign,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

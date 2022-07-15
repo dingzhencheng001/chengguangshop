@@ -20,21 +20,15 @@ public interface AppMemberMapper {
 
     int insertSelective(AppMember record);
 
-    List<AppMember> selectByExampleWithBLOBs(AppMemberExample example);
-
     List<AppMember> selectByExample(AppMemberExample example);
 
     AppMember selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") AppMember record, @Param("example") AppMemberExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") AppMember record, @Param("example") AppMemberExample example);
-
     int updateByExample(@Param("record") AppMember record, @Param("example") AppMemberExample example);
 
     int updateByPrimaryKeySelective(AppMember record);
-
-    int updateByPrimaryKeyWithBLOBs(AppMember record);
 
     int updateByPrimaryKey(AppMember record);
 
@@ -68,13 +62,6 @@ public interface AppMemberMapper {
      */
     void updateMemberBalance(AppMemberBalancePram appMemberBalancePram);
 
-    /**
-     * 更改agent佣金xxxx
-     *
-     * @param
-     * @param
-     */
-    void updateAgentMemberBalance(@Param("record") List<AppMember> record, @Param("goodsPrice") BigDecimal goodsPrice);
 
     /**
      * 查询会员agent
@@ -86,7 +73,9 @@ public interface AppMemberMapper {
      */
     String selectParent();
 
+    /**
+     * 更新上级账户
+     */
     void updateAgentBalance(AppMemberBalancePram appMemberBalancePram);
-
 
 }

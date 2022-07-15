@@ -1,30 +1,19 @@
 package my.fast.admin.app.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class AppMember implements Serializable {
-    private Long id; 
+    private Long id;
 
     @ApiModelProperty(value = "会员等级id")
     private Long memberLevelId;
 
     @ApiModelProperty(value = "用户账号")
     private String userAccount;
-
-    @ApiModelProperty(value = "用户昵称")
-    private String nickName;
-
-    @ApiModelProperty(value = "真实姓名")
-    private String realName;
-
-    @ApiModelProperty(value = "身份证号码")
-    private String idCardNum;
-
-    @ApiModelProperty(value = "实名认证状态，0未审核，1审核通过，2审核不通过")
-    private Integer idStatus;
 
     @ApiModelProperty(value = "账户余额")
     private BigDecimal balance;
@@ -40,9 +29,6 @@ public class AppMember implements Serializable {
 
     @ApiModelProperty(value = "扣除金额")
     private BigDecimal deductionNum;
-
-    @ApiModelProperty(value = "会员个人总佣金")
-    private BigDecimal totalCommission;
 
     @ApiModelProperty(value = "JSON下单规则")
     private String matching;
@@ -86,12 +72,6 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "更新者")
-    private String updateBy;
-
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
-
     @ApiModelProperty(value = "备注")
     private String remark;
 
@@ -100,30 +80,6 @@ public class AppMember implements Serializable {
 
     @ApiModelProperty(value = "邀请码")
     private String inviteCode;
-
-    @ApiModelProperty(value = "交易状态:交易冻结1停止交易2等待交易3交易中")
-    private Integer dealStatus;
-
-    @ApiModelProperty(value = "违规次数")
-    private Integer dealError;
-
-    @ApiModelProperty(value = "奖励交易次数")
-    private Integer dealRewardCount;
-
-    @ApiModelProperty(value = "当日交易次数")
-    private Integer dealCount;
-
-    @ApiModelProperty(value = "最后交易日期(年月日)")
-    private Date dealTime;
-
-    @ApiModelProperty(value = "激活状态，0未激活(首次充值发放推广奖励)，1已激活")
-    private Integer active;
-
-    @ApiModelProperty(value = "最小匹配")
-    private Integer matchMin;
-
-    @ApiModelProperty(value = "最大匹配")
-    private Integer matchMax;
 
     @ApiModelProperty(value = "会员注册时间")
     private Date registrationTime;
@@ -137,11 +93,8 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "注册国家")
     private String registerCountry;
 
-    @ApiModelProperty(value = "身份证正面图")
-    private String topPic;
-
-    @ApiModelProperty(value = "身份证正面图")
-    private String botPic;
+    @ApiModelProperty(value = "会员个人总佣金")
+    private BigDecimal totalCommission;
 
     private static final long serialVersionUID = 1L;
 
@@ -167,38 +120,6 @@ public class AppMember implements Serializable {
 
     public void setUserAccount(String userAccount) {
         this.userAccount = userAccount;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getIdCardNum() {
-        return idCardNum;
-    }
-
-    public void setIdCardNum(String idCardNum) {
-        this.idCardNum = idCardNum;
-    }
-
-    public Integer getIdStatus() {
-        return idStatus;
-    }
-
-    public void setIdStatus(Integer idStatus) {
-        this.idStatus = idStatus;
     }
 
     public BigDecimal getBalance() {
@@ -239,14 +160,6 @@ public class AppMember implements Serializable {
 
     public void setDeductionNum(BigDecimal deductionNum) {
         this.deductionNum = deductionNum;
-    }
-
-    public BigDecimal getTotalCommission() {
-        return totalCommission;
-    }
-
-    public void setTotalCommission(BigDecimal totalCommission) {
-        this.totalCommission = totalCommission;
     }
 
     public String getMatching() {
@@ -361,22 +274,6 @@ public class AppMember implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -399,70 +296,6 @@ public class AppMember implements Serializable {
 
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
-    }
-
-    public Integer getDealStatus() {
-        return dealStatus;
-    }
-
-    public void setDealStatus(Integer dealStatus) {
-        this.dealStatus = dealStatus;
-    }
-
-    public Integer getDealError() {
-        return dealError;
-    }
-
-    public void setDealError(Integer dealError) {
-        this.dealError = dealError;
-    }
-
-    public Integer getDealRewardCount() {
-        return dealRewardCount;
-    }
-
-    public void setDealRewardCount(Integer dealRewardCount) {
-        this.dealRewardCount = dealRewardCount;
-    }
-
-    public Integer getDealCount() {
-        return dealCount;
-    }
-
-    public void setDealCount(Integer dealCount) {
-        this.dealCount = dealCount;
-    }
-
-    public Date getDealTime() {
-        return dealTime;
-    }
-
-    public void setDealTime(Date dealTime) {
-        this.dealTime = dealTime;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
-    }
-
-    public Integer getMatchMin() {
-        return matchMin;
-    }
-
-    public void setMatchMin(Integer matchMin) {
-        this.matchMin = matchMin;
-    }
-
-    public Integer getMatchMax() {
-        return matchMax;
-    }
-
-    public void setMatchMax(Integer matchMax) {
-        this.matchMax = matchMax;
     }
 
     public Date getRegistrationTime() {
@@ -497,20 +330,12 @@ public class AppMember implements Serializable {
         this.registerCountry = registerCountry;
     }
 
-    public String getTopPic() {
-        return topPic;
+    public BigDecimal getTotalCommission() {
+        return totalCommission;
     }
 
-    public void setTopPic(String topPic) {
-        this.topPic = topPic;
-    }
-
-    public String getBotPic() {
-        return botPic;
-    }
-
-    public void setBotPic(String botPic) {
-        this.botPic = botPic;
+    public void setTotalCommission(BigDecimal totalCommission) {
+        this.totalCommission = totalCommission;
     }
 
     @Override
@@ -522,16 +347,11 @@ public class AppMember implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", memberLevelId=").append(memberLevelId);
         sb.append(", userAccount=").append(userAccount);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", realName=").append(realName);
-        sb.append(", idCardNum=").append(idCardNum);
-        sb.append(", idStatus=").append(idStatus);
         sb.append(", balance=").append(balance);
         sb.append(", freezeBalance=").append(freezeBalance);
         sb.append(", rechargeNum=").append(rechargeNum);
         sb.append(", depositNum=").append(depositNum);
         sb.append(", deductionNum=").append(deductionNum);
-        sb.append(", totalCommission=").append(totalCommission);
         sb.append(", matching=").append(matching);
         sb.append(", password=").append(password);
         sb.append(", parentUserId=").append(parentUserId);
@@ -546,25 +366,14 @@ public class AppMember implements Serializable {
         sb.append(", loginDate=").append(loginDate);
         sb.append(", createBy=").append(createBy);
         sb.append(", createTime=").append(createTime);
-        sb.append(", updateBy=").append(updateBy);
-        sb.append(", updateTime=").append(updateTime);
         sb.append(", remark=").append(remark);
         sb.append(", companyId=").append(companyId);
         sb.append(", inviteCode=").append(inviteCode);
-        sb.append(", dealStatus=").append(dealStatus);
-        sb.append(", dealError=").append(dealError);
-        sb.append(", dealRewardCount=").append(dealRewardCount);
-        sb.append(", dealCount=").append(dealCount);
-        sb.append(", dealTime=").append(dealTime);
-        sb.append(", active=").append(active);
-        sb.append(", matchMin=").append(matchMin);
-        sb.append(", matchMax=").append(matchMax);
         sb.append(", registrationTime=").append(registrationTime);
         sb.append(", memberStatus=").append(memberStatus);
         sb.append(", registerIp=").append(registerIp);
         sb.append(", registerCountry=").append(registerCountry);
-        sb.append(", topPic=").append(topPic);
-        sb.append(", botPic=").append(botPic);
+        sb.append(", totalCommission=").append(totalCommission);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
