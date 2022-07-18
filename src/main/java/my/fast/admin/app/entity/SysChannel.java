@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SysChannel implements Serializable {
     @ApiModelProperty(value = "ID")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "渠道名称")
     private String channelName;
@@ -44,11 +44,11 @@ public class SysChannel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

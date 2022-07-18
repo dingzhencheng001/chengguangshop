@@ -12,7 +12,7 @@ public interface SysChannelMapper {
 
     int deleteByExample(SysChannelExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SysChannel record);
 
@@ -20,7 +20,7 @@ public interface SysChannelMapper {
 
     List<SysChannel> selectByExample(SysChannelExample example);
 
-    SysChannel selectByPrimaryKey(Integer id);
+    SysChannel selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") SysChannel record, @Param("example") SysChannelExample example);
 
