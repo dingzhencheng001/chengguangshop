@@ -73,8 +73,8 @@ public class AppLoginController {
     public CommonResult login(@RequestBody AppMember  loginVO,HttpServletRequest request) {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
         CommonResult commonResult;
-        if (loginVO == null || StringUtils.isEmpty(loginVO.getUserAccount()) || StringUtils.isEmpty(loginVO.getPassword())) {
-            return CommonResult.failed("账号密码不能为空");
+        if (loginVO == null || StringUtils.isEmpty(loginVO.getPhoneNumber()) || StringUtils.isEmpty(loginVO.getPassword())) {
+            return CommonResult.failed("手机号密码不能为空");
         }
         
         //根据域名获取渠道号
@@ -83,15 +83,15 @@ public class AppLoginController {
         System.out.println("tempContextUrl: "+  tempContextUrl);
         
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-//        if (sysChannel == null || sysChannel.getChannelId()==null ) {
-//            return CommonResult.failed("渠道查询错误，渠道ID不存在");
-//        }
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         System.out.println(sysChannel);
         
-        //loginVO.setCompanyId(sysChannel.getChannelId());
-        AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
+        loginVO.setCompanyId(sysChannel.getChannelId());
+        //AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
 //        渠道号不为空
-        //        AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
+        AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
         
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
             return CommonResult.failed("账号不存在");
