@@ -53,7 +53,7 @@ public class AppMemberAccountChangeController {
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestParam Integer type,
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestParam(required = false) Integer type,
         HttpServletRequest request) {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {

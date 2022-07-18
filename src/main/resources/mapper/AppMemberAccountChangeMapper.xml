@@ -216,8 +216,8 @@
         <if test="memberId != null">
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
-        and
         <if test="type != null">
+            and
             opera_type = #{type,jdbcType=INTEGER}
         </if>
     </select>
