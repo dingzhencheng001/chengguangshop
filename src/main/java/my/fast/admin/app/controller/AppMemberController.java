@@ -26,6 +26,7 @@ import my.fast.admin.app.entity.SysAgentList;
 import my.fast.admin.app.service.AppAgentListService;
 import my.fast.admin.app.service.AppMemberLevelService;
 import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.app.vo.AppMemberDto;
 import my.fast.admin.app.vo.AppMemberVo;
 import my.fast.admin.framework.utils.TokenUtils;
 
@@ -40,15 +41,15 @@ import my.fast.admin.framework.utils.TokenUtils;
 @Api(tags = "AppMemberController", description = "会员管理")
 @RequestMapping("/member")
 public class AppMemberController {
-	@Autowired
-	private AppMemberService appMemberService;
+    @Autowired
+    private AppMemberService appMemberService;
 
-	@Autowired
-	private AppMemberLevelService appMemberLevelService;
-	
-	@Autowired
-	private AppAgentListService agentListService;
-	
+    @Autowired
+    private AppMemberLevelService appMemberLevelService;
+
+    @Autowired
+    private AppAgentListService agentListService;
+
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
@@ -62,12 +63,11 @@ public class AppMemberController {
     @ResponseBody
     public CommonResult<CommonPage<AppMember>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppMember appMember) {
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody AppMember appMember) {
         List<AppMember> appMemberList = appMemberService.listMember(appMember, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberList));
     }
 
-    
     @ApiOperation(value = "删除会员")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -83,7 +83,7 @@ public class AppMemberController {
     @ApiOperation(value = "更新会员")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppMember appMember) {
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMember appMember) {
         CommonResult commonResult;
         int count = appMemberService.updateMember(id, appMember);
         if (count == 1) {
@@ -107,73 +107,82 @@ public class AppMemberController {
         }
         return commonResult;
     }
-    
-    
-    
-    
-    
+
     @ApiOperation(value = "首页信息")
     @RequestMapping(value = "/homePage", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public CommonResult homePage(HttpServletRequest request) {
-    	 
-    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户未登录");
         }
-        AppMemberVo  reVo =  new AppMemberVo();
+        AppMemberVo reVo = new AppMemberVo();
         AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
         if (voInfo == null) {
-        	return CommonResult.failed("用户信息不存在");
-        } 
+            return CommonResult.failed("用户信息不存在");
+        }
         BeanUtils.copyProperties(voInfo, reVo);
         //首页设置余额
         reVo.setBalance(voInfo.getBalance());
         //今日佣金 -- 根据用户ID 从账变表 类型为佣金 取今日数据累加 TODO= 账变表字段加类型
         reVo.setTodaySum(new BigDecimal(0));
         //总佣金
-        reVo.setTotalCommission(voInfo.getTotalCommission());;
-        
+        reVo.setTotalCommission(voInfo.getTotalCommission());
+        ;
+
         //会员等级List
         List<AppMemberLevel> levelList = appMemberLevelService.listAll();
         if (levelList == null) {
-        	return CommonResult.failed("会员等级数据异常");
-        } 
+            return CommonResult.failed("会员等级数据异常");
+        }
         reVo.setLevelList(levelList);
-        
+
         //代理收益列表获取 ? 查找逻辑是 我的上级代理还是下级代理 ？ --暂查询随机展示
         List<SysAgentList> agentList = agentListService.listAll();
         if (agentList == null) {
-        	return CommonResult.failed("会员佣金数据异常");
-        } 
+            return CommonResult.failed("会员佣金数据异常");
+        }
         reVo.setAgentList(agentList);
-        
+
         //中部部图片管理 TODO= 
         //底部图片管理 TODO= 
 
         return CommonResult.success(reVo);
     }
-    
-    
-    
-    
+
     @ApiOperation(value = "会员信息")
     @RequestMapping(value = "/memberInfo", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public CommonResult memberInfo(HttpServletRequest request) {
-    	 
-    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户信息不存在");
         }
-        
+
         AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
         if (voInfo == null) {
-        	return CommonResult.failed("用户信息不存在");
-        } 
-        
+            return CommonResult.failed("用户信息不存在");
+        }
+
         return CommonResult.success(voInfo);
     }
-    
+
+    @ApiOperation(value = "获取会员个人信息")
+    @RequestMapping(value = "/memberInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult memberCountInfo(HttpServletRequest request) {
+
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户未登录");
+        }
+        AppMemberDto memberInfo = appMemberService.selectAppMemberCountByPrimary(appUserVO.getId());
+        if (memberInfo == null) {
+            return CommonResult.failed("用户信息不存在");
+        }
+        return CommonResult.success(memberInfo);
+    }
 
 }

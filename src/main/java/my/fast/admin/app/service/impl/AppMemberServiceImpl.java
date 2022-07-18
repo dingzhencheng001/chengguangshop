@@ -15,6 +15,7 @@ import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.mapper.AppMemberMapper;
 import my.fast.admin.app.model.AppMemberParam;
 import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.app.vo.AppMemberDto;
 import my.fast.admin.framework.utils.CommonUtils;
 
 /**
@@ -138,7 +139,12 @@ public class AppMemberServiceImpl implements AppMemberService {
         return UserConstants.UNIQUE;
 	}
 
-	@Override
+    @Override
+    public AppMemberDto selectAppMemberCountByPrimary(Long id) {
+       return appMemberMapper.selectAppMemberCountByPrimary(id);
+    }
+
+    @Override
 	public AppMember selectAppMemberByUserPhone(AppMember appMember) {
 		AppMemberParam appMemberParam = new AppMemberParam();
 		BeanUtils.copyProperties(appMember, appMemberParam);

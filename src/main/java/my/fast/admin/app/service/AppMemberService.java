@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.model.AppMemberParam;
+import my.fast.admin.app.vo.AppMemberDto;
 
 /**
  * TODO
@@ -98,9 +99,9 @@ public interface AppMemberService {
      * @return 结果
      */
     public String checkEmailUnique(AppMember appMember);
-    
-    
-    
-    
-    
+
+    /**
+     * 获取会员个人信息
+     */
+    AppMemberDto selectAppMemberCountByPrimary(Long id);
 }

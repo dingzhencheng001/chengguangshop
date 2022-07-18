@@ -1,6 +1,5 @@
 package my.fast.admin.app.mapper;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +8,7 @@ import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
 import my.fast.admin.app.model.AppMemberBalancePram;
 import my.fast.admin.app.model.AppMemberParam;
+import my.fast.admin.app.vo.AppMemberDto;
 
 public interface AppMemberMapper {
     long countByExample(AppMemberExample example);
@@ -85,5 +85,12 @@ public interface AppMemberMapper {
      * 更新上级账户
      */
     void updateAgentBalance(AppMemberBalancePram appMemberBalancePram);
+
+    /**
+     * 回去会员账户信息
+     * @param id
+     */
+    AppMemberDto selectAppMemberCountByPrimary(Long id);
+
 
 }
