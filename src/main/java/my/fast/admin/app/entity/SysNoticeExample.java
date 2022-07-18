@@ -115,52 +115,52 @@ public class SysNoticeExample {
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdEqualTo(Integer value) {
+        public Criteria andNoticeIdEqualTo(Long value) {
             addCriterion("notice_id =", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdNotEqualTo(Integer value) {
+        public Criteria andNoticeIdNotEqualTo(Long value) {
             addCriterion("notice_id <>", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdGreaterThan(Integer value) {
+        public Criteria andNoticeIdGreaterThan(Long value) {
             addCriterion("notice_id >", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNoticeIdGreaterThanOrEqualTo(Long value) {
             addCriterion("notice_id >=", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdLessThan(Integer value) {
+        public Criteria andNoticeIdLessThan(Long value) {
             addCriterion("notice_id <", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdLessThanOrEqualTo(Integer value) {
+        public Criteria andNoticeIdLessThanOrEqualTo(Long value) {
             addCriterion("notice_id <=", value, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdIn(List<Integer> values) {
+        public Criteria andNoticeIdIn(List<Long> values) {
             addCriterion("notice_id in", values, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdNotIn(List<Integer> values) {
+        public Criteria andNoticeIdNotIn(List<Long> values) {
             addCriterion("notice_id not in", values, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdBetween(Integer value1, Integer value2) {
+        public Criteria andNoticeIdBetween(Long value1, Long value2) {
             addCriterion("notice_id between", value1, value2, "noticeId");
             return (Criteria) this;
         }
 
-        public Criteria andNoticeIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andNoticeIdNotBetween(Long value1, Long value2) {
             addCriterion("notice_id not between", value1, value2, "noticeId");
             return (Criteria) this;
         }
@@ -702,6 +702,126 @@ public class SysNoticeExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIsNull() {
+            addCriterion("member_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIsNotNull() {
+            addCriterion("member_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdEqualTo(Long value) {
+            addCriterion("member_id =", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotEqualTo(Long value) {
+            addCriterion("member_id <>", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdGreaterThan(Long value) {
+            addCriterion("member_id >", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("member_id >=", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdLessThan(Long value) {
+            addCriterion("member_id <", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdLessThanOrEqualTo(Long value) {
+            addCriterion("member_id <=", value, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdIn(List<Long> values) {
+            addCriterion("member_id in", values, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotIn(List<Long> values) {
+            addCriterion("member_id not in", values, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdBetween(Long value1, Long value2) {
+            addCriterion("member_id between", value1, value2, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberIdNotBetween(Long value1, Long value2) {
+            addCriterion("member_id not between", value1, value2, "memberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesIsNull() {
+            addCriterion("notice_classes is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesIsNotNull() {
+            addCriterion("notice_classes is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesEqualTo(Integer value) {
+            addCriterion("notice_classes =", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesNotEqualTo(Integer value) {
+            addCriterion("notice_classes <>", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesGreaterThan(Integer value) {
+            addCriterion("notice_classes >", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("notice_classes >=", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesLessThan(Integer value) {
+            addCriterion("notice_classes <", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesLessThanOrEqualTo(Integer value) {
+            addCriterion("notice_classes <=", value, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesIn(List<Integer> values) {
+            addCriterion("notice_classes in", values, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesNotIn(List<Integer> values) {
+            addCriterion("notice_classes not in", values, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesBetween(Integer value1, Integer value2) {
+            addCriterion("notice_classes between", value1, value2, "noticeClasses");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeClassesNotBetween(Integer value1, Integer value2) {
+            addCriterion("notice_classes not between", value1, value2, "noticeClasses");
             return (Criteria) this;
         }
     }

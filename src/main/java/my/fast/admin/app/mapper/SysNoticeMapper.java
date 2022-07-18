@@ -12,7 +12,7 @@ public interface SysNoticeMapper {
 
     int deleteByExample(SysNoticeExample example);
 
-    int deleteByPrimaryKey(Integer noticeId);
+    int deleteByPrimaryKey(Long noticeId);
 
     int insert(SysNotice record);
 
@@ -22,7 +22,7 @@ public interface SysNoticeMapper {
 
     List<SysNotice> selectByExample(SysNoticeExample example);
 
-    SysNotice selectByPrimaryKey(Integer noticeId);
+    SysNotice selectByPrimaryKey(Long noticeId);
 
     int updateByExampleSelective(@Param("record") SysNotice record, @Param("example") SysNoticeExample example);
 
@@ -35,4 +35,6 @@ public interface SysNoticeMapper {
     int updateByPrimaryKeyWithBLOBs(SysNotice record);
 
     int updateByPrimaryKey(SysNotice record);
+
+    List<SysNotice> getMemberNoticeList(Long memberId);
 }

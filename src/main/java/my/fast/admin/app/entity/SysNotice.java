@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SysNotice implements Serializable {
     @ApiModelProperty(value = "公告ID")
-    private Integer noticeId;
+    private Long noticeId;
 
     @ApiModelProperty(value = "公告标题")
     private String noticeTitle;
@@ -33,16 +33,22 @@ public class SysNotice implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @ApiModelProperty(value = "会员ID")
+    private Long memberId;
+
+    @ApiModelProperty(value = "通知类型(1.系统通知 2.个人通知 3.其他通知)")
+    private Integer noticeClasses;
+
     @ApiModelProperty(value = "公告内容")
     private byte[] noticeContent;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getNoticeId() {
+    public Long getNoticeId() {
         return noticeId;
     }
 
-    public void setNoticeId(Integer noticeId) {
+    public void setNoticeId(Long noticeId) {
         this.noticeId = noticeId;
     }
 
@@ -110,6 +116,22 @@ public class SysNotice implements Serializable {
         this.remark = remark;
     }
 
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public Integer getNoticeClasses() {
+        return noticeClasses;
+    }
+
+    public void setNoticeClasses(Integer noticeClasses) {
+        this.noticeClasses = noticeClasses;
+    }
+
     public byte[] getNoticeContent() {
         return noticeContent;
     }
@@ -133,6 +155,8 @@ public class SysNotice implements Serializable {
         sb.append(", updateBy=").append(updateBy);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", remark=").append(remark);
+        sb.append(", memberId=").append(memberId);
+        sb.append(", noticeClasses=").append(noticeClasses);
         sb.append(", noticeContent=").append(noticeContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
