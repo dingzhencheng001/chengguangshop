@@ -32,4 +32,6 @@ public interface AppMemberAccountChangeMapper {
 
     List<AppMemberAccountChange> selectMemberAccountChange(@Param("type")Integer type, @Param("memberId")Long memberId);
 
+    List<AppMemberAccountChange> getMemberList(Integer type, Long memberId);
+
 }

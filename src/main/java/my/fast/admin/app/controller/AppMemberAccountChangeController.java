@@ -48,8 +48,8 @@ public class AppMemberAccountChangeController {
         return CommonResult.success(appAccountChange);
     }
 
-    @ApiOperation(value = "查询账户变动情况")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation(value = "查询个人账户情况")
+    @RequestMapping(value = "/select", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -62,6 +62,17 @@ public class AppMemberAccountChangeController {
         //查询账户交易账变记录
         Long memberId = appUserVO.getId();
         List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.listAccountChange(type,memberId,
+            pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
+    }
+
+    @ApiOperation(value = "获取账变信息")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
+        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+        List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.getMemberList(
             pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }

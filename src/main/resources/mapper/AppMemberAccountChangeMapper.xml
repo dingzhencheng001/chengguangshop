@@ -221,6 +221,7 @@
             opera_type = #{type,jdbcType=INTEGER}
         </if>
     </select>
+    <select id="getMemberList" resultType="my.fast.admin.app.entity.AppMemberAccountChange"></select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_member_account_change
         <set>

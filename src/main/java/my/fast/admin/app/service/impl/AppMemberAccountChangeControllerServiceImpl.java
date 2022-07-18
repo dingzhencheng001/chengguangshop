@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
@@ -39,6 +40,14 @@ public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAcc
             type, memberId);
         PageHelper.startPage(pageNum, pageSize);
         return appMemberAccountChanges;
+    }
+
+    @Override
+    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        AppMemberAccountChangeExample appMemberAccountChangeExample = new AppMemberAccountChangeExample();
+        return appMemberAccountChangeMapper.selectByExample(appMemberAccountChangeExample);
+
     }
 
     @Override
