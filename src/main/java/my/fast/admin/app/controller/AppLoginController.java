@@ -27,6 +27,8 @@ import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.RedisKeyConstant;
 import my.fast.admin.app.common.constant.UserConstants;
 import my.fast.admin.app.entity.AppMember;
+import my.fast.admin.app.entity.SysChannel;
+import my.fast.admin.app.service.AppChannelService;
 import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.DateFormat;
@@ -45,6 +47,9 @@ public class AppLoginController {
     
     @Autowired
     private AppMemberService appMemberService;
+    
+    @Autowired
+    private AppChannelService appChannelService;
     
     @Autowired
     private RedisTemplate redisTemplate;
@@ -77,14 +82,18 @@ public class AppLoginController {
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
         System.out.println("tempContextUrl: "+  tempContextUrl);
         
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+//        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+//            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+//        }
+        System.out.println(sysChannel);
         
-        
+        //loginVO.setCompanyId(sysChannel.getChannelId());
         AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
 //        渠道号不为空
-//        AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
+        //        AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
         
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
-        	CommonResult.failed("0xCUC47451");
             return CommonResult.failed("账号不存在");
         }
         //后续加上密码加密串字段salt

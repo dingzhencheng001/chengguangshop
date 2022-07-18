@@ -21,6 +21,9 @@ public interface SysChannelMapper {
     List<SysChannel> selectByExample(SysChannelExample example);
 
     SysChannel selectByPrimaryKey(Long id);
+    
+    
+    SysChannel getChannelInfoByAppDns(String appDns);
 
     int updateByExampleSelective(@Param("record") SysChannel record, @Param("example") SysChannelExample example);
 

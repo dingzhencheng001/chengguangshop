@@ -97,6 +97,14 @@
     from sys_channel
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <!-- 2022-07-17 ADD BY DINGZC -->
+  <select id="getChannelInfoByAppDns" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_channel
+    where app_dns = #{appDns,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_channel
     where id = #{id,jdbcType=INTEGER}

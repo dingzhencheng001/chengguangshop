@@ -40,4 +40,11 @@ public interface AppChannelService {
      * 新增
      */
     int createChannel(SysChannel sysChannel);
+    
+    
+    /**
+     * 根据请求的域名获取渠道信息
+     */
+    SysChannel getChannelInfoByAppDns(String appDns);
+    
 }

@@ -7,18 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
-import my.fast.admin.app.entity.SysAgentList;
-import my.fast.admin.app.entity.SysAgentListExample;
 import my.fast.admin.app.entity.SysChannel;
 import my.fast.admin.app.entity.SysChannelExample;
-import my.fast.admin.app.mapper.SysAgentListMapper;
 import my.fast.admin.app.mapper.SysChannelMapper;
-import my.fast.admin.app.service.AppAgentListService;
 import my.fast.admin.app.service.AppChannelService;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 14:34
@@ -56,4 +50,9 @@ public class AppChannelServiceImpl implements AppChannelService {
     public int createChannel(SysChannel sysChannel) {
         return sysChannelMapper.insertSelective(sysChannel);
     }
+
+	@Override
+	public SysChannel getChannelInfoByAppDns(String appDns) {
+		return sysChannelMapper.getChannelInfoByAppDns(appDns);
+	}
 }
