@@ -22,6 +22,8 @@ import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberLevel;
+import my.fast.admin.app.entity.SysAgentList;
+import my.fast.admin.app.service.AppAgentListService;
 import my.fast.admin.app.service.AppMemberLevelService;
 import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.app.vo.AppMemberVo;
@@ -44,6 +46,8 @@ public class AppMemberController {
 	@Autowired
 	private AppMemberLevelService appMemberLevelService;
 	
+	@Autowired
+	private AppAgentListService agentListService;
 	
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
@@ -137,9 +141,16 @@ public class AppMemberController {
         } 
         reVo.setLevelList(levelList);
         
-        //代理收益列表获取 ? 查找逻辑是 我的上级代理还是下级代理 ？
-        //	TODO=
+        //代理收益列表获取 ? 查找逻辑是 我的上级代理还是下级代理 ？ --暂查询随机展示
+        List<SysAgentList> agentList = agentListService.listAll();
+        if (agentList == null) {
+        	return CommonResult.failed("会员佣金数据异常");
+        } 
+        reVo.setAgentList(agentList);
         
+        //中部部图片管理 TODO= 
+        //底部图片管理 TODO= 
+
         return CommonResult.success(reVo);
     }
     

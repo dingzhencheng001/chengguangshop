@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SysAgentList implements Serializable {
     @ApiModelProperty(value = "ID")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "会员ID")
     private String memberId;
@@ -39,11 +39,11 @@ public class SysAgentList implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

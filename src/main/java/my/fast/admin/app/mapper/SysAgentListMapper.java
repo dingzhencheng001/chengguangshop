@@ -12,7 +12,7 @@ public interface SysAgentListMapper {
 
     int deleteByExample(SysAgentListExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SysAgentList record);
 
@@ -20,7 +20,7 @@ public interface SysAgentListMapper {
 
     List<SysAgentList> selectByExample(SysAgentListExample example);
 
-    SysAgentList selectByPrimaryKey(Integer id);
+    SysAgentList selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") SysAgentList record, @Param("example") SysAgentListExample example);
 

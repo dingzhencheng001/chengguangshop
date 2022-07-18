@@ -2,6 +2,7 @@ package my.fast.admin.app.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import my.fast.admin.app.entity.AppMemberLevel;
+import my.fast.admin.app.entity.SysAgentList;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -150,16 +151,24 @@ public class AppMemberVo implements Serializable {
     private BigDecimal totalCommission;
 
     
-    
+    //会员等级列表
     private List<AppMemberLevel> levelList;
     
-    
+    //随机代理佣金展示
+    private List<SysAgentList> agentList;
     
     private static final long serialVersionUID = 1L;
 
     
-    
-    public List<AppMemberLevel> getLevelList() {
+    public List<SysAgentList> getAgentList() {
+		return agentList;
+	}
+
+	public void setAgentList(List<SysAgentList> agentList) {
+		this.agentList = agentList;
+	}
+
+	public List<AppMemberLevel> getLevelList() {
 		return levelList;
 	}
 

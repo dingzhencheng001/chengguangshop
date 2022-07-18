@@ -65,12 +65,19 @@ public class AppLoginController {
     @ApiOperation("登录")
     @PostMapping("/applogin")
     @ResponseBody
-    public CommonResult login(@RequestBody AppMember  loginVO) {
+    public CommonResult login(@RequestBody AppMember  loginVO,HttpServletRequest request) {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
         CommonResult commonResult;
         if (loginVO == null || StringUtils.isEmpty(loginVO.getUserAccount()) || StringUtils.isEmpty(loginVO.getPassword())) {
             return CommonResult.failed("账号密码不能为空");
         }
+        
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
+        System.out.println("tempContextUrl: "+  tempContextUrl);
+        
+        
         
         AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
 //        渠道号不为空
