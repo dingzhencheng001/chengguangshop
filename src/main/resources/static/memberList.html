@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <!-- layui -->
+<!--    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all"/>-->
+<!--    <script src="plugins/layui/layui.js"></script>-->
+<!--    <link rel="stylesheet" href="plugins/layui-v2.4.0/css/layui.css" media="all" />-->
+<!--    <script src="plugins/layui-v2.4.0/layui.js"></script>-->
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all" />
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <style>
+        /*.member-list-page .layui-table-cell{*/
+        /*    height: auto;*/
+        /*}*/
+        .label-required:after, .label-required-next:after {
+            top: 6px;
+            right: 5px;
+            color: red;
+            content: '*';
+            position: absolute;
+            margin-left: 4px;
+            font-weight: 700;
+            line-height: 1.8em;
+        }
+        .help-block {
+            color: #999;
+            font-size: 12px;
+        }
+        .hr-line-dashed {
+            color: #fff;
+            height: 1px;
+            margin: 15px 0;
+            background-color: #fff;
+            border-top: 1px dashed #e7eaec;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid member-list-page">
+    <div class="searchTable" style="padding: 20px">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">关键词:</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="menu_name" autocomplete="off">
+                </div>
+<!--                <label class="layui-form-label">菜单类型:</label>-->
+<!--                <div class="layui-input-inline" name="menu_type" combobox="dicDefine:'menuType',filter:'menuType'">-->
+<!--                </div>-->
+                <div class="layui-input-inline">
+                    <button class="layui-btn search-btn" lay-submit lay-filter="reload" data-type="reload"><i
+                            class="fa fa-search">&nbsp;</i>搜索
+                    </button>
+                    <button class="layui-btn layui-btn-primary" type="button" data-type="reset"><i
+                            class="fa fa-refresh">&nbsp;</i>重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-btn-group">
+        <!--使用shiro标签进行按钮权限验证-->
+        <!--        <@shiro.hasPermission name="menu:add">-->
+        <button class="layui-btn" data-type="add"><i class="fa fa-plus">&nbsp;</i>增加</button>
+        <!--        </@shiro.hasPermission>-->
+        <!--    <@shiro.hasPermission name="menu:update">-->
+        <button class="layui-btn" data-type="edit" style="margin-left: 5px!important;"><i class="fa fa-pencil-square-o">&nbsp;</i>修改
+        </button>
+        <!--</@shiro.hasPermission>-->
+        <!--<@shiro.hasPermission name="menu:del">-->
+        <button class="layui-btn" data-type="del" style="margin-left: 5px!important;"><i
+                class="fa fa-trash-o">&nbsp;</i>删除
+        </button>
+        <!--</@shiro.hasPermission>-->
+    </div>
+
+    <table id="member-list" lay-filter="member-list"></table>
+
+    <!--修改邀请码表单-->
+    <div id="upInviteCodeId" style="display: none">
+        <form class="layui-form layui-card" action="">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">邀请码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required
+                               id="newInviteCode"
+                               lay-verify="required" placeholder="请输入邀请码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center" style="text-align: center;">
+                    <button class="layui-btn" lay-submit lay-filter="upInviteCodeSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-danger" id="dupInviteCodeCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--扣款表单-->
+    <div id="deductionId" style="display: none">
+        <form class="layui-form layui-card" action="">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">金额</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
+                        <p class="help-block">正表示加，负表示扣</p>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center" style="text-align: center;">
+                    <button class="layui-btn" lay-submit lay-filter="deductionSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-danger" id="deductionCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!--账号-->
+<script type="text/html" id="userAccount">
+    <div>
+        <div>手机号：{{=d.phoneNumber}}</div>
+        <div>用户名：{{=d.userAccount}}</div>
+        <div class="layui-btn layui-btn-xs layui-btn-normal">{{=d.memberStatus === 1 ? '真人' : '假人'}}</div>
+    </div>
+</script>
+
+<!--会员等级-->
+<script type="text/html" id="memberLevelId">
+    <div>
+        <div>{{=d.memberLevelId}}</div>
+        <div style="color: red">0% - 0%</div>
+    </div>
+</script>
+
+<!--账户余额-->
+<!--缺少利息宝金额-->
+<script type="text/html" id="balance">
+    <div>
+        <div>账户余额:{{=d.balance}}</div>
+        <div>冻结金额:{{=d.freezeBalance}}</div>
+        <div>利息宝金额:</div>
+    </div>
+</script>
+
+<!--邀请码-->
+<script type="text/html" id="inviteCode">
+    <div>
+        <div class="layui-btn layui-btn-sm" lay-event="upInviteCode">修改</div>
+        <span>{{=d.inviteCode}}</span>
+    </div>
+</script>
+
+<!--注册信息-->
+<script type="text/html" id="register">
+    <div>
+        <p>{{ layui.util.toDateString(d.registrationTime, 'yyyy-MM-dd')}}</p>
+        <p>{{ d.registerCountry}}</p>
+    </div>
+</script>
+
+<!--操作-->
+<script type="text/html" id="operation">
+    <span class="layui-btn layui-btn-sm" lay-event="deduction">扣款</span>
+    <span class="layui-btn layui-btn-sm" lay-event="dispatch">派单</span>
+</script>
+
+<script>
+    layui.use(['table', 'form', 'util', 'element'], function () {
+        var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
+        var element = layui.element;
+
+        // 扣款弹窗Index
+        var deductionIndex;
+        // 修改邀请码弹窗Index
+        var upInviteCodeIndex;
+
+        var where = {
+            // "agentLevel": 0,
+            // "balance": 0,
+            // "companyId": 0,
+            // "createBy": "string",
+            // "createTime": "2022-07-18T09:18:19.191Z",
+            // "deductionNum": 0,
+            // "delFlag": 0,
+            // "depositNum": 0,
+            // "email": "string",
+            // "freezeBalance": 0,
+            // "id": 0,
+            // "inviteCode": "string",
+            // "isAgent": 0,
+            // "loginDate": "2022-07-18T09:18:19.191Z",
+            // "loginIp": "string",
+            // "matching": "string",
+            // "memberLevelId": 0,
+            // "memberStatus": 0,
+            // "parentUserId": 0,
+            // "parentUserName": "string",
+            // "password": "string",
+            // "phoneNumber": "string",
+            // "rechargeNum": 0,
+            // "registerCountry": "string",
+            // "registerIp": "string",
+            // "registrationTime": "2022-07-18T09:18:19.191Z",
+            // "remark": "string",
+            "status": 0,
+            // "totalCommission": 0,
+            // "userAccount": "string"
+        };
+        var parseData = function (res) {
+            console.log('res', res)
+            var msg;
+            var code;
+            var count;
+            var data;
+            if (res.code === 200) {
+                code = 0;
+                msg = res.message;
+                count = res.data.total;
+                data = res.data.list;
+            } else {
+                code = res.code;
+                msg = res.msg;
+                count = 0;
+                data = [];
+            }
+            return {
+                "code": code, //解析接口状态
+                "msg": msg, //解析提示文本
+                "count": count, //解析数据长度
+                "data": data //解析数据列表
+            };
+        };
+
+        table.render({
+            elem: '#member-list',
+            method: 'post',
+            url: 'http://localhost:8080/member/list', //数据接口
+            page: true, //开启分页
+            cellMinWidth: 100, //全局定义常规单元格的最小宽度
+            contentType: 'application/json',
+            where: where,
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize', //每页数据量的参数名，默认：limit
+            },
+            lineStyle: 'height: 100px;',
+            // ID	账号	会员等级	账户余额	提现	冻结金额	上级用户	邀请码	注册信息	操作
+            cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', sort: true}
+                , {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
+                , {field: 'memberLevelId', title: '会员等级', templet: '#memberLevelId', sort: true, width: 110}
+                , {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
+                , {field: 'depositNum', title: '提现', sort: true, minWidth: 120}
+                , {field: 'freezeBalance', title: '冻结金额', sort: true, minWidth: 120}
+                , {field: 'parentUserName', title: '上级用户', sort: true, minWidth: 120}
+                , {field: 'inviteCode', title: '邀请码', templet: '#inviteCode', sort: true, width: 160}
+                , {field: 'registerId', title: '注册信息', templet: '#register', sort: true, minWidth: 160}
+                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 220 }
+            ]],
+            parseData: parseData,
+            // id: 'menuTable' // 容器唯一ID
+        });
+
+        //单元格工具事件
+        table.on('tool(member-list)', function(obj) { // 注：test 是 table 原始标签的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            // 修改邀请码
+            if (layEvent === 'upInviteCode') {
+                upInviteCodeIndex = layer.open({
+                    type: 1,
+                    // value: data.inviteCode,
+                    title: '修改邀请码',
+                    area: '800px',
+                    content: $('#upInviteCodeId'),
+                    success: function () {
+                        $('#newInviteCode').val(data.inviteCode);
+                        $('#upInviteCodeId').show();
+                    },
+                    cancel: function () {
+                        $('#upInviteCodeId').hide();
+                    }
+                });
+             // function(value, index, elem){
+             //        if (!value) {
+             //            layer.msg('请输入邀请码');
+             //            // alert('请输入邀请码');
+             //            return;
+             //        }
+             //        layer.close(index);
+             //    }
+            } else if (layEvent === 'deduction') { // 扣款
+                deductionIndex = layer.open({
+                    type: 1,
+                    title: '扣款',
+                    area: '800px',
+                    content: $('#deductionId'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    success: function () {
+                        $('#deductionId').show();
+                    },
+                    cancel: function () {
+                        $('#deductionId').hide();
+                    }
+                });
+            }
+
+
+        });
+
+        // 邀请码-提交
+        form.on('submit(upInviteCodeSubmit)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        // 邀请码-取消
+        $('#dupInviteCodeCancel').click(function () {
+            layer.close(upInviteCodeIndex);
+        });
+
+        // 扣款-提交
+        form.on('submit(deductionSubmit)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        // 扣款-取消
+        $('#deductionCancel').click(function () {
+            console.log('派单取消');
+            layer.close(deductionIndex);
+        });
+
+    });
+</script>
+
+</body>
+</html>

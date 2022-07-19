@@ -73,8 +73,10 @@ layui.use(['table','form'], function () {
                     , success: function (layero, index) {
                         // var body = layer.getChildFrame('body', index); // 弹出层ifram的body
                         // body.find('#loginid').val("123"); // 给ifram的form赋值
-                        var iframeWin = window[layero.find('iframe')[0]['name']]; // 得到iframe页的窗口对象
-                        iframeWin.parentParas(data);// 给ifram传值
+                        setTimeout(function () {
+                            var iframeWin = window[layero.find('iframe')[0]['name']]; // 得到iframe页的窗口对象
+                            iframeWin.parentParas(data);// 给ifram传值
+                        }, 10)
                     }
                 })
             }
