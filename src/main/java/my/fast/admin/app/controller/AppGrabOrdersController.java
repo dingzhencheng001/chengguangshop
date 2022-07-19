@@ -55,7 +55,7 @@ public class AppGrabOrdersController {
     @ApiOperation(value = "提交随机生成的订单")
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult submitOrders(HttpServletRequest request, @RequestBody AppGoods appGoods) {
+    public CommonResult submitOrders(HttpServletRequest request, @RequestBody AppGoods appGoods) throws Exception {
         CommonResult commonResult;
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {

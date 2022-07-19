@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import my.fast.admin.app.common.constant.UserConstants;
+import my.fast.admin.app.entity.AppConvey;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberExample;
+import my.fast.admin.app.entity.AppMemberLevel;
+import my.fast.admin.app.mapper.AppConveyMapper;
 import my.fast.admin.app.mapper.AppMemberMapper;
 import my.fast.admin.app.model.AppMemberParam;
 import my.fast.admin.app.service.AppMemberService;
@@ -30,6 +33,9 @@ public class AppMemberServiceImpl implements AppMemberService {
 
     @Autowired
     private AppMemberMapper appMemberMapper;
+
+    @Autowired
+    private AppConveyMapper appConveyMapper;
 
     @Override
     public List<AppMember> listAll() {
@@ -141,7 +147,14 @@ public class AppMemberServiceImpl implements AppMemberService {
 
     @Override
     public AppMemberDto selectAppMemberCountByPrimary(Long id) {
-       return appMemberMapper.selectAppMemberCountByPrimary(id);
+        AppMemberDto memberDto = appMemberMapper.selectAppMemberCountByPrimary(id);
+        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+        Long qiang = appConveys.stream()
+            .map(e -> e.getQiang())
+            .reduce(Long::max)
+            .get();
+        memberDto.setLastQiang(qiang);
+        return memberDto;
     }
 
     @Override

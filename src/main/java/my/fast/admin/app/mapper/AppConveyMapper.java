@@ -29,4 +29,6 @@ public interface AppConveyMapper {
     int updateByPrimaryKeySelective(AppConvey record);
 
     int updateByPrimaryKey(AppConvey record);
+
+    List<AppConvey>  selectConvey();
 }

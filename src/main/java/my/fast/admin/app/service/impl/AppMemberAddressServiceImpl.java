@@ -60,7 +60,6 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
 
 	@Override
 	public AppMemberAddress getMemberAddress(Long userId) {
-		
-		return appMemberAddressMapper.selectBymemberId(userId);
+		return appMemberAddressMapper.selectByMemberId(userId);
 	}
 }

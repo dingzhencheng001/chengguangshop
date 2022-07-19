@@ -241,7 +241,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectConvey" resultType="my.fast.admin.app.entity.AppConvey">
+        select * from app_convey where TO_DAYS(addtime) = TO_DAYS(now());
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update app_convey
     <set>
       <if test="record.id != null">
