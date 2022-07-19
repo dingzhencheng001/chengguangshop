@@ -78,6 +78,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //佣金计算
         BigDecimal GrabCommission = goodsPrice.multiply(commission);
         appConvey.setCommission(GrabCommission);
+        //设置商品订单id
+        appConvey.setGoodsId(appGoods.getId());
         //生成订单号
         appConvey.setLno(generateOrderSn());
         //修改本单金额
