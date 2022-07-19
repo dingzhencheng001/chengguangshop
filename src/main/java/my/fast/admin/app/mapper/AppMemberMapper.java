@@ -87,10 +87,15 @@ public interface AppMemberMapper {
     void updateAgentBalance(AppMemberBalancePram appMemberBalancePram);
 
     /**
-     * 回去会员账户信息
+     * 获取会员账户信息
      * @param id
      */
     AppMemberDto selectAppMemberCountByPrimary(Long id);
 
-
+    /**
+     * 获取会员信息
+     *
+     * @param id
+     */
+    List<AppMember> getMemberTeam(Long id);
 }
