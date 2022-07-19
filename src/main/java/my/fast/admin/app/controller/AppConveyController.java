@@ -2,6 +2,9 @@ package my.fast.admin.app.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +18,10 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppConvey;
+import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.service.AppConveyService;
+import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.framework.utils.TokenUtils;
 
 /**
  * TODO
@@ -28,9 +34,13 @@ import my.fast.admin.app.service.AppConveyService;
 @Api(tags = "AppConveyController", description = "交易订单管理")
 @RequestMapping("/convey")
 public class AppConveyController {
+	
     @Autowired
     private AppConveyService appConveyService;
 
+	@Autowired
+	private AppMemberService appMemberService;
+    
     @ApiOperation("获取交易订单列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
@@ -39,13 +49,19 @@ public class AppConveyController {
         return CommonResult.success(appConvey);
     }
 
-    @ApiOperation(value = "根据条件获取分页列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation(value = "根据条件获取订单分页列表")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppConvey>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppConvey appConvey) {
-        List<AppConvey> conveyList = appConveyService.listConvey(appConvey, pageNum, pageSize);
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppConvey appConvey,HttpServletRequest request) {
+        
+    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户未登录");
+        }
+    	
+    	List<AppConvey> conveyList = appConveyService.listConvey(appConvey, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(conveyList));
     }
 
