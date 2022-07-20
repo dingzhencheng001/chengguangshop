@@ -26,6 +26,12 @@ public class DateFormat {
         return currentTime_2;
     }
 
+    public static String getDate(Date addTime) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(addTime);
+        return dateString;
+    }
+
     /**
      * 获取现在时间
      *

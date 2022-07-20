@@ -92,7 +92,7 @@
     from app_member_address
     where id = #{id,jdbcType=BIGINT}
   </select>
-   <select id="selectBymemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+   <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from app_member_address

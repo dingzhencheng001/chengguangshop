@@ -10,18 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import my.fast.admin.app.entity.AppConvey;
+import my.fast.admin.app.entity.AppConveyExample;
 import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.AppMemberAccountChange;
+import my.fast.admin.app.entity.AppMemberAddress;
 import my.fast.admin.app.entity.AppMemberLevel;
 import my.fast.admin.app.mapper.AppConveyMapper;
 import my.fast.admin.app.mapper.AppGoodsMapper;
 import my.fast.admin.app.mapper.AppMemberAccountChangeMapper;
+import my.fast.admin.app.mapper.AppMemberAddressMapper;
 import my.fast.admin.app.mapper.AppMemberLevelMapper;
 import my.fast.admin.app.mapper.AppMemberMapper;
 import my.fast.admin.app.model.AppMemberBalancePram;
 import my.fast.admin.app.model.AppRandomOrderPram;
 import my.fast.admin.app.service.AppGrabOrdersService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -48,10 +52,25 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     @Autowired
     private AppConveyMapper appConveyMapper;
 
+    @Autowired
+    private AppMemberAddressMapper appMemberAddressMapper;
+
     @Override
     public AppGoods randomOrders(AppRandomOrderPram appRandomOrderPram) throws Exception {
         Long memberId = appRandomOrderPram.getMemberId();
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+        AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
+        Integer orderLimitNum = appMemberLevel.getOrderNum();
+        Long qiang = appConveys.stream()
+            .map(e -> e.getQiang())
+            .reduce(Long::max)
+            .get();
+        String num = String.valueOf(qiang);
+        int userOderNum = Integer.parseInt(num);
+        if (userOderNum == orderLimitNum) {
+            throw new Exception("抢单数超过会员等级限制");
+        }
         AppGoods appGoods = new AppGoods();
         if (StringUtils.isEmpty(appMember)) {
             throw new Exception("会员不存在");
@@ -66,7 +85,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     @Override
-    public int submitOrders(AppGoods appGoods, Long memberId) {
+    public int submitOrders(AppGoods appGoods, Long memberId) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -80,16 +99,35 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setCommission(GrabCommission);
         //设置商品订单id
         appConvey.setGoodsId(appGoods.getId());
+        //设置会员id
+        appConvey.setMemberId(appMember.getId());
         //生成订单号
         appConvey.setLno(generateOrderSn());
-        //修改本单金额
+        //设置本单金额
         appConvey.setAmount(appGoods.getGoodsPrice());
-        //修改下单时间
-        appConvey.setAddtime(appGoods.getGoodsAddTime());
-        //增加抢单数
-        appConvey.setQiang(1L);
+        //设置下单时间
+        appConvey.setAddtime(DateFormat.getNowDate());
+        //设置完成时间
+        appConvey.setEndtime(DateFormat.getNowDate());
+        //设置订单状态
+        appConvey.setStatus("1");
+        //设置订单状态
+        appConvey.setcStatus("1");
+        //设置会员收货地址id
+        AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
+        if (!StringUtils.isEmpty(appMemberAddress)) {
+            appConvey.setAddId(appMemberAddress.getId());
+        } else {
+            throw new Exception("会员收货地址不存在");
+        }
+        //设置抢单数
+        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+        Long qiang = appConveys.stream()
+            .map(e -> e.getQiang())
+            .reduce(Long::max)
+            .get();
+        appConvey.setQiang(qiang + 1);
         //修改会员余额金额
-        //appMember.setBalance(balance.subtract(goodsPrice).add(GrabCommission));
         AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
         appMemberBalancePram.setMemberId(memberId);
         appMemberBalancePram.setGoodsPrice(goodsPrice);
@@ -100,16 +138,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberMapper.selectParent();
         List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
         //更新parentAgentBalance
-        //AppMemberBalancePram appMemberBalancePram2 = new AppMemberBalancePram();
-        //appMemberBalancePram.setMemberId(memberId);
-        //appMemberBalancePram.setGoodsPrice(goodsPrice);
-        //appMemberBalancePram.setMemberLevelId(getMemberLevelId);
-        //appMemberMapper.updateAgentMemberBalance(getMemberLevelId,goodsPrice,memberId);
         calculateCommission(appMembers, goodsPrice);
-        //appMemberMapper.updateAgentMemberBalance();
-        //calculateCommission();
-        //appMemberMapper.updateAgentMemberBalance();
-        //appMemberMapper.updateAgentMemberBalance();
         //插入账目变动表信息
         AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         appMemberAccountChange.setMemberId(memberId);
@@ -125,6 +154,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
+
+
 
     /**
      * 父级balance更新
@@ -165,8 +196,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                     appMemberBalancePram.setBalance(parentBalance);
                     appMemberBalancePram.setMemberId(id);
                     appMemberMapper.updateAgentBalance(appMemberBalancePram);
-                }
-                else if (memberLevelId == 5L) {
+                } else if (memberLevelId == 5L) {
                     appMember.setBalance(add);
                     BigDecimal parentBalance = appMember.getBalance();
                     AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();

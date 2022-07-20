@@ -135,4 +135,7 @@ public class AppMemberDto {
     @ApiModelProperty(value = "提现手续费")
     private BigDecimal serviceCharge;
 
+    @ApiModelProperty(value = "抢单次数")
+    private Long lastQiang;
+
 }

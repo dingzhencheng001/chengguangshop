@@ -3,6 +3,7 @@ package my.fast.admin.app.service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import my.fast.admin.app.entity.AppConvey;
+import my.fast.admin.app.vo.AppConveyDto;
 
 /**
  * TODO
@@ -21,7 +22,7 @@ public interface AppConveyService {
     /**
      * 分页查询
      */
-    List<AppConvey> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize);
+    List<AppConveyDto> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize);
 
     /**
      * 删除订单
