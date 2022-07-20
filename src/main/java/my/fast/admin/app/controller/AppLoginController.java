@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.RedisKeyConstant;
 import my.fast.admin.app.common.constant.UserConstants;
+import my.fast.admin.app.common.utils.RequestUtil;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.SysChannel;
 import my.fast.admin.app.service.AppChannelService;
@@ -86,7 +87,7 @@ public class AppLoginController {
         if (!loginVO.getPassword().equals(appUserVO.getPassword())) {
             return CommonResult.failed( "密码错误");
         }
-        Map<String, Object> resultMap  = loginAction(appUserVO);
+        Map<String, Object> resultMap  = loginAction(appUserVO,request);
         commonResult = CommonResult.success(resultMap);
         return commonResult;
     }
@@ -95,9 +96,10 @@ public class AppLoginController {
     /**
      * 登录
      * @param appUserVO
+     * @param request
      * @return
      */
-    private Map<String, Object> loginAction(AppMember appUserVO) {
+    private Map<String, Object> loginAction(AppMember appUserVO, HttpServletRequest request) {
     	log.info(System.currentTimeMillis() +"执行登陆方法{}", appUserVO.getUserAccount());
 //      Assert.isTrue("0" .equals(appUserVO.getStatus().toString()) , "账号已禁用");
         String username = appUserVO.getUserAccount();
@@ -119,6 +121,7 @@ public class AppLoginController {
         //更新登录时间 TODO 登陆IP等获取
 //        log.info(System.currentTimeMillis() + " 登陆完成,更新登陆时间" );
         appUserVO.setLoginDate(new Date());
+        appUserVO.setLoginIp(RequestUtil.getRequestIp(request));
         appMemberService.updateMember(appUserVO.getId(), appUserVO);
         resultMap.put("user", appUserVO);
         System.out.println(token);
@@ -130,7 +133,7 @@ public class AppLoginController {
     @ApiOperation("帐号注册")
     @PostMapping("/registry")
     @ResponseBody
-    public CommonResult registry(@RequestBody AppMember userLoginVO) {
+    public CommonResult registry(@RequestBody AppMember userLoginVO,HttpServletRequest request) {
         log.info("[0xCUC50130]请求内容：{}", userLoginVO == null ? null : userLoginVO.toString());
         if (userLoginVO == null || StringUtils.isEmpty(userLoginVO.getUserAccount()) || StringUtils.isEmpty(userLoginVO.getPassword())) {
             return CommonResult.failed("注册的帐号密码不能为空");
@@ -179,7 +182,7 @@ public class AppLoginController {
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
     	//注册IP  注册国家  TODO= 从公共方法获取
-    	
+        tbAppUser.setRegisterIp(RequestUtil.getRequestIp(request));
     	log.info(System.currentTimeMillis() + "注册用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());

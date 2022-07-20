@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.UserConstants;
+import my.fast.admin.app.common.utils.RequestUtil;
 import my.fast.admin.app.controller.AppLoginController;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.SysChannel;
@@ -152,7 +153,7 @@ public class MemberController {
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
     	//注册IP  注册国家 ？
-    	
+        tbAppUser.setRegisterIp(RequestUtil.getRequestIp(request));
     	log.info(System.currentTimeMillis() + "添加用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
