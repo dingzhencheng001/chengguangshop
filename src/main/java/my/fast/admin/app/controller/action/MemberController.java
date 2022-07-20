@@ -30,6 +30,7 @@ import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.framework.shiro.ShiroUtils;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.DateFormat;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -42,6 +43,14 @@ import my.fast.admin.framework.utils.DateFormat;
 @Api(tags = "MemberController", description = "会员管理")
 @RequestMapping("/memberaction")
 public class MemberController {
+
+    @RequestMapping("/list")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("member/list");
+        return mav;
+    }
+
     @Autowired
     private AppMemberService appMemberService;
 
