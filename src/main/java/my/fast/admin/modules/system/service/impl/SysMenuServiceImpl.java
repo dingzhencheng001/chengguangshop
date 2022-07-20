@@ -27,7 +27,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    @Cacheable(value = "sys_menu:sys/menu/user", keyGenerator = "keyGenerator")
+    //@Cacheable(value = "sys_menu:sys/menu/user", keyGenerator = "keyGenerator")
     public List<SysMenu> getMenu(String loginid) {
         return sysMenuMapper.getMenu(loginid);
     }

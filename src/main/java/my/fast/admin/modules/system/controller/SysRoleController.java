@@ -99,7 +99,7 @@ public class SysRoleController {
      * @return
      */
     @RequestMapping("/menu")
-    @Cacheable(value = "sys_menu:sys/role/menu")
+    //@Cacheable(value = "sys_menu:sys/role/menu")
     public R menu() {
         EntityWrapper<SysMenu> ew = new EntityWrapper<>();
         ew.orderBy("menu_id", true);
