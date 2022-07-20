@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.app.entity.AppConvey;
 import my.fast.admin.app.entity.AppConveyExample;
+import my.fast.admin.app.vo.AppConveyDto;
 
 public interface AppConveyMapper {
     long countByExample(AppConveyExample example);
@@ -19,6 +20,8 @@ public interface AppConveyMapper {
     int insertSelective(AppConvey record);
 
     List<AppConvey> selectByExample(AppConveyExample example);
+    
+    List<AppConveyDto> selectByConveyByStatus(AppConvey appConvey);
 
     AppConvey selectByPrimaryKey(Long id);
 

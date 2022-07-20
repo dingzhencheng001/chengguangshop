@@ -96,6 +96,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <select id="selectByConveyByStatus" parameterType="my.fast.admin.app.entity.AppConvey"  resultType="my.fast.admin.app.vo.AppConveyDto" >
+    SELECT t2.goods_name, t2.shop_name ,t1.*  from  app_convey t1 LEFT JOIN app_goods t2 on t1.goods_id=t2.id 
+    where 1=1  and  t1.member_id = #{memberId,jdbcType=BIGINT}
+    <if test="status != null">
+      and  t1.status = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

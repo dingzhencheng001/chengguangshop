@@ -12,6 +12,7 @@ import my.fast.admin.app.entity.AppConvey;
 import my.fast.admin.app.entity.AppConveyExample;
 import my.fast.admin.app.mapper.AppConveyMapper;
 import my.fast.admin.app.service.AppConveyService;
+import my.fast.admin.app.vo.AppConveyDto;
 
 /**
  * TODO
@@ -32,15 +33,15 @@ public class AppConveyServiceImpl implements AppConveyService {
     }
 
     @Override
-    public List<AppConvey> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize) {
+    public List<AppConveyDto> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        AppConveyExample appGoodsExample = new AppConveyExample();
+//        AppConveyExample appGoodsExample = new AppConveyExample();
 //        AppConveyExample.Criteria criteria = appGoodsExample.createCriteria();
 //        if (!StringUtils.isEmpty(appConvey.get)) {
 //            criteria.andGoodsNameLike("%" + goodsName + "%");
 //        }
         
-        return appConveyMapper.selectByExample(appGoodsExample);
+        return appConveyMapper.selectByConveyByStatus(appConvey);
     }
 
     @Override
