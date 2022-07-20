@@ -23,6 +23,10 @@ spring:
     database: 1
     host: 119.3.204.184
     port: 6379
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
 # 日志配置
 logging:
   level:
@@ -30,3 +34,9 @@ logging:
   config: classpath:logback.xml
 # 开启调试模式
 debug: false
+s3:
+  storage:
+    accessKeyId: itfeiyue
+    secretAccessKey: itfeiyue
+    endpoint: 192.168.2.4:9090
+    bucketName: test

@@ -33,7 +33,7 @@ import my.fast.admin.app.service.FileService;
 public class FileController {
 
     @Autowired
-    FileService fileService;
+    private FileService fileService;
 
     /**
      * 批量上传

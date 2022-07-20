@@ -35,8 +35,11 @@ import my.fast.admin.app.entity.FileInfo;
 import my.fast.admin.app.service.FileService;
 
 /**
- * @Author lihaijian
- * @Date 2021-08-03 21:23
+ * TODO
+ *
+ * @author cgkj@cg.cn
+ * @version V1.0
+ * @since 2022/7/19 12:09
  */
 @Service
 public class FileServiceImpl implements FileService {

@@ -11,30 +11,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import my.fast.admin.app.entity.FileInfo;
 
-/**
- * @author lihaijian
- */
+
 public interface FileService {
     /**
      * 批量上传文件
-     * @param file
-     * @return
      */
     List<FileInfo> uploadFile(MultipartFile[] file);
 
     /**
      * 文件预览
-     * @param fileId
-     * @param request
-     * @return
      */
     ResponseEntity<Resource> preview(String fileId, HttpServletRequest request);
 
     /**
-     * 文件预览
-     * @param request
-     * @param fileId
-     * @return
+     * 文件删除
      */
     int delFile(String fileId);
 }
