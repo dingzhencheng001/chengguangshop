@@ -54,20 +54,8 @@ public class AppLoginController {
     @Autowired
     private RedisTemplate redisTemplate;
     
-    /**
-     * @param appMemberVo 用户登录VO
-     * @return CommonResult
-     */
-    //@ApiOperation("登录")
-//    @PostMapping("/applogin")
-//    public CommonResult login(@RequestBody AppMember appMemberVo) {
-//        log.info("登录接口接收参数appMemberVo{}---------------", appMemberVo);
-//        //Assert.notNull(VO.getLoginType(), "登录类型为空");
-//        //Byte loginType = userLoginVO.getLoginType(); TODO 扩展登陆类型
-//        return loginWithAccount(appMemberVo);
-//    }
-    
-    @ApiOperation("登录")
+    @SuppressWarnings("rawtypes")
+	@ApiOperation("登录")
     @PostMapping("/applogin")
     @ResponseBody
     public CommonResult login(@RequestBody AppMember  loginVO,HttpServletRequest request) {
@@ -76,23 +64,17 @@ public class AppLoginController {
         if (loginVO == null || StringUtils.isEmpty(loginVO.getPhoneNumber()) || StringUtils.isEmpty(loginVO.getPassword())) {
             return CommonResult.failed("手机号密码不能为空");
         }
-        
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();  
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
-        System.out.println("tempContextUrl: "+  tempContextUrl);
-        
+        log.info("域名 ：tempContextUrl: "+  tempContextUrl);
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
-        System.out.println(sysChannel);
-        
+        log.info(sysChannel.getChannelId() + sysChannel.getAppDns());
         loginVO.setCompanyId(sysChannel.getChannelId());
-        //AppMember appUserVO = appMemberService.selectAppMemberByUserAccount(loginVO.getUserAccount());
-//        渠道号不为空
         AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
-        
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
             return CommonResult.failed("账号不存在");
         }
@@ -104,24 +86,20 @@ public class AppLoginController {
         if (!loginVO.getPassword().equals(appUserVO.getPassword())) {
             return CommonResult.failed( "密码错误");
         }
-        
         Map<String, Object> resultMap  = loginAction(appUserVO);
-        
         commonResult = CommonResult.success(resultMap);
-        
         return commonResult;
     }
 
 	
     /**
      * 登录
-     *
-     * @param fdBaseUserVO FdBaseUserVO
-     * @return MessageResult
+     * @param appUserVO
+     * @return
      */
     private Map<String, Object> loginAction(AppMember appUserVO) {
     	log.info(System.currentTimeMillis() +"执行登陆方法{}", appUserVO.getUserAccount());
-//        Assert.isTrue("0" .equals(appUserVO.getStatus().toString()) , "账号已禁用");
+//      Assert.isTrue("0" .equals(appUserVO.getStatus().toString()) , "账号已禁用");
         String username = appUserVO.getUserAccount();
         Map<String, Object> resultMap = new HashMap<>(8);
         Map<String, Object> claims = new HashMap<>(8);
@@ -149,7 +127,6 @@ public class AppLoginController {
     }
 
     
-    
     @ApiOperation("帐号注册")
     @PostMapping("/registry")
     @ResponseBody
@@ -158,13 +135,11 @@ public class AppLoginController {
         if (userLoginVO == null || StringUtils.isEmpty(userLoginVO.getUserAccount()) || StringUtils.isEmpty(userLoginVO.getPassword())) {
             return CommonResult.failed("注册的帐号密码不能为空");
         }
-        
         //设置处理对象
         AppMember  tbAppUser = new  AppMember();
         tbAppUser.setUserAccount(userLoginVO.getUserAccount());
         tbAppUser.setPhoneNumber(userLoginVO.getPhoneNumber());
         tbAppUser.setEmail(userLoginVO.getEmail());
-        
     	if (StringUtils.isEmpty(userLoginVO.getInviteCode()))
         {
             return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码失效或不存在");
@@ -203,7 +178,7 @@ public class AppLoginController {
     	tbAppUser.setCreateTime(DateFormat.getNowDate());
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
-    	//注册IP  注册国家 ？
+    	//注册IP  注册国家  TODO= 从公共方法获取
     	
     	log.info(System.currentTimeMillis() + "注册用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
@@ -213,13 +188,11 @@ public class AppLoginController {
         } else {
         	return CommonResult.failed( "注册失败，请联系管理员...");
         }
-            
     }
 
     
     /**
      * 用户修改登录密码
-     *
      * @param request HttpServletRequest
      * @param oldPwd  旧密码
      * @param newPwd  新密码
@@ -230,11 +203,8 @@ public class AppLoginController {
     @ResponseBody
     public CommonResult updatePwd(HttpServletRequest request, @RequestParam("oldPwd") String oldPwd,
                                    @RequestParam("newPwd") String newPwd, @RequestParam("token") String token) {
-        
     	//APP已登录用户 需带token 访问；根据token 获取用户信息 再做业务逻辑操作
-        
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
-        
         if(appUserVO==null || StringUtils.isEmpty(appUserVO.getUserAccount())){
         	return CommonResult.failed("用户信息不存在");
         }
@@ -245,7 +215,6 @@ public class AppLoginController {
         Assert.isTrue(newPwd.length() >= 8 && newPwd.length() <= 32, "请输入8-32位数字、字母组合");
         Assert.isTrue(newPwd.length() >= 6 && newPwd.length() <= 32, "请输入6-32位密码");
         Assert.isTrue(newPwd.length() >= 6, "密码不能少于6位，请重新输入");
-        
 //        if (!CommonUtils.matchesPassword(oldPwd, appUserVO.getPassword())) {
 //            return CommonResult.failed("旧密码输入错误");
 //        }

@@ -33,6 +33,13 @@ public interface AppMemberAddressService {
      */
    @Transactional
     int updateAddress(AppMemberAddress appMemberAddress);
+   
+   /**
+    * 新增会员地址
+    * @param appMemberAddressPram
+    */
+   int createAddress(AppMemberAddress appMemberAddress);
+   
     /**
      * 新增会员地址
      * @param appMemberAddressPram

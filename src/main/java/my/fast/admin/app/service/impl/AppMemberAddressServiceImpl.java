@@ -62,4 +62,9 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
 	public AppMemberAddress getMemberAddress(Long userId) {
 		return appMemberAddressMapper.selectByMemberId(userId);
 	}
+
+	@Override
+	public int createAddress(AppMemberAddress appMemberAddress) {
+		return appMemberAddressMapper.insertSelective(appMemberAddress);
+	}
 }

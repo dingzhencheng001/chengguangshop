@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonResult;
@@ -20,8 +21,6 @@ import my.fast.admin.app.service.AppMemberService;
 import my.fast.admin.framework.utils.TokenUtils;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 15:09
@@ -46,28 +45,26 @@ public class AppMemberBankController {
             return CommonResult.failed("用户未登录");
         }
         CommonResult commonResult;
-        int count = appMemberBankService.updateBanks(appMemberBank);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
+        //先根据ID查询无则新增有则更新
+        AppMemberBank  tempBank = appMemberBankService.getMemberBank(appUserVO.getId());
+        if(tempBank == null){
+        	int count = appMemberBankService.createBanks(appMemberBank);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
+        }else{
+        	int count = appMemberBankService.updateBanks(appMemberBank);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
         }
         return commonResult;
     }
 
-    @ApiOperation(value = "添加会员银行卡")
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody
-    public CommonResult create(@RequestBody AppMemberBank appMemberBank ) {
-        CommonResult commonResult;
-        int count = appMemberBankService.createBanks(appMemberBank);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
-        }
-        return commonResult;
-    }
     
     @ApiOperation(value = "查询会员银行卡信息")
     @RequestMapping(value = "/getmemberbank/{id}", method = RequestMethod.GET)
