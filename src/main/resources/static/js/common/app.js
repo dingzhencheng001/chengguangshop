@@ -21,6 +21,8 @@ jQuery.download = function (url, method, id) {
         .appendTo('body').submit().remove();
 };
 
+
+
 /**
  * 请求成功时的回调
  * @callback successCallback
@@ -48,7 +50,7 @@ jQuery.download = function (url, method, id) {
  * 根据接口约定 修改了success、error、complete、fail方法
  * @param {Object} options
  * @param {String} options.url - 接口地址
- * @param {String} [options.type=get] - 请求类型
+ * @param {String} [options.type=get] - 请求类型 get | post
  * @param {Object} [options.data={}] - 请求时携带的数据
  * @param {successCallback} [options.success] - 请求成功，并且code等于200
  * @param {successCallback} [options.fail] - 请求成功，并且code不等于200
@@ -71,7 +73,7 @@ jQuery.request = function (options) {
                 if (options.fail) {
                     options.fail(result, status, xhr);
                 } else {
-                    layer.msg(result.msg, {icon: 2});
+                    layer.msg(result.message || result.msg, {icon: 2});
                 }
             }
             options.complete && options.complete(status, xhr);

@@ -276,7 +276,7 @@
 
     <!--地址信息-->
     <div id="addressInfoId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card" action="" lay-filter="addressInfoForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label">收货姓名</label>
@@ -708,10 +708,11 @@
                 actions.onUpdateItem(tableCurrentItem.id, { status: data.status === 0 ? 1 : 0 })
             } else if (layEvent === 'addressInfo') { // 地址信息
                 $.request({
-                    url: '/address/getmemberaddress/' + tableCurrentItem.id,
+                    url: '/addressaction/getmemberaddress/' + tableCurrentItem.id,
                     type: 'get',
                     success: function (result, status, xhr) {
                         console.log('result', result);
+                        form.val('addressInfoForm', result.data);
                         addressInfoIndex = layer.open({
                             type: 1,
                             title: '地址信息',

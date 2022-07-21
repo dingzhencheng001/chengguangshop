@@ -251,7 +251,7 @@
 
     <!--地址信息-->
     <div id="addressInfoId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card" action="" lay-filter="addressInfoForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label">收货姓名</label>
@@ -276,6 +276,50 @@
             <div class="layui-form-item text-center" style="text-align: center;">
                 <button class="layui-btn" lay-submit lay-filter="addressInfoSubmit">提交</button>
                 <button type="reset" class="layui-btn layui-btn-danger" id="addressInfoCancel">取消</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!--地址信息-->
+    <div id="bankCardInfoId" style="display: none">
+        <form class="layui-form layui-card" action="" lay-filter="bankCardInfoForm">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开户人</label>
+                    <div class="layui-input-block">
+                        <input name="accountName" placeholder="请输入开户人" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">开户银行</label>
+                    <div class="layui-input-block">
+                        <input name="bankName" required="" value="" placeholder="请输入开户银行" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">开户电话</label>
+                    <div class="layui-input-block">
+                        <input name="tel" required="" value="" placeholder="请输入手机号码" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行卡号</label>
+                    <div class="layui-input-block">
+                        <input name="cardNum" required="" value="" placeholder="请输入银行卡号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开户地址</label>
+                    <div class="layui-input-block">
+                        <input name="site" value="" placeholder="请输入开户地址" class="layui-input">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center" style="text-align: center;">
+                    <button class="layui-btn" lay-submit lay-filter="bankCardInfoSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-danger" id="bankCardInfoCancel">取消</button>
+                </div>
             </div>
         </form>
     </div>
@@ -392,6 +436,8 @@
 
         // 表格当前选择项
         var tableCurrentItem = {};
+        var currentAddressInfoItem = {};
+        var currentBankCardInfoItem = {};
 
         // 扣款弹窗Index
         var deductionIndex;
@@ -401,6 +447,7 @@
         var dispatchIndex;
         var editIndex;
         var addressInfoIndex;
+        var bankCardInfoIndex;
 
         laydate.render({
             elem: '#registrationTime',
@@ -502,19 +549,19 @@
         // 请求回调选项
         var requestDefOptions = {
             // 请求成功，并且code等于200
-            success: function (result,status,xhr) {
+            success: function (result, status, xhr) {
 
             },
             // 请求成功，并且code不等于200
-            fail: function (result,status,xhr) {
+            fail: function (result, status, xhr) {
 
             },
             // 请求失败
-            error: function (xhr,status,error) {
+            error: function (xhr, status, error) {
 
             },
             // 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-            complete: function (xhr,status) {
+            complete: function (xhr, status) {
 
             }
         };
@@ -529,7 +576,7 @@
             onReloadData: function () {
                 var searchData = form.val('searchForm');
                 console.log('searchData', searchData);
-                table.reloadData(memberListTableId, { where: Object.assign({ }, where, searchData) });
+                table.reloadData(memberListTableId, {where: Object.assign({}, where, searchData)});
             },
             onUpdateItem: function (id, fields, options) {
                 var _options = Object.assign({}, requestDefOptions, options);
@@ -571,7 +618,7 @@
                         }
                         _options.complete && _options.complete(status, xhr);
                     },
-                    error: function (xhr,status,error) {
+                    error: function (xhr, status, error) {
                         layer.msg('删除会员失败', {icon: 2});
                         _options.error && _options.error(xhr, status, error);
                     }
@@ -595,7 +642,7 @@
                         }
                         _options.complete && _options.complete(status, xhr);
                     },
-                    error: function (xhr,status,error) {
+                    error: function (xhr, status, error) {
                         layer.msg('创建会员失败', {icon: 2});
                         _options.error && _options.error(xhr, status, error);
                     }
@@ -677,16 +724,41 @@
                     }
                 });
             } else if (layEvent === 'bankCardInfo') { // 银行卡信息
-                layer.msg('没有数据', {icon: 2});
+                $.request({
+                    url: '/bankaction/getmemberbank/' + tableCurrentItem.id,
+                    type: 'get',
+                    success: function (result) {
+                        // if (!result.data) {
+                        //     layer.msg('没有数据', {icon: 2});
+                        //     return;
+                        // }
+                        currentBankCardInfoItem = result.data;
+                        bankCardInfoIndex = layer.open({
+                            type: 1,
+                            title: '银行卡信息',
+                            area: '800px',
+                            content: $('#bankCardInfoId'),
+                            success: function () {
+                                $('#bankCardInfoId').show();
+                            },
+                            cancel: function () {
+                                $('#bankCardInfoId').hide();
+                            }
+                        });
+                    },
+                })
+
+                // layer.msg('没有数据', {icon: 2});
             } else if (layEvent === 'toggleState') { //状态切换
                 // 帐号状态（0正常 1停用）
-                actions.onUpdateItem(tableCurrentItem.id, { status: data.status === 0 ? 1 : 0 })
+                actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
             } else if (layEvent === 'addressInfo') { // 地址信息
                 $.request({
-                    url: '/address/getmemberaddress/' + tableCurrentItem.id,
+                    url: '//addressaction/getmemberaddress/' + tableCurrentItem.id,
                     type: 'get',
-                    success: function (result, status, xhr) {
-                        console.log('result', result);
+                    success: function (result) {
+                        currentAddressInfoItem = result.data;
+                        form.val('addressInfoForm', result.data);
                         addressInfoIndex = layer.open({
                             type: 1,
                             title: '地址信息',
@@ -707,7 +779,7 @@
             } else if (layEvent === 'accountChange') { // 帐变
             } else if (layEvent === 'realPerson') { // 设为真人
                 // 状态:1.真人2.假人
-                actions.onUpdateItem(tableCurrentItem.id, { memberStatus: data.memberStatus === 1 ? 2 : 1 })
+                actions.onUpdateItem(tableCurrentItem.id, {memberStatus: data.memberStatus === 1 ? 2 : 1})
             } else if (layEvent === 'delete') { // 删除
                 layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
                     actions.onDelete(data.id, {
@@ -772,7 +844,7 @@
                     layer.close(editIndex);
                     $('#editId').hide();
                 }
-            } )
+            })
             return false;
         });
         // 编辑-取消
@@ -782,12 +854,40 @@
 
         // 地址信息-提交
         form.on('submit(addressInfoSubmit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
+            $.request({
+                url: '/addressaction/save',
+                type: 'post',
+                data: Object.assign({}, currentAddressInfoItem, data.field, {memberId: tableCurrentItem.id}),
+                success: function () {
+                    layer.close(addressInfoIndex);
+                    actions.onReloadData();
+                    layer.msg('地址信息修改成功', {icon: 1});
+                }
+            })
             return false;
         });
         // 地址信息-取消
         $('#addressInfoCancel').click(function () {
             layer.close(addressInfoIndex);
+        });
+
+        // 银行卡-提交
+        form.on('submit(bankCardInfoSubmit)', function (data) {
+            $.request({
+                url: '/bankaction/save',
+                type: 'post',
+                data: Object.assign({}, currentBankCardInfoItem, data.field, {memberId: tableCurrentItem.id}),
+                success: function () {
+                    layer.close(bankCardInfoIndex);
+                    actions.onReloadData();
+                    layer.msg('银行卡信息修改成功', {icon: 1});
+                }
+            })
+            return false;
+        });
+        // 银行卡-取消
+        $('#bankCardInfoCancel').click(function () {
+            layer.close(bankCardInfoIndex);
         });
 
         // 创建会员-提交
