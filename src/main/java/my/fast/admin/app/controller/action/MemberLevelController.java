@@ -31,7 +31,7 @@ public class MemberLevelController {
     @Autowired
     private AppMemberLevelService appMemberLevelService;
 
-    @ApiOperation("获取会员列表")
+    @ApiOperation("获取会员等级列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
