@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppMemberAddress;
-import my.fast.admin.app.model.AppMemberAddressPram;
 import my.fast.admin.app.service.AppMemberAddressService;
-import my.fast.admin.app.service.AppMemberService;
 /**
  * @author cgkj@cg.cn
  * @version V1.0
@@ -31,8 +28,6 @@ import my.fast.admin.app.service.AppMemberService;
 @Api(tags = "MemberAddressController", description = "会员收货地址管理")
 @RequestMapping("/addressaction")
 public class MemberAddressController {
-	@Autowired
-	private AppMemberService appMemberService;
 	
     @Autowired
     private AppMemberAddressService appMemberAddressService;
@@ -67,33 +62,30 @@ public class MemberAddressController {
         }
     }
 
-    @ApiOperation(value = "更新会员地址")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "新增/更新会员地址")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@RequestBody AppMemberAddress appMemberAddress,HttpServletRequest request) {
-        CommonResult commonResult;
-        int count = appMemberAddressService.updateAddress(appMemberAddress);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
+    public CommonResult save(@RequestBody AppMemberAddress appMemberAddress,HttpServletRequest request) {
+    	CommonResult commonResult;
+        if(appMemberAddress.getId() == null){//新增
+        	int count = appMemberAddressService.createAddress(appMemberAddress);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
+        }else{ //修改
+        	int count = appMemberAddressService.updateAddress(appMemberAddress);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
         }
         return commonResult;
     }
 
-    @ApiOperation(value = "添加会员地址")
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody
-    public CommonResult create(@RequestBody AppMemberAddressPram appMemberAddressPram) {
-        CommonResult commonResult;
-        int count = appMemberAddressService.createAddress(appMemberAddressPram);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
-        }
-        return commonResult;
-    }
+    
 
     @ApiOperation(value = "查询会员地址信息")
     @RequestMapping(value = "/getmemberaddress/{id}", method = RequestMethod.GET)

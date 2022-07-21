@@ -65,34 +65,29 @@ public class MemberBankController {
         }
     }
 
-    @ApiOperation(value = "更新会员银行卡信息")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "添加/更新会员银行卡信息")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@RequestBody AppMemberBank appMemberBank,HttpServletRequest request) {
-        CommonResult commonResult;
-        int count = appMemberBankService.updateBanks(appMemberBank);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
+    public CommonResult save(@RequestBody AppMemberBank appMemberBank,HttpServletRequest request) {
+    	CommonResult commonResult;
+        if(appMemberBank.getId() == null){//新增
+        	int count = appMemberBankService.createBanks(appMemberBank);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
+        }else{//更新
+        	int count = appMemberBankService.updateBanks(appMemberBank);
+            if (count == 1) {
+                commonResult = CommonResult.success(count);
+            } else {
+                commonResult = CommonResult.failed();
+            }
         }
         return commonResult;
     }
 
-    @ApiOperation(value = "添加会员银行卡")
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody
-    public CommonResult create(@RequestBody AppMemberBank appMemberBank ) {
-        CommonResult commonResult;
-        int count = appMemberBankService.createBanks(appMemberBank);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
-        }
-        return commonResult;
-    }
-    
     @ApiOperation(value = "查询会员银行卡信息")
     @RequestMapping(value = "/getmemberbank/{id}", method = RequestMethod.GET)
     @ResponseBody
