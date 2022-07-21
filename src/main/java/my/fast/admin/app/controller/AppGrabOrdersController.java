@@ -29,7 +29,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  */
 
 @Controller
-@Api(tags = "AppGrabOrdersController", description = "抢单管理")
+@Api(tags = "AppGrabOrdersController", description = "APP抢单管理")
 @RequestMapping("/grab")
 public class AppGrabOrdersController {
     @Autowired

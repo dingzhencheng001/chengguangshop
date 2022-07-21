@@ -25,7 +25,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  */
 
 @Controller
-@Api(tags = "AppMemberAddressController", description = "会员收货地址管理")
+@Api(tags = "AppMemberAddressController", description = "APP会员收货地址管理")
 @RequestMapping("/address")
 public class AppMemberAddressController {
 	@Autowired

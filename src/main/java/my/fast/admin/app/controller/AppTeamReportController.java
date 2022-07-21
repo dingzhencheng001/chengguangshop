@@ -28,7 +28,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/19 12:01
  */
 @Controller
-@Api(tags = "AppTeamReportController", description = "会员团队信息管理")
+@Api(tags = "AppTeamReportController", description = "APP会员团队信息管理")
 @RequestMapping("/team")
 public class AppTeamReportController {
 

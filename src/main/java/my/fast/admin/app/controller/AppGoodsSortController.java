@@ -26,7 +26,7 @@ import my.fast.admin.app.service.AppGoodsSortService;
  * @since 2022/7/10 10:32
  */
 @Controller
-@Api(tags = "AppGoodsSortController", description = "商品分类管理")
+@Api(tags = "AppGoodsSortController", description = "APP商品分类管理")
 @RequestMapping("/goodsSort")
 public class AppGoodsSortController {
     @Autowired

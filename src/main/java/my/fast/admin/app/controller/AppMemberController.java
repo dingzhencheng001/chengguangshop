@@ -33,7 +33,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/11 10:32
  */
 @Controller
-@Api(tags = "AppMemberController", description = "会员管理")
+@Api(tags = "AppMemberController", description = "APP会员管理")
 @RequestMapping("/member")
 public class AppMemberController {
     @Autowired

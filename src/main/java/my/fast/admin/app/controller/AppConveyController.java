@@ -32,7 +32,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/11 10:32
  */
 @Controller
-@Api(tags = "AppConveyController", description = "交易订单管理")
+@Api(tags = "AppConveyController", description = "APP交易订单管理")
 @RequestMapping("/convey")
 public class AppConveyController {
 	

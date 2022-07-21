@@ -28,7 +28,7 @@ import my.fast.admin.app.service.AppGoodsService;
  * @since 2022/7/10 10:32
  */
 @Controller
-@Api(tags = "AppGoodsController", description = "商品管理")
+@Api(tags = "AppGoodsController", description = "APP商品管理")
 @RequestMapping("/goods")
 public class AppGoodsController {
     @Autowired

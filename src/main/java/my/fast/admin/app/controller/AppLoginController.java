@@ -38,7 +38,7 @@ import my.fast.admin.framework.utils.TokenUtils;
 
 @Slf4j
 @Controller
-@Api(tags = "AppLoginController", description = "登陆管理")
+@Api(tags = "AppLoginController", description = "APP登陆管理")
 @RequestMapping("/appuser/login")
 public class AppLoginController {
 

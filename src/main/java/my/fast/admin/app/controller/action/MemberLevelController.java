@@ -1,4 +1,4 @@
-package my.fast.admin.app.controller;
+package my.fast.admin.app.controller.action;
 
 import java.util.List;
 
@@ -19,16 +19,14 @@ import my.fast.admin.app.entity.AppMemberLevel;
 import my.fast.admin.app.service.AppMemberLevelService;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 14:32
  */
 @Controller
-@Api(tags = "AppMemberLevelController", description = "APP会员等级管理")
-@RequestMapping("/level")
-public class AppMemberLevelController {
+@Api(tags = "MemberLevelController", description = "会员等级管理")
+@RequestMapping("/levelaction")
+public class MemberLevelController {
 
     @Autowired
     private AppMemberLevelService appMemberLevelService;
@@ -63,7 +61,7 @@ public class AppMemberLevelController {
         }
     }
 
-    @ApiOperation(value = "更新商品")
+    @ApiOperation(value = "更新会员等级")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberLevel appMemberLevel) {

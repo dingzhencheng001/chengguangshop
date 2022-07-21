@@ -26,7 +26,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/11 15:09
  */
 @Controller
-@Api(tags = "AppMemberBankController", description = "会员银行卡信息管理")
+@Api(tags = "AppMemberBankController", description = "APP会员银行卡信息管理")
 @RequestMapping("/bank")
 public class AppMemberBankController {
 	

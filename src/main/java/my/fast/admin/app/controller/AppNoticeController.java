@@ -30,7 +30,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/18 16:02
  */
 @Controller
-@Api(tags = "AppNoticeController", description = "消息通知管理")
+@Api(tags = "AppNoticeController", description = "APP消息通知管理")
 @RequestMapping("/notice")
 public class AppNoticeController {
 

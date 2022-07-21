@@ -32,7 +32,7 @@ import my.fast.admin.framework.utils.TokenUtils;
  * @since 2022/7/11 10:32
  */
 @Controller
-@Api(tags = "AppMemberAccountChangeController", description = "用户账变管理")
+@Api(tags = "AppMemberAccountChangeController", description = "APP用户账变管理")
 @RequestMapping("/memberaccountchange")
 public class AppMemberAccountChangeController {
     @Autowired

@@ -28,7 +28,7 @@ import my.fast.admin.app.service.AppMemberService;
  */
 
 @Controller
-@Api(tags = "AppMemberAddressController", description = "会员收货地址管理")
+@Api(tags = "MemberAddressController", description = "会员收货地址管理")
 @RequestMapping("/addressaction")
 public class MemberAddressController {
 	@Autowired
