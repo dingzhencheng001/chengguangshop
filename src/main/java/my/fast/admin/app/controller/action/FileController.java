@@ -2,13 +2,7 @@ package my.fast.admin.app.controller.action;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,32 +35,9 @@ public class FileController {
      * @return
      */
     @PostMapping(value = "/upload")
-    public CommonResult upload(@RequestParam("file") MultipartFile[] files){
+    public CommonResult upload(@RequestParam("file") MultipartFile[] files) throws Exception {
         List<FileInfo> fileInfos = fileService.uploadFile(files);
         return CommonResult.success(fileInfos);
     }
 
-    /**
-     * 文件预览
-     */
-    @GetMapping(value = "/preview/{fileId}")
-    public ResponseEntity<Resource> preview(@PathVariable String fileId, HttpServletRequest request){
-        return fileService.preview(fileId,request);
-    }
-
-
-    /**
-     * 文件删除
-     * @param fileId
-     * @return
-     */
-    @PostMapping(value = "/del")
-    public CommonResult delFile(@PathVariable String fileId){
-        int count = fileService.delFile(fileId);
-        if (count == 1) {
-            return CommonResult.success(null);
-        } else {
-            return CommonResult.failed();
-        }
-    }
 }

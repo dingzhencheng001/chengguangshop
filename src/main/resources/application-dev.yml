@@ -36,7 +36,10 @@ logging:
 debug: false
 s3:
   storage:
-    accessKeyId: itfeiyue
-    secretAccessKey: itfeiyue
-    endpoint: 192.168.2.4:9090
-    bucketName: test
+    accessKeyId: 4H742JA6U3TR5OICBEJM
+    secretAccessKey: pZMMiIxC0gK0LdIL9H1D5Ha+1B5o79xJSkLy947AebE
+    endpoint: sgp1.digitaloceanspaces.com
+    bucketName: ppp
+    sdkVersion: latest
+    region: sgp1
+    storageFilePath: /ppp/images

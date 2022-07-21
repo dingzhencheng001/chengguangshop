@@ -15,7 +15,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 /**
- * @Author lihaijian
+ * @Author cg
  * @Date 2021-08-02 14:07
  */
 @Configuration
