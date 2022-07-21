@@ -36,64 +36,52 @@
     <div class="think-box-shadow">
         <fieldset>
             <legend>条件搜索</legend>
-            <form class="layui-form layui-form-pane form-search">
+            <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" action="">
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">关键词</label>
                     <div class="layui-input-inline">
-                        <input name="username" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
+                        <input name="phoneNumber" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">注册时间</label>
                     <div class="layui-input-inline">
-                        <input data-date-range="" name="addtime" value=""
-                               placeholder="请选择注册时间" class="layui-input" autocomplete="off" lay-key="59"/>
+                        <input type="text" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">状态</label>
                     <div class="layui-input-inline">
-                        <select name="is_jia">
+                        <select name="memberStatus">
                             <option value="">所有状态</option>
-                            <option value="-1">真人</option>
-                            <option value="1">假人</option>
+                            <option value="1">真人</option>
+                            <option value="2">假人</option>
                         </select>
-                        <div class="layui-unselect layui-form-select">
-                            <div class="layui-select-title">
-                                <input type="text" placeholder="所有状态" value="" readonly=""
-                                       class="layui-input layui-unselect"/>
-                                <i class="layui-edge"></i>
-                            </div>
-                            <dl class="layui-anim layui-anim-upbit">
-                                <dd lay-value="" class="layui-select-tips">所有状态</dd>
-                                <dd lay-value="-1" class="">真人</dd>
-                                <dd lay-value="1" class="">假人</dd>
-                            </dl>
-                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
-                    <button type="reset" class="layui-btn layui-btn-primary" lay-submit lay-filter="reload"><i
+                    <button type="submit" class="layui-btn layui-btn-danger" lay-submit lay-filter="search"><i
                             class="layui-icon"></i> 搜 索
                     </button>
-                    <a href="#" class="layui-btn layui-btn-danger"><i class="layui-icon"></i> 导 出</a></div>
+<!--                    <a href="#" class="layui-btn layui-btn-danger"><i class="layui-icon"></i> 导 出</a>-->
+                </div>
             </form>
 
-            <div class="layui-form-item">
-                <div class="layui-input-inline">
-                    <input id="dazhen_per" name="dazhen_per" value="" placeholder="请输入打针幅度"
-                           class="layui-input"/>
-                </div>
-                <div class="layui-input-inline" style="margin-left: 8px;">
-                    <input id="dazhen_ci" name="dazhen_per" value=""
-                           placeholder="打针单数(不填代表每次)"
-                           class="layui-input"/>
-                </div>
-                <button style="margin-left: 8px;" id="dazhen" class="layui-btn layui-btn-danger">
-                    <i class="layui-icon"></i>
-                    批量打针
-                </button>
-            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <input id="dazhen_per" name="dazhen_per" value="" placeholder="请输入打针幅度"-->
+<!--                           class="layui-input"/>-->
+<!--                </div>-->
+<!--                <div class="layui-input-inline" style="margin-left: 8px;">-->
+<!--                    <input id="dazhen_ci" name="dazhen_per" value=""-->
+<!--                           placeholder="打针单数(不填代表每次)"-->
+<!--                           class="layui-input"/>-->
+<!--                </div>-->
+<!--                <button style="margin-left: 8px;" id="dazhen" class="layui-btn layui-btn-danger">-->
+<!--                    <i class="layui-icon"></i>-->
+<!--                    批量打针-->
+<!--                </button>-->
+<!--            </div>-->
         </fieldset>
         <!--        <script>-->
         <!--            var test = "0";-->
@@ -116,7 +104,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">邀请码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required
+                        <input type="text" name="inviteCode" required
                                id="newInviteCode"
                                lay-verify="required" placeholder="请输入邀请码" autocomplete="off" class="layui-input">
                     </div>
@@ -192,7 +180,7 @@
 
     <!--编辑菜单-->
     <div id="editId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card" lay-filter="editForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
@@ -242,60 +230,39 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required">会员等级</label>
                     <div class="layui-input-block">
-                        <select name="level" id="selectList">
-                            <option value="0" selected="">1</option>
-                            <option value="1">2</option>
-                            <option value="2">3</option>
-                            <option value="3">4</option>
+                        <select name="memberLevelId">
+                            <option value="1" selected="">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
-                        <div class="layui-unselect layui-form-select">
-                            <div class="layui-select-title">
-                                <input type="text" placeholder="请选择" value="1" readonly=""
-                                                                   class="layui-input layui-unselect"><i
-                                    class="layui-edge"></i></div>
-                            <dl class="layui-anim layui-anim-upbit">
-                                <dd lay-value="0" class="layui-this">1</dd>
-                                <dd lay-value="1" class="">2</dd>
-                                <dd lay-value="2" class="">3</dd>
-                                <dd lay-value="3" class="">4</dd>
-                            </dl>
-                        </div>
-                        <!--<input name="freeze_balance" type="number" min="0" required placeholder="冻结金额" value="0.00" class="layui-input">-->
                     </div>
                 </div>
-                <div class="layui-form-item"><label class="layui-form-label label-required">交易状态</label>
-                    <div class="layui-input-block">
-                        <select name="deal_status" id="deal_status">
-                            <option value="1" selected="">正常</option>
-                            <option value="0">冻结</option>
-                        </select>
-                        <div class="layui-unselect layui-form-select">
-                            <div class="layui-select-title">
-                                <input type="text" placeholder="请选择" value="正常" readonly=""
-                                       class="layui-input layui-unselect"><i
-                                    class="layui-edge"></i>
-                            </div>
-                            <dl class="layui-anim layui-anim-upbit">
-                                <dd lay-value="1" class="layui-this">正常</dd>
-                                <dd lay-value="0" class="">冻结</dd>
-                            </dl>
-                        </div>
-                        <!--<input name="freeze_balance" type="number" min="0" required placeholder="冻结金额" value="0.00" class="layui-input">-->
-                    </div>
-                </div>
-                <div class="layui-form-item"><label class="layui-form-label">登录密码</label>
-                    <div class="layui-input-block"><input name="pwd" placeholder="留空不修改密码" class="layui-input"></div>
-                </div>
+<!--                <div class="layui-form-item">-->
+<!--                    <label class="layui-form-label label-required">交易状态</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <select name="deal_status" id="deal_status">-->
+<!--                            <option value="1" selected="">正常</option>-->
+<!--                            <option value="0">冻结</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label">交易密码</label>
+                    <label class="layui-form-label">登录密码</label>
                     <div class="layui-input-block">
-                        <input name="pwd2" placeholder="留空不修改交易密码" class="layui-input">
+                        <input name="password" placeholder="留空不修改密码" class="layui-input">
                     </div>
                 </div>
+<!--                <div class="layui-form-item">-->
+<!--                    <label class="layui-form-label">交易密码</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input name="pwd2" placeholder="留空不修改交易密码" class="layui-input">-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="layui-form-item">
                     <label class="layui-form-label">上级ID</label>
                     <div class="layui-input-block">
-                        <input name="parent_id" placeholder="请输入上级ID" value="0" class="layui-input"/>
+                        <input name="parentUserId" placeholder="请输入上级ID" value="0" class="layui-input"/>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -426,22 +393,30 @@
 
 <!--操作-->
 <script type="text/html" id="operation">
-    <span class="layui-btn layui-btn-xs" lay-event="deduction">扣款</span>
-    <span class="layui-btn layui-btn-xs" lay-event="dispatch">派单</span>
-    <span class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</span>
-    <span class="layui-btn layui-btn-xs" lay-event="edit">编辑</span>
-    <span class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</span>
-    <span class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</span>
-    <span class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</span>
-    <span class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</span>
-    <span class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</span>
-    <span class="layui-btn layui-btn-xs" lay-event="delete">删除</span>
+    <span style="display: inline-block">
+        <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
+        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
+        <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
+    </span>
+    <span style="display: inline-block">
+        <a class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</a>
+        <a class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</a>
+        <a class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</a>
+        <a class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    </span>
 </script>
 
 <script>
-    layui.use(['table', 'form', 'util', 'element'], function () {
+    layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
         var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
         var element = layui.element;
+        var laydate = layui.laydate;
+
+        // 表格当前选择项
+        var tableCurrentItem = {};
 
         // 扣款弹窗Index
         var deductionIndex;
@@ -451,6 +426,12 @@
         var dispatchIndex;
         var editIndex;
         var addressInfoIndex;
+
+        laydate.render({
+            elem: '#registrationTime',
+            range: true //或 range: '~' 来自定义分割字符
+        });
+
 
         var where = {
             // "agentLevel": 0,
@@ -513,7 +494,7 @@
         table.render({
             elem: '#member-list',
             method: 'post',
-            url: 'http://localhost:8080/member/list', //数据接口
+            url: 'http://localhost:8080/memberaction/list', //数据接口
             page: true, //开启分页
             cellMinWidth: 100, //全局定义常规单元格的最小宽度
             contentType: 'application/json',
@@ -536,15 +517,115 @@
                 , {field: 'parentUserName', title: '上级用户', sort: true, minWidth: 120}
                 , {field: 'inviteCode', title: '邀请码', templet: '#inviteCode', sort: true, minWidth: 160}
                 , {field: 'registerId', title: '注册信息', templet: '#register', sort: true, minWidth: 160}
-                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 300}
+                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336}
             ]],
             parseData: parseData,
             id: memberListTableId, // 容器唯一ID
         });
 
-        // 刷新表格数据
-        var onTableReloadData = function () {
-            table.reloadData(memberListTableId);
+
+        // 请求回调选项
+        var requestDefOptions = {
+            // 请求成功，并且code等于200
+            success: function (result,status,xhr) {
+
+            },
+            // 请求成功，并且code不等于200
+            fail: function (result,status,xhr) {
+
+            },
+            // 请求失败
+            error: function (xhr,status,error) {
+
+            },
+            // 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
+            complete: function (xhr,status) {
+
+            }
+        };
+
+        var actions = {
+            apiUrl: {
+                update: 'http://localhost:8080/memberaction/update/',
+                delete: 'http://localhost:8080/memberaction/delete/',
+                create: 'http://localhost:8080/memberaction/create',
+            },
+            // 刷新表格数据
+            onReloadData: function () {
+                var searchData = form.val('searchForm');
+                console.log('searchData', searchData);
+                table.reloadData(memberListTableId, { where: Object.assign({ }, where, searchData) });
+            },
+            onUpdateItem: function (id, fields, options) {
+                var _options = Object.assign({}, requestDefOptions, options);
+                $.ajax({
+                    url: actions.apiUrl.update + id,
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(fields),
+                    success: function (result, status, xhr) {
+                        if (result.code === 200) {
+                            actions.onReloadData();
+                            layer.msg('操作成功', {icon: 1});
+                            _options.success && _options.success(result, status, xhr);
+                        } else {
+                            layer.msg(result.msg, {icon: 2});
+                            _options.fail && _options.fail(result, status, xhr);
+                        }
+                        _options.complete && _options.complete(status, xhr);
+                    },
+                    error: function (xhr, status, error) {
+                        layer.msg('操作失败', {icon: 2});
+                        _options.error && _options.error(xhr, status, error);
+                    }
+                });
+            },
+            onDelete: function (id, options) {
+                var _options = Object.assign({}, requestDefOptions, options);
+                $.ajax({
+                    url: actions.apiUrl.delete + id,
+                    type: 'get',
+                    success: function (result, status, xhr) {
+                        if (result.code === 200) {
+                            actions.onReloadData();
+                            layer.msg('删除会员成功', {icon: 1});
+                            _options.success && _options.success(result, status, xhr);
+                        } else {
+                            layer.msg(result.msg, {icon: 2});
+                            _options.fail && _options.fail(result, status, xhr);
+                        }
+                        _options.complete && _options.complete(status, xhr);
+                    },
+                    error: function (xhr,status,error) {
+                        layer.msg('删除会员失败', {icon: 2});
+                        _options.error && _options.error(xhr, status, error);
+                    }
+                });
+            },
+            onCreate: function (fields, options) {
+                var _options = Object.assign({}, requestDefOptions, options);
+                $.ajax({
+                    url: actions.apiUrl.create,
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(fields),
+                    success: function (result, status, xhr) {
+                        if (result.code === 200) {
+                            actions.onReloadData();
+                            layer.msg('创建会员成功', {icon: 1});
+                            _options.success && _options.success(result, status, xhr);
+                        } else {
+                            layer.msg(result.msg, {icon: 2});
+                            _options.fail && _options.fail(result, status, xhr);
+                        }
+                        _options.complete && _options.complete(status, xhr);
+                    },
+                    error: function (xhr,status,error) {
+                        layer.msg('创建会员失败', {icon: 2});
+                        _options.error && _options.error(xhr, status, error);
+                    }
+                });
+            },
         }
 
         //单元格工具事件
@@ -552,6 +633,9 @@
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            // 设置当前选择项
+            tableCurrentItem = Object.assign({}, data);
 
             // 修改邀请码
             if (layEvent === 'upInviteCode') {
@@ -610,6 +694,7 @@
                     area: '800px',
                     content: $('#editId'),
                     success: function () {
+                        form.val('editForm', data);
                         $('#editId').show();
                     },
                     cancel: function () {
@@ -620,58 +705,39 @@
                 layer.msg('没有数据', {icon: 2});
             } else if (layEvent === 'toggleState') { //状态切换
                 // 帐号状态（0正常 1停用）
-                if (data.status === 0) {
-                    // 禁用
-                    layer.msg('禁用成功', {icon: 1});
-                    table.reloadData(memberListTableId);
-                } else {
-                    // 启用
-                    layer.msg('启用成功', {icon: 1});
-                    table.reloadData(memberListTableId);
-                }
+                actions.onUpdateItem(tableCurrentItem.id, { status: data.status === 0 ? 1 : 0 })
             } else if (layEvent === 'addressInfo') { // 地址信息
-                addressInfoIndex = layer.open({
-                    type: 1,
-                    title: '地址信息',
-                    area: '800px',
-                    content: $('#addressInfoId'),
-                    success: function () {
-                        $('#addressInfoId').show();
+                $.request({
+                    url: '/address/getmemberaddress/' + tableCurrentItem.id,
+                    type: 'get',
+                    success: function (result, status, xhr) {
+                        console.log('result', result);
+                        addressInfoIndex = layer.open({
+                            type: 1,
+                            title: '地址信息',
+                            area: '800px',
+                            content: $('#addressInfoId'),
+                            success: function () {
+                                $('#addressInfoId').show();
+                            },
+                            cancel: function () {
+                                $('#addressInfoId').hide();
+                            }
+                        });
                     },
-                    cancel: function () {
-                        $('#addressInfoId').hide();
-                    }
-                });
+                })
+
             } else if (layEvent === 'viewTeam') { // 查看团队
                 window.location.href = './viewTeam.html';
             } else if (layEvent === 'accountChange') { // 帐变
             } else if (layEvent === 'realPerson') { // 设为真人
                 // 状态:1.真人2.假人
-                if (data.memberStatus === 1) {
-                    // 设为假人
-                    layer.msg('设为假人成功', {icon: 1});
-                    table.reloadData(memberListTableId);
-                } else {
-                    // 设为真人
-                    layer.msg('设为真人成功', {icon: 1});
-                    table.reloadData(memberListTableId);
-                }
+                actions.onUpdateItem(tableCurrentItem.id, { memberStatus: data.memberStatus === 1 ? 2 : 1 })
             } else if (layEvent === 'delete') { // 删除
                 layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
-                    $.ajax({
-                        url: 'http://localhost:8080/member/delete/' + data.id,
-                        type: 'get',
-                        success: function (result) {
-                            if (result.code === 200) {
-                                layer.close(index);
-                                onTableReloadData();
-                                layer.msg('删除会员成功', {icon: 1});
-                            } else {
-                                layer.msg(result.msg, {icon: 2});
-                            }
-                        },
-                        error: function () {
-                            layer.msg('删除会员失败', {icon: 2});
+                    actions.onDelete(data.id, {
+                        success: function () {
+                            layer.close(index);
                         }
                     });
                 });
@@ -679,9 +745,21 @@
 
         });
 
+        // 搜索
+        form.on('submit(search)', function (data) {
+            console.log(data.field);
+            actions.onReloadData();
+            return false;
+        });
+
         // 邀请码-提交
-        form.on('submit(upInviteCodeSubmit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
+        form.on('submit(upInviteCodeSubmit)', function (formData) {
+            actions.onUpdateItem(tableCurrentItem.id, formData.field, {
+                success: function () {
+                    layer.close(upInviteCodeIndex);
+                    $('#upInviteCodeId').hide();
+                }
+            });
             return false;
         });
         // 邀请码-取消
@@ -713,7 +791,13 @@
 
         // 编辑-提交
         form.on('submit(editSubmit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
+            // layer.msg(JSON.stringify(data.field));
+            actions.onUpdateItem(tableCurrentItem.id, data.field, {
+                success: function () {
+                    layer.close(editIndex);
+                    $('#editId').hide();
+                }
+            } )
             return false;
         });
         // 编辑-取消
@@ -733,25 +817,12 @@
 
         // 创建会员-提交
         form.on('submit(createSubmit)', function (data) {
-            $.ajax({
-                url: 'http://localhost:8080/member/create',
-                type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify(data.field),
-                success: function (result) {
-                    if (result.code === 200) {
-                        layer.close(createIndex);
-                        onTableReloadData();
-                        layer.msg('创建会员成功', {icon: 1});
-                    } else {
-                        layer.msg(result.msg, {icon: 2});
-                    }
-                },
-                error: function () {
-                    layer.msg('创建会员失败', {icon: 2});
+            actions.onCreate(data.field, {
+                success: function () {
+                    layer.close(createIndex);
                 }
             });
-            return false;
+            // return false;
         });
         // 创建会员-取消
         $('#createCancel').click(function () {
