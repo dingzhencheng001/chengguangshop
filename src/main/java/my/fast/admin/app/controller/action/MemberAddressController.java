@@ -67,7 +67,8 @@ public class MemberAddressController {
     @ResponseBody
     public CommonResult save(@RequestBody AppMemberAddress appMemberAddress,HttpServletRequest request) {
     	CommonResult commonResult;
-        if(appMemberAddress.getId() == null){//新增
+    	AppMemberAddress tempAddress = appMemberAddressService.getMemberAddress(appMemberAddress.getMemberId());
+        if(tempAddress == null ){//新增
         	int count = appMemberAddressService.createAddress(appMemberAddress);
             if (count == 1) {
                 commonResult = CommonResult.success(count);
@@ -75,6 +76,9 @@ public class MemberAddressController {
                 commonResult = CommonResult.failed();
             }
         }else{ //修改
+        	if(appMemberAddress.getId()==null){
+        		appMemberAddress.setId(tempAddress.getId());
+        	}
         	int count = appMemberAddressService.updateAddress(appMemberAddress);
             if (count == 1) {
                 commonResult = CommonResult.success(count);

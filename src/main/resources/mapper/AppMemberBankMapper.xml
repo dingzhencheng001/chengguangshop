@@ -94,13 +94,13 @@
     select 
     <include refid="Base_Column_List" />
     from app_member_bank
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectBymemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from app_member_bank
-    where member_id = #{memberId,jdbcType=INTEGER} limit 1
+    where member_id = #{memberId,jdbcType=BIGINT} limit 1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_member_bank
@@ -113,7 +113,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="my.fast.admin.app.entity.AppMemberBank">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_member_bank (member_id, bank_name, bank_number, 
@@ -126,7 +126,7 @@
       #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMemberBank">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_member_bank
@@ -205,10 +205,10 @@
     update app_member_bank
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=INTEGER},
+        member_id = #{record.memberId,jdbcType=BIGINT},
       </if>
       <if test="record.bankName != null">
         bank_name = #{record.bankName,jdbcType=VARCHAR},
@@ -244,8 +244,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update app_member_bank
-    set id = #{record.id,jdbcType=INTEGER},
-      member_id = #{record.memberId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT},
       bank_name = #{record.bankName,jdbcType=VARCHAR},
       bank_number = #{record.bankNumber,jdbcType=VARCHAR},
       card_num = #{record.cardNum,jdbcType=VARCHAR},

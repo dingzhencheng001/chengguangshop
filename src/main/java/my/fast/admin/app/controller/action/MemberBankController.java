@@ -70,7 +70,8 @@ public class MemberBankController {
     @ResponseBody
     public CommonResult save(@RequestBody AppMemberBank appMemberBank,HttpServletRequest request) {
     	CommonResult commonResult;
-        if(appMemberBank.getId() == null){//新增
+    	AppMemberBank  tempBank = appMemberBankService.getMemberBank(appMemberBank.getMemberId());
+        if(tempBank == null){//新增
         	int count = appMemberBankService.createBanks(appMemberBank);
             if (count == 1) {
                 commonResult = CommonResult.success(count);
@@ -78,6 +79,9 @@ public class MemberBankController {
                 commonResult = CommonResult.failed();
             }
         }else{//更新
+        	if(appMemberBank.getId()==null){
+        		appMemberBank.setId(tempBank.getId());
+        	}
         	int count = appMemberBankService.updateBanks(appMemberBank);
             if (count == 1) {
                 commonResult = CommonResult.success(count);
