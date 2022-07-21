@@ -43,7 +43,7 @@ public class SysDicController {
     private RedisTemplate redisTemplate;
 
     @RequestMapping("/getDicByDefine")
-    @Cacheable(value = "sys_dic", key = "#dicdefine")
+    //@Cacheable(value = "sys_dic", key = "#dicdefine")
     public R getDicByDefine(@RequestParam String dicdefine) {
         return R.success(sysDicService.getDic(dicdefine));
     }

@@ -1,5 +1,7 @@
 package my.fast.admin;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,6 @@ public class FastApplicationTests {
 
     @Test
     public void contextLoads() {
-    }
 
+    }
 }

@@ -122,7 +122,7 @@ public class SysMenuController {
     }
 
     @RequestMapping("/tree")
-    @Cacheable(value = "sys_menu:sys/menu/tree")
+    //@Cacheable(value = "sys_menu:sys/menu/tree")
     public R tree() {
         EntityWrapper<SysMenu> ew = new EntityWrapper<>();
         ew.ne("menu_type", "2").orderBy("menu_sort+0", true);

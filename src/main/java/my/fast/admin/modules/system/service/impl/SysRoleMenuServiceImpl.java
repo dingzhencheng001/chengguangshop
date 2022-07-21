@@ -24,7 +24,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     private SysRoleMenuMapper sysRoleMenuMapper;
 
     @Override
-    @Cacheable(value = "sys_role:sys/shiro/parm", keyGenerator = "keyGenerator")
+    //@Cacheable(value = "sys_role:sys/shiro/parm", keyGenerator = "keyGenerator")
     public List<String> getParmByUser(String loginid) {
         return sysRoleMenuMapper.getParmByUser(loginid);
     }

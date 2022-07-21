@@ -40,7 +40,7 @@ public class SysOrgController {
     private SysOrgService sysOrgService;
 
     @RequestMapping("/tree")
-    @Cacheable(value = "sys_org:sys/org/tree")
+    //@Cacheable(value = "sys_org:sys/org/tree")
     public R tree(){
         EntityWrapper<SysOrg> ew = new EntityWrapper<>();
         ew.orderBy("org_code", true);
