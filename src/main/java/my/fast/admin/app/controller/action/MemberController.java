@@ -21,12 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.UserConstants;
+import my.fast.admin.app.common.utils.IPUtils;
 import my.fast.admin.app.common.utils.RequestUtil;
 import my.fast.admin.app.controller.AppLoginController;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.SysChannel;
 import my.fast.admin.app.service.AppChannelService;
 import my.fast.admin.app.service.AppMemberService;
+import my.fast.admin.app.service.AppTeamReportService;
 import my.fast.admin.framework.shiro.ShiroUtils;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.DateFormat;
@@ -65,6 +67,9 @@ public class MemberController {
         return mav;
     }
 
+    @Autowired
+    private AppTeamReportService appTeamReportService;
+    
     @Autowired
     private AppMemberService appMemberService;
 
@@ -175,7 +180,12 @@ public class MemberController {
     	tbAppUser.setCreateTime(DateFormat.getNowDate());
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
-    	//注册IP  注册国家 ？
+    	//注册IP  注册国家
+    	String ip = RequestUtil.getRequestIp(request);
+        String countryName = IPUtils.getIPMsg(ip)
+            .getCountryName();
+        tbAppUser.setRegisterCountry(countryName);
+        tbAppUser.setRegisterIp(ip);
         tbAppUser.setRegisterIp(RequestUtil.getRequestIp(request));
     	log.info(System.currentTimeMillis() + "添加用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
@@ -188,6 +198,13 @@ public class MemberController {
         
     }
 
+    @ApiOperation(value = "获取会员团队信息")
+    @RequestMapping(value = "/getteamlist", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<List<AppMember>> getTeamLevelList(@PathVariable("memberId") Long memberId,@PathVariable("level") Long memberLevel) {
+
+        return CommonResult.success(appTeamReportService.getTeamLevelList(memberId,memberLevel));
+    }
     
 
 }

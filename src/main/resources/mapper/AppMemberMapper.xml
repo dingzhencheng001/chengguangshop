@@ -726,4 +726,37 @@
     </select>
 
 
+    <select id="getTeamLevelList" resultType="my.fast.admin.app.entity.AppMember" >
+
+        SELECT
+            t.*
+        FROM
+            app_member t
+                INNER JOIN (
+                SELECT
+                    id,
+                    user_account
+                FROM
+                    (
+                        SELECT
+                            t1.id,
+                            t1.user_account,
+                            IF
+                                ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
+                        FROM
+                            ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
+                            ( SELECT @pids := #{memberId,jdbcType=BIGINT} ) t2
+                    ) t3
+                WHERE
+                    ischild != 0
+            ) t1 ON t.id = t1.id 
+            
+            <if test="level != null">
+             and
+            t.member_level_id = #{level,jdbcType=BIGINT}
+       		</if>
+
+    </select>
+
+
 </mapper>

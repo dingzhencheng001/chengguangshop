@@ -13,8 +13,6 @@ import my.fast.admin.app.service.AppTeamReportService;
 import my.fast.admin.app.vo.AppCommissionVo;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/19 12:09
@@ -127,4 +125,9 @@ public class AppTeamReportServiceImpl implements AppTeamReportService {
         }
         return appCommissionVo;
     }
+
+	@Override
+	public List<AppMember> getTeamLevelList(Long id, Long memberLevel) {
+		return appMemberMapper.getTeamLevelList(id, memberLevel);
+	}
 }

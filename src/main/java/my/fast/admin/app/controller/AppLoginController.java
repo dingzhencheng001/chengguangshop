@@ -182,7 +182,7 @@ public class AppLoginController {
     	tbAppUser.setCreateTime(DateFormat.getNowDate());
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
-    	//注册IP  注册国家  TODO= 从公共方法获取
+    	//注册IP  注册国家
         String ip = RequestUtil.getRequestIp(request);
         String countryName = IPUtils.getIPMsg(ip)
             .getCountryName();
