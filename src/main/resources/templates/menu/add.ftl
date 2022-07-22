@@ -53,6 +53,7 @@
 <script>
     layui.use('form', function() {
         var form = layui.form, $ = layui.$;
+        form.render();
 
         // 监听下拉值
         form.on('select(menuType)', function (data) {
