@@ -51,6 +51,13 @@ public class MemberController {
         return mav;
     }
 
+    @RequestMapping("/viewTeam")
+    public Object viewTeam() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("member/viewTeam");
+        return mav;
+    }
+
     @Autowired
     private AppMemberService appMemberService;
 
