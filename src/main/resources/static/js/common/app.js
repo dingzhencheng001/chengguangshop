@@ -87,3 +87,66 @@ jQuery.request = function (options) {
         }
     }))
 };
+
+/**
+ * 获取url上的参数
+ * @param [strUrl] - window.location.href
+ * @returns {{}}
+ */
+$.getUrlVars = function (strUrl) {
+    var vars = {};
+    var hash;
+    var url = strUrl || window.location.href;
+    if (url.indexOf('?') === -1) return vars;
+    var str = url.split('?')[1];
+    var hashes = str.split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        var key = hash[0];
+        var value = '';
+        try {
+            value = decodeURIComponent(hash[1]);
+        } catch (e) {
+            // ！！！如果有非法字符 那么先使用encodeURIComponent
+            value = '';
+        }
+        if (value && value.indexOf('[') >= 0 && value.indexOf(']') >= 0) {
+            try {
+                vars[key] = JSON.parse(value);
+            } catch (e) {
+                // console.error('getUrlVars err：', e);
+            }
+        } else {
+            vars[key] = value;
+        }
+    }
+    return vars;
+};
+
+$.tableRenderConfing = {
+    loading: true, // 开启loading
+    request: {
+        pageName: 'pageNum', //页码的参数名称，默认：page
+        limitName: 'pageSize', //每页数据量的参数名，默认：limit
+    },
+    parseData: function (res) {
+        var msg, code, count, data;
+        if (res.code === 200) {
+            code = 0;
+            msg = res.message;
+            count = res.data.total;
+            data = res.data.list;
+        } else {
+            code = res.code;
+            msg = res.msg;
+            count = 0;
+            data = [];
+        }
+        return {
+            "code": code, //解析接口状态
+            "msg": msg, //解析提示文本
+            "count": count, //解析数据长度
+            "data": data //解析数据列表
+        };
+    }
+}

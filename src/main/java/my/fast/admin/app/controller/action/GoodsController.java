@@ -1,13 +1,10 @@
 package my.fast.admin.app.controller.action;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,52 +16,49 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.app.common.constant.CommonPage;
 import my.fast.admin.app.common.constant.CommonResult;
-import my.fast.admin.app.entity.AppMember;
-import my.fast.admin.app.entity.AppPicture;
-import my.fast.admin.app.service.AppNoticeService;
-import my.fast.admin.app.service.PictureService;
-import my.fast.admin.framework.utils.TokenUtils;
+import my.fast.admin.app.entity.AppGoods;
+import my.fast.admin.app.model.AppGoodsParam;
+import my.fast.admin.app.service.AppGoodsService;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/21 11:39
+ * @since 2022/7/10 10:32
  */
 @Controller
-@Api(tags = "PictureController", description = "图片管理")
-@RequestMapping("/picture")
-public class PictureController {
-
+@Api(tags = "GoodsController", description = "商品管理")
+@RequestMapping("/goodsaction")
+public class GoodsController {
     @Autowired
-    private PictureService pictureService;
+    private AppGoodsService appGoodsService;
 
-
-    @ApiOperation("获取所有图片")
+    @ApiOperation("获取商品列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult listAll() {
-        List<AppPicture> appPictures = pictureService.listAll();
-        return CommonResult.success(appPictures);
-    }
-    
-    @ApiOperation(value = "分页查询图片列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<CommonPage<AppPicture>> getPictureList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<AppPicture> appPictureList = pictureService.getPictureList(
-            pageNum, pageSize);
-        return CommonResult.success(CommonPage.restPage(appPictureList));
+        List<AppGoods> appGoods = appGoodsService.listAll();
+        return CommonResult.success(appGoods);
     }
 
-    @ApiOperation(value = "删除图片")
+    @ApiOperation(value = "根据条件获取商品列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<AppGoods>> getList(
+        @RequestParam(value = "goodsName", required = false) String goodsName,
+        @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+        @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+        List<AppGoods> goodsList = appGoodsService.listGoods(goodsName, pageNum, pageSize, minPrice,
+            maxPrice);
+        return CommonResult.success(CommonPage.restPage(goodsList));
+    }
+
+    @ApiOperation(value = "删除商品")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = pictureService.deletePictureById(id);
+        int count = appGoodsService.deleteGoods(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -72,26 +66,12 @@ public class PictureController {
         }
     }
 
-    @ApiOperation(value = "添加图片信息")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult create(@RequestBody AppPicture appPicture) {
-        CommonResult commonResult;
-        int count = pictureService.createPicture(appPicture);
-        if (count == 1) {
-            commonResult = CommonResult.success(count);
-        } else {
-            commonResult = CommonResult.failed();
-        }
-        return commonResult;
-    }
-
-    @ApiOperation(value = "更新图片信息")
+    @ApiOperation(value = "更新商品")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppPicture appPicture) {
+    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsParam appGoodsParam) {
         CommonResult commonResult;
-        int count = pictureService.updatePicture(id, appPicture);
+        int count = appGoodsService.updateGoods(id, appGoodsParam);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -100,7 +80,18 @@ public class PictureController {
         return commonResult;
     }
 
-
-
+    @ApiOperation(value = "添加商品")
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public CommonResult create(@RequestBody AppGoodsParam appGoodsParam) {
+        CommonResult commonResult;
+        int count = appGoodsService.createGoods(appGoodsParam);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
 
 }

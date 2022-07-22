@@ -29,7 +29,7 @@ public class AwsConfig {
         //设置连接时的参数
         ClientConfiguration config = new ClientConfiguration();
         //设置连接方式为HTTP，可选参数为HTTP和HTTPS
-        config.setProtocol(Protocol.HTTP);
+        config.setProtocol(Protocol.HTTPS);
         //设置网络访问超时时间
         config.setConnectionTimeout(5000);
         config.setUseExpectContinue(true);

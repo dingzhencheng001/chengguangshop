@@ -28,4 +28,14 @@ public interface PictureService {
      *  删除图片
      */
     int deletePictureById(Long id);
+    /**
+     *  新增图片信息
+     */
+    int createPicture(AppPicture appPicture);
+
+    /**
+     *  修改图片信息
+     */
+    int updatePicture(Long id, AppPicture appPicture);
+
 }

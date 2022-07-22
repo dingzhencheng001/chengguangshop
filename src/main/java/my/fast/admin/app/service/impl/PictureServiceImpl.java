@@ -41,4 +41,15 @@ public class PictureServiceImpl implements PictureService {
         return appPictureMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public int createPicture(AppPicture appPicture) {
+        return appPictureMapper.insertSelective(appPicture);
+    }
+
+    @Override
+    public int updatePicture(Long id, AppPicture appPicture) {
+        appPicture.setId(id);
+        return appPictureMapper.updateByPrimaryKeySelective(appPicture);
+    }
+
 }

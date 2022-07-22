@@ -23,7 +23,7 @@ import my.fast.admin.app.service.FileService;
  */
 @RestController
 @RequestMapping(value = "/file")
-@Api(tags = "FileController", description = "文件上传下载")
+@Api(tags = "FileController", description = "文件上传")
 public class FileController {
 
     @Autowired

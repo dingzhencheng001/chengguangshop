@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帐变</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <link rel="stylesheet" href="css/console.css"/>
+</head>
+<body>
+<div class="layui-card layui-bg-gray">
+    <style>
+        .layui-tab-card > .layui-tab-title .layui-this {
+            background-color: #fff;
+        }
+    </style>
+
+    <div class="layui-card-body layui-anim layui-anim-upbit">
+        <div class="think-box-shadow">
+            <div class="layui-card-header layui-anim layui-anim-fadein notselect">
+                <span class="layui-icon layui-icon-next font-s10 color-desc margin-right-5"></span>
+                当前用户: 新增无上级(15969695452)
+                <div class="pull-right"></div>
+            </div>
+            <div class="layui-form-item layui-inline" style="margin-right: 10px"><a
+                    class="layui-btn layui-btn-sm layui-btn-normal" id="backBtn">返回会员列表</a></div>
+            <fieldset>
+                <legend>条件搜索</legend>
+                <form class="layui-form layui-form-pane form-search" lay-filter="searchForm"
+                      autocomplete="off">
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type" id="selectList">
+                                <option value="">所有状态</option>
+                                <option value="-1">系统</option>
+                                <option value="1">充值</option>
+                                <option value="2">交易</option>
+                                <option value="3">返佣</option>
+                                <option value="4">强制交易</option>
+                                <option value="5">推广返佣</option>
+                                <option value="6">下级交易返佣</option>
+                                <option value="7">提现</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline"><label class="layui-form-label">发生时间</label>
+                        <div class="layui-input-inline">
+                            <input data-date-range="" name="addtime" value="" id="timeInput"
+                                   placeholder="请选择注册时间" class="layui-input"
+                                   autocomplete="off"  >
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="button">
+                            <i class="layui-icon"></i> 搜 索</button>
+                    </div>
+                </form>
+            </fieldset>
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">Ta的财务记录</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table id="demo0" lay-filter="demo0"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        var params = $.getUrlVars();
+
+        laydate.render({
+            elem: '#timeInput',
+            range: true //或 range: '~' 来自定义分割字符
+        });
+
+        console.log('params', params);
+
+        $.request({
+            url: '/memberaction/list/11',
+            // type: 'post',
+            // data: {
+            //     id: '11'
+            // },
+            success: function (result) {
+                console.log('res', result);
+            }
+        })
+
+        var tableId = '#demo0';
+        var where = {
+            memberId: params.id | '11',
+        };
+        //第一个实例
+        table.render(Object.assign({}, $.tableRenderConfing, {
+            elem: '#demo0',
+            where: where,
+            // height: 512,
+            totalRow: true,
+            method: 'post',
+            contentType: 'application/json',
+            url: 'http://localhost:8080/accountchangeaction/list' + '?memberId=11', //数据接口
+            page: true, //开启分页
+            cols: [[ //表头
+                {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
+                , {field: 'tel', title: '账号', totalRowText: '合计'}
+                , {field: 'oid', title: '订单编号', sort: true}
+                , {field: 'num', title: '金额', sort: true, totalRow: true}
+                , {field: 'type', title: '类型'}
+                , {field: 'status', title: '状态'}
+                , {field: 'addtime', title: '发生时间', width: 150}
+            ]],
+            id: tableId,
+        }));
+
+        var actions = {
+            onReloadData: function () {
+                var searchData = form.val('searchForm');
+                console.log('searchData', searchData);
+                table.reloadData(tableId, {where: Object.assign({}, where, searchData)});
+            }
+        }
+
+        // 搜索
+        form.on('submit(search)', function (data) {
+            console.log(data.field);
+            actions.onReloadData();
+            return false;
+        });
+
+        $('#backBtn').click(function () {
+            window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
+        })
+
+    })
+</script>
+</body>
+</html>
