@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +70,34 @@ public class PictureController {
         } else {
             return CommonResult.failed();
         }
+    }
+
+    @ApiOperation(value = "添加图片信息")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult create(@RequestBody AppPicture appPicture) {
+        CommonResult commonResult;
+        int count = pictureService.createPicture(appPicture);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "更新图片信息")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppPicture appPicture) {
+        CommonResult commonResult;
+        int count = pictureService.updatePicture(id, appPicture);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
     }
 
 

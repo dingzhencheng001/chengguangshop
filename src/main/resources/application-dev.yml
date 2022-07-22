@@ -42,4 +42,4 @@ s3:
     bucketName: ppp
     sdkVersion: latest
     region: sgp1
-    storageFilePath: /ppp/images
+    storageFilePath: /pic

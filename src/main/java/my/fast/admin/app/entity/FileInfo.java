@@ -19,6 +19,19 @@ public class FileInfo {
      */
     private String name;
 
+    /**
+     * 文件格式
+     */
+    private String fileFormat;
+
+    public String getFileFormat() {
+        return fileFormat;
+    }
+
+    public void setFileFormat(String fileFormat) {
+        this.fileFormat = fileFormat;
+    }
+
     public String getId() {
         return id;
     }
@@ -53,10 +66,7 @@ public class FileInfo {
 
     @Override
     public String toString() {
-        return "FileInfo{" +
-                "path='" + path + '\'' +
-                ", size=" + size +
-                ", name='" + name + '\'' +
-                '}';
+        return "FileInfo{" + "id='" + id + '\'' + ", path='" + path + '\'' + ", size=" + size + ", name='" + name + '\''
+            + ", fileFormat='" + fileFormat + '\'' + '}';
     }
 }
