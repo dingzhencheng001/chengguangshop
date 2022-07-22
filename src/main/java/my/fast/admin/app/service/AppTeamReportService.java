@@ -2,6 +2,7 @@ package my.fast.admin.app.service;
 
 import java.util.List;
 
+import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.vo.AppCommissionVo;
 
 /**
@@ -18,4 +19,12 @@ public interface AppTeamReportService {
      * @param id
      */
    AppCommissionVo getTeamList(Long id);
+   
+   
+   /**
+    * 获取会员团队信息
+    * @param id ,memberLevel
+    */
+  List<AppMember> getTeamLevelList(Long id,Long memberLevel);
+  
 }

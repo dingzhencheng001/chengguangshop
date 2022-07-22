@@ -98,4 +98,12 @@ public interface AppMemberMapper {
      * @param id
      */
     List<AppMember> getMemberTeam(Long id);
+    
+    
+    /**
+     * 获取下级团队信息
+     *
+     * @param id ，level 
+     */
+    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("level")Long level);
 }
