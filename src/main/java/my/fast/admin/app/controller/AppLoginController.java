@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.common.constant.RedisKeyConstant;
 import my.fast.admin.app.common.constant.UserConstants;
+import my.fast.admin.app.common.utils.IPUtils;
 import my.fast.admin.app.common.utils.RequestUtil;
 import my.fast.admin.app.entity.AppMember;
 import my.fast.admin.app.entity.SysChannel;
@@ -182,7 +183,11 @@ public class AppLoginController {
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
     	//注册IP  注册国家  TODO= 从公共方法获取
-        tbAppUser.setRegisterIp(RequestUtil.getRequestIp(request));
+        String ip = RequestUtil.getRequestIp(request);
+        String countryName = IPUtils.getIPMsg(ip)
+            .getCountryName();
+        tbAppUser.setRegisterCountry(countryName);
+        tbAppUser.setRegisterIp(ip);
     	log.info(System.currentTimeMillis() + "注册用户请求内容：", tbAppUser.getUserAccount());
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
