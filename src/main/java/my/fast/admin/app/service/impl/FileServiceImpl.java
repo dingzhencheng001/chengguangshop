@@ -40,12 +40,13 @@ public class FileServiceImpl implements FileService {
     private AwsProperties awsProperties;
 
     @Autowired
+    private AmazonS3 amazonS3;
+
+    @Autowired
     private AppPictureMapper appPictureMapper;
 
     @Override
     public List<FileInfo> uploadFile(MultipartFile[] files) {
-        //创建连接对象
-        AmazonS3 client = createAmazonS3();
         //创建返回对象
         List<FileInfo> fileInfos = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -61,8 +62,7 @@ public class FileServiceImpl implements FileService {
                 objectMetadata.setContentLength(file.getSize());
                 objectMetadata.setContentType(file.getContentType());
                 try {
-                    client.putObject(awsProperties.getBucketName(), getKey(fileInfo), file.getInputStream(),
-                        objectMetadata);
+                    amazonS3.putObject(awsProperties.getBucketName(),fileInfo.getName(),file.getInputStream(),objectMetadata);
                     //存储数据库
                     AppPicture appPicture = new AppPicture();
                     appPicture.setPictureId(fileInfo.getId());
@@ -78,23 +78,6 @@ public class FileServiceImpl implements FileService {
         }
         return fileInfos;
     }
-
-    //创建连接对象
-    private AmazonS3 createAmazonS3() {
-        ClientConfiguration config = new ClientConfiguration();
-        config.setProtocol(Protocol.HTTPS);
-        config.disableSocketProxy();
-        AmazonS3 client = AmazonS3ClientBuilder.standard()
-            .withClientConfiguration(config)
-            .withCredentials(new AWSStaticCredentialsProvider(
-                new BasicAWSCredentials(awsProperties.getAccessKeyId(), awsProperties.getSecretAccessKey())))
-            .withEndpointConfiguration(
-                new AwsClientBuilder.EndpointConfiguration(awsProperties.getEndpoint(), awsProperties.getRegion()))
-            .enablePathStyleAccess()
-            .build();
-        return client;
-    }
-
 
     /**
      * 文件存放目录
