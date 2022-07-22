@@ -28,7 +28,7 @@ public interface AppMemberAccountChangeControllerService {
     /**
      * 获取个人账户变更列表
      */
-    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize);
+    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize,Long memberId);
 
     /**
      * 删除用户账变
