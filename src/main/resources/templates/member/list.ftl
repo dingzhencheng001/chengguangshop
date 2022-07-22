@@ -487,45 +487,16 @@
             // "totalCommission": 0,
             // "userAccount": "string"
         };
-        var parseData = function (res) {
-            console.log('res', res)
-            var msg;
-            var code;
-            var count;
-            var data;
-            if (res.code === 200) {
-                code = 0;
-                msg = res.message;
-                count = res.data.total;
-                data = res.data.list;
-            } else {
-                code = res.code;
-                msg = res.msg;
-                count = 0;
-                data = [];
-            }
-            return {
-                "code": code, //解析接口状态
-                "msg": msg, //解析提示文本
-                "count": count, //解析数据长度
-                "data": data //解析数据列表
-            };
-        };
 
         var memberListTableId = 'memberListTable';
-        table.render({
+        table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#member-list',
-            method: 'post',
             url: 'http://localhost:8080/memberaction/list', //数据接口
-            page: true, //开启分页
             cellMinWidth: 100, //全局定义常规单元格的最小宽度
+            method: 'post',
             contentType: 'application/json',
+            page: true, //开启分页
             where: where,
-            loading: true,
-            request: {
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize', //每页数据量的参数名，默认：limit
-            },
             lineStyle: 'height: 100px;',
             // ID	账号	会员等级	账户余额	提现	冻结金额	上级用户	邀请码	注册信息	操作
             cols: [[ //表头
@@ -541,9 +512,8 @@
                 , {field: 'registerId', title: '注册信息', templet: '#register', sort: true, minWidth: 160}
                 , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336}
             ]],
-            parseData: parseData,
             id: memberListTableId, // 容器唯一ID
-        });
+        } ));
 
 
         // 请求回调选项
@@ -775,8 +745,20 @@
                 })
 
             } else if (layEvent === 'viewTeam') { // 查看团队
-                window.location.href = './viewTeam.html';
+                window.parent.layui.tab.tabAdd({
+                    id: new Date().getTime(),
+                    title: '查看团队',
+                    icon: 'fa-file',
+                    url: '/viewTeam.html'
+                })
+                // window.location.href = './viewTeam.html';
             } else if (layEvent === 'accountChange') { // 帐变
+                window.parent.layui.tab.tabAdd({
+                    id: new Date().getTime(),
+                    title: '帐变',
+                    icon: 'fa-file',
+                    url: '/caiwu.html?id='+ data.id,
+                })
             } else if (layEvent === 'realPerson') { // 设为真人
                 // 状态:1.真人2.假人
                 actions.onUpdateItem(tableCurrentItem.id, {memberStatus: data.memberStatus === 1 ? 2 : 1})

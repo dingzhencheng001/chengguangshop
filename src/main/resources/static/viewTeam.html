@@ -257,18 +257,23 @@
 
                     //第一个实例
                     table.render({
-                        elem: '#demo0'
-                        , where: {
-                            iasjax: 1,
-                            level: -1,
-                            addtime: "",
-                            tel: "",
-                            username: "",
-                            id: 890
+                        elem: '#demo0',
+                        where: {
+                            // iasjax: 1,
+                            // level: -1,
+                            // addtime: "",
+                            // tel: "",
+                            // username: "",
+                            // id: 890
                         }
                         , height: 512
-                        , url: '/admin/users/tuandui' //数据接口
+                        , url: 'http://localhost:8080/team/list' //数据接口
                         , totalRow: true
+                        , parseData: $.parseData
+                        ,request: {
+                            pageName: 'pageNum', //页码的参数名称，默认：page
+                            limitName: 'pageSize', //每页数据量的参数名，默认：limit
+                        }
                         , page: true //开启分页
                         , cols: [[ //表头
                             {field: 'id', title: 'ID', width: 50, sort: true, fixed: 'left',}
