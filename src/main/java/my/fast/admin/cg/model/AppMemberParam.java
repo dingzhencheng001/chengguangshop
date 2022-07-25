@@ -75,9 +75,6 @@ public class AppMemberParam implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "机构id")
-    private Long companyId;
-
     @ApiModelProperty(value = "邀请码")
     private String inviteCode;
 
@@ -96,6 +93,10 @@ public class AppMemberParam implements Serializable {
     @ApiModelProperty(value = "会员个人总佣金")
     private BigDecimal totalCommission;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
+    
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -282,14 +283,6 @@ public class AppMemberParam implements Serializable {
         this.remark = remark;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
     public String getInviteCode() {
         return inviteCode;
     }
@@ -338,7 +331,15 @@ public class AppMemberParam implements Serializable {
         this.totalCommission = totalCommission;
     }
 
-    @Override
+    public Long getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Long channelId) {
+		this.channelId = channelId;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -367,13 +368,13 @@ public class AppMemberParam implements Serializable {
         sb.append(", createBy=").append(createBy);
         sb.append(", createTime=").append(createTime);
         sb.append(", remark=").append(remark);
-        sb.append(", companyId=").append(companyId);
         sb.append(", inviteCode=").append(inviteCode);
         sb.append(", registrationTime=").append(registrationTime);
         sb.append(", memberStatus=").append(memberStatus);
         sb.append(", registerIp=").append(registerIp);
         sb.append(", registerCountry=").append(registerCountry);
         sb.append(", totalCommission=").append(totalCommission);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

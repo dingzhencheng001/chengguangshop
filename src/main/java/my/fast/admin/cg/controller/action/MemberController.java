@@ -133,10 +133,10 @@ public class MemberController {
     		if(parentUser==null){
         		return CommonResult.failed("添加会员" + appMember.getUserAccount() + "失败，上级会员不存在");
         	}
-        	tbAppUser.setCompanyId(parentUser.getCompanyId()); //设置机构id
+        	tbAppUser.setChannelId(parentUser.getChannelId()); //设置渠道id
         	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
         	tbAppUser.setParentUserName(parentUser.getUserAccount());//上级会员昵称
-        	tbAppUser.setCompanyId(parentUser.getCompanyId()); //对应机构Id
+        	tbAppUser.setChannelId(parentUser.getChannelId()); //对应渠道Id
         }else{
         	//无上级ID 则根据当前的域名取
         	//根据域名获取渠道号
@@ -149,7 +149,7 @@ public class MemberController {
                 return CommonResult.failed("渠道查询错误，渠道ID不存在");
             }
             log.info("ChannelId : "+  sysChannel.getChannelId());
-            tbAppUser.setCompanyId(sysChannel.getChannelId()); //对应机构渠道Id
+            tbAppUser.setChannelId(sysChannel.getChannelId()); //对应渠道Id
         }
     	
     	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(tbAppUser)))
@@ -190,7 +190,7 @@ public class MemberController {
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
         if (row > 0) {
-        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户添加成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getCompanyId());
+        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户添加成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getChannelId());
         } else {
         	return CommonResult.failed( "添加失败，请联系管理员...");
         }
