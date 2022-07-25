@@ -110,11 +110,11 @@
       #{filePath,jdbcType=VARCHAR}, #{uploadUser,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppFile">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into app_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            id,
+        </if>
       <if test="fileFormat != null">
         file_format,
       </if>
@@ -132,6 +132,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+        </if>
       <if test="fileFormat != null">
         #{fileFormat,jdbcType=VARCHAR},
       </if>
