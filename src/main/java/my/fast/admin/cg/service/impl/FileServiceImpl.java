@@ -54,8 +54,8 @@ public class FileServiceImpl implements FileService {
                 String id = UUID.randomUUID()
                     .toString();
                 fileInfo.setId(id);
-                fileInfo.setPath(getKey(fileInfo));
                 fileInfo.setName(id+"."+split[1]);
+                fileInfo.setPath(getKey(fileInfo));
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentLength(file.getSize());
                 objectMetadata.setContentType(file.getContentType());
