@@ -17,7 +17,7 @@ public class SwaggerConfig extends BaseSwaggerConfig {
     @Override
     public SwaggerProperties swaggerProperties() {
         return SwaggerProperties.builder()
-                .apiBasePackage("my.fast.admin.app.controller")
+                .apiBasePackage("my.fast.admin.cg.controller")
                 .title("橙光科技")
                 .description("相关接口文档")
                 .contactName("cg")
