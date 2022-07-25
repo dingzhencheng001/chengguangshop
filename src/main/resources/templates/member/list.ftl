@@ -335,7 +335,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
                     <div class="layui-input-block">
-                        <input name="userAccount" placeholder="请输入用户名" required=""
+                        <input name="userAccount" lay-verify placeholder="请输入用户名" required=""
                                class="layui-input"/>
                     </div>
                 </div>

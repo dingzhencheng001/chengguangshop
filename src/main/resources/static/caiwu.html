@@ -105,7 +105,7 @@
         console.log('params', params);
 
         $.request({
-            url: '/memberaction/list/11',
+            url: '/action/member/list/11',
             // type: 'post',
             // data: {
             //     id: '11'
@@ -127,7 +127,7 @@
             totalRow: true,
             method: 'post',
             contentType: 'application/json',
-            url: 'http://localhost:8080/accountchangeaction/list' + '?memberId=11', //数据接口
+            url: 'http://localhost:8080/action/accountchange/list' + '?memberId=11', //数据接口
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
@@ -157,6 +157,7 @@
         });
 
         $('#backBtn').click(function () {
+            // 返回到会员列表
             window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
         })
 

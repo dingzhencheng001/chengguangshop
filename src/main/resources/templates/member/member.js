@@ -62,7 +62,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     var memberListTableId = 'memberListTable';
     table.render(Object.assign({}, $.tableRenderConfing, {
         elem: '#member-list',
-        url: 'http://localhost:8080/memberaction/list', //数据接口
+        url: '/action/member/list', //数据接口
         cellMinWidth: 100, //全局定义常规单元格的最小宽度
         method: 'post',
         contentType: 'application/json',
@@ -109,9 +109,9 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 
     var actions = {
         apiUrl: {
-            update: '/memberaction/update/',
-            delete: '/memberaction/delete/',
-            create: '/memberaction/create',
+            update: '/action/member/update/',
+            delete: '/action/member/delete/',
+            create: '/action/member/create',
         },
         // 刷新表格数据
         onReloadData: function () {
@@ -266,7 +266,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             });
         } else if (layEvent === 'bankCardInfo') { // 银行卡信息
             $.request({
-                url: '/bankaction/getmemberbank/' + tableCurrentItem.id,
+                url: '/action/bank/getmemberbank/' + tableCurrentItem.id,
                 type: 'get',
                 success: function (result) {
                     // if (!result.data) {
@@ -295,7 +295,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
         } else if (layEvent === 'addressInfo') { // 地址信息
             $.request({
-                url: '//addressaction/getmemberaddress/' + tableCurrentItem.id,
+                url: '/action/address/getmemberaddress/' + tableCurrentItem.id,
                 type: 'get',
                 success: function (result) {
                     currentAddressInfoItem = result.data;
@@ -408,7 +408,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     // 地址信息-提交
     form.on('submit(addressInfoSubmit)', function (data) {
         $.request({
-            url: '/addressaction/save',
+            url: '/action/address/save',
             type: 'post',
             data: Object.assign({}, currentAddressInfoItem, data.field, {memberId: tableCurrentItem.id}),
             success: function () {
@@ -427,7 +427,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     // 银行卡-提交
     form.on('submit(bankCardInfoSubmit)', function (data) {
         $.request({
-            url: '/bankaction/save',
+            url: '/action/bank/save',
             type: 'post',
             data: Object.assign({}, currentBankCardInfoItem, data.field, {memberId: tableCurrentItem.id}),
             success: function () {

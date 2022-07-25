@@ -200,9 +200,9 @@
 
 			var actions = {
 				apiUrl: {
-					update: '/levelaction/update/',
-					delete: '/levelaction/delete/',
-					create: '/levelaction/create'
+					update: '/action/level/update/',
+					delete: '/action/level/delete/',
+					create: '/action/level/create'
 				},
 				// 刷新表格数据
 				onReloadData: function () {
@@ -324,7 +324,7 @@
 			table.render({
 				elem: '#level',
 				height: 312,
-				url: '/levelaction/list', //数据接口
+				url: '/action/level/list', //数据接口
 				// url: 'http://localhost:8080/levelaction/list?pageNum=1&pageSize=20', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度

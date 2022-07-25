@@ -708,7 +708,7 @@
                 actions.onUpdateItem(tableCurrentItem.id, { status: data.status === 0 ? 1 : 0 })
             } else if (layEvent === 'addressInfo') { // 地址信息
                 $.request({
-                    url: '/addressaction/getmemberaddress/' + tableCurrentItem.id,
+                    url: '/action/address/getmemberaddress/' + tableCurrentItem.id,
                     type: 'get',
                     success: function (result, status, xhr) {
                         console.log('result', result);

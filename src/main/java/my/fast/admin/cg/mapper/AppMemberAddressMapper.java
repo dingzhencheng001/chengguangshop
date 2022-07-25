@@ -31,4 +31,11 @@ public interface AppMemberAddressMapper {
     int updateByPrimaryKeySelective(AppMemberAddress record);
 
     int updateByPrimaryKey(AppMemberAddress record);
+    
+    
+    /***************************************************************/
+    List<AppMemberAddress> selectAddressByExample(AppMemberAddressExample example);
+    
+    
+    
 }
