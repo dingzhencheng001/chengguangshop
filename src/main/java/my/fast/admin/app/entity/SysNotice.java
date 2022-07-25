@@ -39,6 +39,9 @@ public class SysNotice implements Serializable {
     @ApiModelProperty(value = "通知类型(1.系统通知 2.个人通知 3.其他通知)")
     private Integer noticeClasses;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     @ApiModelProperty(value = "公告内容")
     private byte[] noticeContent;
 
@@ -132,6 +135,14 @@ public class SysNotice implements Serializable {
         this.noticeClasses = noticeClasses;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     public byte[] getNoticeContent() {
         return noticeContent;
     }
@@ -157,6 +168,7 @@ public class SysNotice implements Serializable {
         sb.append(", remark=").append(remark);
         sb.append(", memberId=").append(memberId);
         sb.append(", noticeClasses=").append(noticeClasses);
+        sb.append(", channelId=").append(channelId);
         sb.append(", noticeContent=").append(noticeContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

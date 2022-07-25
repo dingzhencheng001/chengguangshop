@@ -33,6 +33,9 @@ public class AppGoods implements Serializable {
     @ApiModelProperty(value = "商品分类id")
     private Long goodsSortId;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -107,6 +110,14 @@ public class AppGoods implements Serializable {
         this.goodsSortId = goodsSortId;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -122,6 +133,7 @@ public class AppGoods implements Serializable {
         sb.append(", goodsAddTime=").append(goodsAddTime);
         sb.append(", status=").append(status);
         sb.append(", goodsSortId=").append(goodsSortId);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

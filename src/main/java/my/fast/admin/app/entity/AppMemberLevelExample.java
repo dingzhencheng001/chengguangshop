@@ -426,52 +426,52 @@ public class AppMemberLevelExample {
             return (Criteria) this;
         }
 
-        public Criteria andCommissionEqualTo(Date value) {
+        public Criteria andCommissionEqualTo(BigDecimal value) {
             addCriterion("commission =", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionNotEqualTo(Date value) {
+        public Criteria andCommissionNotEqualTo(BigDecimal value) {
             addCriterion("commission <>", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionGreaterThan(Date value) {
+        public Criteria andCommissionGreaterThan(BigDecimal value) {
             addCriterion("commission >", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionGreaterThanOrEqualTo(Date value) {
+        public Criteria andCommissionGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("commission >=", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionLessThan(Date value) {
+        public Criteria andCommissionLessThan(BigDecimal value) {
             addCriterion("commission <", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionLessThanOrEqualTo(Date value) {
+        public Criteria andCommissionLessThanOrEqualTo(BigDecimal value) {
             addCriterion("commission <=", value, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionIn(List<Date> values) {
+        public Criteria andCommissionIn(List<BigDecimal> values) {
             addCriterion("commission in", values, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionNotIn(List<Date> values) {
+        public Criteria andCommissionNotIn(List<BigDecimal> values) {
             addCriterion("commission not in", values, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionBetween(Date value1, Date value2) {
+        public Criteria andCommissionBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("commission between", value1, value2, "commission");
             return (Criteria) this;
         }
 
-        public Criteria andCommissionNotBetween(Date value1, Date value2) {
+        public Criteria andCommissionNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("commission not between", value1, value2, "commission");
             return (Criteria) this;
         }
@@ -953,6 +953,136 @@ public class AppMemberLevelExample {
 
         public Criteria andServiceChargeNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("service_charge not between", value1, value2, "serviceCharge");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIsNull() {
+            addCriterion("pic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIsNotNull() {
+            addCriterion("pic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicEqualTo(String value) {
+            addCriterion("pic =", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotEqualTo(String value) {
+            addCriterion("pic <>", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicGreaterThan(String value) {
+            addCriterion("pic >", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicGreaterThanOrEqualTo(String value) {
+            addCriterion("pic >=", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLessThan(String value) {
+            addCriterion("pic <", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLessThanOrEqualTo(String value) {
+            addCriterion("pic <=", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLike(String value) {
+            addCriterion("pic like", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotLike(String value) {
+            addCriterion("pic not like", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIn(List<String> values) {
+            addCriterion("pic in", values, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotIn(List<String> values) {
+            addCriterion("pic not in", values, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicBetween(String value1, String value2) {
+            addCriterion("pic between", value1, value2, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotBetween(String value1, String value2) {
+            addCriterion("pic not between", value1, value2, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNull() {
+            addCriterion("channel_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNotNull() {
+            addCriterion("channel_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdEqualTo(Long value) {
+            addCriterion("channel_id =", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotEqualTo(Long value) {
+            addCriterion("channel_id <>", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThan(Long value) {
+            addCriterion("channel_id >", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("channel_id >=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThan(Long value) {
+            addCriterion("channel_id <", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThanOrEqualTo(Long value) {
+            addCriterion("channel_id <=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIn(List<Long> values) {
+            addCriterion("channel_id in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotIn(List<Long> values) {
+            addCriterion("channel_id not in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdBetween(Long value1, Long value2) {
+            addCriterion("channel_id between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotBetween(Long value1, Long value2) {
+            addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }
     }

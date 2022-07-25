@@ -37,6 +37,9 @@ public class SysAgentList implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -119,6 +122,14 @@ public class SysAgentList implements Serializable {
         this.remark = remark;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -135,6 +146,7 @@ public class SysAgentList implements Serializable {
         sb.append(", updateBy=").append(updateBy);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", remark=").append(remark);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
