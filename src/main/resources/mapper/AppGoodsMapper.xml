@@ -11,6 +11,7 @@
     <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="goods_sort_id" jdbcType="BIGINT" property="goodsSortId" />
+    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, shop_name, goods_name, goods_info, goods_price, goods_pic, goods_add_time, status, 
-    goods_sort_id
+    goods_sort_id, channel_id
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppGoodsExample" resultMap="BaseResultMap">
     select
@@ -110,10 +111,10 @@
     </selectKey>
     insert into app_goods (shop_name, goods_name, goods_info, 
       goods_price, goods_pic, goods_add_time, 
-      status, goods_sort_id)
+      status, goods_sort_id, channel_id)
     values (#{shopName,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsInfo,jdbcType=VARCHAR}, 
       #{goodsPrice,jdbcType=DECIMAL}, #{goodsPic,jdbcType=VARCHAR}, #{goodsAddTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{goodsSortId,jdbcType=BIGINT})
+      #{status,jdbcType=INTEGER}, #{goodsSortId,jdbcType=BIGINT}, #{channelId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -144,6 +145,9 @@
       </if>
       <if test="goodsSortId != null">
         goods_sort_id,
+      </if>
+      <if test="channelId != null">
+        channel_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -209,6 +213,9 @@
       <if test="record.goodsSortId != null">
         goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
       </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,7 +231,8 @@
       goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
       goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
-      goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT}
+      goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -256,6 +264,9 @@
       <if test="goodsSortId != null">
         goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
       </if>
+      <if test="channelId != null">
+         channel_id = #{channelId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -268,7 +279,8 @@
       goods_pic = #{goodsPic,jdbcType=VARCHAR},
       goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
-      goods_sort_id = #{goodsSortId,jdbcType=BIGINT}
+      goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
+      channel_id = #{channelId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
     <select id="randomOrders" resultMap="BaseResultMap" parameterType="decimal">

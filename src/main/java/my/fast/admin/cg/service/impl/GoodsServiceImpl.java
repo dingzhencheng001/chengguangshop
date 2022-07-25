@@ -43,14 +43,13 @@ public class GoodsServiceImpl implements GoodsService {
         PageHelper.startPage(pageNum, pageSize);
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         AppGoodsExample.Criteria criteria = appGoodsExample.createCriteria();
-        appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId);
         if (!StringUtils.isEmpty(goodsName)) {
             criteria.andGoodsNameLike("%" + goodsName + "%");
         }
         if (!StringUtils.isEmpty(minPrice) && !StringUtils.isEmpty(maxPrice)) {
             criteria.andGoodsPriceBetween(minPrice, maxPrice);
         }
+        criteria.andChannelIdEqualTo(channelId);
         return appGoodsMapper.selectByExample(appGoodsExample);
     }
 
@@ -73,14 +72,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public int updateGoods(Long id, AppGoodsParam appGoodsParam, Long channelId) {
-        AppGoods appGoods = new AppGoods();
-        BeanUtils.copyProperties(appGoodsParam, appGoods);
-        appGoods.setId(id);
+    public int updateGoods(Long id, AppGoods appGoods, Long channelId) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId);
-        return appGoodsMapper.updateByExampleSelective(appGoods,appGoodsExample);
+            .andChannelIdEqualTo(channelId)
+            .andIdEqualTo(id);
+        return appGoodsMapper.updateByExampleSelective(appGoods, appGoodsExample);
 
     }
 }

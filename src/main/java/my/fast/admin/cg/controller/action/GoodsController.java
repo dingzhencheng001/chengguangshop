@@ -101,14 +101,14 @@ public class GoodsController {
     @ApiOperation(value = "更新商品")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsParam appGoodsParam,HttpServletRequest request) {
+    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoods appGoods,HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
-        int count = goodsService.updateGoods(id, appGoodsParam,channelId);
+        int count = goodsService.updateGoods(id,appGoods,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

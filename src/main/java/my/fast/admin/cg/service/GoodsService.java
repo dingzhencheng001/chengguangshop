@@ -49,5 +49,5 @@ public interface GoodsService {
      * 修改品牌
      */
     @Transactional
-    int updateGoods(Long id, AppGoodsParam appGoodsParam, Long channelId);
+    int updateGoods(Long id, AppGoods appGoods, Long channelId);
 }
