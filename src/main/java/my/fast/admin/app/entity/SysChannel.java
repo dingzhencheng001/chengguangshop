@@ -40,7 +40,7 @@ public class SysChannel implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "渠道ID")
-    private String channelId;
+    private Long channelId;
 
     private static final long serialVersionUID = 1L;
 
@@ -132,11 +132,11 @@ public class SysChannel implements Serializable {
         this.remark = remark;
     }
 
-    public String getChannelId() {
+    public Long getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(String channelId) {
+    public void setChannelId(Long channelId) {
         this.channelId = channelId;
     }
 
