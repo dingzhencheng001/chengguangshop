@@ -57,17 +57,15 @@ public class GoodsServiceImpl implements GoodsService {
     public int deleteGoods(Long id, Long channelId) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId);
-        return appGoodsMapper.deleteByPrimaryKey(id);
+            .andChannelIdEqualTo(id).andIdEqualTo(channelId);
+        return appGoodsMapper.deleteByExample(appGoodsExample);
     }
 
     @Override
     public int createGoods(AppGoodsParam appGoodsParam, Long channelId) {
         AppGoods appGoods = new AppGoods();
         BeanUtils.copyProperties(appGoodsParam, appGoods);
-        AppGoodsExample appGoodsExample = new AppGoodsExample();
-        appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId);
+        appGoods.setChannelId(channelId);
         return appGoodsMapper.insertSelective(appGoods);
     }
 

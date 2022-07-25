@@ -20,7 +20,7 @@ import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
-import my.fast.admin.cg.service.AppMemberAccountChangeControllerService;
+import my.fast.admin.cg.service.AppMemberAccountChangeService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.framework.utils.TokenUtils;
 
@@ -38,7 +38,7 @@ public class AppMemberAccountChangeController {
     @Autowired
     private AppMemberService appMemberService;
     @Autowired
-    private AppMemberAccountChangeControllerService accountChangeControllerService;
+    private AppMemberAccountChangeService accountChangeControllerService;
 
     @ApiOperation("获取用户账变列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)

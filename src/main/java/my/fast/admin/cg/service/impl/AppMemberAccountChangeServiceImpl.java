@@ -12,7 +12,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberAccountChangeExample;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
-import my.fast.admin.cg.service.AppMemberAccountChangeControllerService;
+import my.fast.admin.cg.service.AppMemberAccountChangeService;
 
 /**
  * TODO
@@ -22,7 +22,7 @@ import my.fast.admin.cg.service.AppMemberAccountChangeControllerService;
  * @since 2022/7/10 10:40
  */
 @Service
-public class AppMemberAccountChangeControllerServiceImpl implements AppMemberAccountChangeControllerService {
+public class AppMemberAccountChangeServiceImpl implements AppMemberAccountChangeService {
 
     @Autowired
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
