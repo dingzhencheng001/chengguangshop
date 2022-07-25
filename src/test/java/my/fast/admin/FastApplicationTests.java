@@ -1,16 +1,12 @@
 package my.fast.admin;
 
-import java.io.File;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.maxmind.geoip2.DatabaseReader;
-
-import my.fast.admin.app.common.utils.IPUtils;
-import my.fast.admin.app.entity.IPEntity;
+import my.fast.admin.cg.common.utils.IPUtils;
+import my.fast.admin.cg.entity.IPEntity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

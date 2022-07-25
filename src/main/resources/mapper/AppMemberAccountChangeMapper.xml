@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.app.mapper.AppMemberAccountChangeMapper">
-    <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMemberAccountChange">
+<mapper namespace="my.fast.admin.cg.mapper.AppMemberAccountChangeMapper">
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMemberAccountChange">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="account_id" jdbcType="BIGINT" property="accountId"/>
         <result column="member_id" jdbcType="BIGINT" property="memberId"/>
@@ -80,7 +80,7 @@
         , account_id, member_id, currency_type, opera_type, pre_opera_mount, opera_mount,
     total_mount, create_by, create_time, update_by, update_time
     </sql>
-    <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberAccountChangeExample"
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberAccountChangeExample"
             resultMap="BaseResultMap">
         select
         <if test="distinct">
@@ -106,13 +106,13 @@
         from app_member_account_change
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberAccountChangeExample">
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberAccountChangeExample">
         delete from app_member_account_change
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="my.fast.admin.app.entity.AppMemberAccountChange">
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMemberAccountChange">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -125,7 +125,7 @@
         #{totalMount,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
         #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
-    <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMemberAccountChange">
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberAccountChange">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -201,14 +201,14 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberAccountChangeExample"
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberAccountChangeExample"
             resultType="java.lang.Long">
         select count(*) from app_member_account_change
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
-    <select id="selectMemberAccountChange" resultType="my.fast.admin.app.entity.AppMemberAccountChange">
+    <select id="selectMemberAccountChange" resultType="my.fast.admin.cg.entity.AppMemberAccountChange">
         select
         *
         from app_member_account_change
@@ -221,7 +221,7 @@
             opera_type = #{type,jdbcType=INTEGER}
         </if>
     </select>
-    <select id="getMemberList" resultType="my.fast.admin.app.entity.AppMemberAccountChange"></select>
+    <select id="getMemberList" resultType="my.fast.admin.cg.entity.AppMemberAccountChange"></select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_member_account_change
         <set>
@@ -284,7 +284,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMemberAccountChange">
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMemberAccountChange">
         update app_member_account_change
         <set>
             <if test="accountId != null">
@@ -323,7 +323,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMemberAccountChange">
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberAccountChange">
         update app_member_account_change
         set account_id      = #{accountId,jdbcType=BIGINT},
             member_id       = #{memberId,jdbcType=BIGINT},
