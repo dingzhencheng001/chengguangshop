@@ -46,38 +46,20 @@ public class MemberAccountChangeController {
     @Autowired
     private AppChannelService appChannelService;
 
-    @ApiOperation("获取账变列表")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult listAll(HttpServletRequest request) {
-        //根据域名获取渠道号
-        StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        Long channelId = sysChannel.getChannelId();
-        List<AppMemberAccountChange> appAccountChange = memberAccountChangeService.listAll(channelId);
-        return CommonResult.success(appAccountChange);
-    }
 
-   
     @ApiOperation(value = "获取会员账变信息列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,HttpServletRequest request) {
-        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
-        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户信息不存在");
-        }
-        Long memberId = appUserVO.getId();
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         Long channelId = sysChannel.getChannelId();
         List<AppMemberAccountChange> appMemberAccountChangeList = memberAccountChangeService.getMemberList(
-            pageNum, pageSize, channelId,memberId);
+            pageNum, pageSize, channelId);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }
 

@@ -55,6 +55,6 @@ public class AppMemberBankServiceImpl implements AppMemberBankService {
 
 	@Override
 	public AppMemberBank getMemberBank(Long userId) {
-		return appMemberBankMapper.selectBymemberId(userId);
+		return appMemberBankMapper.selectByMemberId(userId);
 	}
 }

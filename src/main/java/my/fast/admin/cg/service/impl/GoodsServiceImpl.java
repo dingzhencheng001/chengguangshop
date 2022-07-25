@@ -29,13 +29,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private AppGoodsMapper appGoodsMapper;
 
-    @Override
-    public List<AppGoods> listAll(Long channelId) {
-        AppGoodsExample appGoodsExample = new AppGoodsExample();
-        appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId);
-        return appGoodsMapper.selectByExample(appGoodsExample);
-    }
 
     @Override
     public List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,

@@ -18,12 +18,6 @@ import my.fast.admin.cg.model.AppGoodsParam;
 public interface GoodsService {
 
     /**
-     * 获取所有商品
-     * @param channelId
-     */
-    List<AppGoods> listAll(Long channelId);
-
-    /**
      * 分页查询品牌
      * @param goodsName
      * @param pageNum

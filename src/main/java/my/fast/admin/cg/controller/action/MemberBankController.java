@@ -18,7 +18,10 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMemberBank;
+import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppMemberBankService;
+import my.fast.admin.cg.service.MemberBankService;
 
 /**
  * TODO
@@ -35,54 +38,95 @@ public class MemberBankController {
     @Autowired
     private AppMemberBankService appMemberBankService;
 
-    @ApiOperation("获取会员银行卡信息")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult listAll() {
-        List<AppMemberBank> appMemberBanks = appMemberBankService.listAll();
-        return CommonResult.success(appMemberBanks);
-    }
+    @Autowired
+    private MemberBankService MemberBankService;
+
+    @Autowired
+    private AppChannelService appChannelService;
 
     @ApiOperation(value = "获取会员银行卡信息列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberBank>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<AppMemberBank> appMemberBankList = appMemberBankService.listBanks( pageNum, pageSize);
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        List<AppMemberBank> appMemberBankList = MemberBankService.listBanks(pageNum, pageSize, channelId);
         return CommonResult.success(CommonPage.restPage(appMemberBankList));
     }
 
     @ApiOperation(value = "删除会员银行卡信息")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appMemberBankService.deleteBanks(id);
+    public CommonResult delete(@PathVariable("id") Long id, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        int count = MemberBankService.deleteBanks(id, channelId);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
             return CommonResult.failed();
         }
+}
+
+    @ApiOperation(value = "查询会员银行卡信息")
+    @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getMemberBank(@PathVariable("id") Long id, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        AppMemberBank appMemberBank = MemberBankService.getMemberBank(id, channelId);
+        return CommonResult.success(appMemberBank);
     }
 
     @ApiOperation(value = "添加/更新会员银行卡信息")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult save(@RequestBody AppMemberBank appMemberBank,HttpServletRequest request) {
-    	CommonResult commonResult;
-    	AppMemberBank  tempBank = appMemberBankService.getMemberBank(appMemberBank.getMemberId());
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        CommonResult commonResult;
+        AppMemberBank  tempBank = MemberBankService.getMemberBank(appMemberBank.getMemberId());
         if(tempBank == null){//新增
-        	int count = appMemberBankService.createBanks(appMemberBank);
+            int count = MemberBankService.createBanks(appMemberBank,channelId);
             if (count == 1) {
                 commonResult = CommonResult.success(count);
             } else {
                 commonResult = CommonResult.failed();
             }
         }else{//更新
-        	if(appMemberBank.getId()==null){
-        		appMemberBank.setId(tempBank.getId());
-        	}
-        	int count = appMemberBankService.updateBanks(appMemberBank);
+            if(appMemberBank.getId()==null){
+                appMemberBank.setId(tempBank.getId());
+            }
+            int count = MemberBankService.updateBanks(appMemberBank,channelId);
             if (count == 1) {
                 commonResult = CommonResult.success(count);
             } else {
@@ -91,17 +135,6 @@ public class MemberBankController {
         }
         return commonResult;
     }
-
-    @ApiOperation(value = "查询会员银行卡信息")
-    @RequestMapping(value = "/getmemberbank/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult getMemberBank(@PathVariable("id") Long id,HttpServletRequest request) {
-    	
-    	AppMemberBank appMemberBank = appMemberBankService.getMemberBank(id);
-    	return CommonResult.success(appMemberBank);
-    }
-    
-    
     
 
 }

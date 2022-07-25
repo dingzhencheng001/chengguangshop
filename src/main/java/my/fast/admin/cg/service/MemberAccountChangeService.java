@@ -16,14 +16,9 @@ import my.fast.admin.cg.entity.AppMemberAccountChange;
 public interface MemberAccountChangeService {
 
     /**
-     * 获取所有用户账变记录
-     */
-    List<AppMemberAccountChange> listAll(Long channelId);
-
-    /**
      * 获取个人账户变更列表
      */
-    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId);
+    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId);
     /**
      * 删除用户账变信息
      */

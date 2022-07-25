@@ -47,19 +47,6 @@ public class GoodsController {
         return mav;
     }
 
-    @ApiOperation("获取商品列表")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult listAll(HttpServletRequest request) {
-        //根据域名获取渠道号
-        StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        Long channelId = sysChannel.getChannelId();
-        List<AppGoods> appGoods = goodsService.listAll(channelId);
-        return CommonResult.success(appGoods);
-    }
-
     @ApiOperation(value = "根据条件获取商品列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
