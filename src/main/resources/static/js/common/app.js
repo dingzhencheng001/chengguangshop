@@ -126,6 +126,8 @@ $.getUrlVars = function (strUrl) {
 $.tableRenderConfing = {
     loading: true, // 开启loading
     limit: 20,
+    cellMinWidth: 100, //全局定义常规单元格的最小宽度
+    page: true, //开启分页
     request: {
         pageName: 'pageNum', //页码的参数名称，默认：page
         limitName: 'pageSize', //每页数据量的参数名，默认：limit
@@ -151,3 +153,12 @@ $.tableRenderConfing = {
         };
     }
 }
+
+/**
+ * 获取文件完整路径
+ * @param {string} path
+ * @returns {string}
+ */
+$.getFileFullPath = function (path) {
+    return 'https://sgp1.digitaloceanspaces.com/ppp/' + path;
+} 

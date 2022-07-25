@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <link rel="stylesheet" href="css/console.css"/>
+</head>
+<body>
+<div class="layui-card-body layui-anim layui-anim-upbit">
+    <form class="layui-form layui-card" autocomplete="off" lay-filter="addForm">
+        <div class="layui-card-body think-box-shadow padding-left-40">
+<!--            goodsAddTime	string($date-time)-->
+<!--            商品添加时间-->
+<!--            goodsInfo	string-->
+<!--            商品描述-->
+<!--            goodsName	string-->
+<!--            商品名称-->
+<!--            goodsPic	string-->
+<!--            商品展示图片-->
+<!--            goodsPrice	number-->
+<!--            商品价格-->
+<!--            goodsSortId	integer($int64)-->
+<!--            商品分类id-->
+<!--            shopName	string-->
+<!--            商店名称-->
+<!--            status	integer($int32)-->
+<!--            上架状态 0不上架 1上架-->
+
+
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required label-required-prev">
+                    <span class="color-green">商品名称</span>
+                    <input name="goodsName" required="" class="layui-input" placeholder="请输入商品名称">
+                </label>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">店铺名称</span>
+                    <input name="shopName" required="" class="layui-input" placeholder="请输入店铺名称">
+                </label>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">商品单价</span>
+                    <input name="goodsPrice" required="" class="layui-input" placeholder="请输入商品单价">
+                </label>
+            </div>
+            <div class="layui-form-item">
+                <span class="color-green label-required-prev">商品LOGO及轮播展示图片</span>
+                <div>
+                    <button type="button" class="layui-btn" id="test1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <img name="goodsPic" id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
+                </div>
+            </div>
+            <div class="layui-form-item block">
+                <span class="label-required-prev color-green">商品详细内容</span>
+                <textarea name="goodsInfo" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+            <div class="layui-form-item text-center">
+                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" >保存商品</button>
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="cancel" type="button">取消编辑</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['upload', 'layer', 'form'], function(){
+        var upload = layui.upload;
+        var layer = layui.layer;
+        var form = layui.form;
+
+        //执行实例
+        var uploadIndex;
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: 'http://localhost:8080/action/file/upload' //上传接口
+            ,acceptMime: 'image/*'
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                uploadIndex = layer.load(1); //上传loading
+            }
+            ,done: function(res){
+                layer.close(uploadIndex);
+                var data = res.data || [];
+                var path = data[0].path;
+                var fileFullPath = $.getFileFullPath(path);
+                $('#upload-img').attr('src', fileFullPath).show();
+                layer.msg('上传成功', {icon: 1});
+                //上传完毕回调
+            }
+            ,error: function(err){
+                console.log('err msg', err.msg);
+                $('#upload-img').attr('src', '').hide();
+                layer.close(uploadIndex);
+                layer.msg(err.msg, {icon: 2});
+                //请求异常回调
+            }
+        });
+
+        // 保存
+        var createIndex;
+        form.on('submit(submit)', function (data) {
+            if (createIndex) return;
+            var fd = Object.assign({}, data.field, {
+                goodsPic: $('#upload-img').attr('src')
+            })
+            delete fd.file;
+            createIndex = layer.load(1); // loading
+            $.request({
+                url: '/action/goods/create',
+                type: 'post',
+                data: fd,
+                success: function (result) {
+                    layer.msg('保存成功', {icon: 1});
+                },
+                complete: function () {
+                    layer.close(createIndex);
+                    createIndex = null;
+                }
+            })
+            console.log('submit', data.field, fd);
+            // actions.onReloadData();
+            return false;
+        });
+
+        // 取消编辑
+        var onCancel = function () {
+            console.log('cancel');
+            form.val('addForm', {
+                file: "",
+                goodsInfo: "",
+                goodsName: "",
+                goodsPrice: "",
+                shopName: "",
+            })
+            // 返回到商品列表
+            window.parent.layui.tab.tabAdd({id: '2'})
+            return false;
+        };
+        form.on('submit(cancel)', onCancel);
+
+    });
+</script>
+
+</body>
+</html>
