@@ -127,7 +127,7 @@ public class AppTeamReportServiceImpl implements AppTeamReportService {
     }
 
 	@Override
-	public List<AppMember> getTeamLevelList(Long id, Long memberLevel) {
-		return appMemberMapper.getTeamLevelList(id, memberLevel);
+	public List<AppMember> getTeamLevelList(Long id, Long memberLevel,Long channelId) {
+		return appMemberMapper.getTeamLevelList(id, memberLevel,channelId);
 	}
 }

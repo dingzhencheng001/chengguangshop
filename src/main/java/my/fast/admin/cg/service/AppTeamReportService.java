@@ -25,6 +25,6 @@ public interface AppTeamReportService {
     * 获取会员团队信息
     * @param id ,memberLevel
     */
-  List<AppMember> getTeamLevelList(Long id,Long memberLevel);
+  List<AppMember> getTeamLevelList(Long id,Long memberLevel,Long channelId);
   
 }
