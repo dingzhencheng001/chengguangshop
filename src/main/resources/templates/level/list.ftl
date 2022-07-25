@@ -8,6 +8,11 @@
 </head>
 
 <body>
+	<style>
+		body {
+			margin: 0 20px;
+		}
+	</style>
 	<!--新建会员等级表单-->
 	<div id="createId" style="display: none">
 		<form class="layui-form layui-card" lay-filter="editForm">

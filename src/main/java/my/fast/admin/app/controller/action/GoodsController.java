@@ -19,6 +19,7 @@ import my.fast.admin.app.common.constant.CommonResult;
 import my.fast.admin.app.entity.AppGoods;
 import my.fast.admin.app.model.AppGoodsParam;
 import my.fast.admin.app.service.AppGoodsService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author cgkj@cg.cn
@@ -31,6 +32,13 @@ import my.fast.admin.app.service.AppGoodsService;
 public class GoodsController {
     @Autowired
     private AppGoodsService appGoodsService;
+
+    @RequestMapping("/lists")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("goods/list");
+        return mav;
+    }
 
     @ApiOperation("获取商品列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)

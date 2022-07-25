@@ -125,6 +125,7 @@ $.getUrlVars = function (strUrl) {
 
 $.tableRenderConfing = {
     loading: true, // 开启loading
+    limit: 20,
     request: {
         pageName: 'pageNum', //页码的参数名称，默认：page
         limitName: 'pageSize', //每页数据量的参数名，默认：limit
