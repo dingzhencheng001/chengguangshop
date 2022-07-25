@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.app.mapper.AppMemberMapper">
-    <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppMember">
+<mapper namespace="my.fast.admin.cg.mapper.AppMemberMapper">
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMember">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId"/>
         <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
@@ -102,7 +102,7 @@
     remark, company_id, invite_code, registration_time, member_status, register_ip, register_country, 
     total_commission
     </sql>
-    <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
@@ -139,14 +139,14 @@
         where invite_code = #{inviteCode}
     </select>
 
-    <select id="checkUserNameUnique" parameterType="my.fast.admin.app.model.AppMemberParam" resultType="int">
+    <select id="checkUserNameUnique" parameterType="my.fast.admin.cg.model.AppMemberParam" resultType="int">
         select count(1)
         from app_member
         where user_account = #{userAccount,jdbcType=BIGINT}
           and company_id = #{companyId,jdbcType=BIGINT} limit 1
     </select>
 
-    <select id="checkPhoneUnique" parameterType="my.fast.admin.app.model.AppMemberParam" resultMap="BaseResultMap">
+    <select id="checkPhoneUnique" parameterType="my.fast.admin.cg.model.AppMemberParam" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from app_member
@@ -154,7 +154,7 @@
     </select>
 
 
-    <select id="selectAppMemberByUserPhone" parameterType="my.fast.admin.app.model.AppMemberParam"
+    <select id="selectAppMemberByUserPhone" parameterType="my.fast.admin.cg.model.AppMemberParam"
             resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -175,13 +175,13 @@
         from app_member
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppMemberExample">
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample">
         delete from app_member
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="my.fast.admin.app.entity.AppMember">
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMember">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -206,7 +206,7 @@
         #{registrationTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR},
         #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL})
     </insert>
-    <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppMember">
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMember">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -390,7 +390,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="my.fast.admin.app.entity.AppMemberExample" resultType="java.lang.Long">
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample" resultType="java.lang.Long">
         select count(*) from app_member
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
@@ -530,7 +530,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppMember">
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMember">
         update app_member
         <set>
             <if test="memberLevelId != null">
@@ -623,7 +623,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppMember">
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMember">
         update app_member
         set member_level_id   = #{memberLevelId,jdbcType=BIGINT},
             user_account      = #{userAccount,jdbcType=VARCHAR},
@@ -656,13 +656,13 @@
             total_commission  = #{totalCommission,jdbcType=DECIMAL}
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateMemberBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+    <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
         update app_member
         set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
     </update>
 
-    <update id="updateAgentBalance" parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+    <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
         update app_member
         set balance = #{balance,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
@@ -671,8 +671,8 @@
         SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
         FROM app_member
     </select>
-    <select id="selectAppMemberParentAgent" resultType="my.fast.admin.app.entity.AppMember"
-            parameterType="my.fast.admin.app.model.AppMemberBalancePram">
+    <select id="selectAppMemberParentAgent" resultType="my.fast.admin.cg.entity.AppMember"
+            parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
         SELECT a.*
         FROM app_member a
                  INNER JOIN (
@@ -692,13 +692,13 @@
         ON a.id = b.id
             AND a.id &lt;&gt; #{memberId,jdbcType=BIGINT}
     </select>
-    <select id="selectAppMemberCountByPrimary" resultType="my.fast.admin.app.vo.AppMemberDto">
+    <select id="selectAppMemberCountByPrimary" resultType="my.fast.admin.cg.vo.AppMemberDto">
         SELECT *
         FROM app_member m
                  LEFT JOIN app_member_level l ON m.member_level_id = l.id
         where m.id = #{memberId,jdbcType=BIGINT}
     </select>
-    <select id="getMemberTeam" resultType="my.fast.admin.app.entity.AppMember" parameterType="long">
+    <select id="getMemberTeam" resultType="my.fast.admin.cg.entity.AppMember" parameterType="long">
 
         SELECT
             t.*
@@ -726,7 +726,7 @@
     </select>
 
 
-    <select id="getTeamLevelList" resultType="my.fast.admin.app.entity.AppMember" >
+    <select id="getTeamLevelList" resultType="my.fast.admin.cg.entity.AppMember" >
 
         SELECT
             t.*

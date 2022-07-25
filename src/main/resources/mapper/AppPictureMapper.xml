@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.app.mapper.AppPictureMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppPicture">
+<mapper namespace="my.fast.admin.cg.mapper.AppPictureMapper">
+  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppPicture">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="picture_type" jdbcType="INTEGER" property="pictureType" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -74,7 +74,7 @@
     id, picture_type, content, update_time, last_edit, show_type, picture_id, picture_name, 
     picture_path
   </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppPictureExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppPictureExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -98,13 +98,13 @@
     delete from app_picture
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppPictureExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppPictureExample">
     delete from app_picture
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="my.fast.admin.app.entity.AppPicture">
+  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppPicture">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -115,7 +115,7 @@
       #{lastEdit,jdbcType=VARCHAR}, #{showType,jdbcType=INTEGER}, #{pictureId,jdbcType=VARCHAR}, 
       #{pictureName,jdbcType=VARCHAR}, #{picturePath,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppPicture">
+  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppPicture">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -173,7 +173,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppPictureExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppPictureExample" resultType="java.lang.Long">
     select count(*) from app_picture
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -229,7 +229,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppPicture">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppPicture">
     update app_picture
     <set>
       <if test="pictureType != null">
@@ -259,7 +259,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppPicture">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppPicture">
     update app_picture
     set picture_type = #{pictureType,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},

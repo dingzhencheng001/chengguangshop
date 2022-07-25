@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.app.mapper.SysNoticeMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.SysNotice">
+<mapper namespace="my.fast.admin.cg.mapper.SysNoticeMapper">
+  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.SysNotice">
     <id column="notice_id" jdbcType="BIGINT" property="noticeId" />
     <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
     <result column="notice_type" jdbcType="CHAR" property="noticeType" />
@@ -14,7 +14,7 @@
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="notice_classes" jdbcType="INTEGER" property="noticeClasses" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.app.entity.SysNotice">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.SysNotice">
     <result column="notice_content" jdbcType="LONGVARBINARY" property="noticeContent" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -82,7 +82,7 @@
   <sql id="Blob_Column_List">
     notice_content
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.app.entity.SysNoticeExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.cg.entity.SysNoticeExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -98,7 +98,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="my.fast.admin.app.entity.SysNoticeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.SysNoticeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -124,13 +124,13 @@
     delete from sys_notice
     where notice_id = #{noticeId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.SysNoticeExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.SysNoticeExample">
     delete from sys_notice
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="my.fast.admin.app.entity.SysNotice">
+  <insert id="insert" parameterType="my.fast.admin.cg.entity.SysNotice">
     insert into sys_notice (notice_id, notice_title, notice_type, 
       status, create_by, create_time, 
       update_by, update_time, remark, 
@@ -142,7 +142,7 @@
       #{memberId,jdbcType=BIGINT}, #{noticeClasses,jdbcType=INTEGER}, #{noticeContent,jdbcType=LONGVARBINARY}
       )
   </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.SysNotice">
+  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.SysNotice">
     insert into sys_notice
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="noticeId != null">
@@ -221,13 +221,13 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="my.fast.admin.app.entity.SysNoticeExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.cg.entity.SysNoticeExample" resultType="java.lang.Long">
     select count(*) from sys_notice
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="getMemberNoticeList" resultType="my.fast.admin.app.entity.SysNotice" parameterType="long">
+    <select id="getMemberNoticeList" resultType="my.fast.admin.cg.entity.SysNotice" parameterType="long">
     select * from sys_notice
     WHERE member_id is null OR member_id= #{memberId,jdbcType=BIGINT}
     </select>
@@ -310,7 +310,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.SysNotice">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.SysNotice">
     update sys_notice
     <set>
       <if test="noticeTitle != null">
@@ -349,7 +349,7 @@
     </set>
     where notice_id = #{noticeId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.app.entity.SysNotice">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.cg.entity.SysNotice">
     update sys_notice
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_type = #{noticeType,jdbcType=CHAR},
@@ -364,7 +364,7 @@
       notice_content = #{noticeContent,jdbcType=LONGVARBINARY}
     where notice_id = #{noticeId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.SysNotice">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.SysNotice">
     update sys_notice
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_type = #{noticeType,jdbcType=CHAR},

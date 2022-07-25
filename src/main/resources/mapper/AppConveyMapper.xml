@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.app.mapper.AppConveyMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.app.entity.AppConvey">
+<mapper namespace="my.fast.admin.cg.mapper.AppConveyMapper">
+  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppConvey">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
@@ -82,7 +82,7 @@
     id, member_id, amount, addtime, endtime, status, commission, c_status, add_id, goods_id, 
     goods_count, hid, qiang, lno, min, max, sign
   </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.app.entity.AppConveyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -97,7 +97,7 @@
     </if>
   </select>
   
-  <select id="selectByConveyByStatus" parameterType="my.fast.admin.app.entity.AppConvey"  resultType="my.fast.admin.app.vo.AppConveyDto" >
+  <select id="selectByConveyByStatus" parameterType="my.fast.admin.cg.entity.AppConvey" resultType="my.fast.admin.cg.vo.AppConveyDto" >
     SELECT t2.goods_name, t2.shop_name ,t1.*  from  app_convey t1 LEFT JOIN app_goods t2 on t1.goods_id=t2.id 
     where 1=1  and  t1.member_id = #{memberId,jdbcType=BIGINT}
     <if test="status != null">
@@ -116,13 +116,13 @@
     delete from app_convey
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.app.entity.AppConveyExample">
+  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample">
     delete from app_convey
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="my.fast.admin.app.entity.AppConvey">
+  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppConvey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -139,7 +139,7 @@
       #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, #{sign,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.app.entity.AppConvey">
+  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppConvey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -245,13 +245,13 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="my.fast.admin.app.entity.AppConveyExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultType="java.lang.Long">
     select count(*) from app_convey
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="selectConvey" resultType="my.fast.admin.app.entity.AppConvey">
+    <select id="selectConvey" resultType="my.fast.admin.cg.entity.AppConvey">
         select * from app_convey where TO_DAYS(addtime) = TO_DAYS(now());
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -336,7 +336,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.app.entity.AppConvey">
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppConvey">
     update app_convey
     <set>
       <if test="memberId != null">
@@ -390,7 +390,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.app.entity.AppConvey">
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppConvey">
     update app_convey
     set member_id = #{memberId,jdbcType=BIGINT},
       amount = #{amount,jdbcType=DECIMAL},
