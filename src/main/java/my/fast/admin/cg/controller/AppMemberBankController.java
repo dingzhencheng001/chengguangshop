@@ -47,6 +47,7 @@ public class AppMemberBankController {
         CommonResult commonResult;
         //先根据ID查询无则新增有则更新
         AppMemberBank  tempBank = appMemberBankService.getMemberBank(appUserVO.getId());
+        appMemberBank.setChannelId(appUserVO.getChannelId());//设置渠道ID
         if(tempBank == null){
         	int count = appMemberBankService.createBanks(appMemberBank);
             if (count == 1) {

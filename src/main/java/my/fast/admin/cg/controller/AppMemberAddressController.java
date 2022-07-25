@@ -46,6 +46,7 @@ public class AppMemberAddressController {
         CommonResult commonResult;
         //先根据ID查询无则新增有则更新
         AppMemberAddress tempAddress = appMemberAddressService.getMemberAddress(appUserVO.getId());
+        appMemberAddress.setChannelId(appUserVO.getChannelId());//设置渠道ID
         if(tempAddress == null){
         	int count = appMemberAddressService.createAddress(appMemberAddress);
             if (count == 1) {
