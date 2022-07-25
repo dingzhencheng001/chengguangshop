@@ -13,7 +13,7 @@ import my.fast.admin.cg.entity.AppMemberAccountChange;
  * @version V1.0
  * @since 2022/7/10 10:38
  */
-public interface AppMemberAccountChangeControllerService {
+public interface AppMemberAccountChangeService {
 
     /**
      * 获取所有用户账变记录

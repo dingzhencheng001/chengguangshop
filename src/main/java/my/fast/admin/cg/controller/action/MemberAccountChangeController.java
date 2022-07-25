@@ -2,6 +2,9 @@ package my.fast.admin.cg.controller.action;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +18,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
+import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
-import my.fast.admin.cg.service.AppMemberAccountChangeControllerService;
+import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.service.AppChannelService;
+import my.fast.admin.cg.service.AppMemberService;
+import my.fast.admin.cg.service.MemberAccountChangeService;
+import my.fast.admin.framework.utils.TokenUtils;
 
 /**
  * @author cgkj@cg.cn
@@ -29,13 +37,25 @@ import my.fast.admin.cg.service.AppMemberAccountChangeControllerService;
 public class MemberAccountChangeController {
     
     @Autowired
-    private AppMemberAccountChangeControllerService accountChangeControllerService;
+    private MemberAccountChangeService memberAccountChangeService;
+
+    @Autowired
+    private AppMemberService appMemberService;
+
+
+    @Autowired
+    private AppChannelService appChannelService;
 
     @ApiOperation("获取账变列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult listAll() {
-        List<AppMemberAccountChange> appAccountChange = accountChangeControllerService.listAll();
+    public CommonResult listAll(HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        List<AppMemberAccountChange> appAccountChange = memberAccountChangeService.listAll(channelId);
         return CommonResult.success(appAccountChange);
     }
 
@@ -45,18 +65,32 @@ public class MemberAccountChangeController {
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
-        @RequestParam(value = "memberId") Long memberId) {
-        List<AppMemberAccountChange> appMemberAccountChangeList = accountChangeControllerService.getMemberList(
-            pageNum, pageSize, memberId);
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,HttpServletRequest request) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("用户信息不存在");
+        }
+        Long memberId = appUserVO.getId();
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        List<AppMemberAccountChange> appMemberAccountChangeList = memberAccountChangeService.getMemberList(
+            pageNum, pageSize, channelId,memberId);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }
 
-    @ApiOperation(value = "删除用户账变")
+    @ApiOperation(value = "删除用户账变信息")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult delete(@PathVariable("id") Long id) {
-        int count = accountChangeControllerService.deleteAccountChangeById(id);
+    public CommonResult delete(@PathVariable("id") Long id,HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        int count = memberAccountChangeService.deleteAccountChangeById(id,channelId);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -68,9 +102,16 @@ public class MemberAccountChangeController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id,
-        @RequestBody AppMemberAccountChange appMemberAccountChange) {
+        @RequestBody AppMemberAccountChange appMemberAccountChange,
+        HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+
         CommonResult commonResult;
-        int count = accountChangeControllerService.updateAccountChange(id, appMemberAccountChange);
+        int count = memberAccountChangeService.updateAccountChange(id, appMemberAccountChange,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -82,9 +123,14 @@ public class MemberAccountChangeController {
     @ApiOperation(value = "添加用户账变")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppMemberAccountChange appMemberAccountChange) {
+    public CommonResult create(@RequestBody AppMemberAccountChange appMemberAccountChange, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
-        int count = accountChangeControllerService.createAccountChange(appMemberAccountChange);
+        int count = memberAccountChangeService.createAccountChange(appMemberAccountChange,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

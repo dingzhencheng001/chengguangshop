@@ -755,7 +755,8 @@
              and
             t.member_level_id = #{level,jdbcType=BIGINT}
        		</if>
-
+ 			and
+            t.channel_id = #{channelId,jdbcType=BIGINT}
     </select>
 
 

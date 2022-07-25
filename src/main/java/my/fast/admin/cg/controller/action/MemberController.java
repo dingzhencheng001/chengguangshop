@@ -25,6 +25,7 @@ import my.fast.admin.cg.common.utils.IPUtils;
 import my.fast.admin.cg.common.utils.RequestUtil;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.model.MemberParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.AppTeamReportService;
@@ -34,7 +35,6 @@ import my.fast.admin.framework.utils.DateFormat;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 10:32
@@ -75,21 +75,24 @@ public class MemberController {
     @Autowired
     private AppChannelService appChannelService;
 
-    @ApiOperation("获取会员列表")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult listAll() {
-        List<AppMember> appMember = appMemberService.listAll();
-        return CommonResult.success(appMember);
-    }
 
     @ApiOperation(value = "根据条件获取会员分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppMember>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody AppMember appMember) {
-        List<AppMember> appMemberList = appMemberService.listMember(appMember, pageNum, pageSize);
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody AppMember appMember,HttpServletRequest request) {
+    	StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
+        log.info("域名 ：tempContextUrl: "+  tempContextUrl);
+        
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
+        appMember.setChannelId(sysChannel.getChannelId());
+    	List<AppMember> appMemberList = appMemberService.listMember(appMember, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(appMemberList));
     }
 
@@ -175,7 +178,7 @@ public class MemberController {
     	tbAppUser.setInviteCode(CommonUtils.getItemReCode(8)); //生成自己的邀请码 8位数字+字母
     	tbAppUser.setStatus(0);
     	tbAppUser.setDelFlag(1);
-    	tbAppUser.setCreateBy(ShiroUtils.getUserEntity().getId());//管理员注册
+    	tbAppUser.setCreateBy("admin");//管理员注册ShiroUtils.getUserEntity().getId()
     	tbAppUser.setCreateTime(DateFormat.getNowDate());
     	tbAppUser.setMemberStatus(1);
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
@@ -200,9 +203,17 @@ public class MemberController {
     @ApiOperation(value = "获取会员团队信息")
     @RequestMapping(value = "/getteamlist", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<List<AppMember>> getTeamLevelList(@PathVariable("memberId") Long memberId,@PathVariable("level") Long memberLevel) {
-
-        return CommonResult.success(appTeamReportService.getTeamLevelList(memberId,memberLevel));
+    public CommonResult<List<AppMember>> getTeamLevelList(@RequestBody MemberParam appMember,HttpServletRequest request) {
+    	StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
+        log.info("域名 ：tempContextUrl: "+  tempContextUrl);
+        
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
+        return CommonResult.success(appTeamReportService.getTeamLevelList(appMember.getMemberId(),appMember.getMemberLevel(),sysChannel.getChannelId()));
     }
     
 

@@ -46,6 +46,7 @@ public class AppMemberServiceImpl implements AppMemberService {
         PageHelper.startPage(pageNum, pageSize);
         AppMemberExample appMemberExample = new AppMemberExample();
         AppMemberExample.Criteria criteria = appMemberExample.createCriteria();
+        criteria.equals(appMember.getChannelId());//查询范围为 当前渠道数据
         if (!StringUtils.isEmpty(appMember.getStatus().toString())) {
             criteria.equals(appMember.getStatus());
         }

@@ -105,5 +105,5 @@ public interface AppMemberMapper {
      *
      * @param id ，level 
      */
-    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("level")Long level);
+    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("level")Long level,@Param("channelId")Long channelId);
 }
