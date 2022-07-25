@@ -75,7 +75,7 @@ public class AppLoginController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         log.info(sysChannel.getChannelId() + sysChannel.getAppDns());
-        loginVO.setCompanyId(sysChannel.getChannelId());
+        loginVO.setChannelId(sysChannel.getChannelId());
         AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
             return CommonResult.failed("账号不存在");
@@ -152,7 +152,7 @@ public class AppLoginController {
     	if(parentUser==null){
     		return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码用户已注销或不存在");
     	}
-    	tbAppUser.setCompanyId(parentUser.getCompanyId()); //设置机构id
+    	tbAppUser.setChannelId(parentUser.getChannelId()); //设置渠道id
     	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(tbAppUser)))
         {
             return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，该机构下此账号已存在,请直接登陆");
@@ -172,7 +172,7 @@ public class AppLoginController {
     	tbAppUser.setPassword(userLoginVO.getPassword());//注册密码用户自己输入
     	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
     	tbAppUser.setParentUserName(parentUser.getUserAccount());//上级会员昵称
-    	tbAppUser.setCompanyId(parentUser.getCompanyId()); //对应机构Id
+    	tbAppUser.setChannelId(parentUser.getChannelId()); //对应渠道Id
     	tbAppUser.setIsAgent(1);
     	tbAppUser.setAgentLevel(1);
     	tbAppUser.setInviteCode(CommonUtils.getItemReCode(8)); //生成自己的邀请码 8位数字+字母
@@ -192,7 +192,7 @@ public class AppLoginController {
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
         if (row > 0) {
-        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户注册成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getCompanyId());
+        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户注册成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getChannelId());
         } else {
         	return CommonResult.failed( "注册失败，请联系管理员...");
         }

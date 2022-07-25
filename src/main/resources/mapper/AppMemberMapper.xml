@@ -25,13 +25,13 @@
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="company_id" jdbcType="BIGINT" property="companyId"/>
         <result column="invite_code" jdbcType="VARCHAR" property="inviteCode"/>
         <result column="registration_time" jdbcType="TIMESTAMP" property="registrationTime"/>
         <result column="member_status" jdbcType="INTEGER" property="memberStatus"/>
         <result column="register_ip" jdbcType="VARCHAR" property="registerIp"/>
         <result column="register_country" jdbcType="VARCHAR" property="registerCountry"/>
         <result column="total_commission" jdbcType="DECIMAL" property="totalCommission"/>
+        <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
     </resultMap>
 
     <sql id="Example_Where_Clause">
@@ -99,8 +99,8 @@
         , member_level_id, user_account, balance, freeze_balance, recharge_num, deposit_num,
     deduction_num, matching, password, parent_user_id, parent_user_name, is_agent, agent_level, 
     status, email, phone_number, del_flag, login_ip, login_date, create_by, create_time, 
-    remark, company_id, invite_code, registration_time, member_status, register_ip, register_country, 
-    total_commission
+    remark, invite_code, registration_time, member_status, register_ip, register_country, 
+    total_commission, channel_id
     </sql>
     <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample" resultMap="BaseResultMap">
         select
@@ -143,14 +143,14 @@
         select count(1)
         from app_member
         where user_account = #{userAccount,jdbcType=BIGINT}
-          and company_id = #{companyId,jdbcType=BIGINT} limit 1
+          and channel_id = #{channelId,jdbcType=BIGINT} limit 1
     </select>
 
     <select id="checkPhoneUnique" parameterType="my.fast.admin.cg.model.AppMemberParam" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from app_member
-        where phone_number = #{phoneNumber,jdbcType=BIGINT} and company_id = #{companyId,jdbcType=BIGINT} limit 1
+        where phone_number = #{phoneNumber,jdbcType=BIGINT} and channel_id = #{channelId,jdbcType=BIGINT} limit 1
     </select>
 
 
@@ -159,7 +159,7 @@
         select
         <include refid="Base_Column_List"/>
         from app_member
-        where phone_number = #{phoneNumber,jdbcType=BIGINT} and company_id = #{companyId,jdbcType=BIGINT} limit 1
+        where phone_number = #{phoneNumber,jdbcType=BIGINT} and channel_id = #{channelId,jdbcType=BIGINT} limit 1
     </select>
 
     <select id="checkEmailUnique" parameterType="String" resultMap="BaseResultMap">
@@ -192,9 +192,9 @@
         agent_level, status, email,
         phone_number, del_flag, login_ip,
         login_date, create_by, create_time,
-        remark, company_id, invite_code,
+        remark, invite_code,
         registration_time, member_status, register_ip,
-        register_country, total_commission)
+        register_country, total_commission, channel_id)
         values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL},
         #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL}, #{depositNum,jdbcType=DECIMAL},
         #{deductionNum,jdbcType=DECIMAL}, #{matching,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
@@ -202,9 +202,9 @@
         #{agentLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
         #{phoneNumber,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR},
         #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{remark,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{inviteCode,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR},
         #{registrationTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR},
-        #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL})
+        #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL}, #{channelId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMember">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -278,9 +278,6 @@
             <if test="remark != null">
                 remark,
             </if>
-            <if test="companyId != null">
-                company_id,
-            </if>
             <if test="inviteCode != null">
                 invite_code,
             </if>
@@ -298,6 +295,9 @@
             </if>
             <if test="totalCommission != null">
                 total_commission,
+            </if>
+            <if test="channelId != null">
+                channel_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -367,9 +367,6 @@
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="companyId != null">
-                #{companyId,jdbcType=BIGINT},
-            </if>
             <if test="inviteCode != null">
                 #{inviteCode,jdbcType=VARCHAR},
             </if>
@@ -387,6 +384,9 @@
             </if>
             <if test="totalCommission != null">
                 #{totalCommission,jdbcType=DECIMAL},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -468,9 +468,6 @@
             <if test="record.remark != null">
                 remark = #{record.remark,jdbcType=VARCHAR},
             </if>
-            <if test="record.companyId != null">
-                company_id = #{record.companyId,jdbcType=BIGINT},
-            </if>
             <if test="record.inviteCode != null">
                 invite_code = #{record.inviteCode,jdbcType=VARCHAR},
             </if>
@@ -488,6 +485,9 @@
             </if>
             <if test="record.totalCommission != null">
                 total_commission = #{record.totalCommission,jdbcType=DECIMAL},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=BIGINT},
             </if>
         </set>
         <if test="_parameter != null">
@@ -519,13 +519,13 @@
         create_by = #{record.createBy,jdbcType=VARCHAR},
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
         remark = #{record.remark,jdbcType=VARCHAR},
-        company_id = #{record.companyId,jdbcType=BIGINT},
         invite_code = #{record.inviteCode,jdbcType=VARCHAR},
         registration_time = #{record.registrationTime,jdbcType=TIMESTAMP},
         member_status = #{record.memberStatus,jdbcType=INTEGER},
         register_ip = #{record.registerIp,jdbcType=VARCHAR},
         register_country = #{record.registerCountry,jdbcType=VARCHAR},
-        total_commission = #{record.totalCommission,jdbcType=DECIMAL}
+        total_commission = #{record.totalCommission,jdbcType=DECIMAL},
+        channel_id = #{record.channelId,jdbcType=BIGINT}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -599,9 +599,6 @@
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="companyId != null">
-                company_id = #{companyId,jdbcType=BIGINT},
-            </if>
             <if test="inviteCode != null">
                 invite_code = #{inviteCode,jdbcType=VARCHAR},
             </if>
@@ -619,6 +616,9 @@
             </if>
             <if test="totalCommission != null">
                 total_commission = #{totalCommission,jdbcType=DECIMAL},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIGINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
@@ -647,13 +647,13 @@
             create_by         = #{createBy,jdbcType=VARCHAR},
             create_time       = #{createTime,jdbcType=TIMESTAMP},
             remark            = #{remark,jdbcType=VARCHAR},
-            company_id        = #{companyId,jdbcType=BIGINT},
             invite_code       = #{inviteCode,jdbcType=VARCHAR},
             registration_time = #{registrationTime,jdbcType=TIMESTAMP},
             member_status     = #{memberStatus,jdbcType=INTEGER},
             register_ip       = #{registerIp,jdbcType=VARCHAR},
             register_country  = #{registerCountry,jdbcType=VARCHAR},
-            total_commission  = #{totalCommission,jdbcType=DECIMAL}
+            total_commission  = #{totalCommission,jdbcType=DECIMAL},
+            channel_id        = #{channelId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalancePram">

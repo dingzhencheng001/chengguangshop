@@ -75,9 +75,6 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "机构id")
-    private Long companyId;
-
     @ApiModelProperty(value = "邀请码")
     private String inviteCode;
 
@@ -285,14 +282,6 @@ public class AppMember implements Serializable {
         this.remark = remark;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
     public String getInviteCode() {
         return inviteCode;
     }
@@ -378,7 +367,6 @@ public class AppMember implements Serializable {
         sb.append(", createBy=").append(createBy);
         sb.append(", createTime=").append(createTime);
         sb.append(", remark=").append(remark);
-        sb.append(", companyId=").append(companyId);
         sb.append(", inviteCode=").append(inviteCode);
         sb.append(", registrationTime=").append(registrationTime);
         sb.append(", memberStatus=").append(memberStatus);

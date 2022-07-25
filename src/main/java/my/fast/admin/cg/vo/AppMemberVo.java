@@ -96,9 +96,6 @@ public class AppMemberVo implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "机构id")
-    private Long companyId;
-
     @ApiModelProperty(value = "邀请码")
     private String inviteCode;
 
@@ -149,7 +146,9 @@ public class AppMemberVo implements Serializable {
     
     @ApiModelProperty(value = "总佣金金额")
     private BigDecimal totalCommission;
-
+    
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
     
     //会员等级列表
     private List<AppMemberLevel> levelList;
@@ -408,14 +407,6 @@ public class AppMemberVo implements Serializable {
         this.remark = remark;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
     public String getInviteCode() {
         return inviteCode;
     }
@@ -552,6 +543,14 @@ public class AppMemberVo implements Serializable {
 		this.totalCommission = totalCommission;
 	}
 
+	public Long getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Long channelId) {
+		this.channelId = channelId;
+	}
+
 	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -587,7 +586,6 @@ public class AppMemberVo implements Serializable {
         sb.append(", updateBy=").append(updateBy);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", remark=").append(remark);
-        sb.append(", companyId=").append(companyId);
         sb.append(", inviteCode=").append(inviteCode);
         sb.append(", dealStatus=").append(dealStatus);
         sb.append(", dealError=").append(dealError);
@@ -605,6 +603,7 @@ public class AppMemberVo implements Serializable {
         sb.append(", botPic=").append(botPic);
         sb.append(", todaySum=").append(todaySum);
         sb.append(", totalCommission=").append(totalCommission);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
