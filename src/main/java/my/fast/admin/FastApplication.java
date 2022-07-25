@@ -8,7 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@MapperScan({"my.fast.admin.modules.*.mapper","my.fast.admin.app.mapper"})
+@MapperScan({"my.fast.admin.modules.*.mapper","my.fast.admin.cg.mapper"})
 @EnableCaching
 public class FastApplication {
 

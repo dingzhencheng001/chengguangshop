@@ -41,4 +41,7 @@ public class AppGoodsParam {
     @ApiModelProperty(value = "商品分类id")
     private Long goodsSortId;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
 }
