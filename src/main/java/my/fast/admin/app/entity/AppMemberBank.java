@@ -37,6 +37,9 @@ public class AppMemberBank implements Serializable {
     @ApiModelProperty(value = "开户行地址或者IFSC")
     private String email;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -127,6 +130,14 @@ public class AppMemberBank implements Serializable {
         this.email = email;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -144,6 +155,7 @@ public class AppMemberBank implements Serializable {
         sb.append(", tel=").append(tel);
         sb.append(", status=").append(status);
         sb.append(", email=").append(email);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

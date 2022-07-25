@@ -51,6 +51,9 @@ public class AppMemberLevel implements Serializable {
     @ApiModelProperty(value = "图标")
     private String pic;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -173,6 +176,14 @@ public class AppMemberLevel implements Serializable {
         this.pic = pic;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -194,6 +205,7 @@ public class AppMemberLevel implements Serializable {
         sb.append(", autoVipXuNum=").append(autoVipXuNum);
         sb.append(", serviceCharge=").append(serviceCharge);
         sb.append(", pic=").append(pic);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

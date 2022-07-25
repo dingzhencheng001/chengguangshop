@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class AppMemberOrder implements Serializable {
     @ApiModelProperty(value = "id")
-    private String id;
+    private Long id;
 
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
@@ -29,13 +29,16 @@ public class AppMemberOrder implements Serializable {
     @ApiModelProperty(value = "完成交易时间")
     private String createtime;
 
+    @ApiModelProperty(value = "订单号")
+    private String orderNo;
+
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,6 +98,14 @@ public class AppMemberOrder implements Serializable {
         this.createtime = createtime;
     }
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,6 +120,7 @@ public class AppMemberOrder implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", defaultAddress=").append(defaultAddress);
         sb.append(", createtime=").append(createtime);
+        sb.append(", orderNo=").append(orderNo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

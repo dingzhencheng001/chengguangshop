@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class AppPicture implements Serializable {
     private Long id;
 
-    @ApiModelProperty(value = "图片类型 1.正文 2.头像")
+    @ApiModelProperty(value = "图片类型 1.正文 2.头像3.公告")
     private Integer pictureType;
 
     @ApiModelProperty(value = "文字说明")
@@ -31,6 +31,9 @@ public class AppPicture implements Serializable {
 
     @ApiModelProperty(value = "图片路径")
     private String picturePath;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,6 +109,14 @@ public class AppPicture implements Serializable {
         this.picturePath = picturePath;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -121,6 +132,7 @@ public class AppPicture implements Serializable {
         sb.append(", pictureId=").append(pictureId);
         sb.append(", pictureName=").append(pictureName);
         sb.append(", picturePath=").append(picturePath);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

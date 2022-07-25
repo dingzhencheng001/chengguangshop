@@ -20,6 +20,12 @@ public class AppFile implements Serializable {
     @ApiModelProperty(value = "文件路径")
     private String filePath;
 
+    @ApiModelProperty(value = "上传用户")
+    private String uploadUser;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -62,6 +68,22 @@ public class AppFile implements Serializable {
         this.filePath = filePath;
     }
 
+    public String getUploadUser() {
+        return uploadUser;
+    }
+
+    public void setUploadUser(String uploadUser) {
+        this.uploadUser = uploadUser;
+    }
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -73,6 +95,8 @@ public class AppFile implements Serializable {
         sb.append(", uploadTime=").append(uploadTime);
         sb.append(", fileName=").append(fileName);
         sb.append(", filePath=").append(filePath);
+        sb.append(", uploadUser=").append(uploadUser);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

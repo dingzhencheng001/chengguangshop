@@ -115,123 +115,63 @@ public class AppFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(String value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(String value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(String value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(String value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(String value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(String value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdLike(String value) {
+            addCriterion("id like", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotLike(String value) {
+            addCriterion("id not like", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIn(List<String> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<String> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(String value1, String value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(String value1, String value2) {
             addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdIsNull() {
-            addCriterion("file_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdIsNotNull() {
-            addCriterion("file_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdEqualTo(String value) {
-            addCriterion("file_id =", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdNotEqualTo(String value) {
-            addCriterion("file_id <>", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdGreaterThan(String value) {
-            addCriterion("file_id >", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdGreaterThanOrEqualTo(String value) {
-            addCriterion("file_id >=", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdLessThan(String value) {
-            addCriterion("file_id <", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdLessThanOrEqualTo(String value) {
-            addCriterion("file_id <=", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdLike(String value) {
-            addCriterion("file_id like", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdNotLike(String value) {
-            addCriterion("file_id not like", value, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdIn(List<String> values) {
-            addCriterion("file_id in", values, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdNotIn(List<String> values) {
-            addCriterion("file_id not in", values, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdBetween(String value1, String value2) {
-            addCriterion("file_id between", value1, value2, "fileId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileIdNotBetween(String value1, String value2) {
-            addCriterion("file_id not between", value1, value2, "fileId");
             return (Criteria) this;
         }
 
@@ -245,52 +185,62 @@ public class AppFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatEqualTo(Integer value) {
+        public Criteria andFileFormatEqualTo(String value) {
             addCriterion("file_format =", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatNotEqualTo(Integer value) {
+        public Criteria andFileFormatNotEqualTo(String value) {
             addCriterion("file_format <>", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatGreaterThan(Integer value) {
+        public Criteria andFileFormatGreaterThan(String value) {
             addCriterion("file_format >", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatGreaterThanOrEqualTo(Integer value) {
+        public Criteria andFileFormatGreaterThanOrEqualTo(String value) {
             addCriterion("file_format >=", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatLessThan(Integer value) {
+        public Criteria andFileFormatLessThan(String value) {
             addCriterion("file_format <", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatLessThanOrEqualTo(Integer value) {
+        public Criteria andFileFormatLessThanOrEqualTo(String value) {
             addCriterion("file_format <=", value, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatIn(List<Integer> values) {
+        public Criteria andFileFormatLike(String value) {
+            addCriterion("file_format like", value, "fileFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileFormatNotLike(String value) {
+            addCriterion("file_format not like", value, "fileFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileFormatIn(List<String> values) {
             addCriterion("file_format in", values, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatNotIn(List<Integer> values) {
+        public Criteria andFileFormatNotIn(List<String> values) {
             addCriterion("file_format not in", values, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatBetween(Integer value1, Integer value2) {
+        public Criteria andFileFormatBetween(String value1, String value2) {
             addCriterion("file_format between", value1, value2, "fileFormat");
             return (Criteria) this;
         }
 
-        public Criteria andFileFormatNotBetween(Integer value1, Integer value2) {
+        public Criteria andFileFormatNotBetween(String value1, String value2) {
             addCriterion("file_format not between", value1, value2, "fileFormat");
             return (Criteria) this;
         }
@@ -492,6 +442,136 @@ public class AppFileExample {
 
         public Criteria andFilePathNotBetween(String value1, String value2) {
             addCriterion("file_path not between", value1, value2, "filePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserIsNull() {
+            addCriterion("upload_user is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserIsNotNull() {
+            addCriterion("upload_user is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserEqualTo(String value) {
+            addCriterion("upload_user =", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserNotEqualTo(String value) {
+            addCriterion("upload_user <>", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserGreaterThan(String value) {
+            addCriterion("upload_user >", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserGreaterThanOrEqualTo(String value) {
+            addCriterion("upload_user >=", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserLessThan(String value) {
+            addCriterion("upload_user <", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserLessThanOrEqualTo(String value) {
+            addCriterion("upload_user <=", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserLike(String value) {
+            addCriterion("upload_user like", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserNotLike(String value) {
+            addCriterion("upload_user not like", value, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserIn(List<String> values) {
+            addCriterion("upload_user in", values, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserNotIn(List<String> values) {
+            addCriterion("upload_user not in", values, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserBetween(String value1, String value2) {
+            addCriterion("upload_user between", value1, value2, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadUserNotBetween(String value1, String value2) {
+            addCriterion("upload_user not between", value1, value2, "uploadUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNull() {
+            addCriterion("channel_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNotNull() {
+            addCriterion("channel_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdEqualTo(Long value) {
+            addCriterion("channel_id =", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotEqualTo(Long value) {
+            addCriterion("channel_id <>", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThan(Long value) {
+            addCriterion("channel_id >", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("channel_id >=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThan(Long value) {
+            addCriterion("channel_id <", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThanOrEqualTo(Long value) {
+            addCriterion("channel_id <=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIn(List<Long> values) {
+            addCriterion("channel_id in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotIn(List<Long> values) {
+            addCriterion("channel_id not in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdBetween(Long value1, Long value2) {
+            addCriterion("channel_id between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotBetween(Long value1, Long value2) {
+            addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }
     }

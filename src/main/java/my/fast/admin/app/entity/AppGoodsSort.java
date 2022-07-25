@@ -30,6 +30,9 @@ public class AppGoodsSort implements Serializable {
     @ApiModelProperty(value = "等级id")
     private Long levelId;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     @ApiModelProperty(value = "商品展示图片")
     private String goodsPic;
 
@@ -99,6 +102,14 @@ public class AppGoodsSort implements Serializable {
         this.levelId = levelId;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     public String getGoodsPic() {
         return goodsPic;
     }
@@ -121,6 +132,7 @@ public class AppGoodsSort implements Serializable {
         sb.append(", goodsAddTime=").append(goodsAddTime);
         sb.append(", min=").append(min);
         sb.append(", levelId=").append(levelId);
+        sb.append(", channelId=").append(channelId);
         sb.append(", goodsPic=").append(goodsPic);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

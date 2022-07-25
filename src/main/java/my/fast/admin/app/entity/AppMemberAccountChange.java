@@ -15,10 +15,10 @@ public class AppMemberAccountChange implements Serializable {
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
 
-    @ApiModelProperty(value = "充值类型 USDT")
+    @ApiModelProperty(value = "充值类型 1.USDT")
     private Integer currencyType;
 
-    @ApiModelProperty(value = "操作类型【1.充值 2.减少 3.冻结】")
+    @ApiModelProperty(value = "操作类型【1.充值 2.减少 3.冻结 4.提取】")
     private Integer operaType;
 
     @ApiModelProperty(value = "操作前余额")
@@ -41,6 +41,9 @@ public class AppMemberAccountChange implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
 
     private static final long serialVersionUID = 1L;
 
@@ -140,6 +143,14 @@ public class AppMemberAccountChange implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -158,6 +169,7 @@ public class AppMemberAccountChange implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", updateBy=").append(updateBy);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

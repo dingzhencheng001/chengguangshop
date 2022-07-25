@@ -29,6 +29,9 @@ public class AppMemberAddress implements Serializable {
     @ApiModelProperty(value = "完成交易时间")
     private Date finishTime;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -95,6 +98,14 @@ public class AppMemberAddress implements Serializable {
         this.finishTime = finishTime;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,6 +120,7 @@ public class AppMemberAddress implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", defaultAddr=").append(defaultAddr);
         sb.append(", finishTime=").append(finishTime);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

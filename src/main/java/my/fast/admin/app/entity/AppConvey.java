@@ -57,6 +57,9 @@ public class AppConvey implements Serializable {
     @ApiModelProperty(value = "0不卡卡1卡单")
     private String sign;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -195,6 +198,14 @@ public class AppConvey implements Serializable {
         this.sign = sign;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -218,6 +229,7 @@ public class AppConvey implements Serializable {
         sb.append(", min=").append(min);
         sb.append(", max=").append(max);
         sb.append(", sign=").append(sign);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

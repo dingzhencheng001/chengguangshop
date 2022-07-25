@@ -96,6 +96,9 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "会员个人总佣金")
     private BigDecimal totalCommission;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -338,6 +341,14 @@ public class AppMember implements Serializable {
         this.totalCommission = totalCommission;
     }
 
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -374,6 +385,7 @@ public class AppMember implements Serializable {
         sb.append(", registerIp=").append(registerIp);
         sb.append(", registerCountry=").append(registerCountry);
         sb.append(", totalCommission=").append(totalCommission);
+        sb.append(", channelId=").append(channelId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
