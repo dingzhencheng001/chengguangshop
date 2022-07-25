@@ -53,6 +53,13 @@ public class MemberController {
         return mav;
     }
 
+		@RequestMapping("/level")
+    public Object level() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("level/list");
+        return mav;
+    }
+
     @RequestMapping("/viewTeam")
     public Object viewTeam() {
         ModelAndView mav = new ModelAndView();
