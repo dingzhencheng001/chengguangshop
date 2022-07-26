@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="my.fast.admin.cg.mapper.AppMemberDepositMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMemberDeposit">
+<mapper namespace="my.fast.admin.cg.mapper.AppMemberWithdrawalMapper">
+  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMemberWithdrawal">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
@@ -14,8 +14,10 @@
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
+    <result column="member_bank_id" jdbcType="BIGINT" property="memberBankId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,15 +80,16 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_no, member_id, user_account, real_name, phone_number, opera_type, status, 
-    opera_mount, create_by, create_time, update_by, update_time, channel_id, is_delete
+    opera_mount, create_by, create_time, update_by, deal_time, channel_id, member_bank_id, 
+    remark, is_delete
   </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberDepositExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from app_member_deposit
+    from app_member_withdrawal
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -97,39 +100,41 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from app_member_deposit
+    from app_member_withdrawal
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from app_member_deposit
+    delete from app_member_withdrawal
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberDepositExample">
-    delete from app_member_deposit
+  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample">
+    delete from app_member_withdrawal
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMemberDeposit">
+  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into app_member_deposit (order_no, member_id, user_account, 
+    insert into app_member_withdrawal (order_no, member_id, user_account, 
       real_name, phone_number, opera_type, 
       status, opera_mount, create_by, 
-      create_time, update_by, update_time, 
-      channel_id, is_delete)
+      create_time, update_by, deal_time, 
+      channel_id, member_bank_id, remark, 
+      is_delete)
     values (#{orderNo,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{operaType,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{operaMount,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{channelId,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP}, 
+      #{channelId,jdbcType=BIGINT}, #{memberBankId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberDeposit">
+  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into app_member_deposit
+    insert into app_member_withdrawal
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderNo != null">
         order_no,
@@ -164,11 +169,17 @@
       <if test="updateBy != null">
         update_by,
       </if>
-      <if test="updateTime != null">
-        update_time,
+      <if test="dealTime != null">
+        deal_time,
       </if>
       <if test="channelId != null">
         channel_id,
+      </if>
+      <if test="memberBankId != null">
+        member_bank_id,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="isDelete != null">
         is_delete,
@@ -208,25 +219,31 @@
       <if test="updateBy != null">
         #{updateBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="dealTime != null">
+        #{dealTime,jdbcType=TIMESTAMP},
       </if>
       <if test="channelId != null">
         #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="memberBankId != null">
+        #{memberBankId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberDepositExample" resultType="java.lang.Long">
-    select count(*) from app_member_deposit
+  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample" resultType="java.lang.Long">
+    select count(*) from app_member_withdrawal
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update app_member_deposit
+    update app_member_withdrawal
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -264,11 +281,17 @@
       <if test="record.updateBy != null">
         update_by = #{record.updateBy,jdbcType=VARCHAR},
       </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      <if test="record.dealTime != null">
+        deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberBankId != null">
+        member_bank_id = #{record.memberBankId,jdbcType=BIGINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null">
         is_delete = #{record.isDelete,jdbcType=INTEGER},
@@ -279,7 +302,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update app_member_deposit
+    update app_member_withdrawal
     set id = #{record.id,jdbcType=BIGINT},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
       member_id = #{record.memberId,jdbcType=BIGINT},
@@ -292,15 +315,17 @@
       create_by = #{record.createBy,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_by = #{record.updateBy,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
       channel_id = #{record.channelId,jdbcType=BIGINT},
+      member_bank_id = #{record.memberBankId,jdbcType=BIGINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMemberDeposit">
-    update app_member_deposit
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+    update app_member_withdrawal
     <set>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
@@ -335,11 +360,17 @@
       <if test="updateBy != null">
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="dealTime != null">
+        deal_time = #{dealTime,jdbcType=TIMESTAMP},
       </if>
       <if test="channelId != null">
         channel_id = #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="memberBankId != null">
+        member_bank_id = #{memberBankId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=INTEGER},
@@ -347,8 +378,8 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberDeposit">
-    update app_member_deposit
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+    update app_member_withdrawal
     set order_no = #{orderNo,jdbcType=VARCHAR},
       member_id = #{memberId,jdbcType=BIGINT},
       user_account = #{userAccount,jdbcType=VARCHAR},
@@ -360,8 +391,10 @@
       create_by = #{createBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      deal_time = #{dealTime,jdbcType=TIMESTAMP},
       channel_id = #{channelId,jdbcType=BIGINT},
+      member_bank_id = #{memberBankId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

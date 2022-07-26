@@ -6,7 +6,7 @@ import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class AppMemberDeposit implements Serializable {
+public class AppMemberWithdrawal implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "交易订单号")
@@ -27,7 +27,7 @@ public class AppMemberDeposit implements Serializable {
     @ApiModelProperty(value = "操作类型【1.充值 2.减少 3.冻结 4.提取】")
     private Integer operaType;
 
-    @ApiModelProperty(value = "操作类型【1.待审核 2.审核通过 3.审核不通过 】")
+    @ApiModelProperty(value = "操作类型【1.待审核 2.已驳回 3.已打款 】")
     private Integer status;
 
     @ApiModelProperty(value = "操作金额")
@@ -42,11 +42,17 @@ public class AppMemberDeposit implements Serializable {
     @ApiModelProperty(value = "更新者")
     private String updateBy;
 
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    @ApiModelProperty(value = "处理时间")
+    private Date dealTime;
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
+
+    @ApiModelProperty(value = "会员银行卡id")
+    private Long memberBankId;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
     @ApiModelProperty(value = "0.正常1.删除")
     private Integer isDelete;
@@ -149,12 +155,12 @@ public class AppMemberDeposit implements Serializable {
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getDealTime() {
+        return dealTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setDealTime(Date dealTime) {
+        this.dealTime = dealTime;
     }
 
     public Long getChannelId() {
@@ -163,6 +169,22 @@ public class AppMemberDeposit implements Serializable {
 
     public void setChannelId(Long channelId) {
         this.channelId = channelId;
+    }
+
+    public Long getMemberBankId() {
+        return memberBankId;
+    }
+
+    public void setMemberBankId(Long memberBankId) {
+        this.memberBankId = memberBankId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Integer getIsDelete() {
@@ -191,8 +213,10 @@ public class AppMemberDeposit implements Serializable {
         sb.append(", createBy=").append(createBy);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateBy=").append(updateBy);
-        sb.append(", updateTime=").append(updateTime);
+        sb.append(", dealTime=").append(dealTime);
         sb.append(", channelId=").append(channelId);
+        sb.append(", memberBankId=").append(memberBankId);
+        sb.append(", remark=").append(remark);
         sb.append(", isDelete=").append(isDelete);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
