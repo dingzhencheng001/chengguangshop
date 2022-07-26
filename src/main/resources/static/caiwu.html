@@ -96,6 +96,7 @@
         var form = layui.form;
 
         var params = $.getUrlVars();
+        var memberId = params.id || '11' // 开发方便
 
         laydate.render({
             elem: '#timeInput',
@@ -105,7 +106,7 @@
         console.log('params', params);
 
         $.request({
-            url: '/action/member/list/11',
+            url: '/action/member/list/' + memberId,
             // type: 'post',
             // data: {
             //     id: '11'
@@ -117,7 +118,7 @@
 
         var tableId = '#demo0';
         var where = {
-            memberId: params.id | '11',
+            memberId: memberId,
         };
         //第一个实例
         table.render(Object.assign({}, $.tableRenderConfing, {
@@ -127,16 +128,29 @@
             totalRow: true,
             method: 'post',
             contentType: 'application/json',
-            url: 'http://localhost:8080/action/accountchange/list' + '?memberId=11', //数据接口
+            url: 'http://localhost:8080/action/account/list' + '?memberId=' + memberId, //数据接口
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'tel', title: '账号', totalRowText: '合计'}
-                , {field: 'oid', title: '订单编号', sort: true}
-                , {field: 'num', title: '金额', sort: true, totalRow: true}
-                , {field: 'type', title: '类型'}
-                , {field: 'status', title: '状态'}
-                , {field: 'addtime', title: '发生时间', width: 150}
+                , {field: 'accountId', title: '账号', totalRowText: '合计'}
+                , {field: 'xxx', title: '订单编号', sort: true}
+                , {field: 'operaMount', title: '金额', sort: true, totalRow: true}
+                , {field: 'operaType', title: '类型', templet: function (d) {
+                        // 操作类型【1.充值 2.减少 3.冻结 4.提取】
+                        var map = {
+                            1: '充值',
+                            2: '减少',
+                            3: '冻结',
+                            4: '提取',
+                        }
+                        return map[d.operaType] || ''
+                    }
+                }
+                , {field: 'xxx', title: '状态'}
+                , {field: 'updateTime', title: '发生时间', width: 150, templet: function (d) {
+                        return layui.util.toDateString(d.updateTime, 'yyyy-MM-dd')
+                    }
+                }
             ]],
             id: tableId,
         }));

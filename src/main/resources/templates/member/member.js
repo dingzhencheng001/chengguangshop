@@ -352,11 +352,9 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     // 编辑-提交
     form.on('submit(editSubmit)', function (data) {
         // layer.msg(JSON.stringify(data.field));
-        actions.onUpdateItem(tableCurrentItem.id, data.field, {
-            success: function () {
-                layer.close(editIndex);
-                $('#editId').hide();
-            }
+        actions.onUpdateItem(tableCurrentItem.id, data.field, function () {
+            layer.close(editIndex);
+            $('#editId').hide();
         })
         return false;
     });

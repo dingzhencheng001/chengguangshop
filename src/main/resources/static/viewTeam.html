@@ -57,11 +57,13 @@
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">注册时间</label>
                         <div class="layui-input-inline">
-                            <input id="timeInput" name="addtime" value="" placeholder="请选择注册时间" class="layui-input" autocomplete="off" ></div>
+                            <input id="timeInput" name="addtime" value="" placeholder="请选择注册时间" class="layui-input"
+                                   autocomplete="off"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
                         <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="button">
-                            <i class="layui-icon"></i> 搜 索</button>
+                            <i class="layui-icon"></i> 搜 索
+                        </button>
                     </div>
                 </form>
             </fieldset>
@@ -80,97 +82,140 @@
                     </div>
                 </div>
             </div>
-            <script>
-                $(function () {
-                    var table = layui.table;
-                    var laydate = layui.laydate;
-                    var params = $.getUrlVars();
-
-                    laydate.render({
-                        elem: '#timeInput',
-                        range: true //或 range: '~' 来自定义分割字符
-                    });
-
-                    var where = {
-                        level: 1,
-                        memberId: params.id,
-                    }
-
-                    var tableId = 'tableId'
-                    //第一个实例
-                    table.render(Object.assign({}, $.tableRenderConfing, {
-                        elem: '#tableId',
-                        where: where
-                        , url: 'http://localhost:8080/action/member/getteamlist' //数据接口
-                        , contentType: 'application/json'
-                        , method: 'post'
-                        , totalRow: true
-                        , cols: [[ //表头
-                            {field: 'id', title: 'ID', width: 60, sort: true, fixed: 'left',}
-                            , {field: 'tel', title: '账号', width: 120, totalRowText: '合计'}
-                            , {field: 'balance', title: '余额', sort: true, totalRow: true}
-                            , {field: 'yj', title: '佣金', sort: true, totalRow: true}
-                            , {field: 'cz', title: '充值', totalRow: true}
-                            , {field: 'tx', title: '提现', totalRow: true}
-                            , {field: 'jb', title: '级别', sort: true}
-                            , {field: 'parent_name', title: '上级用户'}
-                            , {field: 'childs', title: '直推人数', totalRow: true}
-                            , {field: 'addtime', title: '注册时间', width: 150}
-                            , {
-                                field: 'id', title: '操作', width: 170, templet: function (d) {
-                                    var name = d.status ? "封禁" : "解封";
-                                    return '' +
-                                        '<a class="layui-btn layui-btn-xs layui-btn-danger"  data-title="查看账变" data-reload="true" data-open="/admin/users/caiwu.html?id=' + d.id + '" style="background: #dc1ed1">账变</a>' +
-                                        '<a class="layui-btn layui-btn-xs layui-btn-danger"  data-confirm="确定要' + name + '该用户【' + d.username + '】吗？" data-action="/admin/users/open.html" data-value="id#' + d.id + ';status#' + d.status + ';type#0" data-csrf="62d780f44fed7" style="background: ' + color + '">' + name + '</a>' +
-                                        '' +
-                                        '<a class="layui-btn layui-btn-xs layui-btn-warning"  data-confirm="确定要封禁该用户【' + d.username + '】所有下级吗？" data-action="/admin/users/open.html" data-value="id#' + d.id + ';status#' + d.status + ';type#1" data-csrf="62d780f44fee9">' + name + '团队</a>'
-                                    var color = d.status ? "red" : "green";
-                                }
-                            }
-                        ]]
-                        , id: tableId
-                    }));
-
-                    var actions = {
-                        onReloadData: function () {
-                            // var searchData = form.val('searchForm');
-                            // console.log('searchData', searchData);
-                            table.reloadData(tableId, {where: Object.assign({}, where, {})});
-                        }
-                    }
-
-                    $('.layui-tab-title li').click(function () {
-                        if ($(this).text() === 'Ta的下线') {
-                            where.level = 0;
-                        } else if ($(this).text() === '一级会员') {
-                            where.level = 1;
-                        } else if ($(this).text() === '二级会员') {
-                            where.level = 2;
-                        } else if ($(this).text() === '三级会员') {
-                            where.level = 3;
-                        } else if ($(this).text() === '四级会员') {
-                            where.level = 4;
-                        } else if ($(this).text() === '五级会员') {
-                            where.level = 5;
-                        }
-                        actions.onReloadData();
-                    })
-
-                    // 搜索
-                    form.on('submit(search)', function (data) {
-                        console.log(data.field);
-                        actions.onReloadData();
-                        return false;
-                    });
-
-                    $('#backBtn').click(function () {
-                        // 返回到会员列表
-                        window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
-                    })
-                })
-            </script>
         </div>
     </div>
 </div>
+
+<script type="text/html" id="operation">
+    <a class="layui-btn layui-btn-xs layui-btn-danger" style="background:green;" lay-event="accountChange">账变</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" style="background:red;" lay-event="ban">封禁</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warning" style="background:red;" lay-event="banTeam">封禁团队</a>
+</script>
+
+<script>
+    $(function () {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var form = layui.form;
+        var params = $.getUrlVars();
+
+        laydate.render({
+            elem: '#timeInput',
+            range: true //或 range: '~' 来自定义分割字符
+        });
+
+        var where = {
+            level: 1,
+            memberId: params.id,
+        }
+
+        var tableId = 'tableId'
+        //第一个实例
+        table.render(Object.assign({}, $.tableRenderConfing, {
+            elem: '#tableId',
+            where: where
+            , url: 'http://localhost:8080/action/member/getteamlist' //数据接口
+            , contentType: 'application/json'
+            , method: 'post'
+            , totalRow: true
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', width: 60, sort: true, fixed: 'left',}
+                , {field: 'userAccount', title: '账号', width: 120, totalRowText: '合计'}
+                , {field: 'balance', title: '余额', sort: true, totalRow: true}
+                , {field: 'totalCommission', title: '佣金', sort: true, totalRow: true}
+                , {field: 'rechargeNum', title: '充值', totalRow: true}
+                , {field: 'depositNum', title: '提现', totalRow: true}
+                , {field: 'memberLevelId', title: '级别', sort: true}
+                , {field: 'parentUserName', title: '上级用户'}
+                , {field: 'xxx', title: '直推人数', totalRow: true}
+                , {
+                    field: 'registrationTime', title: '注册时间', width: 150, templet: function (d) {
+                        return layui.util.toDateString(d.registrationTime, 'yyyy-MM-dd')
+                    }
+                }
+                // , {
+                //     field: 'id', title: '操作', width: 170, templet: function (d) {
+                //         var name = d.status ? "封禁" : "解封";
+                //         return '' +
+                //             '<a class="layui-btn layui-btn-xs layui-btn-danger"  data-title="查看账变" data-reload="true" data-open="/admin/users/caiwu.html?id=' + d.id + '" style="background: #dc1ed1">账变</a>' +
+                //             '<a class="layui-btn layui-btn-xs layui-btn-danger"  data-confirm="确定要' + name + '该用户【' + d.username + '】吗？" data-action="/admin/users/open.html" data-value="id#' + d.id + ';status#' + d.status + ';type#0" data-csrf="62d780f44fed7" style="background: ' + color + '">' + name + '</a>' +
+                //             '' +
+                //             '<a class="layui-btn layui-btn-xs layui-btn-warning"  data-confirm="确定要封禁该用户【' + d.username + '】所有下级吗？" data-action="/admin/users/open.html" data-value="id#' + d.id + ';status#' + d.status + ';type#1" data-csrf="62d780f44fee9">' + name + '团队</a>'
+                //         var color = d.status ? "red" : "green";
+                //     }
+                // }
+                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 190}
+            ]]
+            , id: tableId
+        }));
+
+        //单元格工具事件
+        var tableCurrentItem = {};
+        table.on('tool(tableId)', function (obj) { // 注：test 是 table 原始标签的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            // 设置当前选择项
+            tableCurrentItem = Object.assign({}, data);
+
+            if (layEvent === 'accountChange') { // 帐变
+                console.log('帐变');
+                window.parent.layui.tab.tabAdd({
+                    id: 'caiwu_' + data.id,
+                    title: '帐变',
+                    icon: 'fa-file',
+                    url: '/caiwu.html?id=' + data.id,
+                })
+            } else if (layEvent === 'ban') { // 封禁
+                // 确定要' + name + '该用户【' + d.username + '】吗？
+                layer.confirm('确定要封禁该用户【'+ data.userAccount +'】吗?', {title: '操作确认'}, function (index) {
+                    console.log('封禁');
+                });
+            } else if (layEvent === 'banTeam') { // 封禁团队
+                layer.confirm('确定要封禁该用户【'+ data.userAccount +'】所有下级吗?', {title: '操作确认'}, function (index) {
+                    console.log('封禁团队');
+                });
+            }
+
+        });
+
+        var actions = {
+            onReloadData: function () {
+                // var searchData = form.val('searchForm');
+                // console.log('searchData', searchData);
+                table.reloadData(tableId, {where: Object.assign({}, where, {})});
+            }
+        }
+
+        $('.layui-tab-title li').click(function () {
+            if ($(this).text() === 'Ta的下线') {
+                where.level = 0;
+            } else if ($(this).text() === '一级会员') {
+                where.level = 1;
+            } else if ($(this).text() === '二级会员') {
+                where.level = 2;
+            } else if ($(this).text() === '三级会员') {
+                where.level = 3;
+            } else if ($(this).text() === '四级会员') {
+                where.level = 4;
+            } else if ($(this).text() === '五级会员') {
+                where.level = 5;
+            }
+            actions.onReloadData();
+        })
+
+        // 搜索
+        form.on('submit(search)', function (data) {
+            console.log(data.field);
+            actions.onReloadData();
+            return false;
+        });
+
+        $('#backBtn').click(function () {
+            // 返回到会员列表
+            window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
+        })
+    })
+</script>
 </body>
 </html>

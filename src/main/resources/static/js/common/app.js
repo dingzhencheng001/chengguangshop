@@ -137,8 +137,13 @@ $.tableRenderConfing = {
         if (res.code === 200) {
             code = 0;
             msg = res.message;
-            count = res.data.total;
-            data = res.data.list;
+            if (res.data instanceof Array) {
+                count = res.data.length;
+                data = res.data;
+            } else {
+                count = res.data.total;
+                data = res.data.list;
+            }
         } else {
             code = res.code;
             msg = res.msg;
