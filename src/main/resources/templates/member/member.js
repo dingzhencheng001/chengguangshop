@@ -1,3 +1,5 @@
+
+
 layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
     var element = layui.element;
@@ -83,7 +85,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336}
         ]],
         id: memberListTableId, // 容器唯一ID
-    }));
+    } ));
 
     var actions = {
         apiUrl: {
@@ -270,15 +272,15 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 id: new Date().getTime(),
                 title: '查看团队',
                 icon: 'fa-file',
-                url: '/viewTeam.html?id=' + data.id
+                url: '/viewTeam.html?id='+ data.id
             })
             // window.location.href = './viewTeam.html';
         } else if (layEvent === 'accountChange') { // 帐变
             window.parent.layui.tab.tabAdd({
-                id: 'caiwu_' + data.id,
+                id: 'caiwu_'+ data.id,
                 title: '帐变',
                 icon: 'fa-file',
-                url: '/caiwu.html?id=' + data.id,
+                url: '/caiwu.html?id='+ data.id,
             })
         } else if (layEvent === 'realPerson') { // 设为真人
             // 状态:1.真人2.假人
@@ -328,14 +330,40 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     });
 
     // 扣款-提交
+    var deductionLoading;
     form.on('submit(deductionSubmit)', function (data) {
-        layer.msg(JSON.stringify(data.field));
+        if (deductionLoading) return;
+        deductionLoading = layer.load(1);
+        var fd = Object.assign({}, data.field, {
+            memberId: tableCurrentItem.id,
+        });
+        fd.operaMount = Number(fd.operaMount);
+        $.request({
+            url: '/action/deposit/deposit',
+            type: 'post',
+            data: fd,
+            success: function () {
+                onDeductionCancel();
+                layer.msg('扣款成功', {icon: 1});
+                actions.onReloadData();
+            },
+            complete: function () {
+                layer.close(deductionLoading);
+                deductionLoading = null;
+            }
+        });
         return false;
     });
     // 扣款-取消
-    $('#deductionCancel').click(function () {
+    var onDeductionCancel = function () {
+        form.val('deductionForm', {
+            operaMount: 0,
+            remank: "",
+        })
         layer.close(deductionIndex);
-    });
+        $('#deductionId').hide();
+    }
+    $('#deductionCancel').click(onDeductionCancel);
 
 
     // 派单-提交

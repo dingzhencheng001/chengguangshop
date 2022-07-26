@@ -96,12 +96,12 @@
 
     <!--扣款表单-->
     <div id="deductionId" style="display: none">
-        <form class="layui-form layui-card">
+        <form class="layui-form layui-card" lay-filter="deductionForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">金额</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="required" placeholder="请输入金额"
+                        <input type="number" name="operaMount" lay-verify="number" placeholder="请输入金额"
                                autocomplete="off" class="layui-input">
                         <p class="help-block">正表示加，负表示扣</p>
                     </div>
@@ -109,8 +109,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <input type="password" name="password" lay-verify="required" placeholder="请输入备注"
-                               autocomplete="off" class="layui-input">
+                        <input type="text" name="remank" placeholder="请输入备注" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
