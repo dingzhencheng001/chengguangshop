@@ -2,8 +2,11 @@ package my.fast.admin.cg.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppMemberDeposit;
+import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 
 /**
@@ -26,9 +29,10 @@ public interface MemberDepositService {
     int deleteDepositById(Long id);
 
     /**
-     * 创建会员充值订单
+     * 会员充值
      */
-    int createDeposit(AppMemberDeposit deposit);
+    @Transactional
+    int createDeposit(MemberDepositParam depositParam);
 
 
 

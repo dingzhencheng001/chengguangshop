@@ -16,6 +16,7 @@ import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMemberDeposit;
 import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberDepositService;
 
@@ -70,10 +71,13 @@ public class MemberDepositController {
     }
 
    
-    @ApiOperation(value = "添加")
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
+    @ApiOperation(value = "充值")
+    @RequestMapping(value = "/deposit", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppMemberDeposit deposit,HttpServletRequest request) {
+    public CommonResult deposit(@RequestBody MemberDepositParam deposit,HttpServletRequest request) {
+    	if (deposit.getMemberId() == null ) {
+            return CommonResult.failed("会员ID不允许为空");
+        }
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();

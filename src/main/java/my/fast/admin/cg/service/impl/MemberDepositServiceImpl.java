@@ -1,13 +1,27 @@
 package my.fast.admin.cg.service.impl;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import com.github.pagehelper.PageHelper;
+
+import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberDeposit;
 import my.fast.admin.cg.entity.AppMemberDepositExample;
+import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberDepositMapper;
+import my.fast.admin.cg.mapper.AppMemberMapper;
+import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.MemberDepositService;
+import my.fast.admin.framework.utils.CommonUtils;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * @author cgkj@cg.cn
@@ -19,8 +33,13 @@ public class MemberDepositServiceImpl implements MemberDepositService {
 
     @Autowired
     private AppMemberDepositMapper depositMapper;
+    
+    @Autowired
+    private AppMemberMapper appMemberMapper;
 
-
+    @Autowired
+    private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
+    
     @Override
     public List<AppMemberDeposit> listDeposit(AppMemberDeposit deposit, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -36,9 +55,75 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     }
 
     @Override
-    public int createDeposit(AppMemberDeposit deposit) {
+    public int createDeposit(MemberDepositParam depositParam) {
+    	Integer type = 1; //1 充值 2 减少
+    	AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+    	//获取用户信息 更新用户的余额
+        AppMember appMember = appMemberMapper.selectByPrimaryKey(depositParam.getMemberId());
+        if (StringUtils.isEmpty(appMember)) {
+            try {
+				throw new Exception("会员不存在");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        }
+    	if(depositParam.getOperaMount().compareTo(BigDecimal.ZERO)==-1){//减少
+    		type = 2 ;
+    		System.out.println("负数 减少 ");
+    		//余额计算
+            appMember.setBalance(CommonUtils.moneySub(appMember.getBalance(), depositParam.getOperaMount()));
+            //账变金额计算
+            appMemberAccountChange.setTotalMount(CommonUtils.moneySub(appMember.getBalance(), depositParam.getOperaMount()));
+    	}else{//充值
+    		System.out.println("正数 充值");
+    		appMember.setBalance(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
+    		appMemberAccountChange.setTotalMount(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
+    	}
+        //更新会员表
+        appMemberMapper.updateByPrimaryKey(appMember);
+    	//插入账变记录表
+        appMemberAccountChange.setMemberId(depositParam.getMemberId());
+        appMemberAccountChange.setChannelId(depositParam.getChannelId());
+        appMemberAccountChange.setPreOperaMount(appMember.getBalance());
+        appMemberAccountChange.setOperaMount(depositParam.getOperaMount());
+        //设置操作后金额
+        appMemberAccountChange.setOperaType(type); //1 充值 2 减少
+        appMemberAccountChange.setCreateBy("admin");
+        Date date = new Date(System.currentTimeMillis());
+        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+    	//插入充值记录
+    	AppMemberDeposit deposit = new AppMemberDeposit();
+    	deposit.setOrderNo(generateOrderSn());
+    	deposit.setMemberId(depositParam.getMemberId());
+        deposit.setChannelId(depositParam.getChannelId());
+        deposit.setPhoneNumber(appMember.getPhoneNumber());
+        deposit.setOperaMount(depositParam.getOperaMount());
+        deposit.setOperaType(type);
+        deposit.setStatus(3);
+        deposit.setUserAccount(appMember.getUserAccount());
+        deposit.setRealName(appMember.getUserAccount());
+        deposit.setCreateBy("admin");
+        deposit.setCreateTime(DateFormat.getNowDate());
+        deposit.setIsDelete(0);
+    	
         return depositMapper.insertSelective(deposit);
     }
 
-   
+    /**
+     * 生成订单编号
+     */
+    private String generateOrderSn() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SY");
+        String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        sb.append(date);
+        int num = 0;
+        for (int i = 0; i < 5000; i++) {
+            num = (int) ((Math.random() * 9 + 1) * 100000);
+        }
+        String num_str = String.valueOf(num);
+        sb.append(num_str);
+        return sb.toString();
+    }
 }
