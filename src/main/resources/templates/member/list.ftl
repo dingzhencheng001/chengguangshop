@@ -6,6 +6,7 @@
     <#include "../resource.ftl"/>
 </head>
 <body>
+
 <div class="layui-fluid member-list-page">
 
     <div class="think-box-shadow">
@@ -95,12 +96,12 @@
 
     <!--扣款表单-->
     <div id="deductionId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">金额</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入金额"
+                        <input type="text" name="title" lay-verify="required" placeholder="请输入金额"
                                autocomplete="off" class="layui-input">
                         <p class="help-block">正表示加，负表示扣</p>
                     </div>
@@ -108,7 +109,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <input type="password" name="password" required lay-verify="required" placeholder="请输入备注"
+                        <input type="password" name="password" lay-verify="required" placeholder="请输入备注"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -280,75 +281,27 @@
         </form>
     </div>
 
-
-    <!--地址信息-->
-    <div id="bankCardInfoId" style="display: none">
-        <form class="layui-form layui-card" action="" lay-filter="bankCardInfoForm">
-            <div class="layui-card-body">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开户人</label>
-                    <div class="layui-input-block">
-                        <input name="accountName" placeholder="请输入开户人" value="" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required label-required-next">开户银行</label>
-                    <div class="layui-input-block">
-                        <input name="bankName" required="" value="" placeholder="请输入开户银行" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required label-required-next">开户电话</label>
-                    <div class="layui-input-block">
-                        <input name="tel" required="" value="" placeholder="请输入手机号码" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required label-required-next">银行卡号</label>
-                    <div class="layui-input-block">
-                        <input name="cardNum" required="" value="" placeholder="请输入银行卡号" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开户地址</label>
-                    <div class="layui-input-block">
-                        <input name="site" value="" placeholder="请输入开户地址" class="layui-input">
-                    </div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="layui-form-item text-center" style="text-align: center;">
-                    <button class="layui-btn" lay-submit lay-filter="bankCardInfoSubmit">提交</button>
-                    <button type="reset" class="layui-btn layui-btn-danger" id="bankCardInfoCancel">取消</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <!--    创建会员-->
     <div id="createId" style="display: none">
-        <form class="layui-form layui-card" action=""
-              data-auto="true"
-              method="post"
-              autocomplete="off"
-              data-listen="true" novalidate="novalidate">
+        <form class="layui-form layui-card" >
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
                     <div class="layui-input-block">
-                        <input name="userAccount" lay-verify placeholder="请输入用户名" required=""
+                        <input name="userAccount" placeholder="请输入用户名" lay-verify="required"
                                class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">手机号码</label>
                     <div class="layui-input-block">
-                        <input name="phoneNumber" required="" placeholder="请输入手机号码" class="layui-input"/>
+                        <input name="phoneNumber" lay-verify="phone" placeholder="请输入手机号码" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">登录密码</label>
                     <div class="layui-input-block">
-                        <input name="password" required="" placeholder="请输入登录密码" class="layui-input"/>
+                        <input name="password" lay-verify="required" placeholder="请输入登录密码" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -365,6 +318,35 @@
             </div>
         </form>
     </div>
+
+    <!--    发送消息-->
+    <div id="sendMessageId" style="display: none">
+        <form class="layui-form layui-card" lay-filter="sendMessageForm" >
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">标题</label>
+                    <div class="layui-input-block">
+                        <input name="noticeTitle" placeholder="请输入标题" lay-verify="required"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">内容</label>
+                    <div class="layui-input-block">
+                        <input name="noticeContent" placeholder="请输入内容" lay-verify="required"
+                               class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="sendMessageSubmit">提交</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="sendMessageCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <!--账号-->
@@ -424,6 +406,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</a>
         <a class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</a>
         <a class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
     </span>
 </script>

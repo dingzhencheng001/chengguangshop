@@ -1,5 +1,3 @@
-
-
 layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
     var element = layui.element;
@@ -19,6 +17,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     var editIndex;
     var addressInfoIndex;
     var bankCardInfoIndex;
+    var sendMessageIndex;
 
     laydate.render({
         elem: '#registrationTime',
@@ -84,28 +83,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336}
         ]],
         id: memberListTableId, // 容器唯一ID
-    } ));
-
-
-    // 请求回调选项
-    var requestDefOptions = {
-        // 请求成功，并且code等于200
-        success: function (result, status, xhr) {
-
-        },
-        // 请求成功，并且code不等于200
-        fail: function (result, status, xhr) {
-
-        },
-        // 请求失败
-        error: function (xhr, status, error) {
-
-        },
-        // 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-        complete: function (xhr, status) {
-
-        }
-    };
+    }));
 
     var actions = {
         apiUrl: {
@@ -119,73 +97,46 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             console.log('searchData', searchData);
             table.reloadData(memberListTableId, {where: Object.assign({}, where, searchData)});
         },
-        onUpdateItem: function (id, fields, options) {
-            var _options = Object.assign({}, requestDefOptions, options);
-            $.ajax({
+        onUpdateItem: function (id, fields, cb) {
+            $.request({
                 url: actions.apiUrl.update + id,
                 type: 'post',
                 contentType: 'application/json',
-                data: JSON.stringify(fields),
-                success: function (result, status, xhr) {
-                    if (result.code === 200) {
-                        actions.onReloadData();
-                        layer.msg('操作成功', {icon: 1});
-                        _options.success && _options.success(result, status, xhr);
-                    } else {
-                        layer.msg(result.msg, {icon: 2});
-                        _options.fail && _options.fail(result, status, xhr);
-                    }
-                    _options.complete && _options.complete(status, xhr);
-                },
-                error: function (xhr, status, error) {
-                    layer.msg('操作失败', {icon: 2});
-                    _options.error && _options.error(xhr, status, error);
+                data: fields,
+                success: function () {
+                    actions.onReloadData();
+                    layer.msg('操作成功', {icon: 1});
+                    cb && cb();
                 }
-            });
+            })
         },
-        onDelete: function (id, options) {
-            var _options = Object.assign({}, requestDefOptions, options);
-            $.ajax({
+        onDelete: function (id, cb) {
+            $.request({
                 url: actions.apiUrl.delete + id,
                 type: 'get',
-                success: function (result, status, xhr) {
-                    if (result.code === 200) {
-                        actions.onReloadData();
-                        layer.msg('删除会员成功', {icon: 1});
-                        _options.success && _options.success(result, status, xhr);
-                    } else {
-                        layer.msg(result.msg, {icon: 2});
-                        _options.fail && _options.fail(result, status, xhr);
-                    }
-                    _options.complete && _options.complete(status, xhr);
+                success: function () {
+                    actions.onReloadData();
+                    layer.msg('删除会员成功', {icon: 1});
+                    cb && cb();
                 },
-                error: function (xhr, status, error) {
+                fail: function () {
                     layer.msg('删除会员失败', {icon: 2});
-                    _options.error && _options.error(xhr, status, error);
                 }
             });
         },
-        onCreate: function (fields, options) {
-            var _options = Object.assign({}, requestDefOptions, options);
-            $.ajax({
+        onCreate: function (fields, cb) {
+            $.request({
                 url: actions.apiUrl.create,
                 type: 'post',
                 contentType: 'application/json',
-                data: JSON.stringify(fields),
-                success: function (result, status, xhr) {
-                    if (result.code === 200) {
-                        actions.onReloadData();
-                        layer.msg('创建会员成功', {icon: 1});
-                        _options.success && _options.success(result, status, xhr);
-                    } else {
-                        layer.msg(result.msg, {icon: 2});
-                        _options.fail && _options.fail(result, status, xhr);
-                    }
-                    _options.complete && _options.complete(status, xhr);
+                data: fields,
+                success: function () {
+                    actions.onReloadData();
+                    layer.msg('创建会员成功', {icon: 1});
+                    cb && cb();
                 },
-                error: function (xhr, status, error) {
+                fail: function () {
                     layer.msg('创建会员失败', {icon: 2});
-                    _options.error && _options.error(xhr, status, error);
                 }
             });
         },
@@ -195,7 +146,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     table.on('tool(member-list)', function (obj) { // 注：test 是 table 原始标签的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-        var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
         // 设置当前选择项
         tableCurrentItem = Object.assign({}, data);
@@ -320,25 +270,37 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 id: new Date().getTime(),
                 title: '查看团队',
                 icon: 'fa-file',
-                url: '/viewTeam.html'
+                url: '/viewTeam.html?id=' + data.id
             })
             // window.location.href = './viewTeam.html';
         } else if (layEvent === 'accountChange') { // 帐变
             window.parent.layui.tab.tabAdd({
-                id: 'caiwu_'+ data.id,
+                id: 'caiwu_' + data.id,
                 title: '帐变',
                 icon: 'fa-file',
-                url: '/caiwu.html?id='+ data.id,
+                url: '/caiwu.html?id=' + data.id,
             })
         } else if (layEvent === 'realPerson') { // 设为真人
             // 状态:1.真人2.假人
             actions.onUpdateItem(tableCurrentItem.id, {memberStatus: data.memberStatus === 1 ? 2 : 1})
+        } else if (layEvent === 'sendMessage') { // 发送消息
+            sendMessageIndex = layer.open({
+                type: 1,
+                title: '发送消息',
+                area: '800px',
+                content: $('#sendMessageId'),
+                success: function () {
+                    $('#sendMessageId').show();
+                },
+                cancel: function () {
+                    $('#sendMessageId').hide();
+                }
+            });
+
         } else if (layEvent === 'delete') { // 删除
             layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
-                actions.onDelete(data.id, {
-                    success: function () {
-                        layer.close(index);
-                    }
+                actions.onDelete(data.id, function () {
+                    layer.close(index);
                 });
             });
         }
@@ -354,11 +316,9 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 
     // 邀请码-提交
     form.on('submit(upInviteCodeSubmit)', function (formData) {
-        actions.onUpdateItem(tableCurrentItem.id, formData.field, {
-            success: function () {
-                layer.close(upInviteCodeIndex);
-                $('#upInviteCodeId').hide();
-            }
+        actions.onUpdateItem(tableCurrentItem.id, formData.field, function () {
+            layer.close(upInviteCodeIndex);
+            $('#upInviteCodeId').hide();
         });
         return false;
     });
@@ -472,5 +432,33 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             }
         });
     })
+
+
+    // 发送消息-提交
+    form.on('submit(sendMessageSubmit)', function (data) {
+        var fd = Object.assign({
+            noticeClasses: 2, // 个人通知
+            noticeType: 1, // 公告类型（1通知 2公告）
+        }, data.field);
+        $.request({
+            url: '/action/notice/create',
+            type: 'post',
+            data: fd,
+            success: function () {
+                layer.close(sendMessageIndex);
+                onSendMessageCancel();
+                layer.msg('发送消息成功', {icon: 1});
+            },
+        })
+    });
+    var onSendMessageCancel = function () {
+        layer.close(sendMessageIndex);
+        $('#sendMessageId').hide();
+        form.val('sendMessageForm', {
+            noticeTitle: '',
+            noticeContent: '',
+        })
+    }
+    $('#sendMessageCancel').click(onSendMessageCancel)
 
 });

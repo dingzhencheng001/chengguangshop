@@ -5,8 +5,8 @@
     <title>会员列表</title>
     <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
     <!-- layui -->
-    <!--    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all"/>-->
-    <!--    <script src="plugins/layui/layui.js"></script>-->
+<!--        <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all"/>-->
+<!--        <script src="plugins/layui/layui.js"></script>-->
     <!--    <link rel="stylesheet" href="plugins/layui-v2.4.0/css/layui.css" media="all" />-->
     <!--    <script src="plugins/layui-v2.4.0/layui.js"></script>-->
     <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
@@ -120,12 +120,12 @@
 
     <!--扣款表单-->
     <div id="deductionId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">金额</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入金额"
+                        <input type="text" name="title" lay-verify="required" placeholder="请输入金额"
                                autocomplete="off" class="layui-input">
                         <p class="help-block">正表示加，负表示扣</p>
                     </div>
@@ -133,7 +133,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <input type="password" name="password" required lay-verify="required" placeholder="请输入备注"
+                        <input type="password" name="password" lay-verify="required" placeholder="请输入备注"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -307,29 +307,25 @@
 
     <!--    创建会员-->
     <div id="createId" style="display: none">
-        <form class="layui-form layui-card" action=""
-              data-auto="true"
-              method="post"
-              autocomplete="off"
-              data-listen="true" novalidate="novalidate">
+        <form class="layui-form layui-card" >
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
                     <div class="layui-input-block">
-                        <input name="userAccount" placeholder="请输入用户名" required=""
+                        <input name="userAccount" placeholder="请输入用户名" lay-verify="required"
                                class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">手机号码</label>
                     <div class="layui-input-block">
-                        <input name="phoneNumber" required="" placeholder="请输入手机号码" class="layui-input"/>
+                        <input name="phoneNumber" lay-verify="phone" placeholder="请输入手机号码" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">登录密码</label>
                     <div class="layui-input-block">
-                        <input name="password" required="" placeholder="请输入登录密码" class="layui-input"/>
+                        <input name="password" lay-verify="required" placeholder="请输入登录密码" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -346,6 +342,35 @@
             </div>
         </form>
     </div>
+
+<!--    发送消息-->
+    <div id="sendMessageId" style="display: none">
+        <form class="layui-form layui-card" lay-filter="sendMessageForm" >
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">标题</label>
+                    <div class="layui-input-block">
+                        <input name="noticeTitle" placeholder="请输入标题" lay-verify="required"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">内容</label>
+                    <div class="layui-input-block">
+                        <input name="noticeContent" placeholder="请输入内容" lay-verify="required"
+                               class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="sendMessageSubmit">提交</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="sendMessageCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <!--账号-->
@@ -405,6 +430,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</a>
         <a class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</a>
         <a class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
     </span>
 </script>
@@ -431,6 +457,7 @@
         var editIndex;
         var addressInfoIndex;
         var bankCardInfoIndex;
+        var sendMessageIndex;
 
         laydate.render({
             elem: '#registrationTime',
@@ -474,7 +501,7 @@
         var memberListTableId = 'memberListTable';
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#member-list',
-            url: '/action/member/list', //数据接口
+            url: 'http://localhost:8080/action/member/list', //数据接口
             cellMinWidth: 100, //全局定义常规单元格的最小宽度
             method: 'post',
             contentType: 'application/json',
@@ -498,27 +525,6 @@
             id: memberListTableId, // 容器唯一ID
         } ));
 
-
-        // 请求回调选项
-        var requestDefOptions = {
-            // 请求成功，并且code等于200
-            success: function (result, status, xhr) {
-
-            },
-            // 请求成功，并且code不等于200
-            fail: function (result, status, xhr) {
-
-            },
-            // 请求失败
-            error: function (xhr, status, error) {
-
-            },
-            // 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-            complete: function (xhr, status) {
-
-            }
-        };
-
         var actions = {
             apiUrl: {
                 update: '/action/member/update/',
@@ -531,73 +537,46 @@
                 console.log('searchData', searchData);
                 table.reloadData(memberListTableId, {where: Object.assign({}, where, searchData)});
             },
-            onUpdateItem: function (id, fields, options) {
-                var _options = Object.assign({}, requestDefOptions, options);
-                $.ajax({
+            onUpdateItem: function (id, fields, cb) {
+                $.request({
                     url: actions.apiUrl.update + id,
                     type: 'post',
                     contentType: 'application/json',
-                    data: JSON.stringify(fields),
-                    success: function (result, status, xhr) {
-                        if (result.code === 200) {
-                            actions.onReloadData();
-                            layer.msg('操作成功', {icon: 1});
-                            _options.success && _options.success(result, status, xhr);
-                        } else {
-                            layer.msg(result.msg, {icon: 2});
-                            _options.fail && _options.fail(result, status, xhr);
-                        }
-                        _options.complete && _options.complete(status, xhr);
-                    },
-                    error: function (xhr, status, error) {
-                        layer.msg('操作失败', {icon: 2});
-                        _options.error && _options.error(xhr, status, error);
+                    data: fields,
+                    success: function () {
+                        actions.onReloadData();
+                        layer.msg('操作成功', {icon: 1});
+                        cb && cb();
                     }
-                });
+                })
             },
-            onDelete: function (id, options) {
-                var _options = Object.assign({}, requestDefOptions, options);
-                $.ajax({
+            onDelete: function (id, cb) {
+                $.request({
                     url: actions.apiUrl.delete + id,
                     type: 'get',
-                    success: function (result, status, xhr) {
-                        if (result.code === 200) {
-                            actions.onReloadData();
-                            layer.msg('删除会员成功', {icon: 1});
-                            _options.success && _options.success(result, status, xhr);
-                        } else {
-                            layer.msg(result.msg, {icon: 2});
-                            _options.fail && _options.fail(result, status, xhr);
-                        }
-                        _options.complete && _options.complete(status, xhr);
+                    success: function () {
+                        actions.onReloadData();
+                        layer.msg('删除会员成功', {icon: 1});
+                        cb && cb();
                     },
-                    error: function (xhr, status, error) {
+                    fail: function () {
                         layer.msg('删除会员失败', {icon: 2});
-                        _options.error && _options.error(xhr, status, error);
                     }
                 });
             },
-            onCreate: function (fields, options) {
-                var _options = Object.assign({}, requestDefOptions, options);
-                $.ajax({
+            onCreate: function (fields, cb) {
+                $.request({
                     url: actions.apiUrl.create,
                     type: 'post',
                     contentType: 'application/json',
-                    data: JSON.stringify(fields),
-                    success: function (result, status, xhr) {
-                        if (result.code === 200) {
-                            actions.onReloadData();
-                            layer.msg('创建会员成功', {icon: 1});
-                            _options.success && _options.success(result, status, xhr);
-                        } else {
-                            layer.msg(result.msg, {icon: 2});
-                            _options.fail && _options.fail(result, status, xhr);
-                        }
-                        _options.complete && _options.complete(status, xhr);
+                    data: fields,
+                    success: function () {
+                        actions.onReloadData();
+                        layer.msg('创建会员成功', {icon: 1});
+                        cb && cb();
                     },
-                    error: function (xhr, status, error) {
+                    fail: function () {
                         layer.msg('创建会员失败', {icon: 2});
-                        _options.error && _options.error(xhr, status, error);
                     }
                 });
             },
@@ -607,7 +586,6 @@
         table.on('tool(member-list)', function (obj) { // 注：test 是 table 原始标签的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             // 设置当前选择项
             tableCurrentItem = Object.assign({}, data);
@@ -732,7 +710,7 @@
                     id: new Date().getTime(),
                     title: '查看团队',
                     icon: 'fa-file',
-                    url: '/viewTeam.html'
+                    url: '/viewTeam.html?id='+ data.id
                 })
                 // window.location.href = './viewTeam.html';
             } else if (layEvent === 'accountChange') { // 帐变
@@ -745,12 +723,24 @@
             } else if (layEvent === 'realPerson') { // 设为真人
                 // 状态:1.真人2.假人
                 actions.onUpdateItem(tableCurrentItem.id, {memberStatus: data.memberStatus === 1 ? 2 : 1})
+            } else if (layEvent === 'sendMessage') { // 发送消息
+                sendMessageIndex = layer.open({
+                    type: 1,
+                    title: '发送消息',
+                    area: '800px',
+                    content: $('#sendMessageId'),
+                    success: function () {
+                        $('#sendMessageId').show();
+                    },
+                    cancel: function () {
+                        $('#sendMessageId').hide();
+                    }
+                });
+
             } else if (layEvent === 'delete') { // 删除
                 layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
-                    actions.onDelete(data.id, {
-                        success: function () {
-                            layer.close(index);
-                        }
+                    actions.onDelete(data.id, function () {
+                        layer.close(index);
                     });
                 });
             }
@@ -766,11 +756,9 @@
 
         // 邀请码-提交
         form.on('submit(upInviteCodeSubmit)', function (formData) {
-            actions.onUpdateItem(tableCurrentItem.id, formData.field, {
-                success: function () {
-                    layer.close(upInviteCodeIndex);
-                    $('#upInviteCodeId').hide();
-                }
+            actions.onUpdateItem(tableCurrentItem.id, formData.field, function () {
+                layer.close(upInviteCodeIndex);
+                $('#upInviteCodeId').hide();
             });
             return false;
         });
@@ -884,6 +872,34 @@
                 }
             });
         })
+
+
+        // 发送消息-提交
+        form.on('submit(sendMessageSubmit)', function (data) {
+            var fd = Object.assign({
+                noticeClasses: 2, // 个人通知
+                noticeType: 1, // 公告类型（1通知 2公告）
+            }, data.field);
+            $.request({
+                url: '/action/notice/create',
+                type: 'post',
+                data: fd,
+                success: function () {
+                    layer.close(sendMessageIndex);
+                    onSendMessageCancel();
+                    layer.msg('发送消息成功', {icon: 1});
+                },
+            })
+        });
+        var onSendMessageCancel = function () {
+            layer.close(sendMessageIndex);
+            $('#sendMessageId').hide();
+            form.val('sendMessageForm', {
+                noticeTitle: '',
+                noticeContent: '',
+            })
+        }
+        $('#sendMessageCancel').click(onSendMessageCancel)
 
     });
 </script>
