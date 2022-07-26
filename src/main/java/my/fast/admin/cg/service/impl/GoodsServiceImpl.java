@@ -29,7 +29,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private AppGoodsMapper appGoodsMapper;
 
-
     @Override
     public List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
         BigDecimal maxPrice, Long channelId) {
@@ -50,7 +49,8 @@ public class GoodsServiceImpl implements GoodsService {
     public int deleteGoods(Long id, Long channelId) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(id).andIdEqualTo(channelId);
+            .andChannelIdEqualTo(id)
+            .andIdEqualTo(channelId);
         return appGoodsMapper.deleteByExample(appGoodsExample);
     }
 
@@ -70,5 +70,10 @@ public class GoodsServiceImpl implements GoodsService {
             .andIdEqualTo(id);
         return appGoodsMapper.updateByExampleSelective(appGoods, appGoodsExample);
 
+    }
+
+    @Override
+    public AppGoods selectById(Long id, Long channelId) {
+        return appGoodsMapper.selectByGoodsId(id, channelId);
     }
 }

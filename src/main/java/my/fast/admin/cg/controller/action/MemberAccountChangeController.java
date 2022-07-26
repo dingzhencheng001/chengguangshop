@@ -90,8 +90,10 @@ public class MemberAccountChangeController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
-
         CommonResult commonResult;
         int count = memberAccountChangeService.updateAccountChange(id, appMemberAccountChange,channelId);
         if (count == 1) {
@@ -110,6 +112,9 @@ public class MemberAccountChangeController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
         int count = memberAccountChangeService.createAccountChange(appMemberAccountChange,channelId);

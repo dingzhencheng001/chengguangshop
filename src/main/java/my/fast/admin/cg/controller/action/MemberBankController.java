@@ -59,6 +59,9 @@ public class MemberBankController {
             .append("/")
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         List<AppMemberBank> appMemberBankList = MemberBankService.listBanks(pageNum, pageSize, channelId);
         return CommonResult.success(CommonPage.restPage(appMemberBankList));
@@ -77,6 +80,9 @@ public class MemberBankController {
             .append("/")
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         int count = MemberBankService.deleteBanks(id, channelId);
         if (count == 1) {
@@ -99,6 +105,9 @@ public class MemberBankController {
             .append("/")
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         AppMemberBank appMemberBank = MemberBankService.getMemberBank(id, channelId);
         return CommonResult.success(appMemberBank);
@@ -112,6 +121,9 @@ public class MemberBankController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
         AppMemberBank  tempBank = MemberBankService.getMemberBank(appMemberBank.getMemberId());

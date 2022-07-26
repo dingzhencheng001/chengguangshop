@@ -112,7 +112,7 @@ public class MemberAddressController {
     
 
     @ApiOperation(value = "查询会员地址信息")
-    @RequestMapping(value = "/getmemberaddress/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getMemberAddress(@PathVariable("id") Long id,HttpServletRequest request) {
         AppMemberAddress appMemberAddress = memberAddressService.getMemberAddress(id);

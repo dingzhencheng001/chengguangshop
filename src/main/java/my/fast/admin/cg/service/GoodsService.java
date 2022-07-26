@@ -44,4 +44,9 @@ public interface GoodsService {
      */
     @Transactional
     int updateGoods(Long id, AppGoods appGoods, Long channelId);
+
+    /**
+     * 根据id查询
+     */
+    AppGoods selectById(Long id, Long channelId);
 }

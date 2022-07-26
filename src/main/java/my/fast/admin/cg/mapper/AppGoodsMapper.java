@@ -32,4 +32,6 @@ public interface AppGoodsMapper {
     int updateByPrimaryKey(AppGoods record);
 
     AppGoods randomOrders(BigDecimal useBalance);
+
+    AppGoods selectByGoodsId(@Param("id")Long id, @Param("channelId")Long channelId);
 }

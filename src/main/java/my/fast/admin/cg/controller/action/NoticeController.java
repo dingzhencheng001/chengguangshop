@@ -48,6 +48,9 @@ public class NoticeController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         List<SysNotice> noticeList = NoticeService.getNoticeList(pageNum, pageSize,channelId);
         return CommonResult.success(CommonPage.restPage(noticeList));
@@ -87,6 +90,9 @@ public class NoticeController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
         int count = NoticeService.createNotice(sysNotice,channelId);
