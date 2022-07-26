@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员列表</title>
+    <#include "../resource.ftl"/>
+</head>
+<body>
+
 <div class="layui-fluid member-list-page">
 
     <div class="think-box-shadow">
@@ -401,3 +410,8 @@
         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
     </span>
 </script>
+
+<script src="/member/member.js"></script>
+
+</body>
+</html>
