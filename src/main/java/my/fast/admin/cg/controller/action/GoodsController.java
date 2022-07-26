@@ -153,7 +153,7 @@ public class GoodsController {
         return commonResult;
     }
 
-    @ApiOperation(value = "根据条件获取商品列表")
+    @ApiOperation(value = "根据id查询商品信息")
     @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getList(@PathVariable("id") Long id, HttpServletRequest request) {
