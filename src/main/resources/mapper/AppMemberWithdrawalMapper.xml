@@ -1,401 +1,429 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.cg.mapper.AppMemberWithdrawalMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMemberWithdrawal">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
-    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
-    <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
-    <result column="opera_type" jdbcType="INTEGER" property="operaType" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="opera_mount" jdbcType="DECIMAL" property="operaMount" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
-    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-    <result column="member_bank_id" jdbcType="BIGINT" property="memberBankId" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppMemberWithdrawal">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="member_id" jdbcType="BIGINT" property="memberId"/>
+        <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="opera_type" jdbcType="INTEGER" property="operaType"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="opera_mount" jdbcType="DECIMAL" property="operaMount"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime"/>
+        <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
+        <result column="member_bank_id" jdbcType="BIGINT" property="memberBankId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, order_no, member_id, user_account, real_name, phone_number, opera_type, status, 
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , order_no, member_id, user_account, real_name, phone_number, opera_type, status,
     opera_mount, create_by, create_time, update_by, deal_time, channel_id, member_bank_id, 
     remark, is_delete
-  </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from app_member_withdrawal
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from app_member_withdrawal
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from app_member_withdrawal
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample">
-    delete from app_member_withdrawal
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_member_withdrawal (order_no, member_id, user_account, 
-      real_name, phone_number, opera_type, 
-      status, opera_mount, create_by, 
-      create_time, update_by, deal_time, 
-      channel_id, member_bank_id, remark, 
-      is_delete)
-    values (#{orderNo,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, 
-      #{realName,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{operaType,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{operaMount,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP}, 
-      #{channelId,jdbcType=BIGINT}, #{memberBankId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_member_withdrawal
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderNo != null">
-        order_no,
-      </if>
-      <if test="memberId != null">
-        member_id,
-      </if>
-      <if test="userAccount != null">
-        user_account,
-      </if>
-      <if test="realName != null">
-        real_name,
-      </if>
-      <if test="phoneNumber != null">
-        phone_number,
-      </if>
-      <if test="operaType != null">
-        opera_type,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="operaMount != null">
-        opera_mount,
-      </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateBy != null">
-        update_by,
-      </if>
-      <if test="dealTime != null">
-        deal_time,
-      </if>
-      <if test="channelId != null">
-        channel_id,
-      </if>
-      <if test="memberBankId != null">
-        member_bank_id,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="isDelete != null">
-        is_delete,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderNo != null">
-        #{orderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="userAccount != null">
-        #{userAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null">
-        #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneNumber != null">
-        #{phoneNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="operaType != null">
-        #{operaType,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="operaMount != null">
-        #{operaMount,jdbcType=DECIMAL},
-      </if>
-      <if test="createBy != null">
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null">
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="dealTime != null">
-        #{dealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="channelId != null">
-        #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="memberBankId != null">
-        #{memberBankId,jdbcType=BIGINT},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample" resultType="java.lang.Long">
-    select count(*) from app_member_withdrawal
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update app_member_withdrawal
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.orderNo != null">
+    </sql>
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from app_member_withdrawal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_member_withdrawal
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from app_member_withdrawal
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample">
+        delete from app_member_withdrawal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_member_withdrawal (order_no, member_id, user_account,
+        real_name, phone_number, opera_type,
+        status, opera_mount, create_by,
+        create_time, update_by, deal_time,
+        channel_id, member_bank_id, remark,
+        is_delete)
+        values (#{orderNo,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR},
+        #{realName,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{operaType,jdbcType=INTEGER},
+        #{status,jdbcType=INTEGER}, #{operaMount,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP},
+        #{channelId,jdbcType=BIGINT}, #{memberBankId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
+        #{isDelete,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_member_withdrawal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="memberId != null">
+                member_id,
+            </if>
+            <if test="userAccount != null">
+                user_account,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="phoneNumber != null">
+                phone_number,
+            </if>
+            <if test="operaType != null">
+                opera_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="operaMount != null">
+                opera_mount,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="dealTime != null">
+                deal_time,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="memberBankId != null">
+                member_bank_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="memberId != null">
+                #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null">
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="operaType != null">
+                #{operaType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operaMount != null">
+                #{operaMount,jdbcType=DECIMAL},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="dealTime != null">
+                #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberBankId != null">
+                #{memberBankId,jdbcType=BIGINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawalExample"
+            resultType="java.lang.Long">
+        select count(*) from app_member_withdrawal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <select id="selectWithdrawalList" resultType="my.fast.admin.cg.vo.AppMemberWithdrawalVo">
+        SELECT l.*,
+               b.bank_name,
+               b.bank_number
+        FROM app_member_withdrawal l
+                 LEFT JOIN app_member m ON l.member_id = m.id
+                 LEFT JOIN app_member_bank b ON l.member_id = b.member_id
+        where l.channel_Id = #{channelId,jdbcType=BIGINT}
+        <if test="record.orderNo != null">
+            and
+            l.order_no like concat('%',#{record.orderNo,jdbcType=VARCHAR},'%')
+        </if>
+
+        <if test="record.userAccount != null">
+            and
+            l.user_account like concat('%',#{record.userAccount,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="record.selectBeginTime != null">
+            and
+            l.create_time BETWEEN #{record.selectBeginTime,jdbcType=TIMESTAMP} and #{record.selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update app_member_withdrawal
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.memberId != null">
+                member_id = #{record.memberId,jdbcType=BIGINT},
+            </if>
+            <if test="record.userAccount != null">
+                user_account = #{record.userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.realName != null">
+                real_name = #{record.realName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phoneNumber != null">
+                phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operaType != null">
+                opera_type = #{record.operaType,jdbcType=INTEGER},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.operaMount != null">
+                opera_mount = #{record.operaMount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.createBy != null">
+                create_by = #{record.createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateBy != null">
+                update_by = #{record.updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dealTime != null">
+                deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=BIGINT},
+            </if>
+            <if test="record.memberBankId != null">
+                member_bank_id = #{record.memberBankId,jdbcType=BIGINT},
+            </if>
+            <if test="record.remark != null">
+                remark = #{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update app_member_withdrawal
+        set id = #{record.id,jdbcType=BIGINT},
         order_no = #{record.orderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.memberId != null">
         member_id = #{record.memberId,jdbcType=BIGINT},
-      </if>
-      <if test="record.userAccount != null">
         user_account = #{record.userAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="record.realName != null">
         real_name = #{record.realName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phoneNumber != null">
         phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="record.operaType != null">
         opera_type = #{record.operaType,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
-      </if>
-      <if test="record.operaMount != null">
         opera_mount = #{record.operaMount,jdbcType=DECIMAL},
-      </if>
-      <if test="record.createBy != null">
         create_by = #{record.createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateBy != null">
         update_by = #{record.updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dealTime != null">
         deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
-      </if>
-      <if test="record.memberBankId != null">
         member_bank_id = #{record.memberBankId,jdbcType=BIGINT},
-      </if>
-      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update app_member_withdrawal
-    set id = #{record.id,jdbcType=BIGINT},
-      order_no = #{record.orderNo,jdbcType=VARCHAR},
-      member_id = #{record.memberId,jdbcType=BIGINT},
-      user_account = #{record.userAccount,jdbcType=VARCHAR},
-      real_name = #{record.realName,jdbcType=VARCHAR},
-      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
-      opera_type = #{record.operaType,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      opera_mount = #{record.operaMount,jdbcType=DECIMAL},
-      create_by = #{record.createBy,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_by = #{record.updateBy,jdbcType=VARCHAR},
-      deal_time = #{record.dealTime,jdbcType=TIMESTAMP},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      member_bank_id = #{record.memberBankId,jdbcType=BIGINT},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
-    update app_member_withdrawal
-    <set>
-      <if test="orderNo != null">
-        order_no = #{orderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="userAccount != null">
-        user_account = #{userAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null">
-        real_name = #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneNumber != null">
-        phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="operaType != null">
-        opera_type = #{operaType,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="operaMount != null">
-        opera_mount = #{operaMount,jdbcType=DECIMAL},
-      </if>
-      <if test="createBy != null">
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null">
-        update_by = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="dealTime != null">
-        deal_time = #{dealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="channelId != null">
-        channel_id = #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="memberBankId != null">
-        member_bank_id = #{memberBankId,jdbcType=BIGINT},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
-    update app_member_withdrawal
-    set order_no = #{orderNo,jdbcType=VARCHAR},
-      member_id = #{memberId,jdbcType=BIGINT},
-      user_account = #{userAccount,jdbcType=VARCHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      opera_type = #{operaType,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      opera_mount = #{operaMount,jdbcType=DECIMAL},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      deal_time = #{dealTime,jdbcType=TIMESTAMP},
-      channel_id = #{channelId,jdbcType=BIGINT},
-      member_bank_id = #{memberBankId,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        is_delete = #{record.isDelete,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+        update app_member_withdrawal
+        <set>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="memberId != null">
+                member_id = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="operaType != null">
+                opera_type = #{operaType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operaMount != null">
+                opera_mount = #{operaMount,jdbcType=DECIMAL},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="dealTime != null">
+                deal_time = #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberBankId != null">
+                member_bank_id = #{memberBankId,jdbcType=BIGINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberWithdrawal">
+        update app_member_withdrawal
+        set order_no       = #{orderNo,jdbcType=VARCHAR},
+            member_id      = #{memberId,jdbcType=BIGINT},
+            user_account   = #{userAccount,jdbcType=VARCHAR},
+            real_name      = #{realName,jdbcType=VARCHAR},
+            phone_number   = #{phoneNumber,jdbcType=VARCHAR},
+            opera_type     = #{operaType,jdbcType=INTEGER},
+            status         = #{status,jdbcType=INTEGER},
+            opera_mount    = #{operaMount,jdbcType=DECIMAL},
+            create_by      = #{createBy,jdbcType=VARCHAR},
+            create_time    = #{createTime,jdbcType=TIMESTAMP},
+            update_by      = #{updateBy,jdbcType=VARCHAR},
+            deal_time      = #{dealTime,jdbcType=TIMESTAMP},
+            channel_id     = #{channelId,jdbcType=BIGINT},
+            member_bank_id = #{memberBankId,jdbcType=BIGINT},
+            remark         = #{remark,jdbcType=VARCHAR},
+            is_delete      = #{isDelete,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>
