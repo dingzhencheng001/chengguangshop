@@ -16,6 +16,7 @@
     <result column="withdrawal_nim_order" jdbcType="INTEGER" property="withdrawalNimOrder" />
     <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
     <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
+      <result column="channel_id" jdbcType="BIGINT" property="channelId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.AppMemberLevel">
     <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
@@ -81,7 +82,7 @@
   <sql id="Base_Column_List">
     id, members_name, order_num, member_price, register_time, commission, members_level, 
     withdrawal_times, withdrawal_min, withdrawal_max, num_min, withdrawal_nim_order, 
-    auto_vip_xu_num, service_charge
+    auto_vip_xu_num, service_charge, channel_id
   </sql>
   <sql id="Blob_Column_List">
     pic
@@ -142,12 +143,12 @@
       register_time, commission, members_level, 
       withdrawal_times, withdrawal_min, withdrawal_max, 
       num_min, withdrawal_nim_order, auto_vip_xu_num, 
-      service_charge, pic)
+      service_charge, pic, channel_id)
     values (#{membersName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
       #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=DECIMAL}, #{membersLevel,jdbcType=INTEGER},
       #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=INTEGER}, #{withdrawalMax,jdbcType=INTEGER}, 
       #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
-      #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR})
+      #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR}, #{channelId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberLevel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -196,7 +197,9 @@
       </if>
       <if test="pic != null">
         pic,
-      </if>
+      </if><if test="channelId != null">
+        channel_id,
+    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="membersName != null">
@@ -241,6 +244,9 @@
       <if test="pic != null">
         #{pic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="channelId != null">
+            #{channelId,jdbcType=BIGINT},
+        </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberLevelExample" resultType="java.lang.Long">
@@ -297,6 +303,9 @@
       <if test="record.pic != null">
         pic = #{record.pic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="record.channelId != null">
+            channel_id = #{record.channelId,jdbcType=BIGINT},
+        </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -318,7 +327,7 @@
       withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
       service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
-      pic = #{record.pic,jdbcType=LONGVARCHAR}
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -338,7 +347,9 @@
       num_min = #{record.numMin,jdbcType=INTEGER},
       withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
-      service_charge = #{record.serviceCharge,jdbcType=DECIMAL}
+      service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -388,6 +399,9 @@
       <if test="pic != null">
         pic = #{pic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="channelId != null">
+            channel_id = #{channelId,jdbcType=BIGINT},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -406,7 +420,7 @@
       withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
       service_charge = #{serviceCharge,jdbcType=DECIMAL},
-      pic = #{pic,jdbcType=LONGVARCHAR}
+      channel_id = #{channelId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberLevel">
@@ -423,7 +437,8 @@
       num_min = #{numMin,jdbcType=INTEGER},
       withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
-      service_charge = #{serviceCharge,jdbcType=DECIMAL}
+      pic = #{pic,jdbcType=VARCHAR},
+      service_charge = #{serviceCharge,jdbcType=DECIMAL},
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

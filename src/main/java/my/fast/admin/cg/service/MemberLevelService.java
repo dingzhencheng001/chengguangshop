@@ -11,18 +11,14 @@ import my.fast.admin.cg.entity.AppMemberLevel;
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/11 14:34
+ * @since 2022/7/26 10:09
  */
-public interface AppMemberLevelService {
-    /**
-     * 获取所有会员等级信息
-     */
-    List<AppMemberLevel> listAll();
+public interface MemberLevelService {
 
     /**
      * 获取会员等级信息列表
      */
-    List<AppMemberLevel> listLevels(Integer pageNum, Integer pageSize);
+    List<AppMemberLevel> listLevels(Integer pageNum, Integer pageSize, Long channelId);
 
     /**
      * 删除会员等级
@@ -38,6 +34,6 @@ public interface AppMemberLevelService {
     /**
      * 新增会员等级
      */
-    int createLevels(AppMemberLevel appMemberLevel);
+    int createLevels(AppMemberLevel appMemberLevel, Long channelId);
 
 }

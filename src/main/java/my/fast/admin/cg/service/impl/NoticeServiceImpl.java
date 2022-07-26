@@ -10,26 +10,27 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.SysNotice;
 import my.fast.admin.cg.entity.SysNoticeExample;
 import my.fast.admin.cg.mapper.SysNoticeMapper;
-import my.fast.admin.cg.service.AppNoticeService;
+import my.fast.admin.cg.service.NoticeService;
 
 /**
  * TODO
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/18 16:06
+ * @since 2022/7/26 10:30
  */
 @Service
-public class AppNoticeServiceImpl implements AppNoticeService {
+public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     private SysNoticeMapper sysNoticeMapper;
 
-
     @Override
-    public List<SysNotice> getNoticeList(Integer pageNum, Integer pageSize) {
+    public List<SysNotice> getNoticeList(Integer pageNum, Integer pageSize, Long channelId) {
         PageHelper.startPage(pageNum, pageSize);
         SysNoticeExample sysNoticeExample = new SysNoticeExample();
+        sysNoticeExample.createCriteria()
+            .andChannelIdEqualTo(channelId);
         return sysNoticeMapper.selectByExample(sysNoticeExample);
     }
 
@@ -45,13 +46,9 @@ public class AppNoticeServiceImpl implements AppNoticeService {
     }
 
     @Override
-    public int createNotice(SysNotice sysNotice) {
+    public int createNotice(SysNotice sysNotice, Long channelId) {
+        sysNotice.setChannelId(channelId);
         return sysNoticeMapper.insertSelective(sysNotice);
     }
 
-    @Override
-    public List<SysNotice> getMemberNoticeList(Integer pageNum, Integer pageSize, Long memberId) {
-        PageHelper.startPage(pageNum, pageSize);
-        return sysNoticeMapper.getMemberNoticeList(memberId);
-    }
 }

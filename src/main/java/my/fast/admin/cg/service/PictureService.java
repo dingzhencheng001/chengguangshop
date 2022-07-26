@@ -15,14 +15,9 @@ public interface PictureService {
 
 
     /**
-     *  获取所有图片
-     */
-    List<AppPicture> listAll();
-
-    /**
      *  分页查询
      */
-    List<AppPicture> getPictureList(Integer pageNum, Integer pageSize);
+    List<AppPicture> getPictureList(Integer pageNum, Integer pageSize, Long channelId);
 
     /**
      *  删除图片
@@ -31,7 +26,7 @@ public interface PictureService {
     /**
      *  新增图片信息
      */
-    int createPicture(AppPicture appPicture);
+    int createPicture(AppPicture appPicture, Long channelId);
 
     /**
      *  修改图片信息

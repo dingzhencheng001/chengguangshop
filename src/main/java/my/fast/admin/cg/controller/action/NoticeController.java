@@ -1,6 +1,9 @@
 package my.fast.admin.cg.controller.action;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +16,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
+import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.entity.SysNotice;
-import my.fast.admin.cg.service.AppNoticeService;
+import my.fast.admin.cg.service.AppChannelService;
+import my.fast.admin.cg.service.NoticeService;
 
 /**
  * @author cgkj@cg.cn
@@ -27,22 +32,24 @@ import my.fast.admin.cg.service.AppNoticeService;
 public class NoticeController {
 
     @Autowired
-    private AppNoticeService appNoticeService;
+    private NoticeService NoticeService;
 
-    @ApiOperation(value = "获取全部消息通知")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<List<SysNotice>> getList() {
-        return CommonResult.success(appNoticeService.listAllNotice());
-    }
+    @Autowired
+    private AppChannelService appChannelService;
+
 
     @ApiOperation(value = "获取消息通知列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<SysNotice>> getNoticeList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        List<SysNotice> noticeList = appNoticeService.getNoticeList(pageNum, pageSize);
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
+        List<SysNotice> noticeList = NoticeService.getNoticeList(pageNum, pageSize,channelId);
         return CommonResult.success(CommonPage.restPage(noticeList));
     }
 
@@ -50,7 +57,7 @@ public class NoticeController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = appNoticeService.deleteNotice(id);
+        int count = NoticeService.deleteNotice(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -63,7 +70,7 @@ public class NoticeController {
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id, @RequestBody SysNotice sysNotice) {
         CommonResult commonResult;
-        int count = appNoticeService.updateNotice(id, sysNotice);
+        int count = NoticeService.updateNotice(id, sysNotice);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -75,9 +82,14 @@ public class NoticeController {
     @ApiOperation(value = "新增新消息通知")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody SysNotice sysNotice) {
+    public CommonResult create(@RequestBody SysNotice sysNotice,HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
-        int count = appNoticeService.createNotice(sysNotice);
+        int count = NoticeService.createNotice(sysNotice,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

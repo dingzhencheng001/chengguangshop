@@ -26,14 +26,12 @@ public class PictureServiceImpl implements PictureService {
     private AppPictureMapper appPictureMapper;
 
     @Override
-    public List<AppPicture> listAll() {
-        return appPictureMapper.selectByExample(new AppPictureExample());
-    }
-
-    @Override
-    public List<AppPicture> getPictureList(Integer pageNum, Integer pageSize) {
+    public List<AppPicture> getPictureList(Integer pageNum, Integer pageSize, Long channelId) {
         PageHelper.startPage(pageNum, pageSize);
-        return appPictureMapper.selectByExample(new AppPictureExample());
+        AppPictureExample appPictureExample = new AppPictureExample();
+        appPictureExample.createCriteria()
+            .andChannelIdEqualTo(channelId);
+        return appPictureMapper.selectByExample(appPictureExample);
     }
 
     @Override
@@ -42,7 +40,8 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public int createPicture(AppPicture appPicture) {
+    public int createPicture(AppPicture appPicture, Long channelId) {
+        appPicture.setChannelId(channelId);
         return appPictureMapper.insertSelective(appPicture);
     }
 

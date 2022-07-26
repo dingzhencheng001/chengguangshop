@@ -9,16 +9,13 @@ import my.fast.admin.cg.entity.SysNotice;
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/18 16:03
+ * @since 2022/7/26 10:29
  */
-public interface AppNoticeService {
-
-
+public interface NoticeService {
     /**
      * 获取消息通知
      */
-    List<SysNotice> getNoticeList(Integer pageNum, Integer pageSize);
-
+    List<SysNotice> getNoticeList(Integer pageNum, Integer pageSize, Long channelId);
 
     /**
      * 删除消息通知
@@ -33,10 +30,9 @@ public interface AppNoticeService {
     /**
      * 新增消息通知
      */
-    int createNotice(SysNotice sysNotice);
+    int createNotice(SysNotice sysNotice, Long channelId);
 
-    /**
-     * 获取个人消息通知
-     */
-    List<SysNotice> getMemberNoticeList(Integer pageNum, Integer pageSize, Long memberId);
+
+
+
 }

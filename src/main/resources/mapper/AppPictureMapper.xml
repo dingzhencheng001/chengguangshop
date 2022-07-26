@@ -11,6 +11,7 @@
     <result column="picture_id" jdbcType="VARCHAR" property="pictureId" />
     <result column="picture_name" jdbcType="VARCHAR" property="pictureName" />
     <result column="picture_path" jdbcType="VARCHAR" property="picturePath" />
+      <result column="channel_id" jdbcType="BIGINT" property="channelId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, picture_type, content, update_time, last_edit, show_type, picture_id, picture_name, 
-    picture_path
+    picture_path, channel_id
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppPictureExample" resultMap="BaseResultMap">
     select
@@ -110,10 +111,10 @@
     </selectKey>
     insert into app_picture (picture_type, content, update_time, 
       last_edit, show_type, picture_id, 
-      picture_name, picture_path)
+      picture_name, picture_path, channel_id)
     values (#{pictureType,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{lastEdit,jdbcType=VARCHAR}, #{showType,jdbcType=INTEGER}, #{pictureId,jdbcType=VARCHAR}, 
-      #{pictureName,jdbcType=VARCHAR}, #{picturePath,jdbcType=VARCHAR})
+      #{pictureName,jdbcType=VARCHAR}, #{picturePath,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppPicture">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -145,6 +146,9 @@
       <if test="picturePath != null">
         picture_path,
       </if>
+        <if test="channelId != null">
+            channel_id,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pictureType != null">
@@ -171,6 +175,9 @@
       <if test="picturePath != null">
         #{picturePath,jdbcType=VARCHAR},
       </if>
+        <if test="channelId != null">
+            #{channelId,jdbcType=BIGINT},
+        </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppPictureExample" resultType="java.lang.Long">
@@ -209,6 +216,9 @@
       <if test="record.picturePath != null">
         picture_path = #{record.picturePath,jdbcType=VARCHAR},
       </if>
+        <if test="record.channelId != null">
+            channel_id = #{record.channelId,jdbcType=BIGINT},
+        </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,7 +234,8 @@
       show_type = #{record.showType,jdbcType=INTEGER},
       picture_id = #{record.pictureId,jdbcType=VARCHAR},
       picture_name = #{record.pictureName,jdbcType=VARCHAR},
-      picture_path = #{record.picturePath,jdbcType=VARCHAR}
+      picture_path = #{record.picturePath,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -256,6 +267,9 @@
       <if test="picturePath != null">
         picture_path = #{picturePath,jdbcType=VARCHAR},
       </if>
+        <if test="channelId != null">
+            channel_id = #{channelId,jdbcType=BIGINT},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -268,7 +282,8 @@
       show_type = #{showType,jdbcType=INTEGER},
       picture_id = #{pictureId,jdbcType=VARCHAR},
       picture_name = #{pictureName,jdbcType=VARCHAR},
-      picture_path = #{picturePath,jdbcType=VARCHAR}
+      picture_path = #{picturePath,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
