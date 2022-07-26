@@ -138,4 +138,6 @@ public class AppMemberDto {
     @ApiModelProperty(value = "抢单次数")
     private Long lastQiang;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
 }

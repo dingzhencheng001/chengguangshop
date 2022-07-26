@@ -64,4 +64,7 @@ public class AppCommissionVo {
 
     @ApiModelProperty(value = "五级代理总佣金")
     private BigDecimal fiveLevelAgentTotalCommission;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
 }

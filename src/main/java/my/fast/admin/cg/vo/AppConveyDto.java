@@ -57,13 +57,23 @@ public class AppConveyDto implements Serializable {
     @ApiModelProperty(value = "0不卡卡1卡单")
     private String sign;
 
-    
     @ApiModelProperty(value = "商品NAME")
     private String goodsName;
     
     @ApiModelProperty(value = "商品名称")
     private String shopName;
-    
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public String getGoodsName() {
@@ -220,29 +230,11 @@ public class AppConveyDto implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberId=").append(memberId);
-        sb.append(", amount=").append(amount);
-        sb.append(", addtime=").append(addtime);
-        sb.append(", endtime=").append(endtime);
-        sb.append(", status=").append(status);
-        sb.append(", commission=").append(commission);
-        sb.append(", cStatus=").append(cStatus);
-        sb.append(", addId=").append(addId);
-        sb.append(", goodsId=").append(goodsId);
-        sb.append(", goodsCount=").append(goodsCount);
-        sb.append(", hid=").append(hid);
-        sb.append(", qiang=").append(qiang);
-        sb.append(", lno=").append(lno);
-        sb.append(", min=").append(min);
-        sb.append(", max=").append(max);
-        sb.append(", sign=").append(sign);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "AppConveyDto{" + "id=" + id + ", memberId=" + memberId + ", amount=" + amount + ", addtime=" + addtime
+            + ", endtime=" + endtime + ", status='" + status + '\'' + ", commission=" + commission + ", cStatus='"
+            + cStatus + '\'' + ", addId=" + addId + ", goodsId=" + goodsId + ", goodsCount='" + goodsCount + '\''
+            + ", hid='" + hid + '\'' + ", qiang=" + qiang + ", lno='" + lno + '\'' + ", min=" + min + ", max=" + max
+            + ", sign='" + sign + '\'' + ", goodsName='" + goodsName + '\'' + ", shopName='" + shopName + '\''
+            + ", channelId=" + channelId + '}';
     }
 }
