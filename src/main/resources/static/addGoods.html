@@ -98,7 +98,7 @@
         
         var onGetGoods = function () {
             $.request({
-                url: '/action/goods/' + params.id,
+                url: '/action/goods/select/' + params.id,
                 success: function (result) {
                     goodsInfo = result.data;
                     form.val('addForm', goodsInfo);
