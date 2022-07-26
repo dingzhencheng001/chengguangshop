@@ -121,7 +121,14 @@
             // tableCurrentItem = Object.assign({}, data);
 
             if (layEvent === 'edit') {
-
+                layer.open({
+                    type: 2,
+                    area: ['800px', '600px'],
+                    content: '/addGoods.html?id=' + data.id,
+                    end: function () {
+                        actions.onReloadData();
+                    }
+                });
             } else if (layEvent === 'del') {
                 layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
                     $.request({
@@ -139,12 +146,21 @@
 
         // 添加商品
         $('#createBtn').click(function () {
-            window.parent.layui.tab.tabAdd({
-                id: 'addGoods',
-                title: '添加商品',
-                icon: 'fa-file',
-                url: '/addGoods.html'
-            })
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'],
+                content: '/addGoods.html',
+                end: function () {
+                    console.warn('end');
+                    actions.onReloadData();
+                }
+            });
+            // window.parent.layui.tab.tabAdd({
+            //     id: 'addGoods',
+            //     title: '添加商品',
+            //     icon: 'fa-file',
+            //     url: '/addGoods.html'
+            // })
         })
 
     });

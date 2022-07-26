@@ -79,8 +79,8 @@
                 <textarea name="goodsInfo" placeholder="请输入" class="layui-textarea"></textarea>
             </div>
             <div class="layui-form-item text-center">
-                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" >保存商品</button>
-                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="cancel" type="button">取消编辑</button>
+                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn" >保存商品</button>
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="cancel" type="button">取消</button>
             </div>
         </div>
     </form>
@@ -91,6 +91,23 @@
         var upload = layui.upload;
         var layer = layui.layer;
         var form = layui.form;
+        var params = $.getUrlVars();
+        var type = params.id ? 'edit' : 'add';
+        $('#submitBtn').text(type === 'add' ? '创建商品' : '保存商品');
+        var goodsInfo = {};
+        
+        var onGetGoods = function () {
+            $.request({
+                url: '/action/goods/' + params.id,
+                success: function (result) {
+                    goodsInfo = result.data;
+                    form.val('addForm', goodsInfo);
+                }
+            })
+        }
+        if (type === 'edit') {
+            onGetGoods();
+        }
 
         //执行实例
         var uploadIndex;
@@ -119,13 +136,11 @@
             }
         });
 
-        // 保存
         var createIndex;
-        form.on('submit(submit)', function (data) {
-            if (createIndex) return;
-            var fd = Object.assign({}, data.field, {
+        var onAdd = function () {
+            var fd = Object.assign({}, form.val('addForm'), {
                 goodsPic: $('#upload-img').attr('src')
-            })
+            });
             delete fd.file;
             createIndex = layer.load(1); // loading
             $.request({
@@ -133,30 +148,61 @@
                 type: 'post',
                 data: fd,
                 success: function (result) {
-                    layer.msg('保存成功', {icon: 1});
+                    layer.msg('创建成功', {icon: 1});
+                    onCancel();
                 },
                 complete: function () {
                     layer.close(createIndex);
                     createIndex = null;
                 }
-            })
-            console.log('submit', data.field, fd);
-            // actions.onReloadData();
+            });
+        }
+        var onEdit = function () {
+            var fd = Object.assign({}, goodsInfo, form.val('addForm'), {
+                goodsPic: $('#upload-img').attr('src')
+            });
+            delete fd.file;
+            createIndex = layer.load(1); // loading
+            $.request({
+                url: '/action/goods/update/' + params.id,
+                type: 'post',
+                data: fd,
+                success: function (result) {
+                    layer.msg('保存成功', {icon: 1});
+                    onCancel();
+                },
+                complete: function () {
+                    layer.close(createIndex);
+                    createIndex = null;
+                }
+            });
+        }
+
+        // 保存
+        form.on('submit(submit)', function () {
+            if (createIndex) return false;
+            if (type === 'add') {
+                onAdd();
+            } else {
+                onEdit();
+            }
             return false;
         });
 
         // 取消编辑
         var onCancel = function () {
-            console.log('cancel');
             form.val('addForm', {
-                file: "",
+                // file: "",
                 goodsInfo: "",
                 goodsName: "",
                 goodsPrice: "",
                 shopName: "",
             })
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+            // window.parent
             // 返回到商品列表
-            window.parent.layui.tab.tabAdd({id: '2'})
+            // window.parent.layui.tab.tabAdd({id: '2'})
             return false;
         };
         form.on('submit(cancel)', onCancel);
