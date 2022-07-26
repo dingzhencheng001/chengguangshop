@@ -22,5 +22,5 @@ public interface AppGrabOrdersService {
      * 提交随机生成的商品订单
      */
     @Transactional
-    int submitOrders(AppGoods appGoods, Long memberId) throws Exception;
+    int submitOrders(AppGoods appGoods, Long memberId, Long channelId ) throws Exception;
 }
