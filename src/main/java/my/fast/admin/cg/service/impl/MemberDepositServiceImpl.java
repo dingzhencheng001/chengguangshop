@@ -71,9 +71,9 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     		type = 2 ;
     		System.out.println("负数 减少 ");
     		//余额计算
-            appMember.setBalance(CommonUtils.moneySub(appMember.getBalance(), depositParam.getOperaMount()));
+            appMember.setBalance(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
             //账变金额计算
-            appMemberAccountChange.setTotalMount(CommonUtils.moneySub(appMember.getBalance(), depositParam.getOperaMount()));
+            appMemberAccountChange.setTotalMount(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
     	}else{//充值
     		System.out.println("正数 充值");
     		appMember.setBalance(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
