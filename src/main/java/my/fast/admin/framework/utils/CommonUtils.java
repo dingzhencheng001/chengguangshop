@@ -1,5 +1,6 @@
 package my.fast.admin.framework.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -606,4 +607,41 @@ public class CommonUtils extends org.apache.commons.lang3.StringUtils
     
     
     
+    /**
+     * 金额相加
+     * @param valueStr 基础值
+     * @param minusValueStr 被加数
+     * @return
+     */
+    public static BigDecimal moneyAdd(BigDecimal value,BigDecimal augend){
+        return value.add(augend);
+    }
+    
+    /**
+     * 金额相减
+     * @param value 基础值
+     * @param subtrahend 减数
+     * @return
+     */
+    public static BigDecimal moneySub(BigDecimal value,BigDecimal subtrahend){
+        return value.subtract(subtrahend);
+    }
+    
+    /**
+    * 值比较大小
+    * <br/>如果valueStr大于等于compValueStr,则返回true,否则返回false
+    *  true 代表可用余额不足
+    * @param valueStr (需要消费金额)
+    * @param compValueStr (可使用金额)
+    * @return 
+    */
+   public static boolean moneyComp(BigDecimal valueStr,BigDecimal compValueStr){
+       //0:等于    >0:大于    <0:小于
+       int result = valueStr.compareTo(compValueStr);
+       if(result >= 0){
+           return true;
+       }else{
+           return false;
+       }
+   }
 }
