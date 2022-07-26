@@ -84,7 +84,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     @Override
-    public int submitOrders(AppGoods appGoods, Long memberId) throws Exception {
+    public int submitOrders(AppGoods appGoods, Long memberId , Long channelId) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -98,6 +98,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setCommission(GrabCommission);
         //设置商品订单id
         appConvey.setGoodsId(appGoods.getId());
+        //设置渠道id
+        appConvey.setChannelId(channelId);
         //设置会员id
         appConvey.setMemberId(appMember.getId());
         //生成订单号
