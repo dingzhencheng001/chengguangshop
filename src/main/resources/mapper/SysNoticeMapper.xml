@@ -5,6 +5,7 @@
     <id column="notice_id" jdbcType="BIGINT" property="noticeId" />
     <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
     <result column="notice_type" jdbcType="CHAR" property="noticeType" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
     <result column="status" jdbcType="CHAR" property="status" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -13,10 +14,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="notice_classes" jdbcType="INTEGER" property="noticeClasses" />
-      <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.SysNotice">
-    <result column="notice_content" jdbcType="LONGVARBINARY" property="noticeContent" />
+    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,28 +75,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    notice_id, notice_title, notice_type, status, create_by, create_time, update_by, 
-    update_time, remark, member_id, notice_classes, channel_id
+    notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, 
+    update_by, update_time, remark, member_id, notice_classes, channel_id
   </sql>
-  <sql id="Blob_Column_List">
-    notice_content
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.cg.entity.SysNoticeExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_notice
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.SysNoticeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -113,11 +92,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from sys_notice
     where notice_id = #{noticeId,jdbcType=BIGINT}
   </select>
@@ -133,15 +110,15 @@
   </delete>
   <insert id="insert" parameterType="my.fast.admin.cg.entity.SysNotice">
     insert into sys_notice (notice_id, notice_title, notice_type, 
-      status, create_by, create_time, 
-      update_by, update_time, remark, 
-      member_id, notice_classes, notice_content,channel_id
-      )
+      notice_content, status, create_by, 
+      create_time, update_by, update_time, 
+      remark, member_id, notice_classes, 
+      channel_id)
     values (#{noticeId,jdbcType=BIGINT}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeType,jdbcType=CHAR}, 
-      #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{memberId,jdbcType=BIGINT}, #{noticeClasses,jdbcType=INTEGER}, #{noticeContent,jdbcType=LONGVARBINARY},#{channelId,jdbcType=BIGINT}
-           )
+      #{noticeContent,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, #{noticeClasses,jdbcType=INTEGER}, 
+      #{channelId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.SysNotice">
     insert into sys_notice
@@ -154,6 +131,9 @@
       </if>
       <if test="noticeType != null">
         notice_type,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
       </if>
       <if test="status != null">
         status,
@@ -179,11 +159,8 @@
       <if test="noticeClasses != null">
         notice_classes,
       </if>
-        <if test="channelId != null">
-            channel_id,
-        </if>
-      <if test="noticeContent != null">
-        notice_content,
+      <if test="channelId != null">
+        channel_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -195,6 +172,9 @@
       </if>
       <if test="noticeType != null">
         #{noticeType,jdbcType=CHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=CHAR},
@@ -220,11 +200,8 @@
       <if test="noticeClasses != null">
         #{noticeClasses,jdbcType=INTEGER},
       </if>
-        <if test="channelId != null">
-            #{channelId,jdbcType=BIGINT},
-        </if>
-      <if test="noticeContent != null">
-        #{noticeContent,jdbcType=LONGVARBINARY},
+      <if test="channelId != null">
+        #{channelId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -234,11 +211,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="getMemberNoticeList" resultType="my.fast.admin.cg.entity.SysNotice" parameterType="long">
-    select * from sys_notice
-    WHERE member_id is null OR member_id= #{memberId,jdbcType=BIGINT}
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map">
     update sys_notice
     <set>
       <if test="record.noticeId != null">
@@ -249,6 +222,9 @@
       </if>
       <if test="record.noticeType != null">
         notice_type = #{record.noticeType,jdbcType=CHAR},
+      </if>
+      <if test="record.noticeContent != null">
+        notice_content = #{record.noticeContent,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=CHAR},
@@ -274,32 +250,10 @@
       <if test="record.noticeClasses != null">
         notice_classes = #{record.noticeClasses,jdbcType=INTEGER},
       </if>
-        <if test="record.channelId != null">
-            channel_id = #{record.channelId,jdbcType=BIGINT},
-        </if>
-      <if test="record.noticeContent != null">
-        notice_content = #{record.noticeContent,jdbcType=LONGVARBINARY},
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=BIGINT},
       </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update sys_notice
-    set notice_id = #{record.noticeId,jdbcType=BIGINT},
-      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
-      notice_type = #{record.noticeType,jdbcType=CHAR},
-      status = #{record.status,jdbcType=CHAR},
-      create_by = #{record.createBy,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_by = #{record.updateBy,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      member_id = #{record.memberId,jdbcType=BIGINT},
-      notice_classes = #{record.noticeClasses,jdbcType=INTEGER},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      notice_content = #{record.noticeContent,jdbcType=LONGVARBINARY}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -309,6 +263,7 @@
     set notice_id = #{record.noticeId,jdbcType=BIGINT},
       notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
       notice_type = #{record.noticeType,jdbcType=CHAR},
+      notice_content = #{record.noticeContent,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=CHAR},
       create_by = #{record.createBy,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -316,8 +271,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       member_id = #{record.memberId,jdbcType=BIGINT},
+      notice_classes = #{record.noticeClasses,jdbcType=INTEGER},
       channel_id = #{record.channelId,jdbcType=BIGINT}
-      notice_classes = #{record.noticeClasses,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +285,9 @@
       </if>
       <if test="noticeType != null">
         notice_type = #{noticeType,jdbcType=CHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=CHAR},
@@ -355,35 +313,17 @@
       <if test="noticeClasses != null">
         notice_classes = #{noticeClasses,jdbcType=INTEGER},
       </if>
-      <if test="noticeContent != null">
-        notice_content = #{noticeContent,jdbcType=LONGVARBINARY},
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=BIGINT},
       </if>
-        <if test="channelId != null">
-            channel_id = #{channelId,jdbcType=BIGINT},
-        </if>
     </set>
-    where notice_id = #{noticeId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.cg.entity.SysNotice">
-    update sys_notice
-    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
-      notice_type = #{noticeType,jdbcType=CHAR},
-      status = #{status,jdbcType=CHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR},
-      member_id = #{memberId,jdbcType=BIGINT},
-      notice_classes = #{noticeClasses,jdbcType=INTEGER},
-      channel_id = #{channelId,jdbcType=BIGINT},
-      notice_content = #{noticeContent,jdbcType=LONGVARBINARY}
     where notice_id = #{noticeId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.SysNotice">
     update sys_notice
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_type = #{noticeType,jdbcType=CHAR},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

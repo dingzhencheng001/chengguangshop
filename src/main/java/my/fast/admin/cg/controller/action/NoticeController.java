@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,6 +96,13 @@ public class NoticeController {
         }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
+        sysNotice.setStatus("0");
+        if(sysNotice.getNoticeClasses()==null){
+        	sysNotice.setNoticeClasses(3);//其他通知
+        }
+        if(sysNotice.getNoticeType()==null){
+        	sysNotice.setNoticeType("1");//通知
+        }
         int count = NoticeService.createNotice(sysNotice,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);

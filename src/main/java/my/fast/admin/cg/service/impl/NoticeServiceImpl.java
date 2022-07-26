@@ -11,6 +11,7 @@ import my.fast.admin.cg.entity.SysNotice;
 import my.fast.admin.cg.entity.SysNoticeExample;
 import my.fast.admin.cg.mapper.SysNoticeMapper;
 import my.fast.admin.cg.service.NoticeService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -48,6 +49,10 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int createNotice(SysNotice sysNotice, Long channelId) {
         sysNotice.setChannelId(channelId);
+        sysNotice.setCreateBy("admin");
+        sysNotice.setCreateTime(DateFormat.getNowDate());
+        sysNotice.setUpdateBy("admin");
+        sysNotice.setUpdateTime(DateFormat.getNowDate());
         return sysNoticeMapper.insertSelective(sysNotice);
     }
 

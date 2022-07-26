@@ -43,7 +43,7 @@ public class SysNotice implements Serializable {
     private Long channelId;
 
     @ApiModelProperty(value = "公告内容")
-    private byte[] noticeContent;
+    private String noticeContent;
 
     private static final long serialVersionUID = 1L;
 
@@ -143,13 +143,7 @@ public class SysNotice implements Serializable {
         this.channelId = channelId;
     }
 
-    public byte[] getNoticeContent() {
-        return noticeContent;
-    }
-
-    public void setNoticeContent(byte[] noticeContent) {
-        this.noticeContent = noticeContent;
-    }
+   
 
     @Override
     public String toString() {
@@ -174,4 +168,12 @@ public class SysNotice implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+
+	public String getNoticeContent() {
+		return noticeContent;
+	}
+
+	public void setNoticeContent(String noticeContent) {
+		this.noticeContent = noticeContent;
+	}
 }
