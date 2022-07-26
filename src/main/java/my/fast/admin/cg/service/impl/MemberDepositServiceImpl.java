@@ -65,11 +65,21 @@ public class MemberDepositServiceImpl implements MemberDepositService {
 				throw new Exception("会员不存在");
 			} catch (Exception e) {
 				e.printStackTrace();
+				return 0;
 			}
         }
     	if(depositParam.getOperaMount().compareTo(BigDecimal.ZERO)==-1){//减少
     		type = 2 ;
     		System.out.println("负数 减少 ");
+    		//余额判断
+    		if(CommonUtils.moneyComp(appMember.getBalance(), depositParam.getOperaMount())){
+    			try {
+					throw new Exception("余额不足，无法扣减");
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
+    		}
     		//余额计算
             appMember.setBalance(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
             //账变金额计算
