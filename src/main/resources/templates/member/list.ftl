@@ -346,7 +346,7 @@
         </form>
     </div>
 
-    银行卡信息
+    <#--银行卡信息-->
     <div id="bankCardInfoId" style="display: none">
         <form class="layui-form layui-card" lay-filter="bankCardInfoForm" >
             <div class="layui-card-body">

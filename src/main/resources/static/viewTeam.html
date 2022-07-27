@@ -124,7 +124,7 @@
         });
 
         var where = {
-            level: 1,
+            memberLevel: 1,
             memberId: params.id,
         }
 
@@ -219,17 +219,17 @@
 
         $('.layui-tab-title li').click(function () {
             if ($(this).text() === 'Ta的下线') {
-                where.level = 0;
+                where.memberLevel = 0;
             } else if ($(this).text() === '一级会员') {
-                where.level = 1;
+                where.memberLevel = 1;
             } else if ($(this).text() === '二级会员') {
-                where.level = 2;
+                where.memberLevel = 2;
             } else if ($(this).text() === '三级会员') {
-                where.level = 3;
+                where.memberLevel = 3;
             } else if ($(this).text() === '四级会员') {
-                where.level = 4;
+                where.memberLevel = 4;
             } else if ($(this).text() === '五级会员') {
-                where.level = 5;
+                where.memberLevel = 5;
             }
             actions.onReloadData();
         })
