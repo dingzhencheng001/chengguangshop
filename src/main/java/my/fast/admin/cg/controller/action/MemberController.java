@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,10 +32,8 @@ import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.AppTeamReportService;
 import my.fast.admin.cg.vo.AppMemberVo;
-import my.fast.admin.framework.shiro.ShiroUtils;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.DateFormat;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author cgkj@cg.cn
@@ -221,5 +220,16 @@ public class MemberController {
         return CommonResult.success(CommonPage.restPage(voList));
     }
     
+    
+    @ApiOperation(value = "获取会员个人信息")
+    @RequestMapping(value = "/memberInfo/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult memberCountInfo(@PathVariable("id") Long id,HttpServletRequest request) {
+    	AppMember memberInfo = appMemberService.selectAppMemberByUserId(id);//根据主键获取会员信息
+        if (memberInfo == null) {
+            return CommonResult.failed("用户信息不存在");
+        }
+        return CommonResult.success(memberInfo);
+    }
 
 }
