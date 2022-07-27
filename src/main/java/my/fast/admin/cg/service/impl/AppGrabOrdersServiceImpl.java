@@ -123,17 +123,22 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         }
         //设置抢单数
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
-        Long qiang = appConveys.stream()
-            .map(e -> e.getQiang())
-            .reduce(Long::max)
-            .get();
-        appConvey.setQiang(qiang + 1);
+        if (null == appConveys || appConveys.size() ==0){
+            appConvey.setQiang(1L);
+        }else {
+            Long qiang = appConveys.stream()
+                .map(e -> e.getQiang())
+                .reduce(Long::max)
+                .get();
+            appConvey.setQiang(qiang + 1);
+        }
         //修改会员余额金额
         AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
         appMemberBalanceParam.setMemberId(memberId);
         appMemberBalanceParam.setGoodsPrice(goodsPrice);
         appMemberBalanceParam.setBalance(appMember.getBalance());
         appMemberBalanceParam.setGrabCommission(GrabCommission);
+        appMemberBalanceParam.setChannelId(channelId);
         appMemberMapper.updateMemberBalance(appMemberBalanceParam);
         //查询parentAgent
         appMemberMapper.selectParent();
@@ -152,6 +157,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
         Date date = new Date(System.currentTimeMillis());
         appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setChannelId(channelId);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
