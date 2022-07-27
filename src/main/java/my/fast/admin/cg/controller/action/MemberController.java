@@ -225,6 +225,15 @@ public class MemberController {
     @RequestMapping(value = "/memberInfo/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult memberCountInfo(@PathVariable("id") Long id,HttpServletRequest request) {
+    	//根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
+        log.info("域名 ：tempContextUrl: "+  tempContextUrl);
+        
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
     	AppMember memberInfo = appMemberService.selectAppMemberByUserId(id);//根据主键获取会员信息
         if (memberInfo == null) {
             return CommonResult.failed("用户信息不存在");
