@@ -218,7 +218,7 @@
         select
         <include refid="Base_Column_List"/>
         from app_member_bank
-        where id = #{id,jdbcType=BIGINT}
+        where member_id = #{memberId,jdbcType=BIGINT}
         and channel_id =#{channelId,jdbcType=BIGINT}
     </select>
     <update id="updateByExampleSelective" parameterType="map">

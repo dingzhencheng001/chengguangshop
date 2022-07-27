@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
-import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAddress;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.MemberAddressParam;
@@ -31,7 +30,7 @@ import my.fast.admin.cg.service.MemberAddressService;
 @Slf4j
 @Controller
 @Api(tags = "MemberAddressController", description = "会员收货地址管理")
-@RequestMapping("/address/action")
+@RequestMapping("/action/address")
 public class MemberAddressController {
 	
     @Autowired
@@ -114,8 +113,21 @@ public class MemberAddressController {
     @ApiOperation(value = "查询会员地址信息")
     @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getMemberAddress(@PathVariable("id") Long id,HttpServletRequest request) {
-        AppMemberAddress appMemberAddress = memberAddressService.getMemberAddress(id);
+    public CommonResult getMemberAddress(@PathVariable("id") Long memberId,HttpServletRequest request) {
+    	//根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        AppMemberAddress appMemberAddress = memberAddressService.getMemberAddress(memberId,channelId);
     	return CommonResult.success(appMemberAddress);
     }
     

@@ -26,7 +26,6 @@ layui.config({
             url: '/sys/menu/user?t=' + new Date().getTime()
         }
     }).render(function (data) {
-        console.log('1', data);
         tab.tabAdd(data);
     });
 

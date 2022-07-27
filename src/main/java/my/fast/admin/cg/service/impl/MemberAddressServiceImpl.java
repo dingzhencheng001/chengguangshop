@@ -62,4 +62,9 @@ public class MemberAddressServiceImpl implements MemberAddressService {
 	public int createAddress(AppMemberAddress appMemberAddress) {
 		return appMemberAddressMapper.insertSelective(appMemberAddress);
 	}
+
+	@Override
+	public AppMemberAddress getMemberAddress(Long memberId, Long channelId) {
+		return appMemberAddressMapper.selectByMemberIdAndChannelId(memberId,channelId);
+	}
 }

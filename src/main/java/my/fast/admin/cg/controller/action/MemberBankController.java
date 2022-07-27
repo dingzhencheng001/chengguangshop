@@ -24,8 +24,6 @@ import my.fast.admin.cg.service.AppMemberBankService;
 import my.fast.admin.cg.service.MemberBankService;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 15:09
@@ -95,7 +93,7 @@ public class MemberBankController {
     @ApiOperation(value = "查询会员银行卡信息")
     @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getMemberBank(@PathVariable("id") Long id, HttpServletRequest request) {
+    public CommonResult getMemberBank(@PathVariable("id") Long memberId, HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -109,7 +107,7 @@ public class MemberBankController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        AppMemberBank appMemberBank = MemberBankService.getMemberBank(id, channelId);
+        AppMemberBank appMemberBank = MemberBankService.getMemberBank(memberId, channelId);
         return CommonResult.success(appMemberBank);
     }
 

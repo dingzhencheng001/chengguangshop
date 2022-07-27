@@ -26,9 +26,9 @@ public interface MemberBankService {
     int deleteBanks(Long id, Long channelId);
 
     /**
-     * 获取银行卡信息
+     * 获取会员银行卡信息
      */
-    AppMemberBank getMemberBank(Long id, Long channelId);
+    AppMemberBank getMemberBank(Long memberId, Long channelId);
 
 
 

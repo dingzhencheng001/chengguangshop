@@ -18,7 +18,7 @@ public interface MemberAccountChangeService {
     /**
      * 获取个人账户变更列表
      */
-    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId);
+    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId);
     /**
      * 删除用户账变信息
      */
