@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.github.pagehelper.PageHelper;
+
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberAccountChangeExample;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
@@ -28,6 +30,7 @@ public class MemberAccountChangeServiceImpl implements MemberAccountChangeServic
     @Override
     public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId,
         AccountChangeParam accountChangeParam) {
+        PageHelper.startPage(pageNum, pageSize);
         AppMemberAccountChangeExample appMemberAccountChangeExample = new AppMemberAccountChangeExample();
         AppMemberAccountChangeExample.Criteria criteria = appMemberAccountChangeExample.createCriteria();
         criteria.andChannelIdEqualTo(channelId);
