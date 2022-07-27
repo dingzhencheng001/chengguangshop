@@ -8,7 +8,9 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberExample;
 import my.fast.admin.cg.model.AppMemberBalancePram;
 import my.fast.admin.cg.model.AppMemberParam;
+import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberVo;
 
 public interface AppMemberMapper {
     long countByExample(AppMemberExample example);
@@ -103,7 +105,15 @@ public interface AppMemberMapper {
     /**
      * 获取下级团队信息
      *
-     * @param id ，level 
+     * @param memberId ，level
      */
     List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("level")Long level,@Param("channelId")Long channelId);
+
+
+    /**
+     * 分页查询
+     * @param channelId
+     * @param memberParams
+     */
+    List<AppMemberVo> selectPage(@Param("channelId")Long channelId, @Param("memberParams")MemberParams memberParams);
 }

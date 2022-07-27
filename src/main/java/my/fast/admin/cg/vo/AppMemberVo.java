@@ -149,7 +149,39 @@ public class AppMemberVo implements Serializable {
     
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
-    
+
+    @ApiModelProperty(value = "会员等级")
+    private Integer membersLevel;
+
+    @Override
+    public String toString() {
+        return "AppMemberVo{" + "id=" + id + ", memberLevelId=" + memberLevelId + ", userAccount='" + userAccount + '\''
+            + ", nickName='" + nickName + '\'' + ", realName='" + realName + '\'' + ", idCardNum='" + idCardNum + '\''
+            + ", idStatus=" + idStatus + ", balance=" + balance + ", freezeBalance=" + freezeBalance + ", rechargeNum="
+            + rechargeNum + ", depositNum=" + depositNum + ", deductionNum=" + deductionNum + ", matching='" + matching
+            + '\'' + ", password='" + password + '\'' + ", parentUserId=" + parentUserId + ", parentUserName='"
+            + parentUserName + '\'' + ", isAgent=" + isAgent + ", agentLevel=" + agentLevel + ", status=" + status
+            + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", delFlag=" + delFlag
+            + ", loginIp='" + loginIp + '\'' + ", loginDate=" + loginDate + ", createBy='" + createBy + '\''
+            + ", createTime=" + createTime + ", updateBy='" + updateBy + '\'' + ", updateTime=" + updateTime
+            + ", remark='" + remark + '\'' + ", inviteCode='" + inviteCode + '\'' + ", dealStatus=" + dealStatus
+            + ", dealError=" + dealError + ", dealRewardCount=" + dealRewardCount + ", dealCount=" + dealCount
+            + ", dealTime=" + dealTime + ", active=" + active + ", matchMin=" + matchMin + ", matchMax=" + matchMax
+            + ", registrationTime=" + registrationTime + ", memberStatus=" + memberStatus + ", registerIp='"
+            + registerIp + '\'' + ", registerCountry='" + registerCountry + '\'' + ", topPic='" + topPic + '\''
+            + ", botPic='" + botPic + '\'' + ", todaySum=" + todaySum + ", totalCommission=" + totalCommission
+            + ", channelId=" + channelId + ", membersLevel=" + membersLevel + ", levelList=" + levelList
+            + ", agentList=" + agentList + '}';
+    }
+
+    public Integer getMembersLevel() {
+        return membersLevel;
+    }
+
+    public void setMembersLevel(Integer membersLevel) {
+        this.membersLevel = membersLevel;
+    }
+
     //会员等级列表
     private List<AppMemberLevel> levelList;
     
@@ -551,61 +583,4 @@ public class AppMemberVo implements Serializable {
 		this.channelId = channelId;
 	}
 
-	@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", memberLevelId=").append(memberLevelId);
-        sb.append(", userAccount=").append(userAccount);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", realName=").append(realName);
-        sb.append(", idCardNum=").append(idCardNum);
-        sb.append(", idStatus=").append(idStatus);
-        sb.append(", balance=").append(balance);
-        sb.append(", freezeBalance=").append(freezeBalance);
-        sb.append(", rechargeNum=").append(rechargeNum);
-        sb.append(", depositNum=").append(depositNum);
-        sb.append(", deductionNum=").append(deductionNum);
-        sb.append(", matching=").append(matching);
-        sb.append(", password=").append(password);
-        sb.append(", parentUserId=").append(parentUserId);
-        sb.append(", parentUserName=").append(parentUserName);
-        sb.append(", isAgent=").append(isAgent);
-        sb.append(", agentLevel=").append(agentLevel);
-        sb.append(", status=").append(status);
-        sb.append(", email=").append(email);
-        sb.append(", phoneNumber=").append(phoneNumber);
-        sb.append(", delFlag=").append(delFlag);
-        sb.append(", loginIp=").append(loginIp);
-        sb.append(", loginDate=").append(loginDate);
-        sb.append(", createBy=").append(createBy);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateBy=").append(updateBy);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", remark=").append(remark);
-        sb.append(", inviteCode=").append(inviteCode);
-        sb.append(", dealStatus=").append(dealStatus);
-        sb.append(", dealError=").append(dealError);
-        sb.append(", dealRewardCount=").append(dealRewardCount);
-        sb.append(", dealCount=").append(dealCount);
-        sb.append(", dealTime=").append(dealTime);
-        sb.append(", active=").append(active);
-        sb.append(", matchMin=").append(matchMin);
-        sb.append(", matchMax=").append(matchMax);
-        sb.append(", registrationTime=").append(registrationTime);
-        sb.append(", memberStatus=").append(memberStatus);
-        sb.append(", registerIp=").append(registerIp);
-        sb.append(", registerCountry=").append(registerCountry);
-        sb.append(", topPic=").append(topPic);
-        sb.append(", botPic=").append(botPic);
-        sb.append(", todaySum=").append(todaySum);
-        sb.append(", totalCommission=").append(totalCommission);
-        sb.append(", channelId=").append(channelId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

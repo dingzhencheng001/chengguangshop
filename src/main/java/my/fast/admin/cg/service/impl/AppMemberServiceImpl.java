@@ -16,8 +16,10 @@ import my.fast.admin.cg.entity.AppMemberExample;
 import my.fast.admin.cg.mapper.AppConveyMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.model.AppMemberParam;
+import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.framework.utils.CommonUtils;
 
 /**
@@ -42,9 +44,9 @@ public class AppMemberServiceImpl implements AppMemberService {
     }
 
     @Override
-    public List<AppMember> listMember(AppMember appMember, Integer pageNum, Integer pageSize) {
+    public  List<AppMemberVo> listMember(Long channelId, MemberParams memberParams, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        AppMemberExample appMemberExample = new AppMemberExample();
+       /* AppMemberExample appMemberExample = new AppMemberExample();
         AppMemberExample.Criteria criteria = appMemberExample.createCriteria();
         criteria.andChannelIdEqualTo(appMember.getChannelId());//查询范围为 当前渠道数据
         if (!StringUtils.isEmpty(appMember.getStatus().toString())) {
@@ -55,9 +57,8 @@ public class AppMemberServiceImpl implements AppMemberService {
         }
         if (!StringUtils.isEmpty(appMember.getPhoneNumber())) {
             criteria.andPhoneNumberLike("%" + appMember.getPhoneNumber() + "%");
-        }
-       
-        return appMemberMapper.selectByExample(appMemberExample);
+        }*/
+        return appMemberMapper.selectPage(channelId,memberParams);
     }
 
     @Override

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberVo;
 
 /**
  * TODO
@@ -24,7 +26,7 @@ public interface AppMemberService {
     /**
      * 分页查询
      */
-    List<AppMember> listMember(AppMember appMember, Integer pageNum, Integer pageSize);
+    List<AppMemberVo> listMember(Long channelId, MemberParams memberParams, Integer pageNum, Integer pageSize);
 
     /**
      * 删除会员
@@ -103,4 +105,6 @@ public interface AppMemberService {
      * 获取会员个人信息
      */
     AppMemberDto selectAppMemberCountByPrimary(Long id);
+
+
 }

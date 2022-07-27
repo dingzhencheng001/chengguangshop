@@ -758,6 +758,37 @@
  			and
             t.channel_id = #{channelId,jdbcType=BIGINT}
     </select>
+    <select id="selectPage" resultType="my.fast.admin.cg.vo.AppMemberVo">
+        SELECT
+            m.*,
+            ml.members_level
+        FROM
+            app_member m
+                LEFT JOIN app_member_level ml ON m.member_level_id = ml.id
+        where m.channel_Id = #{channelId,jdbcType=BIGINT}
+        <if test="memberParams.memberStatus != null">
+            and
+            m.member_status = #{memberParams.memberStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="memberParams.selectBeginTime != null">
+            and
+            m.registration_time BETWEEN #{memberParams.selectBeginTime,jdbcType=TIMESTAMP} and #{memberParams.selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="memberParams.keyword != null">
+            and
+            m.phone_number like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="memberParams.keyword != null">
+            or
+            m.user_account like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="memberParams.keyword != null">
+            or
+            m.register_ip like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
+        </if>
+
+
+    </select>
 
 
 </mapper>
