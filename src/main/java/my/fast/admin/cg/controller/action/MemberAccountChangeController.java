@@ -44,14 +44,17 @@ public class MemberAccountChangeController {
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,HttpServletRequest request) {
-        //根据域名获取渠道号
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,HttpServletRequest request,@PathVariable("memberId") Long memberId) {
+    	if(memberId==null){
+    		return CommonResult.failed("上送会员ID为空");
+    	}
+    	//根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         Long channelId = sysChannel.getChannelId();
         List<AppMemberAccountChange> appMemberAccountChangeList = memberAccountChangeService.getMemberList(
-            pageNum, pageSize, channelId);
+            pageNum, pageSize, channelId,memberId);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }
 

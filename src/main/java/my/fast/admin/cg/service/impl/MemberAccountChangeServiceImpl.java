@@ -25,10 +25,11 @@ public class MemberAccountChangeServiceImpl implements MemberAccountChangeServic
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
 
     @Override
-    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId) {
+    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId) {
         AppMemberAccountChangeExample appMemberAccountChangeExample = new AppMemberAccountChangeExample();
         AppMemberAccountChangeExample.Criteria criteria = appMemberAccountChangeExample.createCriteria();
         criteria.andChannelIdEqualTo(channelId);
+        criteria.andMemberIdEqualTo(memberId);
         return appMemberAccountChangeMapper.selectByExample(appMemberAccountChangeExample);
 
     }
