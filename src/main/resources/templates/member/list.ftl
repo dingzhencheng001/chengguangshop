@@ -282,7 +282,7 @@
 
     <!--    创建会员-->
     <div id="createId" style="display: none">
-        <form class="layui-form layui-card" >
+        <form class="layui-form layui-card" lay-filter="createForm" >
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
@@ -346,7 +346,7 @@
         </form>
     </div>
 
-    <#--银行卡信息-->
+    <!--银行卡信息-->
     <div id="bankCardInfoId" style="display: none">
         <form class="layui-form layui-card" lay-filter="bankCardInfoForm" >
             <div class="layui-card-body">
@@ -431,7 +431,7 @@
 <script type="text/html" id="register">
     <div>
         <p>{{ layui.util.toDateString(d.registrationTime, 'yyyy-MM-dd')}}</p>
-        <p>{{ d.registerCountry}}</p>
+        <p>{{ d.registerCountry}}{{ d.registerIp ? '(' + d.registerIp +')' : ''}}</p>
     </div>
 </script>
 
