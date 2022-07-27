@@ -16,13 +16,13 @@
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">关键词</label>
                     <div class="layui-input-inline">
-                        <input name="phoneNumber" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
+                        <input name="keyword" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">注册时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
+                        <input type="text" name="time" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
@@ -251,7 +251,7 @@
 
     <!--地址信息-->
     <div id="addressInfoId" style="display: none">
-        <form class="layui-form layui-card" action="" lay-filter="addressInfoForm">
+        <form class="layui-form layui-card" lay-filter="addressInfoForm" autocomplete="off">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label">收货姓名</label>
@@ -262,13 +262,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">收货手机</label>
                     <div class="layui-input-block">
-                        <input name="tel" required="" value="" placeholder="请输入收货手机" class="layui-input"/>
+                        <input name="tel" lay-verify="phone" value="" placeholder="请输入收货手机" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">详细地址</label>
                     <div class="layui-input-block">
-                        <input name="address" required="" value="" placeholder="请输入详细地址" class="layui-input"/>
+                        <input name="address" lay-verify="required" value="" placeholder="请输入详细地址" class="layui-input"/>
                     </div>
                 </div>
             </div>
@@ -346,6 +346,50 @@
         </form>
     </div>
 
+    银行卡信息
+    <div id="bankCardInfoId" style="display: none">
+        <form class="layui-form layui-card" lay-filter="bankCardInfoForm" >
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">开户名</label>
+                    <div class="layui-input-block">
+                        <input name="accountName" placeholder="请输入开户名" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行名称</label>
+                    <div class="layui-input-block">
+                        <input name="bankName" placeholder="请输入银行名称" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行编号</label>
+                    <div class="layui-input-block">
+                        <input name="bankNumber" placeholder="请输入银行编号" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行卡号</label>
+                    <div class="layui-input-block">
+                        <input name="cardNum" type="number" placeholder="请输入银行卡号" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行所在国家</label>
+                    <div class="layui-input-block">
+                        <input name="bankCountry" placeholder="请输入银行所在国家" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="bankCardInfoSubmit">提交</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="bankCardInfoCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <!--账号-->
@@ -361,7 +405,7 @@
 <script type="text/html" id="memberLevelId">
     <div>
         <div>{{=d.memberLevelId}}</div>
-        <div style="color: red">0% - 0%</div>
+        <!--        <div style="color: red">0% - 0%</div>-->
     </div>
 </script>
 
@@ -395,17 +439,17 @@
 <script type="text/html" id="operation">
     <span style="display: inline-block">
         <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
-        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
+        <!--        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>-->
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
     </span>
     <span style="display: inline-block">
         <a class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</a>
         <a class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</a>
         <a class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
     </span>
 </script>

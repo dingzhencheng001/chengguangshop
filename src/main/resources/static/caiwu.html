@@ -37,7 +37,9 @@
         <div class="think-box-shadow">
             <div class="layui-card-header layui-anim layui-anim-fadein notselect">
                 <span class="layui-icon layui-icon-next font-s10 color-desc margin-right-5"></span>
-                当前用户: 新增无上级(15969695452)
+                当前用户:
+                <span id="nickName"></span>
+                <span id="phoneNumber"></span>
                 <div class="pull-right"></div>
             </div>
             <div class="layui-form-item layui-inline" style="margin-right: 10px"><a
@@ -46,25 +48,22 @@
                 <legend>条件搜索</legend>
                 <form class="layui-form layui-form-pane form-search" lay-filter="searchForm"
                       autocomplete="off">
+<!--                    operaType: null, // 操作类型【1.充值 2.减少 3.冻结 4.提取】-->
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">类型</label>
                         <div class="layui-input-inline">
-                            <select name="type" id="selectList">
+                            <select name="operaType">
                                 <option value="">所有状态</option>
-                                <option value="-1">系统</option>
                                 <option value="1">充值</option>
-                                <option value="2">交易</option>
-                                <option value="3">返佣</option>
-                                <option value="4">强制交易</option>
-                                <option value="5">推广返佣</option>
-                                <option value="6">下级交易返佣</option>
-                                <option value="7">提现</option>
+                                <option value="2">减少</option>
+                                <option value="3">冻结</option>
+                                <option value="4">提取</option>
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline"><label class="layui-form-label">发生时间</label>
                         <div class="layui-input-inline">
-                            <input data-date-range="" name="addtime" value="" id="timeInput"
+                            <input data-date-range="" name="time" value="" id="timeInput"
                                    placeholder="请选择注册时间" class="layui-input"
                                    autocomplete="off"  >
                         </div>
@@ -106,19 +105,25 @@
         console.log('params', params);
 
         $.request({
-            url: '/action/member/list/' + memberId,
-            // type: 'post',
-            // data: {
-            //     id: '11'
-            // },
+            url: '/action/member/memberInfo/' + memberId,
             success: function (result) {
-                console.log('res', result);
+                if (result.data) {
+                    var nickName = result.data.userAccount;
+                    var phoneNumber = result.data.phoneNumber;
+                    $('#nickName').text(nickName);
+                    $('#phoneNumber').text('(' + phoneNumber + ')');
+                } else {
+                    layer.msg(result.message || result.msg, {icon: 2});
+                }
             }
         })
 
         var tableId = '#demo0';
         var where = {
-            memberId: memberId,
+            memberId: Number(memberId),
+            // accountChangeParam: {
+                // operaType: null, // 操作类型【1.充值 2.减少 3.冻结 4.提取】
+            // },
         };
         //第一个实例
         table.render(Object.assign({}, $.tableRenderConfing, {
@@ -128,7 +133,7 @@
             totalRow: true,
             method: 'post',
             contentType: 'application/json',
-            url: 'http://localhost:8080/action/account/list' + '?memberId=' + memberId, //数据接口
+            url: 'http://localhost:8080/action/account/list/'+ memberId, //数据接口
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
@@ -157,10 +162,19 @@
 
         var actions = {
             onReloadData: function () {
-                var searchData = form.val('searchForm');
-                console.log('searchData', searchData);
-                table.reloadData(tableId, {where: Object.assign({}, where, searchData)});
+                table.reloadData(tableId, {where: Object.assign({}, where, onGetSearchParams())});
             }
+        }
+
+        // 获取搜索参数
+        var onGetSearchParams = function () {
+            var searchData = form.val('searchForm');
+            var times = $.getRangeTime(searchData.time);
+            searchData.operaType = Number(searchData.operaType) || null;
+            searchData.selectBeginTime = times[0];
+            searchData.selectEndTime = times[1];
+            delete searchData.time;
+            return searchData;
         }
 
         // 搜索

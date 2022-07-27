@@ -57,9 +57,14 @@ jQuery.download = function (url, method, id) {
  * @param {errorCallback} [options.error] - 请求失败
  * @param {completeCallback} [options.complete] - 请求完成时运行的函数
  * @param {String} [options.contentType=application/json] - contentType
+ * @param {Boolean} [options.showLoading] - 显示loading
  */
 jQuery.request = function (options) {
     var data = typeof options.data === 'object' ? JSON.stringify(options.data) : options.data;
+    var loadingIndex = null;
+    if (options.showLoading) {
+        loadingIndex = layer.load(1); // loading
+    }
     return $.ajax(Object.assign({}, options, {
         // url: options.url,
         url: 'http://localhost:8080' + options.url, // 开发环境使用
@@ -76,7 +81,6 @@ jQuery.request = function (options) {
                     layer.msg(result.message || result.msg, {icon: 2});
                 }
             }
-            options.complete && options.complete(status, xhr);
         },
         error: function (xhr,status,error) {
             if (options.error) {
@@ -84,6 +88,11 @@ jQuery.request = function (options) {
             } else {
                 layer.msg('请求错误', {icon: 2});
             }
+        },
+        complete: function (status, xhr) {
+            layer.close(loadingIndex);
+            loadingIndex = null;
+            options.complete && options.complete(status, xhr);
         }
     }))
 };
@@ -166,4 +175,20 @@ $.tableRenderConfing = {
  */
 $.getFileFullPath = function (path) {
     return 'https://sgp1.digitaloceanspaces.com/ppp/' + path;
-} 
+}
+
+/**
+ * 获取起止时间
+ * @param str
+ * @returns {[string,string]}
+ */
+$.getRangeTime = function (str) {
+    if (!str) {
+        return  ['', ''];
+    }
+    var start, end;
+    var a = str.split(' - ');
+    start = a[0] || '';
+    end = a[1] || '';
+    return [start, end]
+}

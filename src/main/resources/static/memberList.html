@@ -40,13 +40,13 @@
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">关键词</label>
                     <div class="layui-input-inline">
-                        <input name="phoneNumber" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
+                        <input name="keyword" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">注册时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
+                        <input type="text" name="time" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
@@ -275,7 +275,7 @@
 
     <!--地址信息-->
     <div id="addressInfoId" style="display: none">
-        <form class="layui-form layui-card" action="" lay-filter="addressInfoForm">
+        <form class="layui-form layui-card" lay-filter="addressInfoForm" autocomplete="off">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label">收货姓名</label>
@@ -286,13 +286,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">收货手机</label>
                     <div class="layui-input-block">
-                        <input name="tel" required="" value="" placeholder="请输入收货手机" class="layui-input"/>
+                        <input name="tel" lay-verify="phone" value="" placeholder="请输入收货手机" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">详细地址</label>
                     <div class="layui-input-block">
-                        <input name="address" required="" value="" placeholder="请输入详细地址" class="layui-input"/>
+                        <input name="address" lay-verify="required" value="" placeholder="请输入详细地址" class="layui-input"/>
                     </div>
                 </div>
             </div>
@@ -370,6 +370,50 @@
         </form>
     </div>
 
+    银行卡信息
+    <div id="bankCardInfoId" style="display: none">
+        <form class="layui-form layui-card" lay-filter="bankCardInfoForm" >
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">开户名</label>
+                    <div class="layui-input-block">
+                        <input name="accountName" placeholder="请输入开户名" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行名称</label>
+                    <div class="layui-input-block">
+                        <input name="bankName" placeholder="请输入银行名称" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行编号</label>
+                    <div class="layui-input-block">
+                        <input name="bankNumber" placeholder="请输入银行编号" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行卡号</label>
+                    <div class="layui-input-block">
+                        <input name="cardNum" type="number" placeholder="请输入银行卡号" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required label-required-next">银行所在国家</label>
+                    <div class="layui-input-block">
+                        <input name="bankCountry" placeholder="请输入银行所在国家" lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="layui-form-item text-center">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="bankCardInfoSubmit">提交</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="bankCardInfoCancel">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <!--账号-->
@@ -385,7 +429,7 @@
 <script type="text/html" id="memberLevelId">
     <div>
         <div>{{=d.memberLevelId}}</div>
-        <div style="color: red">0% - 0%</div>
+<!--        <div style="color: red">0% - 0%</div>-->
     </div>
 </script>
 
@@ -419,17 +463,17 @@
 <script type="text/html" id="operation">
     <span style="display: inline-block">
         <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
-        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
+<!--        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>-->
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
     </span>
     <span style="display: inline-block">
         <a class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="viewTeam">查看团队</a>
         <a class="layui-btn layui-btn-xs" lay-event="accountChange">帐变</a>
         <a class="layui-btn layui-btn-xs" lay-event="realPerson">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
     </span>
 </script>
@@ -492,7 +536,7 @@
             // "registerIp": "string",
             // "registrationTime": "2022-07-18T09:18:19.191Z",
             // "remark": "string",
-            "status": 0,
+            // "status": 0,
             // "totalCommission": 0,
             // "userAccount": "string"
         };
@@ -532,9 +576,7 @@
             },
             // 刷新表格数据
             onReloadData: function () {
-                var searchData = form.val('searchForm');
-                console.log('searchData', searchData);
-                table.reloadData(memberListTableId, {where: Object.assign({}, where, searchData)});
+                table.reloadData(memberListTableId, {where: Object.assign({}, where, onGetSearchParams())});
             },
             onUpdateItem: function (id, fields, cb) {
                 $.request({
@@ -542,6 +584,7 @@
                     type: 'post',
                     contentType: 'application/json',
                     data: fields,
+                    showLoading: true,
                     success: function () {
                         actions.onReloadData();
                         layer.msg('操作成功', {icon: 1});
@@ -553,6 +596,7 @@
                 $.request({
                     url: actions.apiUrl.delete + id,
                     type: 'get',
+                    showLoading: true,
                     success: function () {
                         actions.onReloadData();
                         layer.msg('删除会员成功', {icon: 1});
@@ -569,6 +613,7 @@
                     type: 'post',
                     contentType: 'application/json',
                     data: fields,
+                    showLoading: true,
                     success: function () {
                         actions.onReloadData();
                         layer.msg('创建会员成功', {icon: 1});
@@ -579,6 +624,18 @@
                     }
                 });
             },
+        };
+
+        // 获取搜索参数
+        var onGetSearchParams = function () {
+            var searchData = form.val('searchForm');
+            var times = $.getRangeTime(searchData.time);
+            // searchData.status = Number(searchData.status) || null;
+            searchData.memberStatus = Number(searchData.memberStatus) || null;
+            searchData.selectBeginTime = times[0];
+            searchData.selectEndTime = times[1];
+            delete searchData.time;
+            return searchData;
         }
 
         //单元格工具事件
@@ -655,14 +712,19 @@
                 });
             } else if (layEvent === 'bankCardInfo') { // 银行卡信息
                 $.request({
-                    url: '/action/bank/getmemberbank/' + tableCurrentItem.id,
+                    url: '/action/bank/select/' + tableCurrentItem.id,
                     type: 'get',
                     success: function (result) {
-                        // if (!result.data) {
-                        //     layer.msg('没有数据', {icon: 2});
-                        //     return;
-                        // }
-                        currentBankCardInfoItem = result.data;
+                        currentBankCardInfoItem = Object.assign({
+                            accountName: '',
+                            bankCountry: '',
+                            bankName: '',
+                            bankNumber: '',
+                            cardNum: '',
+                            id: '',
+                        }, result.data);
+
+                        form.val('bankCardInfoForm', currentBankCardInfoItem);
                         bankCardInfoIndex = layer.open({
                             type: 1,
                             title: '银行卡信息',
@@ -684,11 +746,16 @@
                 actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
             } else if (layEvent === 'addressInfo') { // 地址信息
                 $.request({
-                    url: '/action/address/getmemberaddress/' + tableCurrentItem.id,
+                    url: '/action/address/select/' + tableCurrentItem.id,
                     type: 'get',
                     success: function (result) {
-                        currentAddressInfoItem = result.data;
-                        form.val('addressInfoForm', result.data);
+                        currentAddressInfoItem = Object.assign({
+                            address: '',
+                            name: '',
+                            tel: '',
+                            id: '',
+                        }, result.data);
+                        form.val('addressInfoForm', currentAddressInfoItem);
                         addressInfoIndex = layer.open({
                             type: 1,
                             title: '地址信息',
@@ -767,10 +834,7 @@
         });
 
         // 扣款-提交
-        var deductionLoading;
         form.on('submit(deductionSubmit)', function (data) {
-            if (deductionLoading) return;
-            deductionLoading = layer.load(1);
             var fd = Object.assign({}, data.field, {
                 memberId: tableCurrentItem.id,
             });
@@ -779,6 +843,7 @@
                 url: '/action/deposit/deposit',
                 type: 'post',
                 data: fd,
+                showLoading: true,
                 success: function () {
                     onDeductionCancel();
                     layer.msg('扣款成功', {icon: 1});
@@ -786,7 +851,6 @@
                 },
                 complete: function () {
                     layer.close(deductionLoading);
-                    deductionLoading = null;
                 }
             });
             return false;
@@ -835,7 +899,7 @@
                 type: 'post',
                 data: Object.assign({}, currentAddressInfoItem, data.field, {memberId: tableCurrentItem.id}),
                 success: function () {
-                    layer.close(addressInfoIndex);
+                    onAddressInfoCancel();
                     actions.onReloadData();
                     layer.msg('地址信息修改成功', {icon: 1});
                 }
@@ -843,9 +907,16 @@
             return false;
         });
         // 地址信息-取消
-        $('#addressInfoCancel').click(function () {
+        var onAddressInfoCancel = function () {
+            form.val('addressInfoForm', {
+                address: '',
+                name: '',
+                tel: '',
+                id: '',
+            })
             layer.close(addressInfoIndex);
-        });
+        };
+        $('#addressInfoCancel').click(onAddressInfoCancel);
 
         // 银行卡-提交
         form.on('submit(bankCardInfoSubmit)', function (data) {
@@ -863,15 +934,20 @@
         });
         // 银行卡-取消
         $('#bankCardInfoCancel').click(function () {
+            form.val('bankCardInfoForm', {
+                accountName: '',
+                bankCountry: '',
+                bankName: '',
+                bankNumber: '',
+                cardNum: '',
+            });
             layer.close(bankCardInfoIndex);
         });
 
         // 创建会员-提交
         form.on('submit(createSubmit)', function (data) {
-            actions.onCreate(data.field, {
-                success: function () {
-                    layer.close(createIndex);
-                }
+            actions.onCreate(data.field, function () {
+                layer.close(createIndex);
             });
             // return false;
         });

@@ -9,7 +9,7 @@ layui.config({
 
     //  tab初始化
     tab.set({
-        renderType: 'iframe',
+        renderType: 'iframe', // page iframe
         mainUrl: 'main.html',
         openWait: false,
         elem: '#container',

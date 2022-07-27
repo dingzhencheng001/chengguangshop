@@ -31,13 +31,16 @@
         <div class="think-box-shadow">
             <div class="layui-card-header layui-anim layui-anim-fadein notselect"><span
                     class="layui-icon layui-icon-next font-s10 color-desc margin-right-5"></span>
-                当前用户: 12341234(15778754565) 状态: <font color="green">正常</font>
+                当前用户:
+                <span id="nickName"></span>
+                <span id="phoneNumber"></span>
+<!--                状态: <font color="green" id="status">正常</font>-->
                 <div class="pull-right"></div>
             </div>
             <div class="layui-form-item layui-inline" style="margin-right: 10px">
                 <a class="layui-btn layui-btn-sm layui-btn-normal" id="backBtn">返回会员列表</a>
-                <a class="layui-btn layui-btn-sm layui-btn-danger">封禁</a>
-                <a class="layui-btn layui-btn-sm layui-btn-warning">封禁团队</a>
+<!--                <a class="layui-btn layui-btn-sm layui-btn-danger">封禁</a>-->
+<!--                <a class="layui-btn layui-btn-sm layui-btn-warning">封禁团队</a>-->
             </div>
             <fieldset>
                 <legend>条件搜索</legend>
@@ -45,19 +48,19 @@
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">用户名称</label>
                         <div class="layui-input-inline">
-                            <input name="username" value="" placeholder="请输入用户名称" class="layui-input">
+                            <input name="userAccount" value="" placeholder="请输入用户名称" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">手机号码</label>
                         <div class="layui-input-inline">
-                            <input name="tel" value="" placeholder="请输入手机号码" class="layui-input">
+                            <input name="phoneNumber" value="" placeholder="请输入手机号码" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">注册时间</label>
                         <div class="layui-input-inline">
-                            <input id="timeInput" name="addtime" value="" placeholder="请选择注册时间" class="layui-input"
+                            <input id="timeInput" name="time" value="" placeholder="请选择注册时间" class="layui-input"
                                    autocomplete="off"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
@@ -88,8 +91,8 @@
 
 <script type="text/html" id="operation">
     <a class="layui-btn layui-btn-xs layui-btn-danger" style="background:green;" lay-event="accountChange">账变</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" style="background:red;" lay-event="ban">封禁</a>
-    <a class="layui-btn layui-btn-xs layui-btn-warning" style="background:red;" lay-event="banTeam">封禁团队</a>
+<!--    <a class="layui-btn layui-btn-xs layui-btn-danger" style="background:red;" lay-event="ban">封禁</a>-->
+<!--    <a class="layui-btn layui-btn-xs layui-btn-warning" style="background:red;" lay-event="banTeam">封禁团队</a>-->
 </script>
 
 <script>
@@ -98,6 +101,22 @@
         var laydate = layui.laydate;
         var form = layui.form;
         var params = $.getUrlVars();
+        var memberId = params.id || '11' // 开发方便
+
+        $.request({
+            url: '/action/member/memberInfo/' + memberId,
+            success: function (result) {
+                if (result.data) {
+                    var nickName = result.data.userAccount;
+                    var phoneNumber = result.data.phoneNumber;
+                    $('#nickName').text(nickName);
+                    $('#phoneNumber').text(phoneNumber);
+                } else {
+                    layer.msg(result.message || result.msg, {icon: 2});
+                }
+                console.log('res', result);
+            }
+        })
 
         laydate.render({
             elem: '#timeInput',
@@ -109,12 +128,12 @@
             memberId: params.id,
         }
 
-        var tableId = 'tableId'
+        var tableId = 'tableId';
         //第一个实例
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#tableId',
             where: where
-            , url: 'http://localhost:8080/action/member/getteamlist' //数据接口
+            , url: 'http://localhost:8080/action/member/team/list' //数据接口
             , contentType: 'application/json'
             , method: 'post'
             , totalRow: true
@@ -144,7 +163,7 @@
                 //         var color = d.status ? "red" : "green";
                 //     }
                 // }
-                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 190}
+                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120}
             ]]
             , id: tableId
         }));
@@ -183,8 +202,19 @@
             onReloadData: function () {
                 // var searchData = form.val('searchForm');
                 // console.log('searchData', searchData);
-                table.reloadData(tableId, {where: Object.assign({}, where, {})});
+                table.reloadData(tableId, {where: Object.assign({}, where, onGetSearchParams())});
             }
+        }
+
+        // 获取搜索参数
+        var onGetSearchParams = function () {
+            var searchData = form.val('searchForm');
+            var times = $.getRangeTime(searchData.time);
+            // searchData.operaType = Number(searchData.operaType) || null;
+            searchData.selectBeginTime = times[0];
+            searchData.selectEndTime = times[1];
+            delete searchData.time;
+            return searchData;
         }
 
         $('.layui-tab-title li').click(function () {
@@ -206,7 +236,6 @@
 
         // 搜索
         form.on('submit(search)', function (data) {
-            console.log(data.field);
             actions.onReloadData();
             return false;
         });

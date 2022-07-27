@@ -1,5 +1,4 @@
 
-
 layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
     var element = layui.element;
@@ -55,7 +54,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
         // "registerIp": "string",
         // "registrationTime": "2022-07-18T09:18:19.191Z",
         // "remark": "string",
-        "status": 0,
+        // "status": 0,
         // "totalCommission": 0,
         // "userAccount": "string"
     };
@@ -95,9 +94,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
         },
         // 刷新表格数据
         onReloadData: function () {
-            var searchData = form.val('searchForm');
-            console.log('searchData', searchData);
-            table.reloadData(memberListTableId, {where: Object.assign({}, where, searchData)});
+            table.reloadData(memberListTableId, {where: Object.assign({}, where, onGetSearchParams())});
         },
         onUpdateItem: function (id, fields, cb) {
             $.request({
@@ -105,6 +102,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 type: 'post',
                 contentType: 'application/json',
                 data: fields,
+                showLoading: true,
                 success: function () {
                     actions.onReloadData();
                     layer.msg('操作成功', {icon: 1});
@@ -116,6 +114,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             $.request({
                 url: actions.apiUrl.delete + id,
                 type: 'get',
+                showLoading: true,
                 success: function () {
                     actions.onReloadData();
                     layer.msg('删除会员成功', {icon: 1});
@@ -132,6 +131,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 type: 'post',
                 contentType: 'application/json',
                 data: fields,
+                showLoading: true,
                 success: function () {
                     actions.onReloadData();
                     layer.msg('创建会员成功', {icon: 1});
@@ -142,6 +142,18 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 }
             });
         },
+    };
+
+    // 获取搜索参数
+    var onGetSearchParams = function () {
+        var searchData = form.val('searchForm');
+        var times = $.getRangeTime(searchData.time);
+        // searchData.status = Number(searchData.status) || null;
+        searchData.memberStatus = Number(searchData.memberStatus) || null;
+        searchData.selectBeginTime = times[0];
+        searchData.selectEndTime = times[1];
+        delete searchData.time;
+        return searchData;
     }
 
     //单元格工具事件
@@ -218,14 +230,19 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             });
         } else if (layEvent === 'bankCardInfo') { // 银行卡信息
             $.request({
-                url: '/action/bank/getmemberbank/' + tableCurrentItem.id,
+                url: '/action/bank/select/' + tableCurrentItem.id,
                 type: 'get',
                 success: function (result) {
-                    // if (!result.data) {
-                    //     layer.msg('没有数据', {icon: 2});
-                    //     return;
-                    // }
-                    currentBankCardInfoItem = result.data;
+                    currentBankCardInfoItem = Object.assign({
+                        accountName: '',
+                        bankCountry: '',
+                        bankName: '',
+                        bankNumber: '',
+                        cardNum: '',
+                        id: '',
+                    }, result.data);
+
+                    form.val('bankCardInfoForm', currentBankCardInfoItem);
                     bankCardInfoIndex = layer.open({
                         type: 1,
                         title: '银行卡信息',
@@ -247,11 +264,16 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
         } else if (layEvent === 'addressInfo') { // 地址信息
             $.request({
-                url: '/action/address/getmemberaddress/' + tableCurrentItem.id,
+                url: '/action/address/select/' + tableCurrentItem.id,
                 type: 'get',
                 success: function (result) {
-                    currentAddressInfoItem = result.data;
-                    form.val('addressInfoForm', result.data);
+                    currentAddressInfoItem = Object.assign({
+                        address: '',
+                        name: '',
+                        tel: '',
+                        id: '',
+                    }, result.data);
+                    form.val('addressInfoForm', currentAddressInfoItem);
                     addressInfoIndex = layer.open({
                         type: 1,
                         title: '地址信息',
@@ -330,10 +352,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     });
 
     // 扣款-提交
-    var deductionLoading;
     form.on('submit(deductionSubmit)', function (data) {
-        if (deductionLoading) return;
-        deductionLoading = layer.load(1);
         var fd = Object.assign({}, data.field, {
             memberId: tableCurrentItem.id,
         });
@@ -342,6 +361,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             url: '/action/deposit/deposit',
             type: 'post',
             data: fd,
+            showLoading: true,
             success: function () {
                 onDeductionCancel();
                 layer.msg('扣款成功', {icon: 1});
@@ -349,7 +369,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             },
             complete: function () {
                 layer.close(deductionLoading);
-                deductionLoading = null;
             }
         });
         return false;
@@ -398,7 +417,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
             type: 'post',
             data: Object.assign({}, currentAddressInfoItem, data.field, {memberId: tableCurrentItem.id}),
             success: function () {
-                layer.close(addressInfoIndex);
+                onAddressInfoCancel();
                 actions.onReloadData();
                 layer.msg('地址信息修改成功', {icon: 1});
             }
@@ -406,9 +425,16 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
         return false;
     });
     // 地址信息-取消
-    $('#addressInfoCancel').click(function () {
+    var onAddressInfoCancel = function () {
+        form.val('addressInfoForm', {
+            address: '',
+            name: '',
+            tel: '',
+            id: '',
+        })
         layer.close(addressInfoIndex);
-    });
+    };
+    $('#addressInfoCancel').click(onAddressInfoCancel);
 
     // 银行卡-提交
     form.on('submit(bankCardInfoSubmit)', function (data) {
@@ -426,15 +452,20 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     });
     // 银行卡-取消
     $('#bankCardInfoCancel').click(function () {
+        form.val('bankCardInfoForm', {
+            accountName: '',
+            bankCountry: '',
+            bankName: '',
+            bankNumber: '',
+            cardNum: '',
+        });
         layer.close(bankCardInfoIndex);
     });
 
     // 创建会员-提交
     form.on('submit(createSubmit)', function (data) {
-        actions.onCreate(data.field, {
-            success: function () {
-                layer.close(createIndex);
-            }
+        actions.onCreate(data.field, function () {
+            layer.close(createIndex);
         });
         // return false;
     });
