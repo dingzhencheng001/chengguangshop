@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberAccountChangeExample;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
+import my.fast.admin.cg.model.AccountChangeParam;
 import my.fast.admin.cg.service.MemberAccountChangeService;
 
 /**
@@ -25,11 +26,18 @@ public class MemberAccountChangeServiceImpl implements MemberAccountChangeServic
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
 
     @Override
-    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId) {
+    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId,
+        AccountChangeParam accountChangeParam) {
         AppMemberAccountChangeExample appMemberAccountChangeExample = new AppMemberAccountChangeExample();
         AppMemberAccountChangeExample.Criteria criteria = appMemberAccountChangeExample.createCriteria();
         criteria.andChannelIdEqualTo(channelId);
         criteria.andMemberIdEqualTo(memberId);
+        if (!StringUtils.isEmpty(accountChangeParam.getOperaType())) {
+            criteria.andOperaTypeEqualTo(accountChangeParam.getOperaType());
+        }
+        if (!StringUtils.isEmpty(accountChangeParam.getSelectBeginTime())) {
+            criteria.andCreateTimeBetween(accountChangeParam.getSelectBeginTime(),accountChangeParam.getSelectEndTime());
+        }
         return appMemberAccountChangeMapper.selectByExample(appMemberAccountChangeExample);
 
     }

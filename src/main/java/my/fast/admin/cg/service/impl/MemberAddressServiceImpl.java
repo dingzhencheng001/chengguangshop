@@ -2,8 +2,6 @@ package my.fast.admin.cg.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +9,7 @@ import com.github.pagehelper.PageHelper;
 
 import my.fast.admin.cg.entity.AppMemberAddress;
 import my.fast.admin.cg.entity.AppMemberAddressExample;
-import my.fast.admin.cg.entity.AppMemberExample;
 import my.fast.admin.cg.mapper.AppMemberAddressMapper;
-import my.fast.admin.cg.model.AppMemberAddressPram;
 import my.fast.admin.cg.model.MemberAddressParam;
 import my.fast.admin.cg.service.MemberAddressService;
 

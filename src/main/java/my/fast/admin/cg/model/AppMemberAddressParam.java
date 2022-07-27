@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AppMemberAddressPram {
+public class AppMemberAddressParam {
 
 
     @ApiModelProperty(value = "会员id")

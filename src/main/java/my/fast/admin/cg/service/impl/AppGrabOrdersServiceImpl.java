@@ -21,8 +21,8 @@ import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberAddressMapper;
 import my.fast.admin.cg.mapper.AppMemberLevelMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
-import my.fast.admin.cg.model.AppMemberBalancePram;
-import my.fast.admin.cg.model.AppRandomOrderPram;
+import my.fast.admin.cg.model.AppMemberBalanceParam;
+import my.fast.admin.cg.model.AppRandomOrderParam;
 import my.fast.admin.cg.service.AppGrabOrdersService;
 import my.fast.admin.framework.utils.DateFormat;
 
@@ -55,8 +55,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     private AppMemberAddressMapper appMemberAddressMapper;
 
     @Override
-    public AppGoods randomOrders(AppRandomOrderPram appRandomOrderPram) throws Exception {
-        Long memberId = appRandomOrderPram.getMemberId();
+    public AppGoods randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception {
+        Long memberId = appRandomOrderParam.getMemberId();
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
@@ -129,12 +129,12 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             .get();
         appConvey.setQiang(qiang + 1);
         //修改会员余额金额
-        AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-        appMemberBalancePram.setMemberId(memberId);
-        appMemberBalancePram.setGoodsPrice(goodsPrice);
-        appMemberBalancePram.setBalance(appMember.getBalance());
-        appMemberBalancePram.setGrabCommission(GrabCommission);
-        appMemberMapper.updateMemberBalance(appMemberBalancePram);
+        AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+        appMemberBalanceParam.setMemberId(memberId);
+        appMemberBalanceParam.setGoodsPrice(goodsPrice);
+        appMemberBalanceParam.setBalance(appMember.getBalance());
+        appMemberBalanceParam.setGrabCommission(GrabCommission);
+        appMemberMapper.updateMemberBalance(appMemberBalanceParam);
         //查询parentAgent
         appMemberMapper.selectParent();
         List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
@@ -170,40 +170,40 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             if (memberLevelId == 1L) {
                 BigDecimal parentBalance = appMember.getBalance();
                 appMember.setBalance(balance.add(goodsPrice.multiply(new BigDecimal(0.09))));
-                AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-                appMemberBalancePram.setBalance(parentBalance);
-                appMemberBalancePram.setMemberId(id);
-                appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                appMemberBalanceParam.setBalance(parentBalance);
+                appMemberBalanceParam.setMemberId(id);
+                appMemberMapper.updateAgentBalance(appMemberBalanceParam);
             } else if (memberLevelId == 2L) {
                 appMember.setBalance(balance.add(goodsPrice.multiply(new BigDecimal(0.06))));
                 BigDecimal parentBalance = appMember.getBalance();
-                AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-                appMemberBalancePram.setBalance(parentBalance);
-                appMemberBalancePram.setMemberId(id);
-                appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                appMemberBalanceParam.setBalance(parentBalance);
+                appMemberBalanceParam.setMemberId(id);
+                appMemberMapper.updateAgentBalance(appMemberBalanceParam);
             } else {
                 BigDecimal add = balance.add(goodsPrice.multiply(new BigDecimal(0.01)));
                 if (memberLevelId == 3L) {
                     appMember.setBalance(add);
                     BigDecimal parentBalance = appMember.getBalance();
-                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-                    appMemberBalancePram.setBalance(parentBalance);
-                    appMemberBalancePram.setMemberId(id);
-                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                    AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                    appMemberBalanceParam.setBalance(parentBalance);
+                    appMemberBalanceParam.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 } else if (memberLevelId == 4L) {
                     appMember.setBalance(add);
                     BigDecimal parentBalance = appMember.getBalance();
-                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-                    appMemberBalancePram.setBalance(parentBalance);
-                    appMemberBalancePram.setMemberId(id);
-                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                    AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                    appMemberBalanceParam.setBalance(parentBalance);
+                    appMemberBalanceParam.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 } else if (memberLevelId == 5L) {
                     appMember.setBalance(add);
                     BigDecimal parentBalance = appMember.getBalance();
-                    AppMemberBalancePram appMemberBalancePram = new AppMemberBalancePram();
-                    appMemberBalancePram.setBalance(parentBalance);
-                    appMemberBalancePram.setMemberId(id);
-                    appMemberMapper.updateAgentBalance(appMemberBalancePram);
+                    AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                    appMemberBalanceParam.setBalance(parentBalance);
+                    appMemberBalanceParam.setMemberId(id);
+                    appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 }
             }
         }

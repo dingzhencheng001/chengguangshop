@@ -16,7 +16,7 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.SysChannel;
-import my.fast.admin.cg.model.AppRandomOrderPram;
+import my.fast.admin.cg.model.AppRandomOrderParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppGrabOrdersService;
 import my.fast.admin.cg.service.AppMemberService;
@@ -51,9 +51,9 @@ public class AppGrabOrdersController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户信息不存在");
         }
-        AppRandomOrderPram appRandomOrderPram = new AppRandomOrderPram();
-        appRandomOrderPram.setMemberId(appUserVO.getId());
-        AppGoods appGoods = appGrabOrdersService.randomOrders(appRandomOrderPram);
+        AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
+        appRandomOrderParam.setMemberId(appUserVO.getId());
+        AppGoods appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
         return CommonResult.success(appGoods);
     }
 

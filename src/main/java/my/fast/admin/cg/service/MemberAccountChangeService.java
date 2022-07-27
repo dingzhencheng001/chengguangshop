@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMemberAccountChange;
+import my.fast.admin.cg.model.AccountChangeParam;
 
 /**
  * TODO
@@ -18,7 +19,8 @@ public interface MemberAccountChangeService {
     /**
      * 获取个人账户变更列表
      */
-    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId);
+    List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long channelId, Long memberId,
+        AccountChangeParam accountChangeParam);
     /**
      * 删除用户账变信息
      */

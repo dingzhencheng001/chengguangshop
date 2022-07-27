@@ -3,7 +3,7 @@ package my.fast.admin.cg.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppGoods;
-import my.fast.admin.cg.model.AppRandomOrderPram;
+import my.fast.admin.cg.model.AppRandomOrderParam;
 
 /**
  * TODO
@@ -17,7 +17,7 @@ public interface AppGrabOrdersService {
     /**
      * 随机生成商品订单
      */
-    AppGoods randomOrders(AppRandomOrderPram appRandomOrderPram) throws Exception;
+    AppGoods randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
     /**
      * 提交随机生成的商品订单
      */

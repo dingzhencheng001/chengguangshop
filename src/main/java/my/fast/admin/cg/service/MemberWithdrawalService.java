@@ -2,8 +2,7 @@ package my.fast.admin.cg.service;
 
 import java.util.List;
 
-import my.fast.admin.cg.entity.AppMemberWithdrawal;
-import my.fast.admin.cg.model.MemberWithdrawalPram;
+import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 /**
@@ -30,5 +29,5 @@ public interface MemberWithdrawalService {
      * 分页查询
      */
     List<AppMemberWithdrawalVo> findPage(Integer pageNum, Integer pageSize, Long channelId,
-        MemberWithdrawalPram withdrawal);
+        MemberWithdrawalParam withdrawal);
 }

@@ -4,16 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
-import my.fast.admin.cg.entity.AppMemberBank;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.AppMemberWithdrawalExample;
 import my.fast.admin.cg.mapper.AppMemberBankMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
-import my.fast.admin.cg.model.MemberWithdrawalPram;
+import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
@@ -56,7 +54,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
 
     @Override
     public List<AppMemberWithdrawalVo> findPage(Integer pageNum, Integer pageSize, Long channelId,
-        MemberWithdrawalPram memberWithdrawalPram) {
+        MemberWithdrawalParam memberWithdrawalParam) {
         PageHelper.startPage(pageNum, pageSize);
         /*AppMemberWithdrawalExample appMemberWithdrawalExample = new AppMemberWithdrawalExample();
         AppMemberWithdrawalExample.Criteria criteria = appMemberWithdrawalExample.createCriteria();
@@ -76,6 +74,6 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
         for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
             AppMemberBank appMemberBank = appMemberBankMapper.selectByMemberId(appMemberWithdrawal.getMemberId());
         }*/
-        return appMemberWithdrawalMapper.selectWithdrawalList(channelId,memberWithdrawalPram);
+        return appMemberWithdrawalMapper.selectWithdrawalList(channelId, memberWithdrawalParam);
     }
 }

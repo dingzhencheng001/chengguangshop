@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMemberAddress;
-import my.fast.admin.cg.model.AppMemberAddressPram;
+import my.fast.admin.cg.model.AppMemberAddressParam;
 
 /**
  * TODO
@@ -41,9 +41,9 @@ public interface AppMemberAddressService {
    
     /**
      * 新增会员地址
-     * @param appMemberAddressPram
+     * @param appMemberAddressParam
      */
-    int createAddress(AppMemberAddressPram appMemberAddressPram);
+    int createAddress(AppMemberAddressParam appMemberAddressParam);
     
     
     /**

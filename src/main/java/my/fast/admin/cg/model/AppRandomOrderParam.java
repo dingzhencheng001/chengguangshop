@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AppRandomOrderPram {
+public class AppRandomOrderParam {
 
     @ApiModelProperty(value = "会员ID")
     private Long memberId;

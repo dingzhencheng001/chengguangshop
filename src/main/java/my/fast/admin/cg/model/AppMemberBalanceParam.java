@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AppMemberBalancePram {
+public class AppMemberBalanceParam {
 
     @ApiModelProperty(value = "会员id")
     private Long memberId;

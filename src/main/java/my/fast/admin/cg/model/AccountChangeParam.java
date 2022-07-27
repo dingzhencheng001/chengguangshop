@@ -1,6 +1,5 @@
 package my.fast.admin.cg.model;
 
-
 import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -12,17 +11,11 @@ import lombok.EqualsAndHashCode;
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/26 17:38
+ * @since 2022/7/27 14:30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MemberWithdrawalPram {
-
-    @ApiModelProperty(value = "交易订单号")
-    private String orderNo;
-
-    @ApiModelProperty(value = "用户账号")
-    private String userAccount;
+public class AccountChangeParam {
 
     @ApiModelProperty(value = "开始时间")
     private Date selectBeginTime;
@@ -30,5 +23,7 @@ public class MemberWithdrawalPram {
     @ApiModelProperty(value = "结束时间")
     private Date selectEndTime;
 
+    @ApiModelProperty(value = "操作类型【1.充值 2.减少 3.冻结 4.提取】")
+    private Integer operaType;
 
 }

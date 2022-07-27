@@ -656,13 +656,13 @@
             channel_id        = #{channelId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
+    <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
     </update>
 
-    <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
+    <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = #{balance,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
@@ -672,7 +672,7 @@
         FROM app_member
     </select>
     <select id="selectAppMemberParentAgent" resultType="my.fast.admin.cg.entity.AppMember"
-            parameterType="my.fast.admin.cg.model.AppMemberBalancePram">
+            parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         SELECT a.*
         FROM app_member a
                  INNER JOIN (

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberExample;
-import my.fast.admin.cg.model.AppMemberBalancePram;
+import my.fast.admin.cg.model.AppMemberBalanceParam;
 import my.fast.admin.cg.model.AppMemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
@@ -70,7 +70,7 @@ public interface AppMemberMapper {
     /**
      * 更改用户余额
      */
-    void updateMemberBalance(AppMemberBalancePram appMemberBalancePram);
+    void updateMemberBalance(AppMemberBalanceParam appMemberBalanceParam);
 
 
     /**
@@ -86,7 +86,7 @@ public interface AppMemberMapper {
     /**
      * 更新上级账户
      */
-    void updateAgentBalance(AppMemberBalancePram appMemberBalancePram);
+    void updateAgentBalance(AppMemberBalanceParam appMemberBalanceParam);
 
     /**
      * 获取会员账户信息

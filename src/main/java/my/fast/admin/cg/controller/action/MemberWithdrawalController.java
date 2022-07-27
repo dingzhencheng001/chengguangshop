@@ -17,10 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
-import my.fast.admin.cg.entity.AppMemberLevel;
-import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.SysChannel;
-import my.fast.admin.cg.model.MemberWithdrawalPram;
+import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
@@ -72,7 +70,8 @@ public class MemberWithdrawalController {
     @ResponseBody
     public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody MemberWithdrawalPram withdrawal, HttpServletRequest request) {
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody
+        MemberWithdrawalParam withdrawal, HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();

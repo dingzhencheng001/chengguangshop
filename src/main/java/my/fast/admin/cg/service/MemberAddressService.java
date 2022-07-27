@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMemberAddress;
-import my.fast.admin.cg.model.AppMemberAddressPram;
 import my.fast.admin.cg.model.MemberAddressParam;
 
 /**

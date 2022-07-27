@@ -11,7 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.AppMemberAddress;
 import my.fast.admin.cg.entity.AppMemberAddressExample;
 import my.fast.admin.cg.mapper.AppMemberAddressMapper;
-import my.fast.admin.cg.model.AppMemberAddressPram;
+import my.fast.admin.cg.model.AppMemberAddressParam;
 import my.fast.admin.cg.service.AppMemberAddressService;
 
 /**
@@ -51,9 +51,9 @@ public class AppMemberAddressServiceImpl implements AppMemberAddressService {
     }
 
     @Override
-    public int createAddress(AppMemberAddressPram appMemberAddressPram) {
+    public int createAddress(AppMemberAddressParam appMemberAddressParam) {
         AppMemberAddress appMemberAddress = new AppMemberAddress();
-        BeanUtils.copyProperties(appMemberAddressPram, appMemberAddress);
+        BeanUtils.copyProperties(appMemberAddressParam, appMemberAddress);
         return appMemberAddressMapper.insertSelective(appMemberAddress);
     }
 
