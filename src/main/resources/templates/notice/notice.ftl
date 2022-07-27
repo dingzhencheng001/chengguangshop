@@ -74,13 +74,9 @@
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
 
 	<script type="text/html" id="operation">
-			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-			</span>
-			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-			</span>
-		</script>
+		<a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs" style="background:red;" lay-event="delete">删除</a>
+	</script>
 
 	<!--注册信息-->
 	<script type="text/html" id="createTime">
