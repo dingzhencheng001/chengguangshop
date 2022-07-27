@@ -80,9 +80,7 @@ public class MemberController {
     @ApiOperation(value = "根据条件获取会员分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberVo>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, @RequestBody MemberParams memberParams,HttpServletRequest request) {
+    public CommonResult<CommonPage<AppMemberVo>> getList(@RequestBody MemberParams memberParams,HttpServletRequest request) {
     	StringBuffer url = request.getRequestURL();  
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
         log.info("域名 ：tempContextUrl: "+  tempContextUrl);
@@ -93,7 +91,7 @@ public class MemberController {
         }
         log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
         Long channelId = sysChannel.getChannelId();
-        List<AppMemberVo> appMemberVoList = appMemberService.listMember(channelId,memberParams, pageNum, pageSize);
+        List<AppMemberVo> appMemberVoList = appMemberService.listMember(channelId,memberParams, memberParams.getPageNum(), memberParams.getPageSize());
         return CommonResult.success(CommonPage.restPage(appMemberVoList));
     }
 

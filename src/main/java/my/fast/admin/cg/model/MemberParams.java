@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * TODO
  *
  * @author cgkj@cg.cn
  * @version V1.0
@@ -29,5 +28,11 @@ public class MemberParams {
 
     @ApiModelProperty(value = "会员状态:1.真人2.假人")
     private Integer memberStatus;
+    
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum;
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
+    
 
 }
