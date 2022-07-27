@@ -72,7 +72,7 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     		type = 2 ;
     		System.out.println("负数 减少 ");
     		//余额判断
-    		if(CommonUtils.moneyComp(appMember.getBalance(), depositParam.getOperaMount())){
+    		if(CommonUtils.moneyComp(depositParam.getOperaMount(),appMember.getBalance())){
     			try {
 					throw new Exception("余额不足，无法扣减");
 				} catch (Exception e) {

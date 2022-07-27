@@ -20,7 +20,6 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMemberBank;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.service.AppChannelService;
-import my.fast.admin.cg.service.AppMemberBankService;
 import my.fast.admin.cg.service.MemberBankService;
 
 /**
@@ -33,9 +32,6 @@ import my.fast.admin.cg.service.MemberBankService;
 @RequestMapping("/action/bank")
 public class MemberBankController {
 	
-    @Autowired
-    private AppMemberBankService appMemberBankService;
-
     @Autowired
     private MemberBankService MemberBankService;
 

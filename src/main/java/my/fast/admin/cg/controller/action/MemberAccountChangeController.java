@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
@@ -40,13 +39,11 @@ public class MemberAccountChangeController {
     private AppChannelService appChannelService;
 
     @ApiOperation(value = "获取会员账变信息列表")
-    @RequestMapping(value = "/list/{memberId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request,
-        @PathVariable("memberId") Long memberId, @RequestBody AccountChangeParam accountChangeParam) {
-        if (memberId == null) {
+    public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(HttpServletRequest request,
+         @RequestBody AccountChangeParam accountChangeParam) {
+        if (accountChangeParam.getMemberId() == null) {
             return CommonResult.failed("会员ID为空");
         }
         //根据域名获取渠道号
@@ -59,8 +56,8 @@ public class MemberAccountChangeController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         Long channelId = sysChannel.getChannelId();
-        List<AppMemberAccountChange> appMemberAccountChangeList = memberAccountChangeService.getMemberList(pageNum,
-            pageSize, channelId, memberId,accountChangeParam);
+        List<AppMemberAccountChange> appMemberAccountChangeList = memberAccountChangeService.getMemberList(accountChangeParam.getPageNum(),
+        		accountChangeParam.getPageSize(), channelId, accountChangeParam.getMemberId(),accountChangeParam);
         return CommonResult.success(CommonPage.restPage(appMemberAccountChangeList));
     }
 

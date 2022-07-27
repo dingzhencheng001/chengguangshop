@@ -16,7 +16,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class AccountChangeParam {
-
+	
+	@ApiModelProperty(value = "会员ID")
+	private Long memberId;
+	
+	@ApiModelProperty(value = "页码")
+    private Integer pageNum;
+	
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
+	
     @ApiModelProperty(value = "开始时间")
     private Date selectBeginTime;
 
