@@ -33,6 +33,9 @@ public class AppMemberBalanceParam {
     @ApiModelProperty(value = "会员等级id列表")
     private List<Long> memberLevelId;
 
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
     public Long getMemberId() {
         return memberId;
     }
@@ -59,6 +62,14 @@ public class AppMemberBalanceParam {
 
     public BigDecimal getGrabCommission() {
         return grabCommission;
+    }
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
     }
 
     public void setGrabCommission(BigDecimal grabCommission) {

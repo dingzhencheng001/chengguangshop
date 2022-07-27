@@ -175,6 +175,9 @@
       <if test="goodsSortId != null">
         #{goodsSortId,jdbcType=BIGINT},
       </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppGoodsExample" resultType="java.lang.Long">

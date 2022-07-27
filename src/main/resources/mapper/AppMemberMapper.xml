@@ -659,13 +659,13 @@
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
 
     <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = #{balance,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
     <update id="updateBalance" >
         update app_member
