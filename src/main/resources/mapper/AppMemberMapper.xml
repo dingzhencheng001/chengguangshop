@@ -667,6 +667,12 @@
         set balance = #{balance,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
     </update>
+    <update id="updateBalance" >
+        update app_member
+        set balance = balance - #{withdrawalNum,jdbcType=DECIMAL},
+            freeze_balance = freeze_balance+ #{withdrawalNum,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
     <select id="selectParent" resultType="java.lang.String">
         SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
         FROM app_member
@@ -800,6 +806,11 @@
             m.register_ip like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
         </if>
 
+
+    </select>
+    <select id="selectMemberByIdAndChannelId" resultType="my.fast.admin.cg.entity.AppMember">
+        select * from  app_member where
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
 
     </select>
 

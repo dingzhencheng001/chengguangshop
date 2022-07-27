@@ -1,5 +1,6 @@
 package my.fast.admin.cg.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -117,4 +118,20 @@ public interface AppMemberMapper {
      * @param memberParams
      */
     List<AppMemberVo> selectPage(@Param("channelId")Long channelId, @Param("memberParams")MemberParams memberParams);
+
+    /**
+     * 根据会员id和渠号id查询
+     * @param channelId
+     * @param memberId
+     */
+    AppMember selectMemberByIdAndChannelId(@Param("channelId")Long channelId, @Param("memberId")Long memberId);
+
+    /**
+     * 更改提现后的余额
+     * @param channelId
+     * @param memberId
+     * @param withdrawalNum
+     */
+    int updateBalance(@Param("channelId")Long channelId, @Param("memberId")Long memberId, @Param("withdrawalNum")BigDecimal withdrawalNum);
+
 }

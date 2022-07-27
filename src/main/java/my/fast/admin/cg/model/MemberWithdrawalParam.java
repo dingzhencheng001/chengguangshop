@@ -1,6 +1,7 @@
 package my.fast.admin.cg.model;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -30,5 +31,6 @@ public class MemberWithdrawalParam {
     @ApiModelProperty(value = "结束时间")
     private Date selectEndTime;
 
-
+    @ApiModelProperty(value = "操作金额")
+    private BigDecimal operaMount;
 }
