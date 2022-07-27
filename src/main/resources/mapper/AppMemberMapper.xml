@@ -785,7 +785,7 @@
             app_member m
                 LEFT JOIN app_member_level ml ON m.member_level_id = ml.id
         where m.channel_Id = #{channelId,jdbcType=BIGINT}
-        <if test="memberParams.memberStatus != null">
+        <if test="memberParams.memberStatus != null and memberParams.memberStatus != ''">
             and
             m.member_status = #{memberParams.memberStatus,jdbcType=VARCHAR}
         </if>
@@ -793,19 +793,18 @@
             and
             m.registration_time BETWEEN #{memberParams.selectBeginTime,jdbcType=TIMESTAMP} and #{memberParams.selectEndTime,jdbcType=TIMESTAMP}
         </if>
-        <if test="memberParams.keyword != null">
+        <if test="memberParams.keyword != null and memberParams.keyword !=''">
             and
             m.phone_number like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
         </if>
-        <if test="memberParams.keyword != null">
+        <if test="memberParams.keyword != null and memberParams.keyword !=''">
             or
             m.user_account like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
         </if>
-        <if test="memberParams.keyword != null">
+        <if test="memberParams.keyword != null and memberParams.keyword !=''">
             or
             m.register_ip like concat('%',#{memberParams.keyword,jdbcType=VARCHAR},'%')
         </if>
-
 
     </select>
     <select id="selectMemberByIdAndChannelId" resultType="my.fast.admin.cg.entity.AppMember">
