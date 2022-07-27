@@ -751,12 +751,25 @@
                     ischild != 0
             ) t1 ON t.id = t1.id 
             
-            <if test="level != null">
+            <if test="param.memberLevel != null">
              and
-            t.member_level_id = #{level,jdbcType=BIGINT}
+            t.member_level_id = #{param.memberLevel,jdbcType=BIGINT}
        		</if>
  			and
-            t.channel_id = #{channelId,jdbcType=BIGINT}
+            t.channel_id = #{param.channelId,jdbcType=BIGINT}
+            <if test="param.userAccount != null">
+             and
+            t.user_account = #{param.userAccount,jdbcType=VARCHAR}
+       		</if>
+            <if test="param.phoneNumber != null">
+             and
+            t.phone_number = #{param.phoneNumber,jdbcType=VARCHAR}
+       		</if>
+            <if test="param.selectBeginTime != null">
+            and
+            t.registration_time BETWEEN #{param.selectBeginTime,jdbcType=TIMESTAMP} and #{param.selectEndTime,jdbcType=TIMESTAMP}
+        	</if>
+			
     </select>
     <select id="selectPage" resultType="my.fast.admin.cg.vo.AppMemberVo">
         SELECT
