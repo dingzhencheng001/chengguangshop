@@ -40,7 +40,7 @@ public class MemberAccountChangeController {
     private AppChannelService appChannelService;
 
     @ApiOperation(value = "获取会员账变信息列表")
-    @RequestMapping(value = "/list/{memberId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/list/{memberId}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberAccountChange>> getMemberList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
