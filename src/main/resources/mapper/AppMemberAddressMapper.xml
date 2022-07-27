@@ -99,6 +99,15 @@
     from app_member_address
     where member_id = #{memberId,jdbcType=BIGINT} limit 1
   </select>
+  
+  <select id="selectByMemberIdAndChannelId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_member_address
+        where member_id = #{memberId,jdbcType=BIGINT}
+        and channel_id =#{channelId,jdbcType=BIGINT} limit 1
+    </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_member_address
     where id = #{id,jdbcType=BIGINT}

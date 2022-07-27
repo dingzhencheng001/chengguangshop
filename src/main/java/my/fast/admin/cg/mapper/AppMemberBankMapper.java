@@ -22,7 +22,7 @@ public interface AppMemberBankMapper {
 
     AppMemberBank selectByPrimaryKey(Integer id);
     
-    AppMemberBank selectByMemberId(Long id);
+    AppMemberBank selectByMemberId(@Param("memberId")Long memberId);
 
     int updateByExampleSelective(@Param("record") AppMemberBank record, @Param("example") AppMemberBankExample example);
 
@@ -32,5 +32,5 @@ public interface AppMemberBankMapper {
 
     int updateByPrimaryKey(AppMemberBank record);
 
-    AppMemberBank selectByMemberIdAndChannelId(@Param("id")Long id, @Param("channelId")Long channelId);
+    AppMemberBank selectByMemberIdAndChannelId(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
 }

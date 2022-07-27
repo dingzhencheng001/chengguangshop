@@ -41,8 +41,8 @@ public class MemberBankServiceImpl implements MemberBankService {
     }
 
     @Override
-    public AppMemberBank getMemberBank(Long id, Long channelId) {
-        return appMemberBankMapper.selectByMemberIdAndChannelId(id,channelId);
+    public AppMemberBank getMemberBank(Long memberId, Long channelId) {
+        return appMemberBankMapper.selectByMemberIdAndChannelId(memberId,channelId);
     }
 
     @Override

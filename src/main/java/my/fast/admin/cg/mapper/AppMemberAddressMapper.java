@@ -22,7 +22,7 @@ public interface AppMemberAddressMapper {
 
     AppMemberAddress selectByPrimaryKey(Long id);
     
-    AppMemberAddress selectByMemberId(Long id);
+    AppMemberAddress selectByMemberId(@Param("memberId")Long memberId);
 
     int updateByExampleSelective(@Param("record") AppMemberAddress record, @Param("example") AppMemberAddressExample example);
 
@@ -36,6 +36,7 @@ public interface AppMemberAddressMapper {
     /***************************************************************/
     List<AppMemberAddress> selectAddressByExample(AppMemberAddressExample example);
     
-    
+
+    AppMemberAddress selectByMemberIdAndChannelId(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
     
 }

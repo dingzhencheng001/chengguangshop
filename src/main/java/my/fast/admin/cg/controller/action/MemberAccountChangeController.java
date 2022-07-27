@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +17,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
-import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.service.AppChannelService;
-import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.MemberAccountChangeService;
-import my.fast.admin.framework.utils.TokenUtils;
 
 /**
  * @author cgkj@cg.cn
@@ -38,10 +34,6 @@ public class MemberAccountChangeController {
     
     @Autowired
     private MemberAccountChangeService memberAccountChangeService;
-
-    @Autowired
-    private AppMemberService appMemberService;
-
 
     @Autowired
     private AppChannelService appChannelService;

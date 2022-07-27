@@ -42,4 +42,10 @@ public interface MemberAddressService {
     AppMemberAddress getMemberAddress(Long userId);
     
     
+    /**
+     * 查询会员地址信息
+     */
+    AppMemberAddress getMemberAddress(Long memberId, Long channelId);
+    
+    
 }
