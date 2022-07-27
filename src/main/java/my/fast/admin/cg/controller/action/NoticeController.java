@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
@@ -31,6 +33,14 @@ import my.fast.admin.cg.service.NoticeService;
 @Api(tags = "NoticeController", description = "消息通知管理")
 @RequestMapping("/action/notice")
 public class NoticeController {
+
+	@RequestMapping("/notice")
+			public Object notice() {
+					ModelAndView mav = new ModelAndView();
+					mav.setViewName("notice/notice");
+					return mav;
+			}
+
 
     @Autowired
     private NoticeService NoticeService;

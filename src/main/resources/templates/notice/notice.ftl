@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>会员等级</title>
+	<title>公告管理</title>
 	<#include "../resource.ftl"/>
 </head>
 
@@ -18,61 +18,26 @@
 		<form class="layui-form layui-card" lay-filter="addForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">名称</label>
+					<label class="layui-form-label label-required label-required-next">公告标题</label>
 					<div class="layui-input-block">
-						<input name="membersName" required placeholder="请输入名称" value="" class="layui-input" />
+						<input name="noticeTitle" required placeholder="请输入公告标题" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">会员价格</label>
+					<label class="layui-form-label label-required label-required-next">公告内容</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" required placeholder="请输入会员价格" value="" class="layui-input" />
+						<textarea id="addTextarea" name="noticeContent" lay-verify="content"></textarea>
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">佣金比例</label>
-					<div class="layui-input-block">
-						<input name="commission" type="number" min="0" required placeholder="请输入佣金比例" value=""
-							class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">最小余额</label>
-					<div class="layui-input-block">
-						<input name="numMin" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">接单次数</label>
-					<div class="layui-input-block">
-						<input name="orderNum" required placeholder="请输入接单次数" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现次数</label>
-					<div class="layui-input-block">
-						<input name="withdrawalTimes" required placeholder="请输入提现次数" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
-					<div class="layui-input-block">
-						<input name="withdrawalMin" required placeholder="请输入提现最小金额" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
-					<div class="layui-input-block">
-						<input name="withdrawalMax" required placeholder="请输入提现最大金额" value="" class="layui-input" />
-					</div>
-				</div>
+
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
 					<button class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
 					<button type="button" class="layui-btn layui-btn-danger" id="createCancel">取消</button>
 				</div>
 			</div>
-		</form>
+	</div>
+	</form>
 	</div>
 
 	<!--编辑表单-->
@@ -80,54 +45,18 @@
 		<form class="layui-form layui-card" lay-filter="editForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">名称</label>
+					<label class="layui-form-label label-required label-required-next">公告标题</label>
 					<div class="layui-input-block">
-						<input name="membersName" required placeholder="请输入名称" value="" class="layui-input" />
+						<input name="noticeTitle" required placeholder="请输入公告标题" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">会员价格</label>
+					<label class="layui-form-label label-required label-required-next">公告内容</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" required placeholder="请输入会员价格" value="" class="layui-input" />
+						<textarea id="editTextarea" name="noticeContent" lay-verify="content"></textarea>
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">佣金比例</label>
-					<div class="layui-input-block">
-						<input name="commission" type="number" min="0" required placeholder="请输入佣金比例" value=""
-							class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">最小余额</label>
-					<div class="layui-input-block">
-						<input name="numMin" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">接单次数</label>
-					<div class="layui-input-block">
-						<input name="orderNum" required placeholder="请输入接单次数" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现次数</label>
-					<div class="layui-input-block">
-						<input name="withdrawalTimes" required placeholder="请输入提现次数" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
-					<div class="layui-input-block">
-						<input name="withdrawalMin" required placeholder="请输入提现最小金额" value="" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
-					<div class="layui-input-block">
-						<input name="withdrawalMax" required placeholder="请输入提现最大金额" value="" class="layui-input" />
-					</div>
-				</div>
+
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
 					<button class="layui-btn" lay-submit lay-filter="editSubmit">提交</button>
@@ -139,7 +68,7 @@
 
 
 	<div class="layui-btn-container" style="margin-top: 20px;">
-		<button class="layui-btn" id="createBtn">添加会员等级</button>
+		<button class="layui-btn" id="createBtn">添加公告</button>
 	</div>
 
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
@@ -154,16 +83,57 @@
 		</script>
 
 	<!--注册信息-->
-	<script type="text/html" id="register">
+	<script type="text/html" id="createTime">
 			<div>
-				<p>{{ layui.util.toDateString(d.registerTime, 'yyyy-MM-dd')}}</p>
-				<p>{{ d.registerCountry}}</p>
+				<p>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd')}}</p>
+				<p>{{ d.createTime}}</p>
 			</div>
 		</script>
 
 	<script>
-		layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
-			var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
+		layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function () {
+			var table = layui.table, $ = layui.$, form = layui.form, util = layui.util; layedit = layui.layedit;
+
+
+			layedit.set({
+				//暴露layupload参数设置接口 --详细查看layupload参数说明
+				uploadImage: {
+					url: '/Attachment/LayUploadFile',
+					accept: 'image',
+					acceptMime: 'image/*',
+					exts: 'jpg|png|gif|bmp|jpeg',
+					size: '10240'
+				}
+				, uploadVideo: {
+					url: '/Attachment/LayUploadFile',
+					accept: 'video',
+					acceptMime: 'video/*',
+					exts: 'mp4|flv|avi|rm|rmvb',
+					size: '20480'
+				}
+				//右键删除图片/视频时的回调参数，post到后台删除服务器文件等操作，
+				//传递参数：
+				//图片： imgpath --图片路径
+				//视频： filepath --视频路径 imgpath --封面路径
+				, calldel: {
+					url: '/Attachment/DeleteFile'
+				}
+				//开发者模式 --默认为false
+				, devmode: true
+				//插入代码设置
+				, codeConfig: {
+					hide: true,  //是否显示编码语言选择框
+					default: 'javascript' //hide为true时的默认语言格式
+				}
+				, tool: [
+					'html', 'code', 'strong', 'italic', 'underline', 'del', 'addhr', '|', 'fontFomatt', 'colorpicker', 'face'
+					, '|', 'left', 'center', 'right', '|', 'link', 'unlink', 'images', 'image_alt', 'video', 'anchors'
+					, '|', 'fullScreen'
+				]
+				, height: '90%'
+			});
+			var editeditor = layedit.build('editTextarea');
+			var addeditor = layedit.build('addTextarea');
 
 			var editIndex
 
@@ -200,9 +170,10 @@
 
 			var actions = {
 				apiUrl: {
-					update: '/action/level/update/',
-					delete: '/action/level/delete/',
-					create: '/action/level/create'
+					// /action/notice/list: actions.apiUrl.update + id,
+					update: '/action/notice/update/',
+					delete: '/action/notice/delete/',
+					create: '/action/notice/create'
 				},
 				// 刷新表格数据
 				onReloadData: function () {
@@ -211,6 +182,7 @@
 					table.reloadData(levelListTableId, { where: Object.assign({}, where, searchData) })
 				},
 				onUpdateItem: function (id, fields, options) {
+					console.log('fields', fields);
 					var _options = Object.assign({}, requestDefOptions, options)
 					$.ajax({
 						url: actions.apiUrl.update + id,
@@ -288,7 +260,7 @@
 				var data = obj.data //获得当前行数据
 				var layEvent = obj.event //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 				var tr = obj.tr //获得当前行 tr 的 DOM 对象（如果有的话）
-
+				console.log('data', data);
 				// 设置当前选择项
 				tableCurrentItem = Object.assign({}, data)
 				// 修改邀请码
@@ -301,6 +273,7 @@
 						content: $('#editId'),
 						success: function () {
 							form.val('editForm', data);
+							layedit.setContent(editeditor, data.noticeContent, false);
 							$('#editId').show()
 						},
 						cancel: function () {
@@ -310,7 +283,7 @@
 				} else if (layEvent === 'delete') {
 					// 删除
 					layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
-						actions.onDelete(data.id, {
+						actions.onDelete(data.noticeId, {
 							success: function () {
 								layer.close(index)
 							}
@@ -323,9 +296,8 @@
 			//第一个实例
 			table.render({
 				elem: '#level',
-				height: 312,
-				url: '/action/level/list', //数据接口
-				// url: 'http://localhost:8080/levelaction/list?pageNum=1&pageSize=20', //数据接口
+				height: 400,
+				url: '/action/notice/list', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度
 				where: where,
@@ -337,17 +309,9 @@
 				cols: [
 					[
 						//表头
-						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-						{ field: 'membersName', title: '名称', width: 80 },
-						// { field: 'pic', title: '图标', width: 80, sort: true },
-						{ field: 'memberPrice', title: '会员价格', width: 80 },
-						{ field: 'commission', title: '佣金比例', width: 177 },
-						{ field: 'numMin', title: '最小余额', width: 80 },
-						{ field: 'orderNum', title: '接单次数', width: 80 },
-						{ field: 'withdrawalTimes', title: '提现次数', width: 80 },
-						{ field: 'withdrawalMin', title: '提现最小金额', width: 80 },
-						{ field: 'withdrawalMax', title: '提现最大金额', width: 80 },
-						{ field: 'registerTime', title: '注册时间', templet: '#register', minWidth: 160 },
+						{ field: 'noticeId', title: 'ID', width: 80, sort: true, fixed: 'left' },
+						{ field: 'noticeTitle', title: '标题', width: 200 },
+						{ field: 'createTime', title: '发表时间', templet: '#createTime', minWidth: 160 },
 						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
 					]
 				],
@@ -377,7 +341,8 @@
 
 			// 编辑-提交
 			form.on('submit(editSubmit)', function (data) {
-				actions.onUpdateItem(tableCurrentItem.id, data.field, {
+				data.field.noticeContent = layedit.getContent(editeditor);
+				actions.onUpdateItem(tableCurrentItem.noticeId, data.field, {
 					success: function () {
 						console.log('success');
 						layer.close(editIndex);
@@ -415,12 +380,12 @@
 
 			// 新建-提交
 			form.on('submit(createSubmit)', function (data) {
+				data.field.noticeContent = layedit.getContent(addeditor);
 				actions.onCreate(data.field, {
 					success: function () {
 						layer.close(createIndex);
 					}
 				});
-				// return false;
 			});
 
 		})
