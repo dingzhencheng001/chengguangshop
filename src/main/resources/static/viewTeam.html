@@ -219,7 +219,7 @@
 
         $('.layui-tab-title li').click(function () {
             if ($(this).text() === 'Ta的下线') {
-                where.memberLevel = 0;
+                where.memberLevel = null;
             } else if ($(this).text() === '一级会员') {
                 where.memberLevel = 1;
             } else if ($(this).text() === '二级会员') {
