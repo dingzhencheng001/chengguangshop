@@ -9,6 +9,12 @@ public class MemberParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "页码")
+    private Integer pageNum;
+	
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
+	
 	@ApiModelProperty(value = "会员Id")
     private Long memberId;
 
@@ -59,6 +65,18 @@ public class MemberParam implements Serializable {
 		return selectBeginTime;
 	}
 
+	public Integer getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(Integer pageNum) {
+		this.pageNum = pageNum;
+	}
+	public Integer getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 	public void setSelectBeginTime(Date selectBeginTime) {
 		this.selectBeginTime = selectBeginTime;
 	}
