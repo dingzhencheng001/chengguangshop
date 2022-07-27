@@ -120,9 +120,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                     layer.msg('删除会员成功', {icon: 1});
                     cb && cb();
                 },
-                fail: function () {
-                    layer.msg('删除会员失败', {icon: 2});
-                }
             });
         },
         onCreate: function (fields, cb) {
@@ -137,9 +134,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                     layer.msg('创建会员成功', {icon: 1});
                     cb && cb();
                 },
-                fail: function () {
-                    layer.msg('创建会员失败', {icon: 2});
-                }
             });
         },
     };
