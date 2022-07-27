@@ -123,7 +123,7 @@
             if (layEvent === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['800px', '600px'],
+                    area: ['800px', '500px'],
                     content: '/addGoods.html?id=' + data.id,
                     end: function () {
                         actions.onReloadData();
@@ -148,7 +148,7 @@
         $('#createBtn').click(function () {
             layer.open({
                 type: 2,
-                area: ['800px', '600px'],
+                area: ['800px', '500px'],
                 content: '/addGoods.html',
                 end: function () {
                     console.warn('end');

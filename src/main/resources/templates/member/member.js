@@ -1,7 +1,5 @@
-
-layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
-    var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
-    var element = layui.element;
+layui.use(['table', 'form', 'laydate'], function () {
+    var table = layui.table, $ = layui.$, form = layui.form;
     var laydate = layui.laydate;
 
     // 表格当前选择项
@@ -26,38 +24,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
     });
 
 
-    var where = {
-        // "agentLevel": 0,
-        // "balance": 0,
-        // "companyId": 0,
-        // "createBy": "string",
-        // "createTime": "2022-07-18T09:18:19.191Z",
-        // "deductionNum": 0,
-        // "delFlag": 0,
-        // "depositNum": 0,
-        // "email": "string",
-        // "freezeBalance": 0,
-        // "id": 0,
-        // "inviteCode": "string",
-        // "isAgent": 0,
-        // "loginDate": "2022-07-18T09:18:19.191Z",
-        // "loginIp": "string",
-        // "matching": "string",
-        // "memberLevelId": 0,
-        // "memberStatus": 0,
-        // "parentUserId": 0,
-        // "parentUserName": "string",
-        // "password": "string",
-        // "phoneNumber": "string",
-        // "rechargeNum": 0,
-        // "registerCountry": "string",
-        // "registerIp": "string",
-        // "registrationTime": "2022-07-18T09:18:19.191Z",
-        // "remark": "string",
-        // "status": 0,
-        // "totalCommission": 0,
-        // "userAccount": "string"
-    };
+    var where = {};
 
     var memberListTableId = 'memberListTable';
     table.render(Object.assign({}, $.tableRenderConfing, {
@@ -118,20 +85,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
                 success: function () {
                     actions.onReloadData();
                     layer.msg('删除会员成功', {icon: 1});
-                    cb && cb();
-                },
-            });
-        },
-        onCreate: function (fields, cb) {
-            $.request({
-                url: actions.apiUrl.create,
-                type: 'post',
-                contentType: 'application/json',
-                data: fields,
-                showLoading: true,
-                success: function () {
-                    actions.onReloadData();
-                    layer.msg('创建会员成功', {icon: 1});
                     cb && cb();
                 },
             });
@@ -458,15 +411,30 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 
     // 创建会员-提交
     form.on('submit(createSubmit)', function (data) {
-        actions.onCreate(data.field, function () {
-            layer.close(createIndex);
+        $.request({
+            url: actions.apiUrl.create,
+            type: 'post',
+            contentType: 'application/json',
+            data: data.field,
+            showLoading: true,
+            success: function () {
+                actions.onReloadData();
+                layer.msg('创建会员成功', {icon: 1});
+                onCreateCancel();
+            },
         });
-        // return false;
     });
     // 创建会员-取消
-    $('#createCancel').click(function () {
+    var onCreateCancel = function () {
+        form.val('createForm', {
+            userAccount: '',
+            phoneNumber: '',
+            password: '',
+            parentUserId: '',
+        })
         layer.close(createIndex);
-    });
+    }
+    $('#createCancel').click(onCreateCancel);
 
     var createIndex;
     $('#createBtn').click(function () {
