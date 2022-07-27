@@ -8,6 +8,7 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberExample;
 import my.fast.admin.cg.model.AppMemberBalanceParam;
 import my.fast.admin.cg.model.AppMemberParam;
+import my.fast.admin.cg.model.MemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
 import my.fast.admin.cg.vo.AppMemberVo;
@@ -107,7 +108,7 @@ public interface AppMemberMapper {
      *
      * @param memberId ，level
      */
-    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("level")Long level,@Param("channelId")Long channelId);
+    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("param")MemberParam param);
 
 
     /**

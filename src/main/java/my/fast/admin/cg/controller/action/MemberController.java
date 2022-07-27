@@ -205,7 +205,8 @@ public class MemberController {
     @ApiOperation(value = "获取会员团队信息")
     @RequestMapping(value = "/team/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<List<AppMember>> getTeamLevelList(@RequestBody MemberParam appMember,HttpServletRequest request) {
+    public CommonResult<CommonPage<AppMember>> getTeamLevelList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,@RequestBody MemberParam param,HttpServletRequest request) {
     	StringBuffer url = request.getRequestURL();  
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
         log.info("域名 ：tempContextUrl: "+  tempContextUrl);
@@ -215,7 +216,9 @@ public class MemberController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
-        return CommonResult.success(appTeamReportService.getTeamLevelList(appMember.getMemberId(),appMember.getMemberLevel(),sysChannel.getChannelId()));
+        param.setChannelId(sysChannel.getChannelId());
+        List<AppMember> voList = appTeamReportService.getTeamLevelList(param, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(voList));
     }
     
 

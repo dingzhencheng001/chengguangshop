@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.mapper.AppMemberMapper;
+import my.fast.admin.cg.model.MemberParam;
 import my.fast.admin.cg.service.AppTeamReportService;
 import my.fast.admin.cg.vo.AppCommissionVo;
 
@@ -127,7 +128,7 @@ public class AppTeamReportServiceImpl implements AppTeamReportService {
     }
 
 	@Override
-	public List<AppMember> getTeamLevelList(Long id, Long memberLevel,Long channelId) {
-		return appMemberMapper.getTeamLevelList(id, memberLevel,channelId);
+	public List<AppMember> getTeamLevelList(MemberParam param, Integer pageNum, Integer pageSize) {
+		return appMemberMapper.getTeamLevelList(param.getMemberId(), param);
 	}
 }
