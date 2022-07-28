@@ -32,6 +32,8 @@
 							<option value=""></option>
 							<option value="1">首页展示</option>
 							<option value="2">底部展示</option>
+							<option value="3">LOGO</option>
+							<option value="4">其他</option>
 						</select>
 					</div>
 				</div>
@@ -74,6 +76,8 @@
 							<option value=""></option>
 							<option value="1">首页展示</option>
 							<option value="2">底部展示</option>
+							<option value="3">LOGO</option>	
+							<option value="4">其他</option>
 						</select>
 					</div>
 				</div>
@@ -99,7 +103,7 @@
 
 
 	<div class="layui-btn-container" style="margin-top: 20px;">
-		<button class="layui-btn" id="createBtn">添加轮播图</button>
+		<button class="layui-btn" id="createBtn">添加图片</button>
 	</div>
 
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
