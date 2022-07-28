@@ -22,6 +22,7 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppMemberLevelService;
 import my.fast.admin.cg.service.MemberLevelService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * @author cgkj@cg.cn
@@ -97,6 +98,7 @@ public class MemberLevelController {
         }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
+        appMemberLevel.setRegisterTime(DateFormat.getNowDate());
         int count = memberLevelService.createLevels(appMemberLevel,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
