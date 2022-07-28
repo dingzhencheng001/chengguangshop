@@ -83,7 +83,7 @@
             } else if (layEvent === 'del') {
                 layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
                     $.request({
-                        url: '/action/goods/delete/' + data.id,
+                        url: '/action/goods/sort/delete/' + data.id,
                         success: function () {
                             layer.close(index);
                             layer.msg('删除成功', {icon: 1});
