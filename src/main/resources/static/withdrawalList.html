@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提现管理</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <link rel="stylesheet" href="css/console.css"/>
+</head>
+<body>
+<div class="layui-card layui-bg-gray">
+    <div class="layui-card-body layui-anim layui-anim-upbit">
+        <div class="think-box-shadow">
+
+            <fieldset>
+                <legend>条件搜索</legend>
+                <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" autocomplete="off">
+                    <div class="layui-form-item layui-inline" style="margin-right: 10px">
+                        <button class="layui-btn layui-btn-sm layui-btn-danger" id="agree">批量通过</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-warning" id="refuse">批量拒绝</button>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">订单号</label>
+                        <div class="layui-input-inline">
+                            <input name="orderNo" value="" placeholder="请输入订单号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-inline">
+                            <input name="userAccount" value="" placeholder="请输入用户名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">发起时间</label>
+                        <div class="layui-input-inline">
+                            <input id="time" name="time" value="" placeholder="请选择发起时间" class="layui-input" >
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="submit"><i class="layui-icon"></i> 搜 索</button>
+                        <a class="layui-btn layui-btn-danger">
+                            <i class="layui-icon"></i>
+                            导 出</a>
+                    </div>
+                </form>
+            </fieldset>
+
+            <table id="tableId" lay-filter="tableId" style="margin-top: 5px"></table>
+        </div>
+    </div>
+</div>
+
+<!--添加时间-->
+<script type="text/html" id="goodsAddTime">
+    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
+</script>
+
+<script>
+    layui.use(['table', 'form'], function () {
+        var table = layui.table, $ = layui.$, form = layui.form;
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#time',
+            range: true,
+        });
+
+        var where = {};
+
+        var tableId = 'tableId';
+        table.render(Object.assign({}, $.tableRenderConfing, {
+            elem: '#tableId',
+            url: 'http://localhost:8080/action/withdrawal/list', //数据接口
+            where: where,
+            method: 'post',
+            contentType: 'application/json',
+            // 订单号	提现用户	上级用户	提现金额	手续费	实际到账	收款信息	联系电话	发起时间	处理时间	状态	订单状态	备注
+            cols: [[ //表头
+                { field: 'id', type: 'checkbox'}
+                , {field: 'orderNo', title: '订单号', sort: true}
+                , {field: 'userAccount', title: '提现用户'}
+                , {field: 'xxx', title: '上级用户'}
+                , {field: 'operaMount', title: '提现金额'}
+                , {field: 'xxx', title: '手续费'}
+                , {field: 'xxx', title: '实际到账', sort: true}
+                , {field: 'xxx', title: '收款信息', sort: true}
+                , {field: 'phoneNumber', title: '联系电话', sort: true}
+                , {field: 'xxx', title: '发起时间', sort: true}
+                , {field: 'xxx', title: '处理时间', sort: true}
+                , {field: 'xxx', title: '状态', sort: true}
+                , {field: 'xxx', title: '订单状态', sort: true}
+                , {field: 'xxx', title: '备注', sort: true}
+            ]],
+            id: tableId, // 容器唯一ID
+        }));
+
+        table.on('checkbox(tableId)', function(obj){
+            console.log(obj)
+        });
+
+        var actions = {
+            onReloadData: function () {
+                table.reloadData(tableId, {where: Object.assign({}, where, onGetSearchParams())});
+            },
+        }
+
+        // 获取搜索参数
+        var onGetSearchParams = function () {
+            var searchData = form.val('searchForm');
+            var times = $.getRangeTime(searchData.time);
+            // searchData.status = Number(searchData.status) || null;
+            // searchData.memberStatus = Number(searchData.memberStatus) || null;
+            searchData.selectBeginTime = times[0];
+            searchData.selectEndTime = times[1];
+            delete searchData.time;
+            return searchData;
+        }
+
+        // 搜索
+        form.on('submit(search)', function () {
+            actions.onReloadData();
+            return false;
+        });
+
+        //单元格工具事件
+        table.on('tool(tableId)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+        });
+
+        // 通过
+        var onAgree = function () {
+            var checkStatus = table.checkStatus(tableId);
+            var ids = checkStatus.data.map(function (item) {
+                return item.orderNo;
+            });
+            if (ids.length ===0) {
+                layer.msg('请选择数据项', {icon: 2});
+                return false;
+            }
+            $.request({
+                url: '/action/withdrawal/approval/batch',
+                data: {
+                    ids: ids,
+                    // status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】
+                    status: 3,
+                },
+                type: 'post',
+                showLoading: true,
+                success: function () {
+                    actions.onReloadData();
+                    layer.msg('批量通过成功', {icon: 1});
+                }
+            });
+            return false;
+        }
+        $('#agree').click(onAgree);
+
+        // 拒绝
+        var onRefuse = function () {
+            var checkStatus = table.checkStatus(tableId);
+            var ids = checkStatus.data.map(function (item) {
+                return item.orderNo;
+            });
+            if (ids.length ===0) {
+                layer.msg('请选择数据项', {icon: 2});
+                return false;
+            }
+            $.request({
+                url: '/action/withdrawal/approval/batch',
+                data: {
+                    ids: ids,
+                    // status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】
+                    status: 2,
+                },
+                type: 'post',
+                showLoading: true,
+                success: function () {
+                    actions.onReloadData();
+                    layer.msg('批量拒绝成功', {icon: 1});
+                }
+            });
+            return false;
+        }
+        $('#refuse').click(onRefuse);
+
+    });
+
+</script>
+</body>
+</html>
