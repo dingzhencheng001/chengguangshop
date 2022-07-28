@@ -45,6 +45,15 @@ public class AppMemberAccountChange implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "用户账号")
+    private String userAccount;
+    
+    @ApiModelProperty(value = "帐号状态（1正常 2异常）")
+    private Integer status;
+    
+    @ApiModelProperty(value = "订单编号")
+    private String orderNo;
+    
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -151,7 +160,33 @@ public class AppMemberAccountChange implements Serializable {
         this.channelId = channelId;
     }
 
-    @Override
+    
+    
+    public String getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -170,6 +205,9 @@ public class AppMemberAccountChange implements Serializable {
         sb.append(", updateBy=").append(updateBy);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", channelId=").append(channelId);
+        sb.append(", userAccount=").append(userAccount);
+        sb.append(", status=").append(status);
+        sb.append(", orderNo=").append(orderNo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

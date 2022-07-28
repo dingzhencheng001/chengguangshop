@@ -15,6 +15,9 @@
         <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="channel_id" jdbcType="BIGINT" property="channelId" />
+        <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -79,7 +82,7 @@
     <sql id="Base_Column_List">
         id
         , account_id, member_id, currency_type, opera_type, pre_opera_mount, opera_mount,
-    total_mount, create_by, create_time, update_by, update_time, channel_id
+    total_mount, create_by, create_time, update_by, update_time, channel_id,user_account,status,order_no
     </sql>
     <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberAccountChangeExample"
             resultMap="BaseResultMap">
@@ -120,11 +123,12 @@
         insert into app_member_account_change (account_id, member_id, currency_type,
         opera_type, pre_opera_mount, opera_mount,
         total_mount, create_by, create_time,
-        update_by, update_time, channel_id)
+        update_by, update_time, channel_id,user_account,status,order_no)
         values (#{accountId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{currencyType,jdbcType=INTEGER},
         #{operaType,jdbcType=INTEGER}, #{preOperaMount,jdbcType=DECIMAL}, #{operaMount,jdbcType=DECIMAL},
         #{totalMount,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{channelId,jdbcType=BIGINT})
+        #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{channelId,jdbcType=BIGINT}, 
+        #{userAccount,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{orderNo,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberAccountChange">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -168,6 +172,15 @@
             <if test="channelId != null">
                 channel_id,
             </if>
+            <if test="userAccount != null">
+                user_account,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="accountId != null">
@@ -205,6 +218,15 @@
             </if>
             <if test="channelId != null">
                 #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -271,6 +293,15 @@
             <if test="record.channelId != null">
                 channel_id = #{record.channelId,jdbcType=BIGINT},
             </if>
+            <if test="record.userAccount != null">
+                user_account = #{record.userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -290,7 +321,10 @@
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
         update_by = #{record.updateBy,jdbcType=VARCHAR},
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-        channel_id = #{record.channelId,jdbcType=BIGINT}
+        channel_id = #{record.channelId,jdbcType=BIGINT},
+        user_account = #{record.userAccount,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -334,6 +368,15 @@
             <if test="channelId != null">
                 channel_id = #{channelId,jdbcType=BIGINT},
             </if>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                order_no = #{updateBy,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -350,7 +393,10 @@
             create_time     = #{createTime,jdbcType=TIMESTAMP},
             update_by       = #{updateBy,jdbcType=VARCHAR},
             update_time     = #{updateTime,jdbcType=TIMESTAMP},
-            channel_id = #{channelId,jdbcType=BIGINT}
+            channel_id = #{channelId,jdbcType=BIGINT},
+            user_account = #{record.userAccount,jdbcType=VARCHAR},
+        	status = #{record.status,jdbcType=INTEGER},
+        	order_no = #{record.orderNo,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

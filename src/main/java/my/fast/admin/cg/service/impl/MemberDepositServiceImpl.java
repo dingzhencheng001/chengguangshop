@@ -58,6 +58,8 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     public int createDeposit(MemberDepositParam depositParam) {
     	Integer type = 1; //1 充值 2 减少
     	AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+    	AppMemberDeposit deposit = new AppMemberDeposit();
+    	deposit.setOrderNo(generateOrderSn());//设置订单编号
     	//获取用户信息 更新用户的余额
         AppMember appMember = appMemberMapper.selectByPrimaryKey(depositParam.getMemberId());
         if (StringUtils.isEmpty(appMember)) {
@@ -92,6 +94,9 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         //更新会员表
         appMemberMapper.updateByPrimaryKey(appMember);
     	//插入账变记录表
+        appMemberAccountChange.setUserAccount(appMember.getUserAccount());//记录操作信息
+        appMemberAccountChange.setOrderNo(deposit.getOrderNo()); //取订单编号
+        appMemberAccountChange.setStatus(1);
         appMemberAccountChange.setMemberId(depositParam.getMemberId());
         appMemberAccountChange.setChannelId(depositParam.getChannelId());
         appMemberAccountChange.setPreOperaMount(appMember.getBalance());
@@ -99,12 +104,9 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         //设置操作后金额
         appMemberAccountChange.setOperaType(type); //1 充值 2 减少
         appMemberAccountChange.setCreateBy("admin");
-        Date date = new Date(System.currentTimeMillis());
-        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
     	//插入充值记录
-    	AppMemberDeposit deposit = new AppMemberDeposit();
-    	deposit.setOrderNo(generateOrderSn());
     	deposit.setMemberId(depositParam.getMemberId());
         deposit.setChannelId(depositParam.getChannelId());
         deposit.setPhoneNumber(appMember.getPhoneNumber());
