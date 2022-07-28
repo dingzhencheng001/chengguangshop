@@ -7,18 +7,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * TODO
  *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/27 11:04
+ * @since 2022/7/28 11:12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MemberParams {
-
-
-    @ApiModelProperty(value = "关键字")
-    private String keyword;
+public class AppConveyParam {
 
     @ApiModelProperty(value = "开始时间")
     private Date selectBeginTime;
@@ -26,14 +23,22 @@ public class MemberParams {
     @ApiModelProperty(value = "结束时间")
     private Date selectEndTime;
 
-    @ApiModelProperty(value = "会员状态:1.真人2.假人")
-    private Integer memberStatus;
-    
     @ApiModelProperty(value = "页码")
     private Integer pageNum;
 
     @ApiModelProperty(value = "分页数")
     private Integer pageSize;
-    
+
+    @ApiModelProperty(value = "用户名")
+    private String userAccount;
+
+    @ApiModelProperty(value = "交易订单号")
+    private String lno;
+
+    @ApiModelProperty(value = "会员ID")
+    private Long memberId;
+
+    @ApiModelProperty(value = "交易状态")
+    private String status;
 
 }

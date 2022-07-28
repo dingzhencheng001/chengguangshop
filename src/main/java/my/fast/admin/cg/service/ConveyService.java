@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppConvey;
+import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 
 /**
@@ -22,11 +23,6 @@ public interface ConveyService {
     List<AppConvey> listAll();
 
     /**
-     * 分页查询
-     */
-    List<AppConveyDto> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize);
-
-    /**
      * 删除订单
      */
     int deleteConveyById(Long id);
@@ -42,5 +38,8 @@ public interface ConveyService {
     @Transactional
     int updateConvey(Long id,AppConvey appConvey);
 
-
+    /**
+     * 分页查询
+     */
+    List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Long channelId);
 }

@@ -21,6 +21,7 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppConveyService;
 import my.fast.admin.cg.service.AppMemberService;
@@ -51,8 +52,7 @@ public class ConveyController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppConveyDto>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppConvey appConvey,
+        @RequestBody AppConveyParam appConveyParam,
         HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -62,8 +62,7 @@ public class ConveyController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        appConvey.setChannelId(channelId);
-        List<AppConveyDto> conveyList = ConveyService.listConvey(appConvey, pageNum, pageSize);
+        List<AppConveyDto> conveyList = ConveyService.listConvey(appConveyParam, channelId);
         return CommonResult.success(CommonPage.restPage(conveyList));
     }
 

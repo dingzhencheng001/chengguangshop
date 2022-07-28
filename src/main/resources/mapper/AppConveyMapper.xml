@@ -1,431 +1,453 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.cg.mapper.AppConveyMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppConvey">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
-    <result column="amount" jdbcType="DECIMAL" property="amount" />
-    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
-    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="commission" jdbcType="DECIMAL" property="commission" />
-    <result column="c_status" jdbcType="VARCHAR" property="cStatus" />
-    <result column="add_id" jdbcType="BIGINT" property="addId" />
-    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
-    <result column="goods_count" jdbcType="VARCHAR" property="goodsCount" />
-    <result column="hid" jdbcType="VARCHAR" property="hid" />
-    <result column="qiang" jdbcType="BIGINT" property="qiang" />
-    <result column="lno" jdbcType="VARCHAR" property="lno" />
-    <result column="min" jdbcType="DECIMAL" property="min" />
-    <result column="max" jdbcType="DECIMAL" property="max" />
-    <result column="sign" jdbcType="VARCHAR" property="sign" />
-      <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppConvey">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="member_id" jdbcType="BIGINT" property="memberId"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+        <result column="endtime" jdbcType="TIMESTAMP" property="endtime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="commission" jdbcType="DECIMAL" property="commission"/>
+        <result column="c_status" jdbcType="VARCHAR" property="cStatus"/>
+        <result column="add_id" jdbcType="BIGINT" property="addId"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="goods_count" jdbcType="VARCHAR" property="goodsCount"/>
+        <result column="hid" jdbcType="VARCHAR" property="hid"/>
+        <result column="qiang" jdbcType="BIGINT" property="qiang"/>
+        <result column="lno" jdbcType="VARCHAR" property="lno"/>
+        <result column="min" jdbcType="DECIMAL" property="min"/>
+        <result column="max" jdbcType="DECIMAL" property="max"/>
+        <result column="sign" jdbcType="VARCHAR" property="sign"/>
+        <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, member_id, amount, addtime, endtime, status, commission, c_status, add_id, goods_id, 
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , member_id, amount, addtime, endtime, status, commission, c_status, add_id, goods_id,
     goods_count, hid, qiang, lno, min, max, sign, channel_id
-  </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from app_convey
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByConveyByStatus" parameterType="my.fast.admin.cg.entity.AppConvey" resultType="my.fast.admin.cg.vo.AppConveyDto" >
-    SELECT t2.goods_name, t2.shop_name ,t1.*  from  app_convey t1 LEFT JOIN app_goods t2 on t1.goods_id=t2.id 
-    where 1=1  and  t1.member_id = #{memberId,jdbcType=BIGINT}
-    <if test="status != null">
-      and  t1.status = #{status,jdbcType=VARCHAR}
-    </if>
-      <if test="status != null">
-          and  t1.channel_id = #{channelId,jdbcType=VARCHAR}
-      </if>
-  </select>
-  
-  
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from app_convey
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from app_convey
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample">
-    delete from app_convey
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppConvey">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_convey (member_id, amount, addtime, 
-      endtime, status, commission, 
-      c_status, add_id, goods_id, 
-      goods_count, hid, qiang, 
-      lno, min, max, sign ,channel_id
-      )
-    values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, 
-      #{cStatus,jdbcType=VARCHAR}, #{addId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
-      #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{qiang,jdbcType=BIGINT}, 
-      #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL}, #{sign,jdbcType=VARCHAR},#{channelId,jdbcType=BIGINT}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppConvey">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_convey
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        member_id,
-      </if>
-      <if test="amount != null">
-        amount,
-      </if>
-      <if test="addtime != null">
-        addtime,
-      </if>
-      <if test="endtime != null">
-        endtime,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="commission != null">
-        commission,
-      </if>
-      <if test="cStatus != null">
-        c_status,
-      </if>
-      <if test="addId != null">
-        add_id,
-      </if>
-      <if test="goodsId != null">
-        goods_id,
-      </if>
-      <if test="goodsCount != null">
-        goods_count,
-      </if>
-      <if test="hid != null">
-        hid,
-      </if>
-      <if test="qiang != null">
-        qiang,
-      </if>
-      <if test="lno != null">
-        lno,
-      </if>
-      <if test="min != null">
-        min,
-      </if>
-      <if test="max != null">
-        max,
-      </if>
-      <if test="sign != null">
-        sign,
-      </if>
-        <if test="channelId != null">
-            channel_id,
+    </sql>
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="amount != null">
-        #{amount,jdbcType=DECIMAL},
-      </if>
-      <if test="addtime != null">
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="commission != null">
-        #{commission,jdbcType=DECIMAL},
-      </if>
-      <if test="cStatus != null">
-        #{cStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="addId != null">
-        #{addId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsId != null">
-        #{goodsId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsCount != null">
-        #{goodsCount,jdbcType=VARCHAR},
-      </if>
-      <if test="hid != null">
-        #{hid,jdbcType=VARCHAR},
-      </if>
-      <if test="qiang != null">
-        #{qiang,jdbcType=BIGINT},
-      </if>
-      <if test="lno != null">
-        #{lno,jdbcType=VARCHAR},
-      </if>
-      <if test="min != null">
-        #{min,jdbcType=DECIMAL},
-      </if>
-      <if test="max != null">
-        #{max,jdbcType=DECIMAL},
-      </if>
-      <if test="sign != null">
-        #{sign,jdbcType=VARCHAR},
-      </if>
-        <if test="channelId != null">
-            #{channelId,jdbcType=BIGINT},
+        <include refid="Base_Column_List"/>
+        from app_convey
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
         </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultType="java.lang.Long">
-    select count(*) from app_convey
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByConveyByStatus" resultType="my.fast.admin.cg.vo.AppConveyDto">
+        SELECT t2.goods_name, t2.shop_name ,t1.*,m3.user_account
+        from app_convey t1 LEFT JOIN app_goods t2 on t1.goods_id=t2.id LEFT JOIN app_member m3 on t1.member_id = m3.id
+        where t1.channel_id = #{channelId,jdbcType=BIGINT}
+        <if test="appConveyParam.memberId != null">
+            and t1.member_id = #{appConveyParam.memberId,jdbcType=BIGINT}
+        </if>
+        <if test="appConveyParam.status != null and appConveyParam.status !=''">
+            and t1.status = #{appConveyParam.status,jdbcType=VARCHAR}
+        </if>
+        <if test="appConveyParam.lno != null and appConveyParam.lno !=''">
+            and t1.lno = #{appConveyParam.lno,jdbcType=VARCHAR}
+        </if>
+        <if test="appConveyParam.userAccount != null and appConveyParam.userAccount !=''">
+            and m3.user_account = #{appConveyParam.userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="appConveyParam.selectBeginTime != null">
+            and
+            t1.addtime BETWEEN #{appConveyParam.selectBeginTime,jdbcType=TIMESTAMP} and #{appConveyParam.selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_convey
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from app_convey
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample">
+        delete from app_convey
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppConvey">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_convey (member_id, amount, addtime,
+        endtime, status, commission,
+        c_status, add_id, goods_id,
+        goods_count, hid, qiang,
+        lno, min, max, sign ,channel_id
+        )
+        values (#{memberId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{addtime,jdbcType=TIMESTAMP},
+        #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL},
+        #{cStatus,jdbcType=VARCHAR}, #{addId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT},
+        #{goodsCount,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{qiang,jdbcType=BIGINT},
+        #{lno,jdbcType=VARCHAR}, #{min,jdbcType=DECIMAL}, #{max,jdbcType=DECIMAL},
+        #{sign,jdbcType=VARCHAR},#{channelId,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppConvey">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_convey
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                member_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="addtime != null">
+                addtime,
+            </if>
+            <if test="endtime != null">
+                endtime,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="commission != null">
+                commission,
+            </if>
+            <if test="cStatus != null">
+                c_status,
+            </if>
+            <if test="addId != null">
+                add_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsCount != null">
+                goods_count,
+            </if>
+            <if test="hid != null">
+                hid,
+            </if>
+            <if test="qiang != null">
+                qiang,
+            </if>
+            <if test="lno != null">
+                lno,
+            </if>
+            <if test="min != null">
+                min,
+            </if>
+            <if test="max != null">
+                max,
+            </if>
+            <if test="sign != null">
+                sign,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="addtime != null">
+                #{addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="commission != null">
+                #{commission,jdbcType=DECIMAL},
+            </if>
+            <if test="cStatus != null">
+                #{cStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="addId != null">
+                #{addId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsCount != null">
+                #{goodsCount,jdbcType=VARCHAR},
+            </if>
+            <if test="hid != null">
+                #{hid,jdbcType=VARCHAR},
+            </if>
+            <if test="qiang != null">
+                #{qiang,jdbcType=BIGINT},
+            </if>
+            <if test="lno != null">
+                #{lno,jdbcType=VARCHAR},
+            </if>
+            <if test="min != null">
+                #{min,jdbcType=DECIMAL},
+            </if>
+            <if test="max != null">
+                #{max,jdbcType=DECIMAL},
+            </if>
+            <if test="sign != null">
+                #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppConveyExample" resultType="java.lang.Long">
+        select count(*) from app_convey
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
     <select id="selectConvey" resultType="my.fast.admin.cg.entity.AppConvey">
-        select * from app_convey where TO_DAYS(addtime) = TO_DAYS(now());
+        select *
+        from app_convey
+        where TO_DAYS(addtime) = TO_DAYS(now());
+    </select>
+    <select id="selectUserConvey" resultType="my.fast.admin.cg.vo.AppConveyDto">
+        select *
+        from app_convey
+        where  member_id = #{memberId,jdbcType=BIGINT},
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-    update app_convey
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.memberId != null">
+        update app_convey
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.memberId != null">
+                member_id = #{record.memberId,jdbcType=BIGINT},
+            </if>
+            <if test="record.amount != null">
+                amount = #{record.amount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.addtime != null">
+                addtime = #{record.addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.endtime != null">
+                endtime = #{record.endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.commission != null">
+                commission = #{record.commission,jdbcType=DECIMAL},
+            </if>
+            <if test="record.cStatus != null">
+                c_status = #{record.cStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.addId != null">
+                add_id = #{record.addId,jdbcType=BIGINT},
+            </if>
+            <if test="record.goodsId != null">
+                goods_id = #{record.goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="record.goodsCount != null">
+                goods_count = #{record.goodsCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hid != null">
+                hid = #{record.hid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.qiang != null">
+                qiang = #{record.qiang,jdbcType=BIGINT},
+            </if>
+            <if test="record.lno != null">
+                lno = #{record.lno,jdbcType=VARCHAR},
+            </if>
+            <if test="record.min != null">
+                min = #{record.min,jdbcType=DECIMAL},
+            </if>
+            <if test="record.max != null">
+                max = #{record.max,jdbcType=DECIMAL},
+            </if>
+            <if test="record.sign != null">
+                sign = #{record.sign,jdbcType=VARCHAR},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update app_convey
+        set id = #{record.id,jdbcType=BIGINT},
         member_id = #{record.memberId,jdbcType=BIGINT},
-      </if>
-      <if test="record.amount != null">
         amount = #{record.amount,jdbcType=DECIMAL},
-      </if>
-      <if test="record.addtime != null">
         addtime = #{record.addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endtime != null">
         endtime = #{record.endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.commission != null">
         commission = #{record.commission,jdbcType=DECIMAL},
-      </if>
-      <if test="record.cStatus != null">
         c_status = #{record.cStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.addId != null">
         add_id = #{record.addId,jdbcType=BIGINT},
-      </if>
-      <if test="record.goodsId != null">
         goods_id = #{record.goodsId,jdbcType=BIGINT},
-      </if>
-      <if test="record.goodsCount != null">
         goods_count = #{record.goodsCount,jdbcType=VARCHAR},
-      </if>
-      <if test="record.hid != null">
         hid = #{record.hid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.qiang != null">
         qiang = #{record.qiang,jdbcType=BIGINT},
-      </if>
-      <if test="record.lno != null">
         lno = #{record.lno,jdbcType=VARCHAR},
-      </if>
-      <if test="record.min != null">
         min = #{record.min,jdbcType=DECIMAL},
-      </if>
-      <if test="record.max != null">
         max = #{record.max,jdbcType=DECIMAL},
-      </if>
-      <if test="record.sign != null">
         sign = #{record.sign,jdbcType=VARCHAR},
-      </if>
-        <if test="record.channelId != null">
-            channel_id = #{record.channelId,jdbcType=BIGINT},
+        channel_id = #{record.channelId,jdbcType=BIGINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update app_convey
-    set id = #{record.id,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
-      amount = #{record.amount,jdbcType=DECIMAL},
-      addtime = #{record.addtime,jdbcType=TIMESTAMP},
-      endtime = #{record.endtime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=VARCHAR},
-      commission = #{record.commission,jdbcType=DECIMAL},
-      c_status = #{record.cStatus,jdbcType=VARCHAR},
-      add_id = #{record.addId,jdbcType=BIGINT},
-      goods_id = #{record.goodsId,jdbcType=BIGINT},
-      goods_count = #{record.goodsCount,jdbcType=VARCHAR},
-      hid = #{record.hid,jdbcType=VARCHAR},
-      qiang = #{record.qiang,jdbcType=BIGINT},
-      lno = #{record.lno,jdbcType=VARCHAR},
-      min = #{record.min,jdbcType=DECIMAL},
-      max = #{record.max,jdbcType=DECIMAL},
-      sign = #{record.sign,jdbcType=VARCHAR},
-      channel_id = #{record.channelId,jdbcType=BIGINT}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppConvey">
-    update app_convey
-    <set>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="amount != null">
-        amount = #{amount,jdbcType=DECIMAL},
-      </if>
-      <if test="addtime != null">
-        addtime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        endtime = #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="commission != null">
-        commission = #{commission,jdbcType=DECIMAL},
-      </if>
-      <if test="cStatus != null">
-        c_status = #{cStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="addId != null">
-        add_id = #{addId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsCount != null">
-        goods_count = #{goodsCount,jdbcType=VARCHAR},
-      </if>
-      <if test="hid != null">
-        hid = #{hid,jdbcType=VARCHAR},
-      </if>
-      <if test="qiang != null">
-        qiang = #{qiang,jdbcType=BIGINT},
-      </if>
-      <if test="lno != null">
-        lno = #{lno,jdbcType=VARCHAR},
-      </if>
-      <if test="min != null">
-        min = #{min,jdbcType=DECIMAL},
-      </if>
-      <if test="max != null">
-        max = #{max,jdbcType=DECIMAL},
-      </if>
-      <if test="sign != null">
-        sign = #{sign,jdbcType=VARCHAR},
-      </if>
-        <if test="channelId != null">
-            channel_id = #{channelId,jdbcType=BIGINT},
-        </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppConvey">
-    update app_convey
-    set member_id = #{memberId,jdbcType=BIGINT},
-      amount = #{amount,jdbcType=DECIMAL},
-      addtime = #{addtime,jdbcType=TIMESTAMP},
-      endtime = #{endtime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=VARCHAR},
-      commission = #{commission,jdbcType=DECIMAL},
-      c_status = #{cStatus,jdbcType=VARCHAR},
-      add_id = #{addId,jdbcType=BIGINT},
-      goods_id = #{goodsId,jdbcType=BIGINT},
-      goods_count = #{goodsCount,jdbcType=VARCHAR},
-      hid = #{hid,jdbcType=VARCHAR},
-      qiang = #{qiang,jdbcType=BIGINT},
-      lno = #{lno,jdbcType=VARCHAR},
-      min = #{min,jdbcType=DECIMAL},
-      max = #{max,jdbcType=DECIMAL},
-      sign = #{sign,jdbcType=VARCHAR},
-        channel_id = #{channelId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppConvey">
+        update app_convey
+        <set>
+            <if test="memberId != null">
+                member_id = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime = #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="commission != null">
+                commission = #{commission,jdbcType=DECIMAL},
+            </if>
+            <if test="cStatus != null">
+                c_status = #{cStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="addId != null">
+                add_id = #{addId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsCount != null">
+                goods_count = #{goodsCount,jdbcType=VARCHAR},
+            </if>
+            <if test="hid != null">
+                hid = #{hid,jdbcType=VARCHAR},
+            </if>
+            <if test="qiang != null">
+                qiang = #{qiang,jdbcType=BIGINT},
+            </if>
+            <if test="lno != null">
+                lno = #{lno,jdbcType=VARCHAR},
+            </if>
+            <if test="min != null">
+                min = #{min,jdbcType=DECIMAL},
+            </if>
+            <if test="max != null">
+                max = #{max,jdbcType=DECIMAL},
+            </if>
+            <if test="sign != null">
+                sign = #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppConvey">
+        update app_convey
+        set member_id   = #{memberId,jdbcType=BIGINT},
+            amount      = #{amount,jdbcType=DECIMAL},
+            addtime     = #{addtime,jdbcType=TIMESTAMP},
+            endtime     = #{endtime,jdbcType=TIMESTAMP},
+            status      = #{status,jdbcType=VARCHAR},
+            commission  = #{commission,jdbcType=DECIMAL},
+            c_status    = #{cStatus,jdbcType=VARCHAR},
+            add_id      = #{addId,jdbcType=BIGINT},
+            goods_id    = #{goodsId,jdbcType=BIGINT},
+            goods_count = #{goodsCount,jdbcType=VARCHAR},
+            hid         = #{hid,jdbcType=VARCHAR},
+            qiang       = #{qiang,jdbcType=BIGINT},
+            lno         = #{lno,jdbcType=VARCHAR},
+            min         = #{min,jdbcType=DECIMAL},
+            max         = #{max,jdbcType=DECIMAL},
+            sign        = #{sign,jdbcType=VARCHAR},
+            channel_id  = #{channelId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

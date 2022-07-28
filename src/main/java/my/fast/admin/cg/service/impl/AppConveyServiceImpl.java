@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.mapper.AppConveyMapper;
+import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppConveyService;
 import my.fast.admin.cg.vo.AppConveyDto;
 
@@ -33,15 +34,9 @@ public class AppConveyServiceImpl implements AppConveyService {
     }
 
     @Override
-    public List<AppConveyDto> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize) {
+    public List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-//        AppConveyExample appGoodsExample = new AppConveyExample();
-//        AppConveyExample.Criteria criteria = appGoodsExample.createCriteria();
-//        if (!StringUtils.isEmpty(appConvey.get)) {
-//            criteria.andGoodsNameLike("%" + goodsName + "%");
-//        }
-        
-        return appConveyMapper.selectByConveyByStatus(appConvey);
+        return  appConveyMapper.selectUserConvey(appConveyParam);
     }
 
     @Override
@@ -51,14 +46,14 @@ public class AppConveyServiceImpl implements AppConveyService {
 
     @Override
     public int createConvey(AppConvey appConveyParam) {
-    	AppConvey appConvey = new AppConvey();
+        AppConvey appConvey = new AppConvey();
         BeanUtils.copyProperties(appConveyParam, appConvey);
         return appConveyMapper.insertSelective(appConvey);
     }
 
     @Override
     public int updateConvey(Long id, AppConvey appConveyParam) {
-    	AppConvey appConvey = new AppConvey();
+        AppConvey appConvey = new AppConvey();
         BeanUtils.copyProperties(appConveyParam, appConvey);
         appConvey.setId(id);
         return appConveyMapper.updateByPrimaryKeySelective(appConvey);
