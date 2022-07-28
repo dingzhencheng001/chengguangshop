@@ -34,8 +34,8 @@
                 <legend>条件搜索</legend>
                 <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" autocomplete="off">
                     <div class="layui-form-item layui-inline" style="margin-right: 10px">
-                        <button class="layui-btn layui-btn-sm layui-btn-danger" id="agree">批量通过</button>
-                        <button class="layui-btn layui-btn-sm layui-btn-warning" id="refuse">批量拒绝</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" id="agree">批量通过</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-warning" id="refuse">批量拒绝</button>
                     </div>
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">订单号</label>
@@ -70,8 +70,8 @@
 </div>
 
 <!--操作-->
-<#-- status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】-->
 <script type="text/html" id="operation">
+<!--    status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】-->
     {{#  if(d.status === 1){ }}
     <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="adopt">通过</a>
     <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="reject">驳回</a>
@@ -214,7 +214,7 @@
             var ids = checkStatus.data.map(function (item) {
                 return item.orderNo;
             });
-            if (ids.length ===0) {
+            if (ids.length === 0) {
                 layer.msg('请选择数据项', {icon: 2});
                 return false;
             }
@@ -242,7 +242,7 @@
             var ids = checkStatus.data.map(function (item) {
                 return item.orderNo;
             });
-            if (ids.length ===0) {
+            if (ids.length === 0) {
                 layer.msg('请选择数据项', {icon: 2});
                 return false;
             }
