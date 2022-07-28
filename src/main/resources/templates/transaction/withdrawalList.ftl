@@ -37,9 +37,9 @@
                     </div>
                     <div class="layui-form-item layui-inline">
                         <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="submit"><i class="layui-icon"></i> 搜 索</button>
-                        <a class="layui-btn layui-btn-danger">
-                            <i class="layui-icon"></i>
-                            导 出</a>
+                        <!--                        <a class="layui-btn layui-btn-danger">-->
+                        <!--                            <i class="layui-icon"></i>-->
+                        <!--                            导 出</a>-->
                     </div>
                 </form>
             </fieldset>
@@ -49,9 +49,17 @@
     </div>
 </div>
 
-<!--添加时间-->
-<script type="text/html" id="goodsAddTime">
-    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
+<!--操作-->
+<#-- status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】-->
+<script type="text/html" id="operation">
+    {{#  if(d.status === 1){ }}
+    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="adopt">通过</a>
+    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="reject">驳回</a>
+    {{#  } else if (d.status === 2) {  }}
+    已驳回
+    {{#  } else if (d.status === 3) {  }}
+    已打款
+    {{# } }}
 </script>
 
 <script>
@@ -84,11 +92,26 @@
                 , {field: 'xxx', title: '实际到账', sort: true}
                 , {field: 'xxx', title: '收款信息', sort: true}
                 , {field: 'phoneNumber', title: '联系电话', sort: true}
-                , {field: 'xxx', title: '发起时间', sort: true}
-                , {field: 'xxx', title: '处理时间', sort: true}
-                , {field: 'xxx', title: '状态', sort: true}
+                , {field: 'createTime', title: '发起时间', width: 180, templet: function (d) {
+                        return layui.util.toDateString(d.createTime, 'yyyy年MM月dd日 HH:mm:ss')
+                    }}
+                , {field: 'dealTime', title: '处理时间', width: 180, templet: function (d) {
+                        return layui.util.toDateString(d.dealTime, 'yyyy年MM月dd日 HH:mm:ss')
+                    }}
+                , {field: 'status', title: '状态', templet: function (d) {
+                        // status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】
+                        var map = {
+                            1: '待审核',
+                            2: '已驳回',
+                            3: '已打款',
+                        }
+                        return map[d.status] || ''
+                    }}
                 , {field: 'xxx', title: '订单状态', sort: true}
-                , {field: 'xxx', title: '备注', sort: true}
+                , {field: 'remark', title: '备注'}
+                , {
+                    field: 'operation', title: '操作', templet: '#operation', width: 180
+                }
             ]],
             id: tableId, // 容器唯一ID
         }));
@@ -125,7 +148,43 @@
         table.on('tool(tableId)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'adopt') { // 单个通过
+                layer.confirm('确定要通过吗?', {title: '操作确认'}, function (index) {
+                    $.request({
+                        url: '/xxx',
+                        type: 'post',
+                        showLoading: true,
+                        success: function () {
+                            layer.close(index);
+                            layer.msg('已通过', {icon: 1});
+                            actions.onReloadData();
+                        }
+                    })
+                });
+            } else if (layEvent === 'reject') { //  单个驳回
+                layer.prompt({
+                    formType: 2,
+                    value: '',
+                    title: '驳回原因',
+                    area: ['400px', '100px'], //自定义文本域宽高
+                }, function(value, index){
+                    // layer.close(index);
+                    $.request({
+                        url: '/xxx',
+                        type: 'post',
+                        data: {
+                            remark: value
+                        },
+                        showLoading: true,
+                        success: function () {
+                            layer.close(index);
+                            layer.msg('已驳回', {icon: 1});
+                            actions.onReloadData();
+                        }
+                    })
+                });
+            }
 
         });
 

@@ -7,12 +7,6 @@
 </head>
 <body>
 <div class="layui-card layui-bg-gray">
-    <!--    <div class="layui-card-header layui-anim layui-anim-fadein notselect"><span-->
-    <!--            class="layui-icon layui-icon-next font-s10 color-desc margin-right-5"></span>商品管理-->
-    <!--        <div class="pull-right">-->
-    <!--            <button data-open="/admin/deal/add_goods.html" data-title="添加公告" class="layui-btn">添加商品</button>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div class="layui-card-body layui-anim layui-anim-upbit">
         <div class="think-box-shadow">
             <fieldset>
@@ -21,14 +15,14 @@
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">订单号</label>
                         <div class="layui-input-inline">
-                            <input name="oid" value="" placeholder="请输入订单号" class="layui-input"></div>
+                            <input name="lno" value="" placeholder="请输入订单号" class="layui-input"></div>
                     </div>
-                    <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">用户名称</label>
-                        <div class="layui-input-inline">
-                            <input name="username" value="" placeholder="请输入用户名称" class="layui-input">
-                        </div>
-                    </div>
+                    <!--                    <div class="layui-form-item layui-inline">-->
+                    <!--                        <label class="layui-form-label">用户名称</label>-->
+                    <!--                        <div class="layui-input-inline">-->
+                    <!--                            <input name="username" value="" placeholder="请输入用户名称" class="layui-input">-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">下单时间</label>
                         <div class="layui-input-inline">
@@ -51,12 +45,6 @@
     <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
 </script>
 
-<!--操作-->
-<script type="text/html" id="operation">
-    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">删除</a>
-</script>
-
 <script>
     layui.use(['table', 'form'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
@@ -76,33 +64,51 @@
             where: where,
             method: 'post',
             contentType: 'application/json',
-            // 订单号	用户名	上级用户	手机号	真实姓名	交易数额	添加时间	支付方式	类型	处理时间	操作
             cols: [[ //表头
-                {field: 'orderNo', title: '订单号', sort: true}
-                , {field: 'userAccount', title: '用户名'}
-                , {field: 'xxx', title: '上级用户'}
-                , {field: 'phoneNumber', title: '手机号'}
-                , {field: 'realName', title: '真实姓名'}
-                , {field: 'operaMount', title: '交易数额', sort: true}
-                , {field: 'updateTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
-                , {field: 'xxx', title: '支付方式'}
-                , {
-                    field: 'operaType', title: '类型', width: 120, templet: function (d) {
+                {field: 'lno', title: '订单号', width: 150, sort: true}
+                // , {field: 'userAccount', title: '用户名'}
+                // , {field: 'xxx', title: '上级用户'}
+                , {field: 'goodsName', title: '商品名称'}
+                , {field: 'goodsCount', title: '商品数量', sort: true}
+                , {field: 'shopName', title: '商店名称'}
+                , {field: 'amount', title: '交易金额', sort: true}
+                , {field: 'addtime', title: '下单时间', width: 180, templet: function (d) {
+                        return layui.util.toDateString(d.addtime, 'yyyy年MM月dd日 HH:mm:ss')
+                    } }
+                , {field: 'endtime', title: '完成交易时间', width: 180, templet: function (d) {
+                        return layui.util.toDateString(d.endtime, 'yyyy年MM月dd日 HH:mm:ss')
+                    }}
+                , {field: 'shopName', title: '商店名称'}
+                , {field: 'status', title: '状态', templet: function (d) {
+                        // 订单状态 0待付款 1交易完成 2用户取消 3强制完成 4强制取消 5交易冻结
                         var map = {
-                            1: '充值',
-                            2: '减少',
-                            3: '冻结',
-                            4: '提取',
+                            0: '待付款',
+                            1: '交易完成',
+                            2: '用户取消',
+                            3: '强制完成',
+                            4: '强制取消',
+                            5: '交易冻结',
                         }
-                        return map[d.operaType] || ''
-                    }
-                }
-                , {field: 'xxx', title: '处理时间', width: 180, templet: '#goodsAddTime'}
-                , {
-                    field: 'operation', title: '操作', templet: function () {
-                        return 'xxx'
-                    }, width: 120
-                }
+                        return map[d.status] || ''
+                    }}
+                , {field: 'qiang', title: '抢单数', sort: true }
+                , {field: 'sign', title: '是否卡单', templet: function (d) {
+                        // string 0不卡卡1卡单
+                        return d.sign === '1' ? '卡单' : '不卡单'
+                    }}
+                , {field: 'cStatus', title: '佣金发放状态', width: 120, templet: function (d) {
+                        // 	string 佣金发放状态 0未发放 1已发放 2账号冻结
+                        switch (d.cStatus) {
+                            case '0':
+                                return '未发放';
+                            case '1':
+                                return '已发放';
+                            case '2':
+                                return '账号冻结';
+                            default:
+                                return ''
+                        }
+                    }}
             ]],
             id: tableId, // 容器唯一ID
         }));

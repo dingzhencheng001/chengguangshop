@@ -27,12 +27,6 @@
 </head>
 <body>
 <div class="layui-card layui-bg-gray">
-    <!--    <div class="layui-card-header layui-anim layui-anim-fadein notselect"><span-->
-    <!--            class="layui-icon layui-icon-next font-s10 color-desc margin-right-5"></span>商品管理-->
-    <!--        <div class="pull-right">-->
-    <!--            <button data-open="/admin/deal/add_goods.html" data-title="添加公告" class="layui-btn">添加商品</button>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div class="layui-card-body layui-anim layui-anim-upbit">
         <div class="think-box-shadow">
             <fieldset>
@@ -75,12 +69,6 @@
     <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
 </script>
 
-<!--操作-->
-<script type="text/html" id="operation">
-    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">删除</a>
-</script>
-
 <script>
     layui.use(['table', 'form'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
@@ -121,11 +109,10 @@
                         return map[d.operaType] || ''
                     }
                 }
-                , {field: 'xxx', title: '处理时间', width: 180, templet: '#goodsAddTime'}
                 , {
-                    field: 'operation', title: '操作', templet: function () {
-                        return 'xxx'
-                    }, width: 120
+                    field: 'xxx', title: '处理时间', width: 180, templet: function (d) {
+                        return layui.util.toDateString(d.goodsAddTime, 'yyyy-MM-dd')
+                    }
                 }
             ]],
             id: tableId, // 容器唯一ID
