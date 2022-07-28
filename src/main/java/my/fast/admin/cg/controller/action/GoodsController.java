@@ -48,6 +48,13 @@ public class GoodsController {
         return mav;
     }
 
+    @RequestMapping("/classify")
+    public Object classify() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("goods/classify");
+        return mav;
+    }
+
     @ApiOperation(value = "根据条件获取商品列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

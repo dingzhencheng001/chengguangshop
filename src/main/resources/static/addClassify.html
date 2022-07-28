@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <link rel="stylesheet" href="css/console.css"/>
+</head>
+<body>
+<div class="layui-card-body layui-anim layui-anim-upbit">
+    <form class="layui-form layui-card" autocomplete="off" lay-filter="addForm">
+<!--        channelId	integer($int64) 渠道id-->
+<!--        commissionRate	number($float) 佣金比例-->
+<!--        explainSimple	string  简介-->
+<!--        goodsAddTime	string($date-time) 添加时间-->
+<!--        id	integer($int64)-->
+<!--        sortName	string 分类名称-->
+        <div class="layui-card-body think-box-shadow padding-left-40">
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">分类名称</span>
+                    <input name="sortName" lay-verify="required" class="layui-input" placeholder="请输入分类名称">
+                </label>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">佣金比例(不要设置百分比直接写0.01) </span>
+                    <input name="explainSimple" lay-verify="required" class="layui-input" placeholder="请输入佣金比例">
+                </label>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">分类简介</span>
+                    <input name="explainSimple" lay-verify="required" class="layui-input" placeholder="请输入分类简介">
+                </label>
+            </div>
+<!--            <div class="layui-form-item layui-row layui-col-space15">-->
+<!--                <label class="layui-col-xs9 relative label-required-prev">-->
+<!--                    <span class="color-green">最低金额限制</span>-->
+<!--                    <input name="min" class="layui-input" placeholder="请输入金额">-->
+<!--                </label>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <span class="color-green label-required-prev">分类LOGO(不用修改)</span>-->
+<!--                <div>-->
+<!--                    <button type="button" class="layui-btn" id="test1">-->
+<!--                        <i class="layui-icon">&#xe67c;</i>上传图片-->
+<!--                    </button>-->
+<!--                    <img  id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item text-center">
+                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn">保存商品</button>
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="cancel" type="button">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['upload', 'layer', 'form'], function () {
+        var upload = layui.upload;
+        var layer = layui.layer;
+        var form = layui.form;
+        var params = $.getUrlVars();
+        var type = params.id ? 'edit' : 'add';
+        $('#submitBtn').text(type === 'add' ? '创建分类' : '保存分类');
+        var goodsInfo = {};
+
+        var onGetGoods = function () {
+            $.request({
+                url: '/action/goods/select/' + params.id,
+                success: function (result) {
+                    goodsInfo = result.data;
+                    form.val('addForm', goodsInfo);
+                }
+            })
+        }
+        if (type === 'edit') {
+            onGetGoods();
+        }
+
+        //执行实例
+        var uploadIndex;
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            , url: 'http://localhost:8080/action/file/upload' //上传接口
+            , acceptMime: 'image/*'
+            , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                uploadIndex = layer.load(1); //上传loading
+            }
+            , done: function (res) {
+                layer.close(uploadIndex);
+                var data = res.data || [];
+                var path = data[0].path;
+                var fileFullPath = $.getFileFullPath(path);
+                $('#upload-img').attr('src', fileFullPath).show();
+                layer.msg('上传成功', {icon: 1});
+                //上传完毕回调
+            }
+            , error: function (err) {
+                console.log('err msg', err.msg);
+                $('#upload-img').attr('src', '').hide();
+                layer.close(uploadIndex);
+                layer.msg(err.msg, {icon: 2});
+                //请求异常回调
+            }
+        });
+
+        var createIndex;
+        var onAdd = function () {
+            var fd = Object.assign({}, form.val('addForm'), {
+                // goodsPic: $('#upload-img').attr('src')
+            });
+            delete fd.file;
+            createIndex = layer.load(1); // loading
+            $.request({
+                url: '/action/goods/sort/create',
+                type: 'post',
+                data: fd,
+                success: function (result) {
+                    layer.msg('创建成功', {icon: 1});
+                    onCancel();
+                },
+                complete: function () {
+                    layer.close(createIndex);
+                    createIndex = null;
+                }
+            });
+        }
+        var onEdit = function () {
+            layer.msg('开发中', {icon: 1});
+            return;
+            // var fd = Object.assign({}, goodsInfo, form.val('addForm'), {
+            //     // goodsPic: $('#upload-img').attr('src')
+            // });
+            // delete fd.file;
+            // createIndex = layer.load(1); // loading
+            // $.request({
+            //     url: '/action/goods/sort/update/' + params.id,
+            //     type: 'post',
+            //     data: fd,
+            //     success: function (result) {
+            //         layer.msg('保存成功', {icon: 1});
+            //         onCancel();
+            //     },
+            //     complete: function () {
+            //         layer.close(createIndex);
+            //         createIndex = null;
+            //     }
+            // });
+        }
+
+        // 保存
+        form.on('submit(submit)', function () {
+            if (createIndex) return false;
+            if (type === 'add') {
+                onAdd();
+            } else {
+                onEdit();
+            }
+            return false;
+        });
+
+        // 取消编辑
+        var onCancel = function () {
+            form.val('addForm', {
+                // "channelId": 0,
+                "commissionRate": 0,
+                "explainSimple": "",
+                "goodsAddTime": "",
+                "sortName": ""
+            })
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+            // window.parent
+            // 返回到商品列表
+            // window.parent.layui.tab.tabAdd({id: '2'})
+            return false;
+        };
+        form.on('submit(cancel)', onCancel);
+
+    });
+</script>
+
+</body>
+</html>
