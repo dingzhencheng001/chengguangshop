@@ -28,6 +28,7 @@ import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.ConveyService;
 import my.fast.admin.cg.vo.AppConveyDto;
 import my.fast.admin.framework.utils.TokenUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * TODO
@@ -47,6 +48,13 @@ public class ConveyController {
 
     @Autowired
     private AppChannelService appChannelService;
+
+    @RequestMapping("/lists")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("transaction/orderList");
+        return mav;
+    }
 
     @ApiOperation(value = "根据条件获取订单分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)

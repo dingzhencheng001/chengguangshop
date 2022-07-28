@@ -19,6 +19,7 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberDepositService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author cgkj@cg.cn
@@ -36,6 +37,13 @@ public class MemberDepositController {
 
     @Autowired
     private AppChannelService appChannelService;
+
+    @RequestMapping("/lists")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("transaction/depositList");
+        return mav;
+    }
 
     @ApiOperation(value = "根据条件获取分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)

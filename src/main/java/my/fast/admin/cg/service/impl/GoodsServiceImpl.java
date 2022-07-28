@@ -49,8 +49,8 @@ public class GoodsServiceImpl implements GoodsService {
     public int deleteGoods(Long id, Long channelId) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(id)
-            .andIdEqualTo(channelId);
+            .andChannelIdEqualTo(channelId)
+            .andIdEqualTo(id);
         return appGoodsMapper.deleteByExample(appGoodsExample);
     }
 
