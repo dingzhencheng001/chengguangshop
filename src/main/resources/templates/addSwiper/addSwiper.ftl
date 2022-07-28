@@ -26,12 +26,23 @@
 				</div>
 
 				<div class="layui-form-item">
+					<label class="layui-form-label">选择图片类型</label>
+					<div class="layui-input-block">
+						<select name="showType" lay-verify="required">
+							<option value=""></option>
+							<option value="1">首页展示</option>
+							<option value="2">底部展示</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">图片</label>
 					<div>
 						<button type="button" class="layui-btn" id="uploadPic">
 							<i class="layui-icon">&#xe67c;</i>上传图片
 						</button>
-						<img name="picturePath" id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
+						<img name="picturePath"  id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
 					</div>
 				</div>
 
@@ -53,6 +64,17 @@
 					<label class="layui-form-label label-required label-required-next">轮播图描述</label>
 					<div class="layui-input-block">
 						<input name="content" required placeholder="请输入轮播图描述" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+
+					<div class="layui-form-item">
+					<label class="layui-form-label">选择图片类型</label>
+					<div class="layui-input-block">
+						<select name="showType" lay-verify="required">
+							<option value=""></option>
+							<option value="1">首页展示</option>
+							<option value="2">底部展示</option>
+						</select>
 					</div>
 				</div>
 
@@ -92,6 +114,10 @@
 		<div>
 			<img src='https://sgp1.digitaloceanspaces.com{{d.picturePath}}' alt="">
 		</div>
+	</script>
+
+	<script type="text/html" id="showType">
+		<div>{{d.showType==1?'首页展示':'底部展示'}}</div>
 	</script>
 
 	<script type="text/html" id="updateTime">
@@ -331,6 +357,7 @@
 						//表头
 						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
 						{ field: 'picturePath', title: '图片', templet: '#picturePath', minWidth: 160 },
+						{ field: 'showType', title: '展示类型',templet: '#showType' ,width: 120 },
 						{ field: 'content', title: '描述', minWidth: 160 },
 						{ field: 'updateTime', title: '发表时间', templet: '#updateTime', minWidth: 160 },
 						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
@@ -405,6 +432,7 @@
 			form.on('submit(createSubmit)', function (data) {
 				data.field.picturePath = $('#upload-img').attr('src')
 				delete data.field.file;
+				console.log(data.field)
 				actions.onCreate(data.field, {
 					success: function () {
 						layer.close(createIndex);

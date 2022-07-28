@@ -177,7 +177,8 @@
 
 	<script type="text/html" id="pic">
 		<div>
-			<img src='https://sgp1.digitaloceanspaces.com{{d.pic}}' alt="">
+			<!--  <img src='https://sgp1.digitaloceanspaces.com{{d.pic}}' alt="">  -->
+			<img src='{{d.pic}}' alt="">
 		</div>
 	</script>
 
@@ -410,7 +411,7 @@
 						//表头
 						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
 						{ field: 'membersName', title: '名称', width: 120 },
-						{ field: 'pic', title: '图标', width: 100},
+						{ field: 'pic', title: '图标',  templet: '#pic',width: 100},
 						{ field: 'memberPrice', title: '会员价格', width: 80 },
 						{ field: 'commission', title: '佣金比例', width: 80 },
 						{ field: 'numMin', title: '最小余额', width: 80 },
