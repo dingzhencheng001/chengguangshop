@@ -24,6 +24,7 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.AppGoodsParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.GoodsService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * @author cgkj@cg.cn
@@ -144,6 +145,8 @@ public class GoodsController {
         }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
+        appGoodsParam.setStatus(1);//上架
+        appGoodsParam.setGoodsAddTime(DateFormat.getNowDate());
         int count = goodsService.createGoods(appGoodsParam, channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
