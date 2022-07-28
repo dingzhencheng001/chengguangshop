@@ -20,55 +20,64 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">名称</label>
 					<div class="layui-input-block">
-						<input name="membersName" required placeholder="请输入名称" value="" class="layui-input" />
+						<input name="membersName" lay-filter="membersName" lay-verify="required" required placeholder="请输入名称" value="" class="layui-input" />
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">图标</label>
+					<div>
+						<button type="button" class="layui-btn" id="uploadPic">
+							<i class="layui-icon">&#xe67c;</i>上传图标
+						</button>
+						<img name="pic" id="upload-img" lay-filter="pic" style="display: none; width: 150px;margin-left: 12px;" src="">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">会员价格</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" required placeholder="请输入会员价格" value="" class="layui-input" />
+						<input name="memberPrice" lay-filter="memberPrice" lay-verify="required|number" required placeholder="请输入会员价格" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">佣金比例</label>
 					<div class="layui-input-block">
-						<input name="commission" type="number" min="0" required placeholder="请输入佣金比例" value=""
+						<input name="commission" lay-filter="commission" lay-verify="required|number" type="number" min="0" step='0.001' required placeholder="请输入佣金比例" value=""
 							class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">最小余额</label>
 					<div class="layui-input-block">
-						<input name="numMin" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
+						<input name="numMin" lay-filter="numMin" lay-verify="required|number" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">接单次数</label>
 					<div class="layui-input-block">
-						<input name="orderNum" required placeholder="请输入接单次数" class="layui-input" />
+						<input name="orderNum" lay-filter="orderNum" lay-verify="required|number" required placeholder="请输入接单次数" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现次数</label>
 					<div class="layui-input-block">
-						<input name="withdrawalTimes" required placeholder="请输入提现次数" value="" class="layui-input" />
+						<input name="withdrawalTimes" lay-filter="withdrawalTimes" lay-verify="required|number" required placeholder="请输入提现次数" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMin" required placeholder="请输入提现最小金额" value="" class="layui-input" />
+						<input name="withdrawalMin" lay-filter="withdrawalMin" lay-verify="required|number" required placeholder="请输入提现最小金额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMax" required placeholder="请输入提现最大金额" value="" class="layui-input" />
+						<input name="withdrawalMax" lay-filter="withdrawalMax" lay-verify="required|number" required placeholder="请输入提现最大金额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
+					<button type="button" class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
 					<button type="button" class="layui-btn layui-btn-danger" id="createCancel">取消</button>
 				</div>
 			</div>
@@ -82,50 +91,59 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">名称</label>
 					<div class="layui-input-block">
-						<input name="membersName" required placeholder="请输入名称" value="" class="layui-input" />
+						<input name="membersName" required placeholder="请输入名称" lay-verify="required" value="" class="layui-input" />
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">图片</label>
+					<div>
+						<button type="button" class="layui-btn" id="updatePic">
+							<i class="layui-icon">&#xe67c;</i>上传图片
+						</button>
+						<img name="pic" id="update-img" style="display: none; width: 150px;margin-left: 12px;" src="">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">会员价格</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" required placeholder="请输入会员价格" value="" class="layui-input" />
+						<input name="memberPrice" lay-verify="required|number" required placeholder="请输入会员价格" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">佣金比例</label>
 					<div class="layui-input-block">
-						<input name="commission" type="number" min="0" required placeholder="请输入佣金比例" value=""
+						<input name="commission" lay-verify="required|number" type="number" min="0" required placeholder="请输入佣金比例" value=""
 							class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">最小余额</label>
 					<div class="layui-input-block">
-						<input name="numMin" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
+						<input name="numMin" lay-verify="required|number" type="number" min="0" required placeholder="请输入最小余额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">接单次数</label>
 					<div class="layui-input-block">
-						<input name="orderNum" required placeholder="请输入接单次数" class="layui-input" />
+						<input name="orderNum"   lay-verify="required|number" required placeholder="请输入接单次数" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现次数</label>
 					<div class="layui-input-block">
-						<input name="withdrawalTimes" required placeholder="请输入提现次数" value="" class="layui-input" />
+						<input name="withdrawalTimes" lay-verify="required|number" required placeholder="请输入提现次数" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMin" required placeholder="请输入提现最小金额" value="" class="layui-input" />
+						<input name="withdrawalMin" lay-verify="required|number" required placeholder="请输入提现最小金额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMax" required placeholder="请输入提现最大金额" value="" class="layui-input" />
+						<input name="withdrawalMax" lay-verify="required|number" required placeholder="请输入提现最大金额" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="hr-line-dashed"></div>
@@ -145,25 +163,27 @@
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
 
 	<script type="text/html" id="operation">
-			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-			</span>
-			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-			</span>
+				<a class="layui-btn layui-btn-xs" style="background-color: green;" lay-event="edit">编辑</a>
+				<a class="layui-btn layui-btn-xs" style="background-color: red;" lay-event="delete">删除</a>
 		</script>
 
 	<!--注册信息-->
 	<script type="text/html" id="register">
-			<div>
-				<p>{{ layui.util.toDateString(d.registerTime, 'yyyy-MM-dd')}}</p>
-				<p>{{ d.registerCountry}}</p>
-			</div>
-		</script>
+		<div>
+			<p>{{ layui.util.toDateString(d.registerTime, 'yyyy-MM-dd HH:mm:ss')}}</p>
+			<p>{{ d.registerCountry}}</p>
+		</div>
+	</script>
+
+	<script type="text/html" id="pic">
+		<div>
+			<img src='https://sgp1.digitaloceanspaces.com{{d.pic}}' alt="">
+		</div>
+	</script>
 
 	<script>
 		layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
-			var table = layui.table, $ = layui.$, form = layui.form, util = layui.util;
+			var table = layui.table, $ = layui.$, form = layui.form, util = layui.util,upload = layui.upload;;
 
 			var editIndex
 
@@ -173,6 +193,59 @@
 			var where = {
 				"status": 0,
 			};
+
+			//执行实例
+			var uploadIndex;
+			var uploadInst = upload.render({
+				elem: '#uploadPic' //绑定元素
+				, url: 'http://localhost:8080/action/file/upload' //上传接口
+				, acceptMime: 'image/*'
+				, before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+					uploadIndex = layer.load(1); //上传loading
+				}
+				, done: function (res) {
+					layer.close(uploadIndex);
+					var data = res.data || [];
+					var path = data[0].path;
+					var fileFullPath = $.getFileFullPath(path);
+					$('#upload-img').attr('src', fileFullPath).show();
+					layer.msg('上传成功', { icon: 1 });
+					//上传完毕回调
+				}
+				, error: function (err) {
+					console.log('err msg', err.msg);
+					$('#upload-img').attr('src', '').hide();
+					layer.close(uploadIndex);
+					layer.msg(err.msg, { icon: 2 });
+					//请求异常回调
+				}
+			});
+
+			var updateIndex;
+			var uploadInst_ = upload.render({
+				elem: '#updatePic' //绑定元素
+				, url: 'http://localhost:8080/action/file/upload' //上传接口
+				, acceptMime: 'image/*'
+				, before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+					updateIndex = layer.load(1); //上传loading
+				}
+				, done: function (res) {
+					layer.close(updateIndex);
+					var data = res.data || [];
+					var path = data[0].path;
+					var fileFullPath = $.getFileFullPath(path);
+					$('#update-img').attr('src', fileFullPath).show();
+					layer.msg('上传成功', { icon: 1 });
+					//上传完毕回调
+				}
+				, error: function (err) {
+					console.log('err msg', err.msg);
+					$('#update-img').attr('src', '').hide();
+					layer.close(updateIndex);
+					layer.msg(err.msg, { icon: 2 });
+					//请求异常回调
+				}
+			});
 
 			var parseData = function (res) {
 				var msg
@@ -206,9 +279,7 @@
 				},
 				// 刷新表格数据
 				onReloadData: function () {
-					var searchData = form.val('searchForm')
-					console.log('searchData', searchData)
-					table.reloadData(levelListTableId, { where: Object.assign({}, where, searchData) })
+					table.reloadData(levelListTableId, { where: Object.assign({}, where) })
 				},
 				onUpdateItem: function (id, fields, options) {
 					var _options = Object.assign({}, requestDefOptions, options)
@@ -338,15 +409,15 @@
 					[
 						//表头
 						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-						{ field: 'membersName', title: '名称', width: 80 },
-						// { field: 'pic', title: '图标', width: 80, sort: true },
+						{ field: 'membersName', title: '名称', width: 120 },
+						{ field: 'pic', title: '图标', width: 100},
 						{ field: 'memberPrice', title: '会员价格', width: 80 },
-						{ field: 'commission', title: '佣金比例', width: 177 },
+						{ field: 'commission', title: '佣金比例', width: 80 },
 						{ field: 'numMin', title: '最小余额', width: 80 },
 						{ field: 'orderNum', title: '接单次数', width: 80 },
-						{ field: 'withdrawalTimes', title: '提现次数', width: 80 },
-						{ field: 'withdrawalMin', title: '提现最小金额', width: 80 },
-						{ field: 'withdrawalMax', title: '提现最大金额', width: 80 },
+						{ field: 'withdrawalTimes', title: '提现次数', width: 100 },
+						{ field: 'withdrawalMin', title: '提现最小金额', width: 120 },
+						{ field: 'withdrawalMax', title: '提现最大金额', width: 120 },
 						{ field: 'registerTime', title: '注册时间', templet: '#register', minWidth: 160 },
 						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
 					]
@@ -377,6 +448,8 @@
 
 			// 编辑-提交
 			form.on('submit(editSubmit)', function (data) {
+				data.field.pic = $('#update-img').attr('src')
+				delete data.field.file;
 				actions.onUpdateItem(tableCurrentItem.id, data.field, {
 					success: function () {
 						console.log('success');
@@ -408,16 +481,35 @@
 				});
 			})
 
+
+			//清空form表单
+		var	clearForm=function () {
+				form.val('addForm', {
+					'membersName': '',
+					'pic':'',
+					'memberPrice':'',
+					'commission':'',
+					'numMin':'',
+					'orderNum':'',
+					'withdrawalTimes':'',
+					'withdrawalMin':'',
+					'withdrawalMax':'',
+				});
+			}
 			// 新建-取消
 			$('#createCancel').click(function () {
 				layer.close(createIndex);
-			});
+				clearForm()
+			})
 
 			// 新建-提交
 			form.on('submit(createSubmit)', function (data) {
+				data.field.pic = $('#upload-img').attr('src')
+				delete data.field.file;
 				actions.onCreate(data.field, {
 					success: function () {
 						layer.close(createIndex);
+							clearForm()
 					}
 				});
 				// return false;

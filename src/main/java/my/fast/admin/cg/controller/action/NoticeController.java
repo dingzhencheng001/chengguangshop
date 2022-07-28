@@ -41,6 +41,13 @@ public class NoticeController {
 					return mav;
 			}
 
+	@RequestMapping("/swiper")
+	public Object swiper() {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("addSwiper/addSwiper");
+			return mav;
+	}
+
 
     @Autowired
     private NoticeService NoticeService;

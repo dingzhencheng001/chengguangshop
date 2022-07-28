@@ -56,7 +56,7 @@ public class MemberController {
 		@RequestMapping("/level")
     public Object level() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("level/list");
+        mav.setViewName("level/level");
         return mav;
     }
 
