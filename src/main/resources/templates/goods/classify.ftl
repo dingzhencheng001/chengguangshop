@@ -73,7 +73,7 @@
             if (layEvent === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['800px', '600px'],
+                    area: ['800px', '400px'],
                     content: '/addClassify.html?id=' + data.id,
                     end: function () {
                         console.warn('end');
@@ -99,7 +99,7 @@
         $('#createBtn').click(function () {
             layer.open({
                 type: 2,
-                area: ['800px', '600px'],
+                area: ['800px', '400px'],
                 content: '/addClassify.html',
                 end: function () {
                     actions.onReloadData();
