@@ -16,6 +16,7 @@ import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMemberDeposit;
 import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.model.ListDepositParam;
 import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberDepositService;
@@ -48,9 +49,7 @@ public class MemberDepositController {
     @ApiOperation(value = "根据条件获取分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberDeposit>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppMemberDeposit deposit,
+    public CommonResult<CommonPage<AppMemberDeposit>> getList(@RequestBody ListDepositParam deposit,
         HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -61,7 +60,7 @@ public class MemberDepositController {
         }
         Long channelId = sysChannel.getChannelId();
         deposit.setChannelId(channelId);
-        List<AppMemberDeposit> depositList = depositService.listDeposit(deposit, pageNum, pageSize);
+        List<AppMemberDeposit> depositList = depositService.listDeposit(deposit, deposit.getPageNum(), deposit.getPageSize());
         return CommonResult.success(CommonPage.restPage(depositList));
     }
 

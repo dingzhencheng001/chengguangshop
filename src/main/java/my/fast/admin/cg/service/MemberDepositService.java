@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppMemberDeposit;
+import my.fast.admin.cg.model.ListDepositParam;
 import my.fast.admin.cg.model.MemberDepositParam;
-import my.fast.admin.cg.vo.AppConveyDto;
 
 /**
  *
@@ -21,7 +20,7 @@ public interface MemberDepositService {
     /**
      * 分页查询充值订单
      */
-    List<AppMemberDeposit> listDeposit(AppMemberDeposit deposit, Integer pageNum, Integer pageSize);
+    List<AppMemberDeposit> listDeposit(ListDepositParam deposit, Integer pageNum, Integer pageSize);
 
     /**
      * 删除充值订单
