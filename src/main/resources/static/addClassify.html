@@ -71,7 +71,7 @@
 
             <div class="layui-form-item text-center">
                 <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn">保存商品</button>
-                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="cancel" type="button">取消</button>
+                <button class="layui-btn layui-btn-danger" id="cancelId" type="button">取消</button>
             </div>
         </div>
     </form>
@@ -85,19 +85,19 @@
         var params = $.getUrlVars();
         var type = params.id ? 'edit' : 'add';
         $('#submitBtn').text(type === 'add' ? '创建分类' : '保存分类');
-        var goodsInfo = {};
+        var detailsData = {};
 
-        var onGetGoods = function () {
+        var onGetDetails = function () {
             $.request({
-                url: '/action/goods/select/' + params.id,
+                url: '/action/goods/sort/select/' + params.id,
                 success: function (result) {
-                    goodsInfo = result.data;
-                    form.val('addForm', goodsInfo);
+                    detailsData = result.data;
+                    form.val('addForm', detailsData);
                 }
             })
         }
         if (type === 'edit') {
-            onGetGoods();
+            onGetDetails();
         }
 
         //执行实例
@@ -151,7 +151,7 @@
         var onEdit = function () {
             layer.msg('开发中', {icon: 1});
             return;
-            // var fd = Object.assign({}, goodsInfo, form.val('addForm'), {
+            // var fd = Object.assign({}, detailsData, form.val('addForm'), {
             //     // goodsPic: $('#upload-img').attr('src')
             // });
             // delete fd.file;
@@ -198,7 +198,7 @@
             // window.parent.layui.tab.tabAdd({id: '2'})
             return false;
         };
-        form.on('submit(cancel)', onCancel);
+        $('#cancelId').click(onCancel);
 
     });
 </script>
