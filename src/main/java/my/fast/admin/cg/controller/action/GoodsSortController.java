@@ -96,7 +96,7 @@ public class GoodsSortController {
         return commonResult;
     }
 
-    @ApiOperation(value = "添加商品")
+    @ApiOperation(value = "添加商品分类")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public CommonResult create(@RequestBody AppGoodsSort appGoodsSort ,HttpServletRequest request) {
