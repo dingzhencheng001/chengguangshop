@@ -49,7 +49,7 @@ public class GoodsSortController {
     }
 
     @ApiOperation(value = "根据条件获取商品分类列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppGoodsSort>> getList(HttpServletRequest request,@RequestBody
         GoodsSortParam goodsSortParam ) {
