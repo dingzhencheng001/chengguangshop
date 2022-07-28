@@ -18,6 +18,7 @@ import my.fast.admin.cg.entity.AppMemberDepositExample;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberDepositMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
+import my.fast.admin.cg.model.ListDepositParam;
 import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.MemberDepositService;
 import my.fast.admin.framework.utils.CommonUtils;
@@ -41,11 +42,20 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
     
     @Override
-    public List<AppMemberDeposit> listDeposit(AppMemberDeposit deposit, Integer pageNum, Integer pageSize) {
+    public List<AppMemberDeposit> listDeposit(ListDepositParam deposit, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         AppMemberDepositExample  listExample = new AppMemberDepositExample();
         AppMemberDepositExample.Criteria criteria = listExample.createCriteria();
         criteria.andChannelIdEqualTo(deposit.getChannelId());
+        if (!StringUtils.isEmpty(deposit.getUserAccount())) {
+            criteria.andUserAccountEqualTo(deposit.getUserAccount());
+        }
+        if (!StringUtils.isEmpty(deposit.getPhoneNumber())) {
+            criteria.andPhoneNumberEqualTo(deposit.getPhoneNumber());
+        }
+        if (!StringUtils.isEmpty(deposit.getSelectBeginTime())) {
+            criteria.andCreateTimeBetween(deposit.getSelectBeginTime(), deposit.getSelectEndTime());
+        }
         return depositMapper.selectByExample(listExample);
     }
 
