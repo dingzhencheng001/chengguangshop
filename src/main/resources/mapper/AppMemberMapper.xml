@@ -390,6 +390,7 @@
             </if>
         </trim>
     </insert>
+
     <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample" resultType="java.lang.Long">
         select count(*) from app_member
         <if test="_parameter != null">
@@ -673,6 +674,19 @@
             freeze_balance = freeze_balance+ #{withdrawalNum,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
+    <insert id="changeBalance">
+        update app_member
+        set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </insert>
+    <insert id="rollbackBalance">
+        update app_member
+        set balance = balance + #{withdrawalNum,jdbcType=DECIMAL},
+            freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </insert>
+
+
     <select id="selectParent" resultType="java.lang.String">
         SELECT @id := GROUP_CONCAT( parent_user_id SEPARATOR ',' )
         FROM app_member

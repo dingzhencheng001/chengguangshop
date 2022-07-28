@@ -51,18 +51,6 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         appMemberMapper.updateBalance(channelId, memberId, withdrawalNum);
         BigDecimal nowBalance = appMemberMapper.selectByPrimaryKey(memberId)
             .getBalance();
-        //插入账变
-        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
-        appMemberAccountChange.setMemberId(
-            memberId);
-        appMemberAccountChange.setOperaType(3);
-        appMemberAccountChange.setOperaMount(withdrawalNum);
-        appMemberAccountChange.setCreateBy(appMember.getUserAccount());
-        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
-        appMemberAccountChange.setChannelId(channelId);
-        appMemberAccountChange.setPreOperaMount(balance);
-        appMemberAccountChange.setTotalMount(nowBalance);
-        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         //插入提现表
         AppMemberWithdrawal appMemberWithdrawal = new AppMemberWithdrawal();
         appMemberWithdrawal.setOrderNo(generateOrderSn());
@@ -77,6 +65,21 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         appMemberWithdrawal.setCreateTime(DateFormat.getNowDate());
         appMemberWithdrawal.setChannelId(channelId);
         appMemberWithdrawal.setMemberBankId(appMemberBank.getId());
+        //插入账变
+        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+        appMemberAccountChange.setMemberId(
+            memberId);
+        appMemberAccountChange.setOperaType(3);
+        appMemberAccountChange.setOperaMount(withdrawalNum);
+        appMemberAccountChange.setCreateBy(appMember.getUserAccount());
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+        appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChange.setPreOperaMount(balance);
+        appMemberAccountChange.setTotalMount(nowBalance);
+        appMemberAccountChange.setStatus(1);
+        appMemberAccountChange.setOrderNo(appMemberWithdrawal.getOrderNo());
+        appMemberAccountChange.setUserAccount(appMember.getUserAccount());
+        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appMemberWithdrawalMapper.insertSelective(appMemberWithdrawal);
     }
 

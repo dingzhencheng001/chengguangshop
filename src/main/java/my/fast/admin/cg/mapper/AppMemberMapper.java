@@ -54,7 +54,7 @@ public interface AppMemberMapper {
      * @return 结果
      */
     public AppMember checkPhoneUnique(AppMemberParam appMemberParam);
-    
+
     /**
      * 手机号+ 渠道号 查询用户信息
      *
@@ -74,7 +74,6 @@ public interface AppMemberMapper {
      */
     void updateMemberBalance(AppMemberBalanceParam appMemberBalanceParam);
 
-
     /**
      * 查询会员agent
      */
@@ -92,6 +91,7 @@ public interface AppMemberMapper {
 
     /**
      * 获取会员账户信息
+     *
      * @param id
      */
     AppMemberDto selectAppMemberCountByPrimary(Long id);
@@ -102,36 +102,58 @@ public interface AppMemberMapper {
      * @param id
      */
     List<AppMember> getMemberTeam(Long id);
-    
-    
+
     /**
      * 获取下级团队信息
      *
      * @param memberId ，level
      */
-    List<AppMember> getTeamLevelList( @Param("memberId")Long memberId,@Param("param")MemberParam param);
-
+    List<AppMember> getTeamLevelList(@Param("memberId") Long memberId, @Param("param") MemberParam param);
 
     /**
      * 分页查询
+     *
      * @param channelId
      * @param memberParams
      */
-    List<AppMemberVo> selectPage(@Param("channelId")Long channelId, @Param("memberParams")MemberParams memberParams);
+    List<AppMemberVo> selectPage(@Param("channelId") Long channelId, @Param("memberParams") MemberParams memberParams);
 
     /**
      * 根据会员id和渠号id查询
+     *
      * @param channelId
      * @param memberId
      */
-    AppMember selectMemberByIdAndChannelId(@Param("channelId")Long channelId, @Param("memberId")Long memberId);
+    AppMember selectMemberByIdAndChannelId(@Param("channelId") Long channelId, @Param("memberId") Long memberId);
 
     /**
      * 更改提现后的余额
+     *
      * @param channelId
      * @param memberId
      * @param withdrawalNum
      */
-    int updateBalance(@Param("channelId")Long channelId, @Param("memberId")Long memberId, @Param("withdrawalNum")BigDecimal withdrawalNum);
+    int updateBalance(@Param("channelId") Long channelId, @Param("memberId") Long memberId,
+        @Param("withdrawalNum") BigDecimal withdrawalNum);
 
+    /**
+     * 审核通过后修改账户余额
+     *
+     * @param channelId
+     * @param memberId
+     * @param withdrawalNum
+     */
+    int changeBalance(@Param("channelId") Long channelId, @Param("memberId") Long memberId,
+        @Param("withdrawalNum") BigDecimal withdrawalNum);
+
+
+    /**
+     * 审核不通过后修改账户余额
+     *
+     * @param channelId
+     * @param memberId
+     * @param withdrawalNum
+     */
+    int rollbackBalance(@Param("channelId") Long channelId, @Param("memberId") Long memberId,
+        @Param("withdrawalNum") BigDecimal withdrawalNum);
 }

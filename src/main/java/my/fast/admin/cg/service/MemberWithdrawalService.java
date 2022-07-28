@@ -2,6 +2,8 @@ package my.fast.admin.cg.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
@@ -18,12 +20,14 @@ public interface MemberWithdrawalService {
     /**
      * 批量审核
      */
-    int approval(List<Long> ids, Integer status);
+    @Transactional
+    int approval(List<Long> ids, Integer type, Long channelId);
 
     /**
      * 驳回
      */
-    int rejectById(Long id, String remark);
+    @Transactional
+    int rejectById(Long id, String remark, Long channelId);
 
     /**
      * 分页查询

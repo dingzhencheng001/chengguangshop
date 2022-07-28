@@ -1,5 +1,6 @@
 package my.fast.admin.cg.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.AppMemberWithdrawalExample;
-import my.fast.admin.cg.mapper.AppMemberBankMapper;
+import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
+import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -29,51 +34,127 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
     private AppMemberWithdrawalMapper appMemberWithdrawalMapper;
 
     @Autowired
-    private AppMemberBankMapper appMemberBankMapper;
+    private AppMemberMapper appMemberMapper;
 
+    @Autowired
+    private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
 
     @Override
-    public int approval(List<Long> ids, Integer status) {
-        AppMemberWithdrawal record = new AppMemberWithdrawal();
-        record.setIsDelete(status);
-        AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
-        example.createCriteria()
-            .andIdIn(ids);
-        return appMemberWithdrawalMapper.updateByExampleSelective(record, example);
+    public int approval(List<Long> ids, Integer type, Long channelId) {
+        //通过
+        if (type == 1) {
+            AppMemberWithdrawal record = new AppMemberWithdrawal();
+            record.setOperaType(type);
+            AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
+            example.createCriteria()
+                .andIdIn(ids);
+            appMemberWithdrawalMapper.updateByExampleSelective(record, example);
+            //更新用户账户金额和修改冻结金额
+            example.createCriteria()
+                .andChannelIdIn(ids);
+            List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
+            for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+                Long memberId = appMemberWithdrawal.getMemberId();
+                AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+                BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
+                appMemberMapper.changeBalance(channelId, memberId, operaMount);
+                //插入账变信息表
+                AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+                appMemberAccountChange.setMemberId(memberId);
+                appMemberAccountChange.setOperaType(3);
+                appMemberAccountChange.setOperaMount(operaMount);
+                appMemberAccountChange.setCreateBy(appMember.getUserAccount());
+                appMemberAccountChange.setUserAccount(appMember.getUserAccount());
+                appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+                appMemberAccountChange.setChannelId(channelId);
+                appMemberAccountChange.setPreOperaMount(appMember.getBalance());
+                appMemberAccountChange.setTotalMount(appMember.getBalance());
+                appMemberAccountChange.setStatus(1);
+                appMemberAccountChange.setOrderNo(appMemberWithdrawal.getOrderNo());
+                appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+            }
+        }
+        //拒绝
+        if (type == 2) {
+            AppMemberWithdrawal record = new AppMemberWithdrawal();
+            record.setOperaType(type);
+            AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
+            example.createCriteria()
+                .andIdIn(ids);
+            appMemberWithdrawalMapper.updateByExampleSelective(record, example);
+            //更新用户账户金额和修改冻结金额
+            example.createCriteria()
+                .andChannelIdIn(ids);
+            List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
+            for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+                Long memberId = appMemberWithdrawal.getMemberId();
+                AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+                BigDecimal balance = appMember.getBalance()
+                    .subtract(appMemberWithdrawal.getOperaMount());
+                BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
+                appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+                //插入账变信息表
+                AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+                appMemberAccountChange.setMemberId(memberId);
+                appMemberAccountChange.setOperaType(3);
+                appMemberAccountChange.setOperaMount(operaMount);
+                appMemberAccountChange.setCreateBy(appMember.getUserAccount());
+                appMemberAccountChange.setUserAccount(appMember.getUserAccount());
+                appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+                appMemberAccountChange.setChannelId(channelId);
+                appMemberAccountChange.setPreOperaMount(balance);
+                appMemberAccountChange.setTotalMount(appMember.getBalance());
+                appMemberAccountChange.setStatus(1);
+                appMemberAccountChange.setOrderNo(appMemberWithdrawal.getOrderNo());
+                appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+            }
+        }
+        return 1;
     }
 
     @Override
-    public int rejectById(Long id, String remark) {
+    public int rejectById(Long id, String remark, Long channelId) {
         AppMemberWithdrawal record = new AppMemberWithdrawal();
+        record.setStatus(2);
         record.setRemark(remark);
         AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
         example.createCriteria()
             .andIdEqualTo(id);
-        return appMemberWithdrawalMapper.updateByExampleSelective(record, example);
-    }
+        appMemberWithdrawalMapper.updateByExampleSelective(record, example);
+        //更新用户账户金额和修改冻结金额
+        example.createCriteria()
+            .andIdEqualTo(id);
+        List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
+        for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+            Long memberId = appMemberWithdrawal.getMemberId();
+            AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+            BigDecimal balance = appMember.getBalance()
+                .subtract(appMemberWithdrawal.getOperaMount());
+            BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
+            appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+            //插入账变信息表
+            AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+            appMemberAccountChange.setMemberId(memberId);
+            appMemberAccountChange.setOperaType(3);
+            appMemberAccountChange.setOperaMount(operaMount);
+            appMemberAccountChange.setCreateBy(appMember.getUserAccount());
+            appMemberAccountChange.setUserAccount(appMember.getUserAccount());
+            appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+            appMemberAccountChange.setChannelId(channelId);
+            appMemberAccountChange.setPreOperaMount(balance);
+            appMemberAccountChange.setTotalMount(appMember.getBalance());
+            appMemberAccountChange.setStatus(1);
+            appMemberAccountChange.setOrderNo(appMemberWithdrawal.getOrderNo());
+            appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+        }
+        return 1;
+
+}
 
     @Override
     public List<AppMemberWithdrawalVo> findPage(Integer pageNum, Integer pageSize, Long channelId,
         MemberWithdrawalParam memberWithdrawalParam) {
         PageHelper.startPage(pageNum, pageSize);
-        /*AppMemberWithdrawalExample appMemberWithdrawalExample = new AppMemberWithdrawalExample();
-        AppMemberWithdrawalExample.Criteria criteria = appMemberWithdrawalExample.createCriteria();
-        criteria.andChannelIdEqualTo(channelId);
-        if (!StringUtils.isEmpty(memberWithdrawalPram.getOrderNo())) {
-            criteria.andOrderNoLike("%" + memberWithdrawalPram.getOrderNo() + "%");
-        }
-        if (!StringUtils.isEmpty(memberWithdrawalPram.getUserAccount())) {
-            criteria.andUserAccountLike("%" + memberWithdrawalPram.getUserAccount() + "%");
-        }
-        if (!StringUtils.isEmpty(memberWithdrawalPram.getSelectBeginTime())) {
-            criteria.andCreateTimeBetween(memberWithdrawalPram.getSelectBeginTime(),
-                memberWithdrawalPram.getSelectEndTime());
-        }*/
-       /* List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(
-            appMemberWithdrawalExample);
-        for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
-            AppMemberBank appMemberBank = appMemberBankMapper.selectByMemberId(appMemberWithdrawal.getMemberId());
-        }*/
         return appMemberWithdrawalMapper.selectWithdrawalList(channelId, memberWithdrawalParam);
     }
 }
