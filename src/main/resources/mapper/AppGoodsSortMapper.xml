@@ -10,6 +10,7 @@
     <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime" />
     <result column="min" jdbcType="DECIMAL" property="min" />
     <result column="level_id" jdbcType="BIGINT" property="levelId" />
+      <result column="channel_id" jdbcType="BIGINT" property="channelId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.AppGoodsSort">
     <result column="goods_pic" jdbcType="LONGVARCHAR" property="goodsPic" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, commission, goods_name, shop_name, goods_info, goods_add_time, min, level_id
+    id, commission, goods_name, shop_name, goods_info, goods_add_time, min, level_id, channel_id
   </sql>
   <sql id="Blob_Column_List">
     goods_pic
@@ -132,10 +133,10 @@
     </selectKey>
     insert into app_goods_sort (commission, goods_name, shop_name, 
       goods_info, goods_add_time, min, 
-      level_id, goods_pic)
+      level_id, goods_pic, channel_id)
     values (#{commission,jdbcType=REAL}, #{goodsName,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
       #{goodsInfo,jdbcType=VARCHAR}, #{goodsAddTime,jdbcType=TIMESTAMP}, #{min,jdbcType=DECIMAL}, 
-      #{levelId,jdbcType=BIGINT}, #{goodsPic,jdbcType=LONGVARCHAR})
+      #{levelId,jdbcType=BIGINT}, #{goodsPic,jdbcType=LONGVARCHAR},#{channelId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppGoodsSort">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -167,6 +168,9 @@
       <if test="goodsPic != null">
         goods_pic,
       </if>
+        <if test="channelId != null">
+            channel_id,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="commission != null">
@@ -193,6 +197,9 @@
       <if test="goodsPic != null">
         #{goodsPic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="channelId != null">
+            #{channelId,jdbcType=BIGINT},
+        </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppGoodsSortExample" resultType="java.lang.Long">
@@ -231,6 +238,9 @@
       <if test="record.goodsPic != null">
         goods_pic = #{record.goodsPic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="record.channelId != null">
+            channel_id = #{record.channelId,jdbcType=BIGINT},
+        </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -246,7 +256,8 @@
       goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
       min = #{record.min,jdbcType=DECIMAL},
       level_id = #{record.levelId,jdbcType=BIGINT},
-      goods_pic = #{record.goodsPic,jdbcType=LONGVARCHAR}
+      goods_pic = #{record.goodsPic,jdbcType=LONGVARCHAR},
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -260,7 +271,8 @@
       goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
       goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
       min = #{record.min,jdbcType=DECIMAL},
-      level_id = #{record.levelId,jdbcType=BIGINT}
+      level_id = #{record.levelId,jdbcType=BIGINT},
+      channel_id = #{record.channelId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -292,6 +304,9 @@
       <if test="goodsPic != null">
         goods_pic = #{goodsPic,jdbcType=LONGVARCHAR},
       </if>
+        <if test="channelId != null">
+            channel_id = #{channelId,jdbcType=BIGINT},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -304,7 +319,8 @@
       goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
       min = #{min,jdbcType=DECIMAL},
       level_id = #{levelId,jdbcType=BIGINT},
-      goods_pic = #{goodsPic,jdbcType=LONGVARCHAR}
+      goods_pic = #{goodsPic,jdbcType=LONGVARCHAR},
+        channel_id = #{channelId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppGoodsSort">
@@ -315,7 +331,8 @@
       goods_info = #{goodsInfo,jdbcType=VARCHAR},
       goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
       min = #{min,jdbcType=DECIMAL},
-      level_id = #{levelId,jdbcType=BIGINT}
+      level_id = #{levelId,jdbcType=BIGINT},
+        channel_id = #{channelId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
