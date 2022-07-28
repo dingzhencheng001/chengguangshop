@@ -22,6 +22,7 @@ import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * TODO
@@ -41,6 +42,12 @@ public class MemberWithdrawalController {
     @Autowired
     private AppChannelService appChannelService;
 
+    @RequestMapping("/lists")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("transaction/withdrawalList");
+        return mav;
+    }
 
     @ApiOperation(value = "批量审核提现信息")
     @RequestMapping(value = "/approval/batch", method = RequestMethod.POST)

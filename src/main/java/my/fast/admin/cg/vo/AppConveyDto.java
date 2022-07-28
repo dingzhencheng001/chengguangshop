@@ -66,6 +66,10 @@ public class AppConveyDto implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "用户账号")
+    private String userAccount;
+
+
     public Long getChannelId() {
         return channelId;
     }

@@ -17,53 +17,64 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
-import my.fast.admin.cg.entity.AppMemberLevel;
+import my.fast.admin.cg.entity.AppGoodsSort;
 import my.fast.admin.cg.entity.SysChannel;
+import my.fast.admin.cg.model.GoodsSortParam;
 import my.fast.admin.cg.service.AppChannelService;
-import my.fast.admin.cg.service.AppMemberLevelService;
-import my.fast.admin.cg.service.MemberLevelService;
-import my.fast.admin.framework.utils.DateFormat;
+import my.fast.admin.cg.service.GoodsSortService;
 
 /**
+ * TODO
+ *
  * @author cgkj@cg.cn
  * @version V1.0
- * @since 2022/7/11 14:32
+ * @since 2022/7/10 10:32
  */
 @Controller
-@Api(tags = "MemberLevelController", description = "会员等级管理")
-@RequestMapping("/action/level")
-public class MemberLevelController {
-
+@Api(tags = "GoodsSortController", description = "商品分类后台管理")
+@RequestMapping("/action/goods/sort")
+public class GoodsSortController {
     @Autowired
-    private MemberLevelService memberLevelService;
+    private GoodsSortService goodsSortService;
 
     @Autowired
     private AppChannelService appChannelService;
 
-
-    @ApiOperation(value = "获取会员等级列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation("获取商品分类列表")
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberLevel>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
+    public CommonResult listAll() {
+        List<AppGoodsSort> appGoodsSort = goodsSortService.listAll();
+        return CommonResult.success(appGoodsSort);
+    }
+
+    @ApiOperation(value = "根据条件获取商品分类列表")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<CommonPage<AppGoodsSort>> getList(HttpServletRequest request,@RequestBody
+        GoodsSortParam goodsSortParam ) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        List<AppMemberLevel> appMemberLevels = memberLevelService.listLevels(pageNum, pageSize,channelId);
-        return CommonResult.success(CommonPage.restPage(appMemberLevels));
+        List<AppGoodsSort> goodsList = goodsSortService.listGoodsSort(goodsSortParam,channelId);
+        return CommonResult.success(CommonPage.restPage(goodsList));
     }
 
-    @ApiOperation(value = "删除会员等级")
+    @ApiOperation(value = "删除商品分类")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = memberLevelService.deleteLevels(id);
+        int count = goodsSortService.deleteGoodsSort(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -71,12 +82,12 @@ public class MemberLevelController {
         }
     }
 
-    @ApiOperation(value = "更新会员等级")
+    @ApiOperation(value = "更新商品分类")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberLevel appMemberLevel) {
+    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppGoodsSort appGoodsSort) {
         CommonResult commonResult;
-        int count = memberLevelService.updateLevels(id, appMemberLevel);
+        int count = goodsSortService.updateGoodsSort(id, appGoodsSort);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -85,21 +96,25 @@ public class MemberLevelController {
         return commonResult;
     }
 
-    @ApiOperation(value = "添加会员等级")
+    @ApiOperation(value = "添加商品")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppMemberLevel appMemberLevel, HttpServletRequest request) {
+    public CommonResult create(@RequestBody AppGoodsSort appGoodsSort ,HttpServletRequest request) {
+        CommonResult commonResult;
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        CommonResult commonResult;
-        appMemberLevel.setRegisterTime(DateFormat.getNowDate());
-        int count = memberLevelService.createLevels(appMemberLevel,channelId);
+        int count = goodsSortService.createGoodsSort(appGoodsSort,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -107,4 +122,5 @@ public class MemberLevelController {
         }
         return commonResult;
     }
+
 }

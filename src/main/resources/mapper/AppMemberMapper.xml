@@ -757,17 +757,17 @@
                     ischild != 0
             ) t1 ON t.id = t1.id 
             
-            <if test="param.memberLevel != null">
+            <if test="param.memberLevel != null and param.memberLevel != '' ">
              and
             t.member_level_id = #{param.memberLevel,jdbcType=BIGINT}
        		</if>
  			and
             t.channel_id = #{param.channelId,jdbcType=BIGINT}
-            <if test="param.userAccount != null">
+            <if test="param.userAccount != null and param.userAccount != '' ">
              and
             t.user_account = #{param.userAccount,jdbcType=VARCHAR}
        		</if>
-            <if test="param.phoneNumber != null">
+            <if test="param.phoneNumber != null and param.phoneNumber != '' ">
              and
             t.phone_number = #{param.phoneNumber,jdbcType=VARCHAR}
        		</if>

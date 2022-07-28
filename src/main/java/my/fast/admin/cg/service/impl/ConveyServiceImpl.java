@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.mapper.AppConveyMapper;
+import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.ConveyService;
 import my.fast.admin.cg.vo.AppConveyDto;
 
@@ -33,9 +34,9 @@ public class ConveyServiceImpl implements ConveyService {
     }
 
     @Override
-    public List<AppConveyDto> listConvey(AppConvey appConvey, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        return appConveyMapper.selectByConveyByStatus(appConvey);
+    public List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Long channelId) {
+        PageHelper.startPage(appConveyParam.getPageNum(), appConveyParam.getPageSize());
+        return appConveyMapper.selectByConveyByStatus(appConveyParam,channelId);
     }
 
     @Override

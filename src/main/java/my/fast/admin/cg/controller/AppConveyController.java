@@ -19,6 +19,7 @@ import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppConveyService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.vo.AppConveyDto;
@@ -55,14 +56,15 @@ public class AppConveyController {
     @ResponseBody
     public CommonResult<CommonPage<AppConveyDto>> getList(
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody AppConvey appConvey,HttpServletRequest request) {
+        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody
+        AppConveyParam appConveyParam,HttpServletRequest request) {
         
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户未登录");
         }
-        appConvey.setMemberId(appUserVO.getId());
-    	List<AppConveyDto> conveyList = appConveyService.listConvey(appConvey, pageNum, pageSize);
+        appConveyParam.setMemberId(appUserVO.getId());
+    	List<AppConveyDto> conveyList = appConveyService.listConvey(appConveyParam, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(conveyList));
     }
 
