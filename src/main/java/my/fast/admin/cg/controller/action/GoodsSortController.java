@@ -31,7 +31,7 @@ import my.fast.admin.cg.service.GoodsSortService;
  * @since 2022/7/10 10:32
  */
 @Controller
-@Api(tags = "AppGoodsSortController", description = "APP商品分类管理")
+@Api(tags = "GoodsSortController", description = "商品分类后台管理")
 @RequestMapping("/action/goods/sort")
 public class GoodsSortController {
     @Autowired
