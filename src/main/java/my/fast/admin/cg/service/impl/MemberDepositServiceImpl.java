@@ -47,6 +47,9 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         AppMemberDepositExample  listExample = new AppMemberDepositExample();
         AppMemberDepositExample.Criteria criteria = listExample.createCriteria();
         criteria.andChannelIdEqualTo(deposit.getChannelId());
+        if (!StringUtils.isEmpty(deposit.getOrderNo())) {
+            criteria.andOrderNoEqualTo(deposit.getOrderNo());
+        }
         if (!StringUtils.isEmpty(deposit.getUserAccount())) {
             criteria.andUserAccountEqualTo(deposit.getUserAccount());
         }
