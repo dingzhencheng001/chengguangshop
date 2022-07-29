@@ -69,6 +69,26 @@ public class AppConveyDto implements Serializable {
     @ApiModelProperty(value = "用户账号")
     private String userAccount;
 
+    @ApiModelProperty(value = "账户余额")
+    private BigDecimal balance;
+
+
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
     public Long getChannelId() {
         return channelId;

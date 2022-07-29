@@ -102,7 +102,7 @@
     </select>
 
     <select id="selectByConveyByStatus" resultType="my.fast.admin.cg.vo.AppConveyDto">
-        SELECT t2.goods_name, t2.shop_name ,t1.*,m3.user_account
+        SELECT t2.goods_name, t2.shop_name ,t1.*,m3.user_account,m3.balance
         from app_convey t1 LEFT JOIN app_goods t2 on t1.goods_id=t2.id LEFT JOIN app_member m3 on t1.member_id = m3.id
         where t1.channel_id = #{channelId,jdbcType=BIGINT}
         <if test="appConveyParam.memberId != null">
