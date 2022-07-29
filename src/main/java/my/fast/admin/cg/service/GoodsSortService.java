@@ -41,4 +41,9 @@ public interface GoodsSortService {
      * 分页查询商品分类
      */
     List<AppGoodsSort> listGoodsSort(GoodsSortParam goodsSortParam, Long channelId);
+
+    /**
+     * 分页id查询商品分类信息
+     */
+    AppGoodsSort selectById(Long id);
 }

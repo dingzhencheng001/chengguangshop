@@ -12,6 +12,7 @@ import my.fast.admin.cg.entity.AppGoodsSortExample;
 import my.fast.admin.cg.mapper.AppGoodsSortMapper;
 import my.fast.admin.cg.model.GoodsSortParam;
 import my.fast.admin.cg.service.GoodsSortService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -41,6 +42,11 @@ public class GoodsSortServiceImpl implements GoodsSortService {
     }
 
     @Override
+    public AppGoodsSort selectById(Long id) {
+        return appGoodsSortMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public int deleteGoodsSort(Long id) {
         return appGoodsSortMapper.deleteByPrimaryKey(id);
     }
@@ -48,6 +54,7 @@ public class GoodsSortServiceImpl implements GoodsSortService {
     @Override
     public int createGoodsSort(AppGoodsSort appGoodsSort, Long channelId) {
         appGoodsSort.setChannelId(channelId);
+        appGoodsSort.setGoodsAddTime(DateFormat.getNowDate());
         return appGoodsSortMapper.insertSelective(appGoodsSort);
     }
 

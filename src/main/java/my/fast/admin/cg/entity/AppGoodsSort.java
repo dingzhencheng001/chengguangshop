@@ -1,6 +1,7 @@
 package my.fast.admin.cg.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -22,6 +23,15 @@ public class AppGoodsSort implements Serializable {
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
+
+    @ApiModelProperty(value = "绑定会员等级")
+    private Integer bindLevel;
+
+    @ApiModelProperty(value = "最低金额")
+    private BigDecimal minAmount;
+
+    @ApiModelProperty(value = "分类logo")
+    private String sortLogo;
 
     private static final long serialVersionUID = 1L;
 
@@ -73,6 +83,30 @@ public class AppGoodsSort implements Serializable {
         this.channelId = channelId;
     }
 
+    public Integer getBindLevel() {
+        return bindLevel;
+    }
+
+    public void setBindLevel(Integer bindLevel) {
+        this.bindLevel = bindLevel;
+    }
+
+    public BigDecimal getMinAmount() {
+        return minAmount;
+    }
+
+    public void setMinAmount(BigDecimal minAmount) {
+        this.minAmount = minAmount;
+    }
+
+    public String getSortLogo() {
+        return sortLogo;
+    }
+
+    public void setSortLogo(String sortLogo) {
+        this.sortLogo = sortLogo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -85,6 +119,9 @@ public class AppGoodsSort implements Serializable {
         sb.append(", explainSimple=").append(explainSimple);
         sb.append(", goodsAddTime=").append(goodsAddTime);
         sb.append(", channelId=").append(channelId);
+        sb.append(", bindLevel=").append(bindLevel);
+        sb.append(", minAmount=").append(minAmount);
+        sb.append(", sortLogo=").append(sortLogo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

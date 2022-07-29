@@ -122,5 +122,12 @@ public class GoodsSortController {
         }
         return commonResult;
     }
+    @ApiOperation(value = "根据id查找商品分类信息")
+    @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectById(@PathVariable("id") Long id) {
+        AppGoodsSort appGoodsSort = goodsSortService.selectById(id);
+        return CommonResult.success(appGoodsSort);
+    }
 
 }

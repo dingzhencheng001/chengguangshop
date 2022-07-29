@@ -1,5 +1,6 @@
 package my.fast.admin.cg.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -482,6 +483,196 @@ public class AppGoodsSortExample {
 
         public Criteria andChannelIdNotBetween(Long value1, Long value2) {
             addCriterion("channel_id not between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelIsNull() {
+            addCriterion("`bind_ level` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelIsNotNull() {
+            addCriterion("`bind_ level` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelEqualTo(Integer value) {
+            addCriterion("`bind_ level` =", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelNotEqualTo(Integer value) {
+            addCriterion("`bind_ level` <>", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelGreaterThan(Integer value) {
+            addCriterion("`bind_ level` >", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`bind_ level` >=", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelLessThan(Integer value) {
+            addCriterion("`bind_ level` <", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("`bind_ level` <=", value, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelIn(List<Integer> values) {
+            addCriterion("`bind_ level` in", values, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelNotIn(List<Integer> values) {
+            addCriterion("`bind_ level` not in", values, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelBetween(Integer value1, Integer value2) {
+            addCriterion("`bind_ level` between", value1, value2, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andBindLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("`bind_ level` not between", value1, value2, "bindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountIsNull() {
+            addCriterion("min_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountIsNotNull() {
+            addCriterion("min_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountEqualTo(BigDecimal value) {
+            addCriterion("min_amount =", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountNotEqualTo(BigDecimal value) {
+            addCriterion("min_amount <>", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountGreaterThan(BigDecimal value) {
+            addCriterion("min_amount >", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("min_amount >=", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountLessThan(BigDecimal value) {
+            addCriterion("min_amount <", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("min_amount <=", value, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountIn(List<BigDecimal> values) {
+            addCriterion("min_amount in", values, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountNotIn(List<BigDecimal> values) {
+            addCriterion("min_amount not in", values, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("min_amount between", value1, value2, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinAmountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("min_amount not between", value1, value2, "minAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoIsNull() {
+            addCriterion("sort_logo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoIsNotNull() {
+            addCriterion("sort_logo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoEqualTo(String value) {
+            addCriterion("sort_logo =", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoNotEqualTo(String value) {
+            addCriterion("sort_logo <>", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoGreaterThan(String value) {
+            addCriterion("sort_logo >", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoGreaterThanOrEqualTo(String value) {
+            addCriterion("sort_logo >=", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoLessThan(String value) {
+            addCriterion("sort_logo <", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoLessThanOrEqualTo(String value) {
+            addCriterion("sort_logo <=", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoLike(String value) {
+            addCriterion("sort_logo like", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoNotLike(String value) {
+            addCriterion("sort_logo not like", value, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoIn(List<String> values) {
+            addCriterion("sort_logo in", values, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoNotIn(List<String> values) {
+            addCriterion("sort_logo not in", values, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoBetween(String value1, String value2) {
+            addCriterion("sort_logo between", value1, value2, "sortLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLogoNotBetween(String value1, String value2) {
+            addCriterion("sort_logo not between", value1, value2, "sortLogo");
             return (Criteria) this;
         }
     }

@@ -8,6 +8,9 @@
     <result column="explain_simple" jdbcType="VARCHAR" property="explainSimple" />
     <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
+    <result column="bind_ level" jdbcType="INTEGER" property="bindLevel" />
+    <result column="min_amount" jdbcType="DECIMAL" property="minAmount" />
+    <result column="sort_logo" jdbcType="VARCHAR" property="sortLogo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, commission_rate, sort_name, explain_simple, goods_add_time, channel_id
+    id, commission_rate, sort_name, explain_simple, goods_add_time, channel_id, `bind_ level`, 
+    min_amount, sort_logo
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppGoodsSortExample" resultMap="BaseResultMap">
     select
@@ -105,9 +109,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_goods_sort (commission_rate, sort_name, explain_simple, 
-      goods_add_time, channel_id)
+      goods_add_time, channel_id, `bind_ level`, 
+      min_amount, sort_logo)
     values (#{commissionRate,jdbcType=REAL}, #{sortName,jdbcType=VARCHAR}, #{explainSimple,jdbcType=VARCHAR}, 
-      #{goodsAddTime,jdbcType=TIMESTAMP}, #{channelId,jdbcType=BIGINT})
+      #{goodsAddTime,jdbcType=TIMESTAMP}, #{channelId,jdbcType=BIGINT}, #{bindLevel,jdbcType=INTEGER}, 
+      #{minAmount,jdbcType=DECIMAL}, #{sortLogo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppGoodsSort">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,6 +136,15 @@
       <if test="channelId != null">
         channel_id,
       </if>
+      <if test="bindLevel != null">
+        `bind_ level`,
+      </if>
+      <if test="minAmount != null">
+        min_amount,
+      </if>
+      <if test="sortLogo != null">
+        sort_logo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="commissionRate != null">
@@ -146,6 +161,15 @@
       </if>
       <if test="channelId != null">
         #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="bindLevel != null">
+        #{bindLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minAmount != null">
+        #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sortLogo != null">
+        #{sortLogo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,6 +200,15 @@
       <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
       </if>
+      <if test="record.bindLevel != null">
+        `bind_ level` = #{record.bindLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.minAmount != null">
+        min_amount = #{record.minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sortLogo != null">
+        sort_logo = #{record.sortLogo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +221,10 @@
       sort_name = #{record.sortName,jdbcType=VARCHAR},
       explain_simple = #{record.explainSimple,jdbcType=VARCHAR},
       goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
-      channel_id = #{record.channelId,jdbcType=BIGINT}
+      channel_id = #{record.channelId,jdbcType=BIGINT},
+      `bind_ level` = #{record.bindLevel,jdbcType=INTEGER},
+      min_amount = #{record.minAmount,jdbcType=DECIMAL},
+      sort_logo = #{record.sortLogo,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +247,15 @@
       <if test="channelId != null">
         channel_id = #{channelId,jdbcType=BIGINT},
       </if>
+      <if test="bindLevel != null">
+        `bind_ level` = #{bindLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minAmount != null">
+        min_amount = #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sortLogo != null">
+        sort_logo = #{sortLogo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -220,7 +265,10 @@
       sort_name = #{sortName,jdbcType=VARCHAR},
       explain_simple = #{explainSimple,jdbcType=VARCHAR},
       goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
-      channel_id = #{channelId,jdbcType=BIGINT}
+      channel_id = #{channelId,jdbcType=BIGINT},
+      `bind_ level` = #{bindLevel,jdbcType=INTEGER},
+      min_amount = #{minAmount,jdbcType=DECIMAL},
+      sort_logo = #{sortLogo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
