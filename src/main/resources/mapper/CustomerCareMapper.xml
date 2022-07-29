@@ -10,14 +10,15 @@
     <result column="wechat" jdbcType="VARCHAR" property="wechat" />
     <result column="qr_code" jdbcType="VARCHAR" property="qrCode" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="begin_time" jdbcType="VARCHAR" property="beginTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_name, phone_number, qq, url, wechat, qr_code, status, begin_time, end_time, 
-    create_by, create_time, update_by, update_time, remark, channel_id
+    create_by, create_time, update_by, update_time, remark, channel_id, password
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.CustomerCareExample" resultMap="BaseResultMap">
     select
@@ -119,14 +120,14 @@
       url, wechat, qr_code, 
       status, begin_time, end_time, 
       create_by, create_time, update_by, 
-      update_time, remark, channel_id
-      )
+      update_time, remark, channel_id, 
+      password)
     values (#{userName,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, #{qrCode,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT}, 
+      #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.CustomerCare">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -179,6 +180,9 @@
       <if test="channelId != null">
         channel_id,
       </if>
+      <if test="password != null">
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userName != null">
@@ -203,10 +207,10 @@
         #{status,jdbcType=INTEGER},
       </if>
       <if test="beginTime != null">
-        #{beginTime,jdbcType=TIMESTAMP},
+        #{beginTime,jdbcType=VARCHAR},
       </if>
       <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+        #{endTime,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
@@ -225,6 +229,9 @@
       </if>
       <if test="channelId != null">
         #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -262,10 +269,10 @@
         status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.beginTime != null">
-        begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+        begin_time = #{record.beginTime,jdbcType=VARCHAR},
       </if>
       <if test="record.endTime != null">
-        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+        end_time = #{record.endTime,jdbcType=VARCHAR},
       </if>
       <if test="record.createBy != null">
         create_by = #{record.createBy,jdbcType=VARCHAR},
@@ -285,6 +292,9 @@
       <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
       </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -300,14 +310,15 @@
       wechat = #{record.wechat,jdbcType=VARCHAR},
       qr_code = #{record.qrCode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
-      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      begin_time = #{record.beginTime,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR},
       create_by = #{record.createBy,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_by = #{record.updateBy,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
-      channel_id = #{record.channelId,jdbcType=BIGINT}
+      channel_id = #{record.channelId,jdbcType=BIGINT},
+      password = #{record.password,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -337,10 +348,10 @@
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="beginTime != null">
-        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+        begin_time = #{beginTime,jdbcType=VARCHAR},
       </if>
       <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
@@ -360,6 +371,9 @@
       <if test="channelId != null">
         channel_id = #{channelId,jdbcType=BIGINT},
       </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -372,14 +386,15 @@
       wechat = #{wechat,jdbcType=VARCHAR},
       qr_code = #{qrCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      begin_time = #{beginTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      channel_id = #{channelId,jdbcType=BIGINT}
+      channel_id = #{channelId,jdbcType=BIGINT},
+      password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

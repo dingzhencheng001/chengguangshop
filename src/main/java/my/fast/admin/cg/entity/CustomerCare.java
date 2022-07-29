@@ -1,9 +1,8 @@
 package my.fast.admin.cg.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
-
-import io.swagger.annotations.ApiModelProperty;
 
 public class CustomerCare implements Serializable {
     @ApiModelProperty(value = "ID")
@@ -31,10 +30,10 @@ public class CustomerCare implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "上班时间")
-    private Date beginTime;
+    private String beginTime;
 
     @ApiModelProperty(value = "下班时间")
-    private Date endTime;
+    private String endTime;
 
     @ApiModelProperty(value = "创建者")
     private String createBy;
@@ -53,6 +52,9 @@ public class CustomerCare implements Serializable {
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
+
+    @ApiModelProperty(value = "密码")
+    private String password;
 
     private static final long serialVersionUID = 1L;
 
@@ -120,19 +122,19 @@ public class CustomerCare implements Serializable {
         this.status = status;
     }
 
-    public Date getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Date beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -184,6 +186,14 @@ public class CustomerCare implements Serializable {
         this.channelId = channelId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -206,6 +216,7 @@ public class CustomerCare implements Serializable {
         sb.append(", updateTime=").append(updateTime);
         sb.append(", remark=").append(remark);
         sb.append(", channelId=").append(channelId);
+        sb.append(", password=").append(password);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class CustomerCareExample {
     protected String orderByClause;
-
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
@@ -655,52 +654,62 @@ public class CustomerCareExample {
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeEqualTo(Date value) {
+        public Criteria andBeginTimeEqualTo(String value) {
             addCriterion("begin_time =", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotEqualTo(Date value) {
+        public Criteria andBeginTimeNotEqualTo(String value) {
             addCriterion("begin_time <>", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeGreaterThan(Date value) {
+        public Criteria andBeginTimeGreaterThan(String value) {
             addCriterion("begin_time >", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andBeginTimeGreaterThanOrEqualTo(String value) {
             addCriterion("begin_time >=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeLessThan(Date value) {
+        public Criteria andBeginTimeLessThan(String value) {
             addCriterion("begin_time <", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
+        public Criteria andBeginTimeLessThanOrEqualTo(String value) {
             addCriterion("begin_time <=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeIn(List<Date> values) {
+        public Criteria andBeginTimeLike(String value) {
+            addCriterion("begin_time like", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotLike(String value) {
+            addCriterion("begin_time not like", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIn(List<String> values) {
             addCriterion("begin_time in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotIn(List<Date> values) {
+        public Criteria andBeginTimeNotIn(List<String> values) {
             addCriterion("begin_time not in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeBetween(Date value1, Date value2) {
+        public Criteria andBeginTimeBetween(String value1, String value2) {
             addCriterion("begin_time between", value1, value2, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
+        public Criteria andBeginTimeNotBetween(String value1, String value2) {
             addCriterion("begin_time not between", value1, value2, "beginTime");
             return (Criteria) this;
         }
@@ -715,52 +724,62 @@ public class CustomerCareExample {
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeEqualTo(Date value) {
+        public Criteria andEndTimeEqualTo(String value) {
             addCriterion("end_time =", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotEqualTo(Date value) {
+        public Criteria andEndTimeNotEqualTo(String value) {
             addCriterion("end_time <>", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeGreaterThan(Date value) {
+        public Criteria andEndTimeGreaterThan(String value) {
             addCriterion("end_time >", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andEndTimeGreaterThanOrEqualTo(String value) {
             addCriterion("end_time >=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeLessThan(Date value) {
+        public Criteria andEndTimeLessThan(String value) {
             addCriterion("end_time <", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+        public Criteria andEndTimeLessThanOrEqualTo(String value) {
             addCriterion("end_time <=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeIn(List<Date> values) {
+        public Criteria andEndTimeLike(String value) {
+            addCriterion("end_time like", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotLike(String value) {
+            addCriterion("end_time not like", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIn(List<String> values) {
             addCriterion("end_time in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotIn(List<Date> values) {
+        public Criteria andEndTimeNotIn(List<String> values) {
             addCriterion("end_time not in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeBetween(Date value1, Date value2) {
+        public Criteria andEndTimeBetween(String value1, String value2) {
             addCriterion("end_time between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+        public Criteria andEndTimeNotBetween(String value1, String value2) {
             addCriterion("end_time not between", value1, value2, "endTime");
             return (Criteria) this;
         }
@@ -1152,6 +1171,76 @@ public class CustomerCareExample {
 
         public Criteria andChannelIdNotBetween(Long value1, Long value2) {
             addCriterion("channel_id not between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordIsNull() {
+            addCriterion("password is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordIsNotNull() {
+            addCriterion("password is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordEqualTo(String value) {
+            addCriterion("password =", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordNotEqualTo(String value) {
+            addCriterion("password <>", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordGreaterThan(String value) {
+            addCriterion("password >", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordGreaterThanOrEqualTo(String value) {
+            addCriterion("password >=", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordLessThan(String value) {
+            addCriterion("password <", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordLessThanOrEqualTo(String value) {
+            addCriterion("password <=", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordLike(String value) {
+            addCriterion("password like", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordNotLike(String value) {
+            addCriterion("password not like", value, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordIn(List<String> values) {
+            addCriterion("password in", values, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordNotIn(List<String> values) {
+            addCriterion("password not in", values, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordBetween(String value1, String value2) {
+            addCriterion("password between", value1, value2, "password");
+            return (Criteria) this;
+        }
+
+        public Criteria andPasswordNotBetween(String value1, String value2) {
+            addCriterion("password not between", value1, value2, "password");
             return (Criteria) this;
         }
     }
