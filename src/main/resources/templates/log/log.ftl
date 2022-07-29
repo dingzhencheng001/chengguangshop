@@ -52,7 +52,7 @@
 	<!--注册信息-->
 	<script type="text/html" id="createTime">
 			<div>
-				<p>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd')}}</p>
+				<p>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</p>
 				<p>{{ d.createTime}}</p>
 			</div>
 		</script>
@@ -128,12 +128,12 @@
 				cols: [
 					[
 						//表头
-						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-						{ field: 'title', title: '标题', width: 200 },
+						{ field: 'id', title: 'ID', width: 60, sort: true, fixed: 'left' },
+						{ field: 'title', title: '标题', width: 100 },
 						{ field: 'operateContent', title: '内容', minWidth: 160 },
 						{ field: 'createBy', title: '创建人', width: 100 },
-						{ field: 'createTime', title: '创建时间', templet: '#createTime', minWidth: 160 },
-						{ field: 'remark', title: '备注', width: 200 },
+						{ field: 'createTime', title: '创建时间', templet: '#createTime', width: 80 },
+						{ field: 'remark', title: '备注', width: 250 },
 					]
 				],
 				parseData: parseData,
