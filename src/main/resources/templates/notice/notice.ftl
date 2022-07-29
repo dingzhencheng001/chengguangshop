@@ -26,13 +26,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">公告内容</label>
 					<div class="layui-input-block">
-						<textarea id="addTextarea" name="noticeContent" ></textarea>
+						<textarea id="addTextarea" placeholder="请输入内容" name="noticeContent" ></textarea>
 					</div>
 				</div>
 
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
+					<button type="button" class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
 					<button type="button" class="layui-btn layui-btn-danger" id="createCancel">取消</button>
 				</div>
 			</div>
@@ -53,13 +53,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">公告内容</label>
 					<div class="layui-input-block">
-						<textarea id="editTextarea" name="noticeContent" ></textarea>
+						<textarea id="editTextarea" placeholder="请输入内容" name="noticeContent" ></textarea>
 					</div>
 				</div>
 
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="editSubmit">提交</button>
+					<button type="button" class="layui-btn" lay-submit lay-filter="editSubmit">提交</button>
 					<button type="button" class="layui-btn layui-btn-danger" id="editCancel">取消</button>
 				</div>
 			</div>
@@ -128,8 +128,9 @@
 				]
 				, height: '90%'
 			});
-			var editeditor = layedit.build('editTextarea');
-			var addeditor = layedit.build('addTextarea');
+
+			var editeditor
+			var addeditor
 
 			var editIndex
 
@@ -269,6 +270,7 @@
 						content: $('#editId'),
 						success: function () {
 							form.val('editForm', data);
+							editeditor = layedit.build('editTextarea');
 							layedit.setContent(editeditor, data.noticeContent, false);
 							$('#editId').show()
 						},
@@ -337,6 +339,7 @@
 
 			// 编辑-提交
 			form.on('submit(editSubmit)', function (data) {
+				editeditor = layedit.build('editTextarea')
 				data.field.noticeContent = layedit.getContent(editeditor);
 				actions.onUpdateItem(tableCurrentItem.noticeId, data.field, {
 					success: function () {
@@ -362,6 +365,7 @@
 					content: $('#createId'),
 					success: function () {
 						$('#createId').show();
+						addeditor = layedit.build('addTextarea');
 					},
 					cancel: function () {
 						$('#createId').hide();

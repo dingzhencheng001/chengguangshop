@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
@@ -30,7 +32,12 @@ import my.fast.admin.cg.service.OperateLogService;
 @RequestMapping("/action/operate")
 public class OperateLogController {
 
-	
+	@RequestMapping("/log")
+	public Object list() {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("log/log");
+			return mav;
+	}
 
     @Autowired
     private OperateLogService operateLogService;
