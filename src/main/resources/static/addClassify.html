@@ -35,7 +35,7 @@
 <!--        id	integer($int64)-->
 <!--        sortName	string 分类名称-->
         <div class="layui-card-body think-box-shadow padding-left-40">
-            <div class="layui-form-item layui-row layui-col-space15">
+            <div class="layui-form-item layui-row layui-col-space15" id="sortNameItem">
                 <label class="layui-col-xs9 relative label-required-prev">
                     <span class="color-green">分类名称</span>
                     <input name="sortName" lay-verify="required" class="layui-input" placeholder="请输入分类名称">
@@ -53,21 +53,21 @@
                     <input name="explainSimple" lay-verify="required" class="layui-input" placeholder="请输入分类简介">
                 </label>
             </div>
-<!--            <div class="layui-form-item layui-row layui-col-space15">-->
-<!--                <label class="layui-col-xs9 relative label-required-prev">-->
-<!--                    <span class="color-green">最低金额限制</span>-->
-<!--                    <input name="min" class="layui-input" placeholder="请输入金额">-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <div class="layui-form-item">-->
-<!--                <span class="color-green label-required-prev">分类LOGO(不用修改)</span>-->
-<!--                <div>-->
-<!--                    <button type="button" class="layui-btn" id="test1">-->
-<!--                        <i class="layui-icon">&#xe67c;</i>上传图片-->
-<!--                    </button>-->
-<!--                    <img  id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="layui-form-item layui-row layui-col-space15">
+                <label class="layui-col-xs9 relative label-required-prev">
+                    <span class="color-green">最低金额限制</span>
+                    <input name="minAmount" lay-verify="number" class="layui-input" placeholder="请输入金额">
+                </label>
+            </div>
+            <div class="layui-form-item">
+                <span class="color-green label-required-prev">分类LOGO(不用修改)</span>
+                <div>
+                    <button type="button" class="layui-btn" id="test1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <img  id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
+                </div>
+            </div>
 
             <div class="layui-form-item text-center">
                 <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn">保存商品</button>
@@ -97,7 +97,16 @@
             })
         }
         if (type === 'edit') {
+            $('#sortNameItem').after('\n' +
+                '            <div class="layui-form-item layui-row layui-col-space15" id="bindLevelItem">\n' +
+                '                <label class="layui-col-xs9 relative">\n' +
+                '                    <span class="color-green">绑定会员等级</span>\n' +
+                '                    <input name="bindLevel" disabled class="layui-input" placeholder="请输入会员等级">\n' +
+                '                </label>\n' +
+                '            </div>')
             onGetDetails();
+        } else {
+            $('#bindLevelItem').remove();
         }
 
         //执行实例
@@ -119,7 +128,6 @@
                 //上传完毕回调
             }
             , error: function (err) {
-                console.log('err msg', err.msg);
                 $('#upload-img').attr('src', '').hide();
                 layer.close(uploadIndex);
                 layer.msg(err.msg, {icon: 2});
@@ -130,9 +138,10 @@
         var createIndex;
         var onAdd = function () {
             var fd = Object.assign({}, form.val('addForm'), {
-                // goodsPic: $('#upload-img').attr('src')
+                sortLogo: $('#upload-img').attr('src')
             });
             delete fd.file;
+            delete fd.bindLevel;
             createIndex = layer.load(1); // loading
             $.request({
                 url: '/action/goods/sort/create',
@@ -149,26 +158,24 @@
             });
         }
         var onEdit = function () {
-            layer.msg('开发中', {icon: 1});
-            return;
-            // var fd = Object.assign({}, detailsData, form.val('addForm'), {
-            //     // goodsPic: $('#upload-img').attr('src')
-            // });
-            // delete fd.file;
-            // createIndex = layer.load(1); // loading
-            // $.request({
-            //     url: '/action/goods/sort/update/' + params.id,
-            //     type: 'post',
-            //     data: fd,
-            //     success: function (result) {
-            //         layer.msg('保存成功', {icon: 1});
-            //         onCancel();
-            //     },
-            //     complete: function () {
-            //         layer.close(createIndex);
-            //         createIndex = null;
-            //     }
-            // });
+            var fd = Object.assign({}, detailsData, form.val('addForm'), {
+                sortLogo: $('#upload-img').attr('src')
+            });
+            delete fd.file;
+            createIndex = layer.load(1); // loading
+            $.request({
+                url: '/action/goods/sort/update/' + params.id,
+                type: 'post',
+                data: fd,
+                success: function (result) {
+                    layer.msg('保存成功', {icon: 1});
+                    onCancel();
+                },
+                complete: function () {
+                    layer.close(createIndex);
+                    createIndex = null;
+                }
+            });
         }
 
         // 保存
@@ -189,8 +196,11 @@
                 "commissionRate": 0,
                 "explainSimple": "",
                 "goodsAddTime": "",
-                "sortName": ""
+                "sortName": "",
+                "minAmount": "",
             })
+            $('#upload-img').attr('src', '').hide();
+            $('#bindLevelItem').remove();
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index); //再执行关闭
             // window.parent

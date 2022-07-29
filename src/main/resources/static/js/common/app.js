@@ -192,3 +192,18 @@ $.getRangeTime = function (str) {
     end = a[1] || '';
     return [start, end]
 }
+
+/**
+ * 查找出列表选项的名称
+ * @param arr
+ * @param value
+ * @returns {string|*}
+ */
+$.findName = function (arr, value) {
+    if (!arr || arr.length === 0) return '';
+    var find = arr.find(function (item) {
+        return item.value === value;
+    })
+    if (!find) return '';
+    return find.name;
+}

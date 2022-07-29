@@ -36,12 +36,8 @@
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">分类</label>
                         <div class="layui-input-inline">
-                            <select name="cid" id="selectList">
-                                <option value="">所有分类</option>
-                                <option value="2">TaoBao</option>
-                                <option value="3">Tmall</option>
-                                <option value="4">JD</option>
-                                <option value="1">Pinduoduo</option>
+                            <select name="goodsSortId" id="classify">
+                                <!--                                <option value="">所有分类</option>-->
                             </select>
                         </div>
                     </div>
@@ -81,12 +77,17 @@
             elem: '#tableId',
             url: '/action/goods/list', //数据接口
             where: where,
+            method: 'post',
+            contentType: 'application/json',
             // 商品名称	商品价格	店铺名称	添加时间	状态
             cols: [[ //表头
                 {field: 'id', title: '商品ID', sort: true}
                 , {field: 'goodsName', title: '商品名称'}
                 , {field: 'goodsPrice', title: '商品价格'}
                 , {field: 'shopName', title: '店铺名称'}
+                , {field: 'classify', title: '商品分类', templet: function (d) {
+                        return $.findName(goodsClassifyList, d.goodsSortId);
+                    }}
                 , {field: 'goodsAddTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
                 , {field: 'status', title: '状态', width: 120, templet: function (d) {
                         // 上架状态 0不上架 1上架
@@ -126,6 +127,7 @@
                     area: ['800px', '500px'],
                     content: '/addGoods.html?id=' + data.id,
                     end: function () {
+                        console.warn('end');
                         actions.onReloadData();
                     }
                 });
@@ -162,6 +164,37 @@
             //     url: '/addGoods.html'
             // })
         })
+
+        // 获取商品分类
+        var goodsClassifyList = [];
+        var onGoodsClassifyList = function () {
+            $.request({
+                url: '/action/goods/sort/listAll',
+                success: function (result) {
+                    goodsClassifyList = (result.data || []).map(function (item) {
+                        return { name: item.sortName, value: item.id };
+                    });
+                    renderGoodsClassifyList();
+                    console.log('r', result.data);
+                }
+            })
+        }
+        var renderGoodsClassifyList = function () {
+            var select = document.querySelector('#classify');
+            select.innerHtml = '';
+            var o = document.createElement('option');
+            o.setAttribute('value', '');
+            o.innerText = '所有分类';
+            select.appendChild(o);
+            goodsClassifyList.forEach(function (item) {
+                var o = document.createElement('option');
+                o.setAttribute('value', item.value);
+                o.innerText = item.name;
+                select.appendChild(o);
+            })
+            form.render('select');
+        }
+        onGoodsClassifyList();
 
     });
 

@@ -45,8 +45,9 @@
             cols: [[ //表头
                 {field: 'id', title: '分类ID', sort: true}
                 , {field: 'sortName', title: '分类名称'}
-                , {field: 'commissionRate', title: '比例'}
+                , {field: 'commissionRate', title: '比例', sort: true}
                 , {field: 'explainSimple', title: '简介'}
+                , {field: 'minAmount', title: '最低金额', sort: true}
                 , {field: 'goodsAddTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
                 , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120}
             ]],
@@ -55,9 +56,7 @@
 
         var actions = {
             onReloadData: function () {
-                var searchData = form.val('searchForm');
-                console.log('searchData', searchData);
-                table.reloadData(tableId, {where: Object.assign({}, where, searchData)});
+                table.reloadData(tableId, {where: Object.assign({}, where)});
             },
         }
 
@@ -73,7 +72,8 @@
             if (layEvent === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['800px', '400px'],
+                    title: '编辑分类',
+                    area: ['800px', '500px'],
                     content: '/addClassify.html?id=' + data.id,
                     end: function () {
                         console.warn('end');
@@ -95,11 +95,12 @@
 
         });
 
-        // 添加商品
+        // 添加分类
         $('#createBtn').click(function () {
             layer.open({
                 type: 2,
-                area: ['800px', '400px'],
+                title: '添加分类',
+                area: ['800px', '500px'],
                 content: '/addClassify.html',
                 end: function () {
                     actions.onReloadData();
