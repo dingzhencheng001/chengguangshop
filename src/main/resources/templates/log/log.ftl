@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>公告管理</title>
+	<title>日志查看</title>
 	<#include "../resource.ftl"/>
 </head>
 
@@ -38,6 +38,11 @@
 								class="layui-icon"></i> 搜 索
 						</button>
 					</div>
+					<div class="layui-form-item layui-inline">
+						<button id="reset" type="button" class="layui-btn layui-btn-primary layui-btn-lg ">
+							<i class="layui-icon">&#xe669;</i>
+							重置</button>
+					</div>
 				</form>
 			</fieldset>
 		</div>
@@ -60,13 +65,12 @@
 			var tableCurrentItem = {};
 
 			var where = {
-				"channelId": 0,
-				"operateContent": "",
 				"pageNum": 1,
 				"pageSize": 20,
 				"selectBeginTime": "",
 				"selectEndTime": "",
-				"title": ""
+				"title": "",
+				"operateContent": "",
 			};
 
 			laydate.render({
@@ -101,9 +105,7 @@
 			var actions = {
 				// 刷新表格数据
 				onReloadData: function () {
-					var searchData = form.val('searchForm')
-					console.log('searchData', searchData)
-					table.reloadData(levelListTableId, { where: Object.assign({}, where, searchData) })
+					table.reloadData(levelListTableId, { where: Object.assign({}, where, onGetSearchParams()) })
 				},
 			}
 
@@ -139,11 +141,33 @@
 			})
 
 			// 搜索
-			form.on('submit(search)', function (data) {
-				console.log(data.field);
+			form.on('submit(search)', function () {
 				actions.onReloadData();
 				return false;
 			});
+
+			$('#reset').click(function () {
+				form.val('searchForm', {
+					time: '',
+					selectBeginTime: "",
+					selectEndTime: "",
+					title: "",
+					operateContent: "",
+				});
+				actions.onReloadData();
+				return false;
+			})
+
+			// 获取搜索参数
+			var onGetSearchParams = function () {
+				var searchData = form.val('searchForm');
+				var times = $.getRangeTime(searchData.time);
+				searchData.memberStatus = Number(searchData.memberStatus) || null;
+				searchData.selectBeginTime = times[0];
+				searchData.selectEndTime = times[1];
+				delete searchData.time;
+				return searchData;
+			}
 		})
 
 
