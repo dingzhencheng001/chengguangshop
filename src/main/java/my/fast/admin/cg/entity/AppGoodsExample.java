@@ -745,6 +745,66 @@ public class AppGoodsExample {
             addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }
+
+        public Criteria andTaskGroupIsNull() {
+            addCriterion("task_group is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupIsNotNull() {
+            addCriterion("task_group is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupEqualTo(Integer value) {
+            addCriterion("task_group =", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotEqualTo(Integer value) {
+            addCriterion("task_group <>", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupGreaterThan(Integer value) {
+            addCriterion("task_group >", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupGreaterThanOrEqualTo(Integer value) {
+            addCriterion("task_group >=", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupLessThan(Integer value) {
+            addCriterion("task_group <", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupLessThanOrEqualTo(Integer value) {
+            addCriterion("task_group <=", value, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupIn(List<Integer> values) {
+            addCriterion("task_group in", values, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotIn(List<Integer> values) {
+            addCriterion("task_group not in", values, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupBetween(Integer value1, Integer value2) {
+            addCriterion("task_group between", value1, value2, "taskGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskGroupNotBetween(Integer value1, Integer value2) {
+            addCriterion("task_group not between", value1, value2, "taskGroup");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

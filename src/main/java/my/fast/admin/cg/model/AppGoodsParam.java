@@ -44,4 +44,7 @@ public class AppGoodsParam {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "任务组")
+    private Integer taskGroup;
+
 }

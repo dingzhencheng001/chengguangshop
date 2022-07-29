@@ -22,6 +22,7 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.AppGoodsParam;
+import my.fast.admin.cg.model.GoodsParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.GoodsService;
 import my.fast.admin.framework.utils.DateFormat;
@@ -56,14 +57,10 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "根据条件获取商品列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppGoods>> getList(
-        @RequestParam(value = "goodsName", required = false) String goodsName,
-        @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
-        @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
+     @RequestBody GoodsParam goodsParam, HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -77,28 +74,15 @@ public class GoodsController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        List<AppGoods> goodsList = goodsService.listGoods(goodsName, pageNum, pageSize, minPrice, maxPrice, channelId);
+        List<AppGoods> goodsList = goodsService.listGoods(goodsParam, channelId);
         return CommonResult.success(CommonPage.restPage(goodsList));
     }
 
     @ApiOperation(value = "删除商品")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult delete(@PathVariable("id") Long id, HttpServletRequest request) {
-        //根据域名获取渠道号
-        StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
-            .length(), url.length())
-            .append(request.getServletContext()
-                .getContextPath())
-            .append("/")
-            .toString();
-        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
-        }
-        Long channelId = sysChannel.getChannelId();
-        int count = goodsService.deleteGoods(id, channelId);
+    public CommonResult delete(@PathVariable("id") Long id ) {
+        int count = goodsService.deleteGoods(id);
         if (count == 1) {
             return CommonResult.success(null);
         } else {
@@ -106,26 +90,12 @@ public class GoodsController {
         }
     }
 
-    @ApiOperation(value = "更新商品")
+    @ApiOperation(value = "更新商品信息")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppGoods appGoods,
-        HttpServletRequest request) {
-        //根据域名获取渠道号
-        StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
-            .length(), url.length())
-            .append(request.getServletContext()
-                .getContextPath())
-            .append("/")
-            .toString();
-        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
-        }
-        Long channelId = sysChannel.getChannelId();
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppGoods appGoods) {
         CommonResult commonResult;
-        int count = goodsService.updateGoods(id, appGoods, channelId);
+        int count = goodsService.updateGoods(id, appGoods);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
@@ -138,6 +108,7 @@ public class GoodsController {
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public CommonResult create(@RequestBody AppGoodsParam appGoodsParam, HttpServletRequest request) {
+        CommonResult commonResult;
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -151,9 +122,6 @@ public class GoodsController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        CommonResult commonResult;
-        appGoodsParam.setStatus(1);//上架
-        appGoodsParam.setGoodsAddTime(DateFormat.getNowDate());
         int count = goodsService.createGoods(appGoodsParam, channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);

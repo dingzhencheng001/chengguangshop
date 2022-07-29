@@ -14,7 +14,9 @@ import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppGoodsExample;
 import my.fast.admin.cg.mapper.AppGoodsMapper;
 import my.fast.admin.cg.model.AppGoodsParam;
+import my.fast.admin.cg.model.GoodsParam;
 import my.fast.admin.cg.service.GoodsService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -30,32 +32,41 @@ public class GoodsServiceImpl implements GoodsService {
     private AppGoodsMapper appGoodsMapper;
 
     @Override
-    public List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
-        BigDecimal maxPrice, Long channelId) {
-        PageHelper.startPage(pageNum, pageSize);
+    public List<AppGoods> listGoods(GoodsParam goodsParam, Long channelId) {
+        PageHelper.startPage(goodsParam.getPageNum(), goodsParam.getPageSize());
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         AppGoodsExample.Criteria criteria = appGoodsExample.createCriteria();
-        if (!StringUtils.isEmpty(goodsName)) {
+        String goodsName = goodsParam.getGoodsName();
+        BigDecimal minPrice = goodsParam.getMinPrice();
+        BigDecimal maxPrice = goodsParam.getMaxPrice();
+        Long goodsSortId = goodsParam.getGoodsSortId();
+        if (!StringUtils.isEmpty(goodsParam.getGoodsName())) {
             criteria.andGoodsNameLike("%" + goodsName + "%");
         }
         if (!StringUtils.isEmpty(minPrice) && !StringUtils.isEmpty(maxPrice)) {
             criteria.andGoodsPriceBetween(minPrice, maxPrice);
+        }
+        if (!StringUtils.isEmpty(goodsSortId)) {
+            criteria.andGoodsSortIdEqualTo(goodsSortId);
         }
         criteria.andChannelIdEqualTo(channelId);
         return appGoodsMapper.selectByExample(appGoodsExample);
     }
 
     @Override
-    public int deleteGoods(Long id, Long channelId) {
+    public int deleteGoods(Long id) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId)
             .andIdEqualTo(id);
         return appGoodsMapper.deleteByExample(appGoodsExample);
     }
 
     @Override
     public int createGoods(AppGoodsParam appGoodsParam, Long channelId) {
+        //上架
+        appGoodsParam.setStatus(1);
+        //添加时间
+        appGoodsParam.setGoodsAddTime(DateFormat.getNowDate());
         AppGoods appGoods = new AppGoods();
         BeanUtils.copyProperties(appGoodsParam, appGoods);
         appGoods.setChannelId(channelId);
@@ -63,10 +74,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public int updateGoods(Long id, AppGoods appGoods, Long channelId) {
+    public int updateGoods(Long id, AppGoods appGoods) {
         AppGoodsExample appGoodsExample = new AppGoodsExample();
         appGoodsExample.createCriteria()
-            .andChannelIdEqualTo(channelId)
             .andIdEqualTo(id);
         return appGoodsMapper.updateByExampleSelective(appGoods, appGoodsExample);
 

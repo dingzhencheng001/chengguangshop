@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.model.AppGoodsParam;
+import my.fast.admin.cg.model.GoodsParam;
 
 /**
  * TODO
@@ -18,21 +19,9 @@ import my.fast.admin.cg.model.AppGoodsParam;
 public interface GoodsService {
 
     /**
-     * 分页查询品牌
-     * @param goodsName
-     * @param pageNum
-     * @param pageSize
-     * @param minPrice
-     * @param maxPrice
-     * @param channelId
-     */
-    List<AppGoods> listGoods(String goodsName, Integer pageNum, Integer pageSize, BigDecimal minPrice,
-        BigDecimal maxPrice, Long channelId);
-
-    /**
      * 删除商品
      */
-    int deleteGoods(Long id, Long channelId);
+    int deleteGoods(Long id);
 
     /**
      * 创建品牌
@@ -43,10 +32,15 @@ public interface GoodsService {
      * 修改品牌
      */
     @Transactional
-    int updateGoods(Long id, AppGoods appGoods, Long channelId);
+    int updateGoods(Long id, AppGoods appGoods);
 
     /**
      * 根据id查询
      */
     AppGoods selectById(Long id, Long channelId);
+
+    /**
+     * 分页查询
+     */
+    List<AppGoods> listGoods(GoodsParam goodsParam, Long channelId);
 }

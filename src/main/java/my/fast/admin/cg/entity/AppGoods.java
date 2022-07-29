@@ -36,6 +36,9 @@ public class AppGoods implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "任务组")
+    private Integer taskGroup;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -118,6 +121,14 @@ public class AppGoods implements Serializable {
         this.channelId = channelId;
     }
 
+    public Integer getTaskGroup() {
+        return taskGroup;
+    }
+
+    public void setTaskGroup(Integer taskGroup) {
+        this.taskGroup = taskGroup;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -134,6 +145,7 @@ public class AppGoods implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", goodsSortId=").append(goodsSortId);
         sb.append(", channelId=").append(channelId);
+        sb.append(", taskGroup=").append(taskGroup);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
