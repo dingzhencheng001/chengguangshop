@@ -12,17 +12,17 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.AppMemberWithdrawalExample;
+import my.fast.admin.cg.entity.SysOperateLog;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
+import my.fast.admin.cg.mapper.SysOperateLogMapper;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 import my.fast.admin.framework.utils.DateFormat;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/26 16:01
@@ -36,6 +36,9 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
     @Autowired
     private AppMemberMapper appMemberMapper;
 
+    @Autowired
+    private SysOperateLogMapper sysOperateLogMapper;
+    
     @Autowired
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
 
@@ -54,10 +57,19 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
                 .andChannelIdIn(ids);
             List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
             for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+            	SysOperateLog  operateLog = new SysOperateLog();
                 Long memberId = appMemberWithdrawal.getMemberId();
                 AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
                 BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
                 appMemberMapper.changeBalance(channelId, memberId, operaMount);
+                //操作记录
+                operateLog.setChannelId(appMember.getChannelId());
+                operateLog.setTitle("提现通过");
+                operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员提现请求，在"+DateFormat.getNowDate()+"已通过。");
+                operateLog.setCreateBy("admin");
+                operateLog.setCreateTime(DateFormat.getNowDate());
+                operateLog.setRemark("该操作订单编号为"+appMemberWithdrawal.getOrderNo());
+                sysOperateLogMapper.insertSelective(operateLog);
                 //插入账变信息表
                 AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
                 appMemberAccountChange.setMemberId(memberId);
@@ -87,12 +99,21 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
                 .andChannelIdIn(ids);
             List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
             for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+            	SysOperateLog  operateLog = new SysOperateLog();
                 Long memberId = appMemberWithdrawal.getMemberId();
                 AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
                 BigDecimal balance = appMember.getBalance()
                     .subtract(appMemberWithdrawal.getOperaMount());
                 BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
                 appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+                //操作记录
+                operateLog.setChannelId(appMember.getChannelId());
+                operateLog.setTitle("提现拒绝");
+                operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员提现请求，在"+DateFormat.getNowDate()+"被拒绝。");
+                operateLog.setCreateBy("admin");
+                operateLog.setCreateTime(DateFormat.getNowDate());
+                operateLog.setRemark("该操作订单编号为"+appMemberWithdrawal.getOrderNo());
+                sysOperateLogMapper.insertSelective(operateLog);
                 //插入账变信息表
                 AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
                 appMemberAccountChange.setMemberId(memberId);
@@ -126,12 +147,21 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
             .andIdEqualTo(id);
         List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
         for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
+        	SysOperateLog  operateLog = new SysOperateLog();
             Long memberId = appMemberWithdrawal.getMemberId();
             AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
             BigDecimal balance = appMember.getBalance()
                 .subtract(appMemberWithdrawal.getOperaMount());
             BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
             appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+            //操作记录
+            operateLog.setChannelId(appMember.getChannelId());
+            operateLog.setTitle("驳回提现");
+            operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员提现请求，在"+DateFormat.getNowDate()+"被驳回。");
+            operateLog.setCreateBy("admin");
+            operateLog.setCreateTime(DateFormat.getNowDate());
+            operateLog.setRemark("该操作订单编号为"+appMemberWithdrawal.getOrderNo());
+            sysOperateLogMapper.insertSelective(operateLog);
             //插入账变信息表
             AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
             appMemberAccountChange.setMemberId(memberId);

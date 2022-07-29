@@ -15,9 +15,11 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberDeposit;
 import my.fast.admin.cg.entity.AppMemberDepositExample;
+import my.fast.admin.cg.entity.SysOperateLog;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberDepositMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
+import my.fast.admin.cg.mapper.SysOperateLogMapper;
 import my.fast.admin.cg.model.ListDepositParam;
 import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.service.MemberDepositService;
@@ -37,7 +39,10 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     
     @Autowired
     private AppMemberMapper appMemberMapper;
-
+    
+    @Autowired
+    private SysOperateLogMapper sysOperateLogMapper;
+    
     @Autowired
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
     
@@ -72,6 +77,7 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     	Integer type = 1; //1 充值 2 减少
     	AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
     	AppMemberDeposit deposit = new AppMemberDeposit();
+    	SysOperateLog  operateLog = new SysOperateLog();
     	deposit.setOrderNo(generateOrderSn());//设置订单编号
     	//获取用户信息 更新用户的余额
         AppMember appMember = appMemberMapper.selectByPrimaryKey(depositParam.getMemberId());
@@ -119,7 +125,15 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         appMemberAccountChange.setCreateBy("admin");
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
-    	//插入充值记录
+        //操作记录
+        operateLog.setChannelId(depositParam.getChannelId());
+        operateLog.setTitle("会员充值");
+        operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员，在"+DateFormat.getNowDate()+"充值了金额"+depositParam.getOperaMount()+" 元。");
+        operateLog.setCreateBy("admin");
+        operateLog.setCreateTime(DateFormat.getNowDate());
+        operateLog.setRemark("该操作订单编号为"+deposit.getOrderNo());
+        sysOperateLogMapper.insertSelective(operateLog);
+        //插入充值记录
     	deposit.setMemberId(depositParam.getMemberId());
         deposit.setChannelId(depositParam.getChannelId());
         deposit.setPhoneNumber(appMember.getPhoneNumber());
