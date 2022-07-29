@@ -20,6 +20,7 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.CustomerCareParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.CustomerCareService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author cgkj@cg.cn
@@ -37,6 +38,12 @@ public class CustomerCareController {
     @Autowired
     private AppChannelService appChannelService;
 
+    @RequestMapping("/lists")
+    public Object list() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("customer/list");
+        return mav;
+    }
 
     @ApiOperation(value = "客服管理列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
