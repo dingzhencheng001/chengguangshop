@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppGoodsExample;
+import my.fast.admin.cg.model.DispatchOrderParam;
 
 public interface AppGoodsMapper {
     long countByExample(AppGoodsExample example);
@@ -34,4 +35,8 @@ public interface AppGoodsMapper {
     AppGoods randomOrders(BigDecimal useBalance);
 
     AppGoods selectByGoodsId(@Param("id")Long id, @Param("channelId")Long channelId);
+
+    AppGoods randomGoodsByExample(DispatchOrderParam dispatchOrderParam);
+
+
 }
