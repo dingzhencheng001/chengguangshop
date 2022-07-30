@@ -6,11 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
@@ -20,7 +21,7 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.CustomerCareParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.CustomerCareService;
-import org.springframework.web.servlet.ModelAndView;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * @author cgkj@cg.cn
@@ -86,6 +87,32 @@ public class CustomerCareController {
         return commonResult;
     }
 
+    
+    @ApiOperation(value = "更新客服信息")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody CustomerCare customerCare,HttpServletRequest request) {
+        CommonResult commonResult;
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        customerCare.setChannelId(channelId);
+        customerCare.setUpdateBy("admin");
+        customerCare.setUpdateTime(DateFormat.getNowDate());
+        int count = customerCareService.updateCustomerCare(id, customerCare);
+        if (count == 1) {
+            commonResult = CommonResult.success(count);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+    
 
 }
 
