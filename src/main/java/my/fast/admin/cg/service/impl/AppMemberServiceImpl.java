@@ -13,14 +13,17 @@ import my.fast.admin.cg.common.constant.UserConstants;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberExample;
+import my.fast.admin.cg.entity.SysOperateLog;
 import my.fast.admin.cg.mapper.AppConveyMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
+import my.fast.admin.cg.mapper.SysOperateLogMapper;
 import my.fast.admin.cg.model.AppMemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.vo.AppMemberDto;
 import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.framework.utils.CommonUtils;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -32,6 +35,9 @@ import my.fast.admin.framework.utils.CommonUtils;
 @Service
 public class AppMemberServiceImpl implements AppMemberService {
 
+	@Autowired
+    private SysOperateLogMapper sysOperateLogMapper;
+    
     @Autowired
     private AppMemberMapper appMemberMapper;
 
@@ -75,9 +81,20 @@ public class AppMemberServiceImpl implements AppMemberService {
 
     @Override
     public int updateMember(Long id, AppMember appMemberParam) {
+    	SysOperateLog  operateLog = new SysOperateLog();
     	AppMember appMember = new AppMember();
         BeanUtils.copyProperties(appMemberParam, appMember);
         appMember.setId(id);
+        
+        //操作记录
+        operateLog.setChannelId(appMember.getChannelId());
+        operateLog.setTitle("会员信息修改");
+        operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员，在"+DateFormat.getNowDate()+"被修改了信息。");
+        operateLog.setCreateBy("admin");
+        operateLog.setCreateTime(DateFormat.getNowDate());
+        operateLog.setRemark("会员ID为"+id);
+        sysOperateLogMapper.insertSelective(operateLog);
+        
         return appMemberMapper.updateByPrimaryKeySelective(appMember);
 
     }

@@ -35,6 +35,10 @@ public class AppPicture implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "标题")
+    private String title;
+
+    
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -116,8 +120,16 @@ public class AppPicture implements Serializable {
     public void setChannelId(Long channelId) {
         this.channelId = channelId;
     }
+    
+    public String getTitle() {
+		return title;
+	}
 
-    @Override
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -133,6 +145,7 @@ public class AppPicture implements Serializable {
         sb.append(", pictureName=").append(pictureName);
         sb.append(", picturePath=").append(picturePath);
         sb.append(", channelId=").append(channelId);
+        sb.append(", title=").append(title);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -135,6 +135,7 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         sysOperateLogMapper.insertSelective(operateLog);
         //插入充值记录
     	deposit.setMemberId(depositParam.getMemberId());
+    	deposit.setUpdateBy(""+appMember.getParentUserId());//记录上级ID
         deposit.setChannelId(depositParam.getChannelId());
         deposit.setPhoneNumber(appMember.getPhoneNumber());
         deposit.setOperaMount(depositParam.getOperaMount());

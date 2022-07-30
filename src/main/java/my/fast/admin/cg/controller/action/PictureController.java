@@ -23,8 +23,6 @@ import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.PictureService;
 
 /**
- * TODO
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/21 11:39

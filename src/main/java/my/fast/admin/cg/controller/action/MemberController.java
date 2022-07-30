@@ -110,8 +110,38 @@ public class MemberController {
     @ApiOperation(value = "更新会员")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMember appMember) {
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMember appMember,HttpServletRequest request) {
         CommonResult commonResult;
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();  
+        log.info("域名 ：tempContextUrl: "+  tempContextUrl);
+        
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        appMember.setChannelId(sysChannel.getChannelId());
+        log.info("ChannelId : "+  sysChannel.getChannelId());
+        AppMember oldUser =  appMemberService.selectAppMemberByUserId(id);
+        if (oldUser == null || oldUser.getChannelId()==null ) {
+            return CommonResult.failed("查询错误，会员ID不存在");
+        }
+        if(!appMember.getUserAccount().equals(oldUser.getUserAccount())){//原用户名与上送用户名不一致
+        	//修改会员账号渠道唯一判断
+        	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(appMember)))
+            {
+                return CommonResult.failed("修改会员" + appMember.getUserAccount() + "失败，该渠道下此账号已存在");
+            }
+        }
+        if(!appMember.getPhoneNumber().equals(oldUser.getPhoneNumber())){//原手机号与上送手机号不一致
+        	//修改会员手机号渠道唯一判断
+        	if (StringUtils.isNotEmpty(appMember.getPhoneNumber())
+                    && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(appMember)))
+            {
+                return CommonResult.failed("修改会员" + appMember.getUserAccount() + "失败，该渠道下手机号码已存在");
+            }
+        }
         int count = appMemberService.updateMember(id, appMember);
         if (count == 1) {
             commonResult = CommonResult.success(count);
