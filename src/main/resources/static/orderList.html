@@ -60,11 +60,6 @@
     </div>
 </div>
 
-<!--添加时间-->
-<script type="text/html" id="goodsAddTime">
-    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
-</script>
-
 <script>
     layui.use(['table', 'form'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
@@ -91,6 +86,7 @@
                 , {field: 'goodsName', title: '商品名称'}
                 , {field: 'goodsCount', title: '商品数量', sort: true}
                 , {field: 'shopName', title: '商店名称'}
+                , {field: 'balance', title: '余额', sort: true}
                 , {field: 'amount', title: '交易金额', sort: true}
                 , {field: 'addtime', title: '下单时间', width: 180, templet: function (d) {
                         return layui.util.toDateString(d.addtime, 'yyyy年MM月dd日 HH:mm:ss')

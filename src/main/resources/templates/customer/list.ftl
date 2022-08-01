@@ -116,8 +116,12 @@
 <!--操作-->
 <script type="text/html" id="operation">
     <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="toggleState">{{=d.status === 1 ? '启用' :
-        '禁用'}}</a>
+    {{#  if(d.status === 1){ }}
+    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="toggleState">启用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="toggleState">禁用</a>
+    {{#  } }}
+
 </script>
 
 <script>
@@ -135,7 +139,6 @@
             range: true //或 range: '~' 来自定义分割字符
         });
         var operationType = 'add'; // add || edit
-        var detailsData = {};
 
         form.verify({
             //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
@@ -144,19 +147,6 @@
                 ,'密码必须6到12位，且不能出现空格'
             ]
         });
-
-        // 查询详情数据
-        var onGetDetails = function (id) {
-            $.request({
-                url: '/action/goods/sort/select/' + id,
-                showLoading: true,
-                success: function (result) {
-                    detailsData = result.data;
-                    $('#upload-img').attr('src', detailsData.qrCode);
-                    form.val('form', detailsData);
-                }
-            })
-        }
         var where = {};
 
         var tableCurrentItem = {};
@@ -186,9 +176,20 @@
 
         var actions = {
             onReloadData: function () {
-                var searchData = form.val('searchForm');
-                console.log('searchData', searchData);
-                table.reloadData(tableId, {where: Object.assign({}, where, searchData)});
+                table.reloadData(tableId, {where: Object.assign({}, where, onGetSearchParams())});
+            },
+            onUpdateItem: function (id, fields, cb) {
+                $.request({
+                    url: '/action/customer/update/' + id,
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: fields,
+                    showLoading: true,
+                    success: function () {
+                        actions.onReloadData();
+                        cb && cb();
+                    }
+                })
             },
         }
 
@@ -197,6 +198,18 @@
             actions.onReloadData();
             return false;
         });
+
+        // 获取搜索参数
+        var onGetSearchParams = function () {
+            var searchData = form.val('searchForm');
+            var times = $.getRangeTime(searchData.time);
+            // searchData.status = Number(searchData.status) || null;
+            // searchData.memberStatus = Number(searchData.memberStatus) || null;
+            searchData.selectBeginTime = times[0];
+            searchData.selectEndTime = times[1];
+            delete searchData.time;
+            return searchData;
+        }
 
         //单元格工具事件
         table.on('tool(tableId)', function (obj) {
@@ -220,9 +233,10 @@
                     success: function () {
                         $('#formBodyId').show();
                         $('#upload-img').attr('src', tableCurrentItem.qrCode);
-                        var time = tableCurrentItem.beginTime;
+                        var time = tableCurrentItem.beginTime ? (tableCurrentItem.beginTime + ' - ' + tableCurrentItem.endTime) : ''
                         form.val('form', Object.assign({}, tableCurrentItem, {
-                            item: ' - '
+                            time,
+                            // item: ' - '
                         }));
                     },
                     cancel: function () {
@@ -231,6 +245,9 @@
                 });
             } else if (layEvent === 'toggleState') {
                 console.log('toggleState', data);
+                actions.onUpdateItem(data.id, {status: data.status === 1 ? 0 : 1}, function () {
+                    layer.msg('操作成功', {icon: 1});
+                });
                 <!--    status	integer($int32)-->
                 <!--    帐号状态（0正常 1停用）-->
             }
@@ -281,20 +298,18 @@
             });
         }
         var onEdit = function () {
-            var fd = Object.assign({}, detailsData, form.val('form'), {
+            var fd = Object.assign({}, tableCurrentItem, form.val('form'), {
                 qrCode: $('#upload-img').attr('src')
             });
-            $.request({
-                url: '/action/xxx',
-                type: 'post',
-                data: fd,
-                showLoading: true,
-                success: function (result) {
-                    layer.msg('编辑成功', {icon: 1});
-                    onFormClose();
-                    actions.onReloadData();
-                },
-            });
+            var times = $.getRangeTime(fd.time);
+            fd.beginTime = times[0];
+            fd.endTime = times[1];
+            delete fd.file;
+            delete fd.time;
+            actions.onUpdateItem(tableCurrentItem.id, fd, function () {
+                layer.msg('编辑成功', {icon: 1});
+                onFormClose();
+            })
         }
 
         form.on('submit(formSubmit)', function (data) {
