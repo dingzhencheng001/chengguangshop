@@ -113,7 +113,7 @@
         var uploadIndex;
         var uploadInst = upload.render({
             elem: '#test1' //绑定元素
-            , url: 'http://localhost:8080/action/file/upload' //上传接口
+            , url: '/action/file/upload' //上传接口
             , acceptMime: 'image/*'
             , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                 uploadIndex = layer.load(1); //上传loading

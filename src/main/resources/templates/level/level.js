@@ -18,7 +18,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 	var uploadIndex
 	var uploadInst = upload.render({
 		elem: '#uploadPic', //绑定元素
-		url: 'http://localhost:8080/action/file/upload', //上传接口
+		url: '/action/file/upload', //上传接口
 		acceptMime: 'image/*',
 		before: function (obj) {
 			//obj参数包含的信息，跟 choose回调完全一致，可参见上文。
@@ -45,7 +45,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 	var updateIndex
 	var uploadInst_ = upload.render({
 		elem: '#updatePic', //绑定元素
-		url: 'http://localhost:8080/action/file/upload', //上传接口
+		url: '/action/file/upload', //上传接口
 		acceptMime: 'image/*',
 		before: function (obj) {
 			//obj参数包含的信息，跟 choose回调完全一致，可参见上文。
@@ -218,7 +218,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 		elem: '#level',
 		height: 312,
 		url: '/action/level/list', //数据接口
-		// url: 'http://localhost:8080/levelaction/list?pageNum=1&pageSize=20', //数据接口
+		// url: '/levelaction/list?pageNum=1&pageSize=20', //数据接口
 		page: true, //开启分页
 		cellMinWidth: 100, //全局定义常规单元格的最小宽度
 		where: where,

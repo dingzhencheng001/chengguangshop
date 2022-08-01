@@ -114,7 +114,7 @@
 			table.render({
 				elem: '#level',
 				height: 312,
-				url: 'http://localhost:8080/action/operate/list', //数据接口
+				url: '/action/operate/list', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度
 				method: 'post',

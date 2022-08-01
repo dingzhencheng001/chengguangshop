@@ -16,7 +16,7 @@ layui.use(['table', 'upload', 'form'], function () {
 	var uploadIndex
 	var uploadInst = upload.render({
 		elem: '#uploadPic', //绑定元素
-		url: 'http://localhost:8080/action/file/upload', //上传接口
+		url: '/action/file/upload', //上传接口
 		acceptMime: 'image/*',
 		before: function (obj) {
 			//obj参数包含的信息，跟 choose回调完全一致，可参见上文。
@@ -43,7 +43,7 @@ layui.use(['table', 'upload', 'form'], function () {
 	var updateIndex
 	var uploadInst_ = upload.render({
 		elem: '#updatePic', //绑定元素
-		url: 'http://localhost:8080/action/file/upload', //上传接口
+		url: '/action/file/upload', //上传接口
 		acceptMime: 'image/*',
 		before: function (obj) {
 			//obj参数包含的信息，跟 choose回调完全一致，可参见上文。
@@ -93,10 +93,10 @@ layui.use(['table', 'upload', 'form'], function () {
 
 	var actions = {
 		apiUrl: {
-			// http://localhost:8080/action/notice/list: actions.apiUrl.update + id,
-			update: 'http://localhost:8080/action/picture/update/',
-			delete: 'http://localhost:8080/action/picture/delete/',
-			create: 'http://localhost:8080/action/picture/create'
+			// /action/notice/list: actions.apiUrl.update + id,
+			update: '/action/picture/update/',
+			delete: '/action/picture/delete/',
+			create: '/action/picture/create'
 		},
 		// 刷新表格数据
 		onReloadData: function () {
@@ -218,7 +218,7 @@ layui.use(['table', 'upload', 'form'], function () {
 	table.render({
 		elem: '#level',
 		height: 312,
-		url: 'http://localhost:8080/action/picture/list', //数据接口
+		url: '/action/picture/list', //数据接口
 		page: true, //开启分页
 		cellMinWidth: 100, //全局定义常规单元格的最小宽度
 		where: where,
