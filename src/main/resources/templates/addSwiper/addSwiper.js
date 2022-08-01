@@ -9,7 +9,7 @@ layui.use(['table', 'upload', 'form'], function () {
 	var tableCurrentItem = {}
 
 	var where = {
-		status: 0
+		// status: 0
 	}
 
 	//执行实例
@@ -233,6 +233,7 @@ layui.use(['table', 'upload', 'form'], function () {
 				{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
 				{ field: 'picturePath', title: '图片', templet: '#picturePath', minWidth: 160 },
 				{ field: 'showType', title: '展示类型', templet: '#showType', width: 120 },
+				{ field: 'title', title: '标题', width: 120 },
 				{ field: 'content', title: '描述', minWidth: 160 },
 				{ field: 'updateTime', title: '发表时间', templet: '#updateTime', minWidth: 160 },
 				{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }

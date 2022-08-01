@@ -19,9 +19,16 @@
 			<div class="layui-card-body">
 
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">轮播图描述</label>
+					<label class="layui-form-label label-required label-required-next">图片标题</label>
 					<div class="layui-input-block">
-						<input name="content" lay-filter="content" required placeholder="请输入轮播图描述" value="" lay-verify="required" class="layui-input" />
+						<input name="title" lay-filter="content" required placeholder="请输入图片标题" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">图片描述</label>
+					<div class="layui-input-block">
+						<input name="content" lay-filter="content" required placeholder="请输入图片描述" value="" lay-verify="required" class="layui-input" />
 					</div>
 				</div>
 
@@ -62,14 +69,22 @@
 	<div id="editId" style="display: none">
 		<form class="layui-form layui-card" lay-filter="editForm">
 			<div class="layui-card-body">
+
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">轮播图描述</label>
+					<label class="layui-form-label label-required label-required-next">图片标题</label>
 					<div class="layui-input-block">
-						<input name="content" required placeholder="请输入轮播图描述" value="" lay-verify="required" class="layui-input" />
+						<input name="title" lay-filter="content" required placeholder="请输入图片标题" value="" lay-verify="required" class="layui-input" />
 					</div>
 				</div>
 
-					<div class="layui-form-item">
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">图片描述</label>
+					<div class="layui-input-block">
+						<input name="content" required placeholder="请输入图片描述" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+
+				<div class="layui-form-item">
 					<label class="layui-form-label">选择图片类型</label>
 					<div class="layui-input-block">
 						<select name="showType" lay-verify="required">

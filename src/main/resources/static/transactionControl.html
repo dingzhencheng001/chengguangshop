@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>交易控制</title>
+	<script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+	<link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all" />
+	<script src="plugins/layui-v2.7.5/layui.js"></script>
+
+	<!-- 图标库 -->
+	<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all" />
+	<!-- ztree -->
+	<link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css" />
+	<script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+	<!-- 下拉列表 -->
+	<script src="js/common/combobox.js"></script>
+	<script src="js/common/inputTree.js"></script>
+	<!-- 全局属性 -->
+	<script src="js/common/setting.js"></script>
+	<script src="js/common/app.js"></script>
+	<!-- css -->
+	<link rel="stylesheet" href="css/app.css" />
+	<!-- 加载formSelects -->
+	<link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css" />
+	<script src="plugins/formSelects/formSelects-v4.js"></script>
+	<link rel="stylesheet" href="css/console.css" />
+</head>
+
+<body>
+	<div class="layui-fluid member-list-page">
+		<div class="layui-tab">
+			<ul class="layui-tab-title">
+				<li class="layui-this">基础设置</li>
+				<!-- <li>权限分配</li>
+				<li>商品管理</li>
+				<li>订单管理</li> -->
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-card-body padding-40 layui-col-md8">
+						<label class="layui-form-item block relative label-required-prev"><span
+								class="color-green margin-right-10">TRC20地址</span><input name="master_cardnum" required=""
+								value="TKvH2i98F36HqtNLyiriVoHa4V4SyiE6H4" class="layui-input" /></label><label
+							class="layui-form-item block relative label-required-prev"><span
+								class="color-green margin-right-10">ERC20地址</span><input name="master_name" required=""
+								value="TKvH2i98F36HqtNLyiriVoHa4V4SyiE6H4" class="layui-input" /></label><label
+							class="layui-form-item block relative label-required-prev"><span
+								class="color-green margin-right-10">USDT</span><input name="master_bank" required=""
+								value="Please contact customer service when recharging" class="layui-input" /></label>
+						<hr />
+						<label class="layui-form-item block relative label-required-prev"><span
+								class="color-green margin-right-10">交易所需余额</span>
+							<input name="deal_min_balance" required="" value="100" class="layui-input" /><input type="hidden"
+								name="_csrf_" value="62e3a67f6e782" />
+							<p class="help-block">交易所需余额</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">未订单的支付等待时长（秒）</span>
+							<input name="deal_timeout" required="" placeholder="请输入订单支付等待时长" value="7200" class="layui-input" />
+							<p class="help-block">订单支付等待时长，新下订单未在此时间内容完成支付将会被自动取消</p>
+						</label><label class="layui-form-item margin-top-20 block relative"><span
+								class="color-green margin-right-10">匹配范围</span>
+							<div id="deal_rule" style="position: relative; margin: 10px 0px" class="demo-slider">
+								<div class="layui-slider">
+									<div class="layui-slider-tips" style="left: 32%; display: none">32</div>
+									<div class="layui-slider-bar" style="background: rgb(0, 150, 136); width: 32%; left: 0%"></div>
+									<div class="layui-slider-wrap" style="left: 0%">
+										<div class="layui-slider-wrap-btn" style="border: 2px solid #009688"></div>
+									</div>
+									<div class="layui-slider-wrap" style="left: 32%">
+										<div class="layui-slider-wrap-btn" style="border: 2px solid #009688"></div>
+									</div>
+								</div>
+							</div>
+							<div id="test-slider-tips2" style="position: relative; margin: 10px 0px" class="help-block">
+								匹配范围：0% ~ 32%
+							</div>
+							<input type="hidden" name="deal_min_num" id="min" value="0" /><input type="hidden" name="deal_max_num"
+								id="max" value="32" />
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">当日交易次数限制</span><input name="deal_count" required="" value="60"
+								class="layui-input" />
+							<p class="help-block">当日交易次数限制</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">奖励交易次数</span><input name="deal_reward_count" required="" value="1"
+								class="layui-input" />
+							<p class="help-block">奖励交易次数</p>
+						</label>
+						<label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">普通会员交易佣金</span>
+							<input name="vip_1_commission" max="1" min="0" step="0.01" required="" value="0.005" type="number"
+								class="layui-input" /><span style="
+										padding-right: 12px;
+										color: rgb(169, 68, 66);
+										position: absolute;
+										right: 0px;
+										font-size: 12px;
+										z-index: 2;
+										display: block;
+										width: 30px;
+										text-align: center;
+										pointer-events: none;
+										top: 24px;
+										padding-bottom: 0px;
+										line-height: 38px;
+									"></span>
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">上一级会员交易佣金</span>
+							<input name="1_d_reward" max="1" min="0" step="0.01" required="" value="0.09" type="number"
+								class="layui-input" />
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">上二级会员交易佣金</span>
+							<input name="2_d_reward" max="1" min="0" step="0.01" required="" value="0.06" type="number"
+								class="layui-input" />
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">上三级会员交易佣金</span>
+							<input name="3_d_reward" max="1" min="0" step="0.01" required="" value="0.01" type="number"
+								class="layui-input" />
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">上四级会员交易佣金</span>
+							<input name="4_d_reward" max="1" min="0" step="0.01" required="" value="0.01" type="number"
+								class="layui-input" />
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">上五级会员交易佣金</span>
+							<input name="5_d_reward" max="1" min="0" step="0.01" required="" value="0.01" type="number"
+								class="layui-input" />
+							<p class="help-block">交易佣金</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">冻结时间</span>
+							<input name="deal_feedze" required="" value="1" class="layui-input" /><span style="
+										padding-right: 12px;
+										color: rgb(169, 68, 66);
+										position: absolute;
+										right: 0px;
+										font-size: 12px;
+										z-index: 2;
+										display: block;
+										width: 30px;
+										text-align: center;
+										pointer-events: none;
+										top: 24px;
+										padding-bottom: 0px;
+										line-height: 38px;
+									"></span>
+							<p class="help-block">冻结时间</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">允许违规次数</span><input name="deal_error" required=""
+								placeholder="请输入已发货订单自动确认收货时长" value="0" class="layui-input" />
+							<p class="help-block">允许违规次数</p>
+						</label><label class="layui-form-item margin-top-20 block relative"><span
+								class="color-green margin-right-10">提交订单延时时间(单位/秒)</span>
+							<p>
+								远程主机分配时间:
+								<input name="deal_zhuji_time" style="width: 100px; display: inline-block" required="" placeholder=""
+									value="1" class="layui-input" />
+								等待商家响应时间
+								<input name="deal_shop_time" style="width: 100px; display: inline-block" required="" placeholder=""
+									value="1" class="layui-input" />
+							</p>
+							<p class="help-block">时间由2部分组成,默认都是5秒,总共10秒</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">app下载地址</span><input name="app_url" required=""
+								placeholder="请输入app下载地址" value="" class="layui-input" />
+							<p class="help-block">app下载地址</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">版本号</span><input name="version" required="" placeholder="请输入版本"
+								value="20210106" class="layui-input" />
+							<p class="help-block">版本号</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">提现时间</span><input style="width: 120px; display: inline-block"
+								name="tixian_time_1" required="" placeholder="提现开始时间" value="00" class="layui-input" /><span style="
+										padding-right: 12px;
+										color: rgb(169, 68, 66);
+										position: absolute;
+										right: 0px;
+										font-size: 12px;
+										z-index: 2;
+										display: block;
+										width: 30px;
+										text-align: center;
+										pointer-events: none;
+										top: 0px;
+										padding-bottom: 0px;
+										line-height: 38px;
+									"></span>
+							-
+							<input style="width: 120px; display: inline-block" name="tixian_time_2" required="" placeholder="提现结束时间"
+								value="24" class="layui-input" />
+							<p class="help-block">只支持整点, 如08:00-20:00,请直接输入 8 - 20</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">充值时间</span><input style="width: 120px; display: inline-block"
+								name="chongzhi_time_1" required="" placeholder="提现开始时间" value="10" class="layui-input" /><span style="
+										padding-right: 12px;
+										color: rgb(169, 68, 66);
+										position: absolute;
+										right: 0px;
+										font-size: 12px;
+										z-index: 2;
+										display: block;
+										width: 30px;
+										text-align: center;
+										pointer-events: none;
+										top: 0px;
+										padding-bottom: 0px;
+										line-height: 38px;
+									"></span>
+							-
+							<input style="width: 120px; display: inline-block" name="chongzhi_time_2" required="" placeholder="提现结束时间"
+								value="24" class="layui-input" />
+							<p class="help-block">只支持整点, 如08:00-20:00,请直接输入 8 - 20</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">抢单时间</span><input style="width: 120px; display: inline-block"
+								name="order_time_1" required="" placeholder="抢单开始时间" value="0" class="layui-input" />
+							-
+							<input style="width: 120px; display: inline-block" name="order_time_2" required="" placeholder="抢单结束时间"
+								value="24" class="layui-input" />
+							<p class="help-block">只支持整点, 如08:00-20:00,请直接输入 8 - 20</p>
+						</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+								class="color-green margin-right-10">商城状态</span><input style="width: 120px; display: inline-block"
+								name="shop_status" required="" placeholder="商城状态" value="1" class="layui-input" />
+							<p class="help-block">商城状态: 1开启 0关闭</p>
+						</label>
+					</div>
+				</div>
+				<div class="layui-tab-item">内容2</div>
+				<div class="layui-tab-item">内容3</div>
+				<div class="layui-tab-item">内容4</div>
+				<div class="layui-tab-item">内容5</div>
+			</div>
+			<div class="layui-form-item text-center margin-top-20"><button class="layui-btn" type="submit">保存配置</button></div>
+		</div>
+
+		<table id="level" lay-filter="level" style="margin-top: 5px"></table>
+	</div>
+
+	<!--注册信息-->
+	<script type="text/html" id="createTime">
+			<div>
+				<p>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd')}}</p>
+				<p>{{ d.createTime}}</p>
+			</div>
+		</script>
+
+	<script>
+		layui.use(['table', 'form', 'util', 'laydate', 'element', 'slider'], function () {
+			var table = layui.table,
+				$ = layui.$,
+				form = layui.form,
+				util = layui.util,
+				element = layui.element,
+				slider = layui.slider,
+				min = "0",
+				max = "50";
+
+			//默认滑块
+			//开启范围选择
+			slider.render({
+				elem: '#deal_rule'
+				, value: [min, max] //初始值
+				, range: true //范围选择
+				, change: function (vals) {
+					$('#test-slider-tips2').html('匹配范围：' + vals[0] + '% ~ ' + vals[1] + '%');
+					$('#min').val(vals[0]);
+					$('#max').val(vals[1]);
+				}
+			});
+
+			// 表格当前选择项
+			var tableCurrentItem = {}
+
+			var where = {
+				pageNum: 1,
+				pageSize: 20,
+				selectBeginTime: '',
+				selectEndTime: '',
+				title: '',
+				operateContent: ''
+			}
+
+			laydate.render({
+				elem: '#registrationTime',
+				range: true //或 range: '~' 来自定义分割字符
+			})
+
+			var parseData = function (res) {
+				var msg
+				var code
+				var count
+				var data
+				if (res.code === 200) {
+					code = 0
+					msg = res.message
+					count = res.data.total
+					data = res.data.list
+				} else {
+					code = res.code
+					msg = res.msg
+					count = 0
+					data = []
+				}
+				return {
+					code: code, //解析接口状态
+					msg: msg, //解析提示文本
+					count: count, //解析数据长度
+					data: data //解析数据列表
+				}
+			}
+
+			var actions = {
+				// 刷新表格数据
+				onReloadData: function () {
+					table.reloadData(levelListTableId, { where: Object.assign({}, where, onGetSearchParams()) })
+				}
+			}
+
+			var levelListTableId = 'levelListTableId'
+			//第一个实例
+			table.render({
+				elem: '#level',
+				height: 312,
+				url: 'http://localhost:8080/action/operate/list', //数据接口
+				page: true, //开启分页
+				cellMinWidth: 100, //全局定义常规单元格的最小宽度
+				method: 'post',
+				where: where,
+				contentType: 'application/json',
+				loading: true,
+				request: {
+					pageName: 'pageNum', //页码的参数名称，默认：page
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
+				cols: [
+					[
+						//表头
+						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
+						{ field: 'title', title: '标题', width: 200 },
+						{ field: 'operateContent', title: '内容', minWidth: 160 },
+						{ field: 'createBy', title: '创建人', width: 100 },
+						{ field: 'createTime', title: '创建时间', templet: '#createTime', minWidth: 160 },
+						{ field: 'remark', title: '备注', width: 200 }
+					]
+				],
+				parseData: parseData,
+				id: levelListTableId // 容器唯一IDs
+			})
+
+			// 搜索
+			form.on('submit(search)', function () {
+				actions.onReloadData()
+				return false
+			})
+
+			$('#reset').click(function () {
+				form.val('searchForm', {
+					time: '',
+					selectBeginTime: '',
+					selectEndTime: '',
+					title: '',
+					operateContent: ''
+				})
+			})
+
+			// 获取搜索参数
+			var onGetSearchParams = function () {
+				var searchData = form.val('searchForm')
+				var times = $.getRangeTime(searchData.time)
+				// searchData.status = Number(searchData.status) || null;
+				searchData.memberStatus = Number(searchData.memberStatus) || null
+				searchData.selectBeginTime = times[0]
+				searchData.selectEndTime = times[1]
+				delete searchData.time
+				return searchData
+			}
+		})
+	</script>
+</body>
+
+</html>

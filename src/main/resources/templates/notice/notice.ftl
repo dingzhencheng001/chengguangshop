@@ -24,6 +24,17 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label class="layui-form-label abel-required label-required-next">公告类型</label>
+					<div class="layui-input-block">
+						<select name="noticeType" lay-verify="required">
+							<option value="">请选择公告类型</option>
+							<option value="1">首页弹窗</option>
+							<option value="2">公告</option>
+							<option value="3">其他</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next">公告内容</label>
 					<div class="layui-input-block">
 						<textarea id="addTextarea" placeholder="请输入内容" name="noticeContent" ></textarea>
@@ -48,6 +59,17 @@
 					<label class="layui-form-label label-required label-required-next">公告标题</label>
 					<div class="layui-input-block">
 						<input name="noticeTitle" required placeholder="请输入公告标题" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+					<div class="layui-form-item">
+					<label class="layui-form-label abel-required label-required-next">公告类型</label>
+					<div class="layui-input-block">
+						<select name="noticeType" lay-verify="required">
+							<option value="">请选择公告类型</option>
+							<option value="1">首页弹窗</option>
+							<option value="2">公告</option>
+							<option value="3">其他</option>
+						</select>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -80,10 +102,11 @@
 
 	<!--注册信息-->
 	<script type="text/html" id="createTime">
-			<div>
 				<p>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</p>
-				<p>{{ d.createTime}}</p>
-			</div>
+		</script>
+	
+	<script type="text/html" id="noticeType">
+				<p>{{ d.noticeType==1?'首页弹窗':(d.noticeType==2?'公告':'其他') }}</p>
 		</script>
 
 	<script>
@@ -308,6 +331,7 @@
 					[
 						//表头
 						{ field: 'noticeId', title: 'ID', width: 80, sort: true, fixed: 'left' },
+						{ field: 'noticeType', title: '公告类型', templet: '#noticeType',width: 100 },
 						{ field: 'noticeTitle', title: '标题', width: 200 },
 						{ field: 'createTime', title: '发表时间', templet: '#createTime', minWidth: 160 },
 						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
