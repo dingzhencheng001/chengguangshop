@@ -1,7 +1,8 @@
 
-layui.use(['table', 'form', 'laydate'], function () {
+layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var table = layui.table, $ = layui.$, form = layui.form;
 	var laydate = layui.laydate;
+	var laytpl = layui.laytpl;
 
 	// 表格当前选择项
 	var tableCurrentItem = {};
@@ -34,7 +35,86 @@ layui.use(['table', 'form', 'laydate'], function () {
 				return '设定金额不能小于100'
 			}
 		}
-	})
+	});
+
+	var dispatchList = [
+		{
+			num: 1,
+			min: '',
+			max: '',
+			lock: false,
+		},
+		{
+			num: 2,
+			min: '',
+			max: '',
+			lock: false,
+		},
+		{
+			num: 3,
+			min: '',
+			max: '',
+			lock: false,
+		},
+		{
+			num: 4,
+			min: '',
+			max: '',
+			lock: false,
+		},
+		{
+			num: 5,
+			min: '',
+			max: '',
+			lock: false,
+		},
+	]
+	var dispatchDemo = document.getElementById('dispatchDemo');
+	var getTpl = dispatchDemo.innerHTML;
+	var dispatchListView = document.getElementById('dispatchListView');
+
+	var renderDispatchList = function (list) {
+		laytpl(getTpl).render({ list: list }, function(html){
+			dispatchListView.innerHTML = html;
+			form.render();
+		});
+	}
+
+	renderDispatchList(dispatchList);
+
+	var onGetDispatchFormData = function () {
+		var fd = form.val('dispatchForm');
+		// var list = [];
+		console.log('f', fd);
+		var list = dispatchList.map((item, index) => {
+			var num = fd['num['+ index + ']'] || '';
+			var min = fd['min['+ index + ']'] || '';
+			var max = fd['max['+ index + ']'] || '';
+			var lock = fd['lock['+ index + ']'] || '';
+			return {
+				num: num,
+				min: min,
+				max: max,
+				lock: lock,
+			};
+		});
+		return list;
+	}
+	var onAddDispatchItem = function () {
+		var newDispatchList = onGetDispatchFormData();
+		// var l = newDispatchList.length;
+		// for (var i = l; i < (l + 5); i++) {
+		newDispatchList.push({
+			num: newDispatchList.length + 1,
+			min: '',
+			max: '',
+			lock: false,
+		})
+		// }
+		renderDispatchList(newDispatchList);
+		dispatchList = newDispatchList;
+	}
+	$('#addDispatchItem').click(onAddDispatchItem)
 
 
 	var where = {};
@@ -165,7 +245,7 @@ layui.use(['table', 'form', 'laydate'], function () {
 			dispatchIndex = layer.open({
 				type: 1,
 				title: '派单',
-				area: '800px',
+				area: ['800px', '500px'],
 				content: $('#dispatchId'),
 				success: function () {
 					$('#dispatchId').show();
@@ -350,7 +430,9 @@ layui.use(['table', 'form', 'laydate'], function () {
 
 	// 派单-提交
 	form.on('submit(dispatchSubmit)', function (data) {
-		layer.msg(JSON.stringify(data.field));
+		var fd = onGetDispatchFormData();
+		console.log('fd', fd);
+		layer.msg('开发中');
 		return false;
 	});
 	// 派单-取消
