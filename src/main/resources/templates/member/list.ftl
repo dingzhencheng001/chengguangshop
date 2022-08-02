@@ -181,6 +181,13 @@
                                class="layui-input" disabled>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required">设定金额</label>
+                    <div class="layui-input-block">
+                        <input name="limitAmount" type="number" lay-verify="limitAmount" min="100" placeholder="请输入设定金额，不能小于100" value=""
+                               class="layui-input" />
+                    </div>
+                </div>
                 <!--                <div class="layui-form-item">-->
                 <!--                    <div class="layui-inline">-->
                 <!--                        <label class="layui-form-label label-required">匹配区间</label>-->

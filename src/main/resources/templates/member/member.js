@@ -24,6 +24,18 @@ layui.use(['table', 'form', 'laydate'], function () {
 		range: true //或 range: '~' 来自定义分割字符
 	});
 
+	form.verify({
+		limitAmount: function(value, item) {
+			if (!value) {
+				return '设定金额不能为空'
+			}
+			var v = Number(value);
+			if (v < 100) {
+				return '设定金额不能小于100'
+			}
+		}
+	})
+
 
 	var where = {};
 

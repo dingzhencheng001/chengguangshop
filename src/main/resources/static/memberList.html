@@ -207,6 +207,13 @@
                                class="layui-input" disabled>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required">设定金额</label>
+                    <div class="layui-input-block">
+                        <input name="limitAmount" type="number" lay-verify="limitAmount" min="100" placeholder="请输入设定金额，不能小于100" value=""
+                               class="layui-input" />
+                    </div>
+                </div>
                 <!--                <div class="layui-form-item">-->
                 <!--                    <div class="layui-inline">-->
                 <!--                        <label class="layui-form-label label-required">匹配区间</label>-->
@@ -505,6 +512,18 @@
             elem: '#registrationTime',
             range: true //或 range: '~' 来自定义分割字符
         });
+
+        form.verify({
+            limitAmount: function(value, item) {
+                if (!value) {
+                    return '设定金额不能为空'
+                }
+                var v = Number(value);
+                if (v < 100) {
+                    return '设定金额不能小于100'
+                }
+            }
+        })
 
 
         var where = {};
