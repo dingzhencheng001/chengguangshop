@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppAssignGoodsExample;
+import my.fast.admin.cg.model.AppRandomOrderParam;
 
 public interface AppAssignGoodsMapper {
     long countByExample(AppAssignGoodsExample example);
@@ -29,4 +30,6 @@ public interface AppAssignGoodsMapper {
     int updateByPrimaryKeySelective(AppAssignGoods record);
 
     int updateByPrimaryKey(AppAssignGoods record);
+
+    List<AppAssignGoods> assignGoodsList(AppRandomOrderParam appRandomOrderParam);
 }

@@ -985,6 +985,66 @@ public class AppAssignGoodsExample {
             addCriterion("order_quantity not between", value1, value2, "orderQuantity");
             return (Criteria) this;
         }
+
+        public Criteria andIsConsumedIsNull() {
+            addCriterion("is_consumed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedIsNotNull() {
+            addCriterion("is_consumed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedEqualTo(Integer value) {
+            addCriterion("is_consumed =", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedNotEqualTo(Integer value) {
+            addCriterion("is_consumed <>", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedGreaterThan(Integer value) {
+            addCriterion("is_consumed >", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_consumed >=", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedLessThan(Integer value) {
+            addCriterion("is_consumed <", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedLessThanOrEqualTo(Integer value) {
+            addCriterion("is_consumed <=", value, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedIn(List<Integer> values) {
+            addCriterion("is_consumed in", values, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedNotIn(List<Integer> values) {
+            addCriterion("is_consumed not in", values, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedBetween(Integer value1, Integer value2) {
+            addCriterion("is_consumed between", value1, value2, "isConsumed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsConsumedNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_consumed not between", value1, value2, "isConsumed");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

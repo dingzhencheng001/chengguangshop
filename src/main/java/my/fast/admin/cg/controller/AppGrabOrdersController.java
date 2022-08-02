@@ -44,16 +44,25 @@ public class AppGrabOrdersController {
     private AppChannelService appChannelService;
 
     @ApiOperation(value = "随机生成抢单商品")
-    @RequestMapping(value = "/random", method = RequestMethod.POST)
+    @RequestMapping(value = "/random", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult randomOrders(HttpServletRequest request) throws Exception {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户信息不存在");
         }
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
         AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
         appRandomOrderParam.setMemberId(appUserVO.getId());
-        AppGoods appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
+        appRandomOrderParam.setChannelId(channelId);
+        Object appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
         return CommonResult.success(appGoods);
     }
 

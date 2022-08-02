@@ -17,7 +17,7 @@ public interface AppGrabOrdersService {
     /**
      * 随机生成商品订单
      */
-    AppGoods randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
+    Object randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
     /**
      * 提交随机生成的商品订单
      */

@@ -17,4 +17,9 @@ public class AppRandomOrderParam {
 
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
+
 }

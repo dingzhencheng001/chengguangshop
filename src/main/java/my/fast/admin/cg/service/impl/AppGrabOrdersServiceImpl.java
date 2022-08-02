@@ -2,19 +2,26 @@ package my.fast.admin.cg.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import my.fast.admin.cg.entity.AppAssignGoods;
+import my.fast.admin.cg.entity.AppAssignGoodsExample;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberAddress;
 import my.fast.admin.cg.entity.AppMemberLevel;
+import my.fast.admin.cg.mapper.AppAssignGoodsMapper;
 import my.fast.admin.cg.mapper.AppConveyMapper;
 import my.fast.admin.cg.mapper.AppGoodsMapper;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
@@ -54,26 +61,70 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     @Autowired
     private AppMemberAddressMapper appMemberAddressMapper;
 
+    @Autowired
+    private AppAssignGoodsMapper appAssignGoodsMapper;
+
     @Override
-    public AppGoods randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception {
+    public Object randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception {
         Long memberId = appRandomOrderParam.getMemberId();
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
-        List<AppConvey> appConveys = appConveyMapper.selectConvey();
-        AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
-        Integer orderLimitNum = appMemberLevel.getOrderNum();
-        Long qiang = appConveys.stream()
-            .map(e -> e.getQiang())
-            .reduce(Long::max)
-            .get();
-        String num = String.valueOf(qiang);
-        int userOderNum = Integer.parseInt(num);
-        if (userOderNum == orderLimitNum) {
-            throw new Exception("抢单数超过会员等级限制");
-        }
-        AppGoods appGoods = new AppGoods();
         if (StringUtils.isEmpty(appMember)) {
             throw new Exception("会员不存在");
         }
+        AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
+        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+        if (appConveys != null && appConveys.size() > 0) {
+            Integer orderLimitNum = appMemberLevel.getOrderNum();
+            Long qiang = appConveys.stream()
+                .map(e -> e.getQiang())
+                .reduce(Long::max)
+                .get();
+            String num = String.valueOf(qiang);
+            int userOderNum = Integer.parseInt(num);
+            if (userOderNum == orderLimitNum) {
+                throw new Exception("抢单数超过会员等级限制");
+            }
+        }
+        return getObject(appRandomOrderParam ,appMember);
+    }
+
+    public Object getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) {
+        /*AppAssignGoodsExample appAssignGoodsExample = new AppAssignGoodsExample();
+        appAssignGoodsExample.createCriteria()
+            .andChannelIdEqualTo(appRandomOrderParam.getChannelId())
+            .andMemberIdEqualTo(memberId)
+            .andStatusEqualTo(1).andIsConsumedEqualTo(0)*/
+        //查询派单商品库
+        //List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.selectByExample(appAssignGoodsExample);
+        List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.assignGoodsList(appRandomOrderParam);
+        if (assignGoodsList != null && assignGoodsList.size() > 0) {
+            //排序
+            Collections.sort(assignGoodsList, new Comparator<AppAssignGoods>() {
+                @Override
+                public int compare(AppAssignGoods o1, AppAssignGoods o2) {
+                    //升序
+                    return o1.getOrderQuantity()
+                        .compareTo(o2.getOrderQuantity());
+                }
+            });
+            //先获取派单商品表数据
+            LinkedList<AppAssignGoods> appAssignGoodsLinkedList = new LinkedList<>();
+            LinkedList<AppAssignGoods> appAssignGoods = assignGoodsList.stream()
+                .collect(Collectors.toCollection(LinkedList::new));
+            AppAssignGoods first = appAssignGoods.getFirst();
+            appAssignGoodsLinkedList.add(first);
+            //删除第一个
+            //appAssignGoods.removeFirst();
+            return appAssignGoodsLinkedList;
+            //派单为空,随机生成订单
+        } else {
+            return getObject(appMember);
+        }
+    }
+
+    //随机生成订单
+    public Object getObject(AppMember appMember) {
+        Object appGoods = new AppGoods();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
             BigDecimal rate = new BigDecimal("0.5");
@@ -84,7 +135,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     @Override
-    public int submitOrders(AppGoods appGoods, Long memberId , Long channelId) throws Exception {
+    public int submitOrders(AppGoods appGoods, Long memberId, Long channelId) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -123,9 +174,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         }
         //设置抢单数
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
-        if (null == appConveys || appConveys.size() ==0){
+        if (null == appConveys || appConveys.size() == 0) {
             appConvey.setQiang(1L);
-        }else {
+        } else {
             Long qiang = appConveys.stream()
                 .map(e -> e.getQiang())
                 .reduce(Long::max)
@@ -161,8 +212,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
-
-
 
     /**
      * 父级balance更新

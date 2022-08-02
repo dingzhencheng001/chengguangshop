@@ -48,7 +48,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 //插入派单商品库
                 appAssignGoodsMapper.insert(appAssignGoods);
             }else {
-                throw new Exception("指派商品价格在商品库不存在!");
+                throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
             }
         }
         return 1;
