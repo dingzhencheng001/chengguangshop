@@ -1,8 +1,9 @@
 package my.fast.admin.cg.service;
 
+import java.util.Map;
+
 import org.springframework.transaction.annotation.Transactional;
 
-import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.model.AppRandomOrderParam;
 
 /**
@@ -17,10 +18,10 @@ public interface AppGrabOrdersService {
     /**
      * 随机生成商品订单
      */
-    Object randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
+    Map<String, Object> randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
     /**
      * 提交随机生成的商品订单
      */
     @Transactional
-    int submitOrders(AppGoods appGoods, Long memberId, Long channelId ) throws Exception;
+    int submitOrders(Map<String, Object> appGoods, Long memberId, Long channelId ) throws Exception;
 }
