@@ -35,7 +35,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">选择图片类型</label>
 					<div class="layui-input-block">
-						<select name="showType" lay-verify="required">
+						<select name="pictureType" lay-verify="required">
 							<option value=""></option>
 							<option value="1">首页展示</option>
 							<option value="2">底部展示</option>
@@ -87,7 +87,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">选择图片类型</label>
 					<div class="layui-input-block">
-						<select name="showType" lay-verify="required">
+						<select name="pictureType" lay-verify="required">
 							<option value=""></option>
 							<option value="1">首页展示</option>
 							<option value="2">底部展示</option>
@@ -124,8 +124,15 @@
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
 
 	<script type="text/html" id="operation">
-				<a class="layui-btn layui-btn-xs" style="background-color: green;" lay-event="edit">编辑</a>
-				<a class="layui-btn layui-btn-xs" style="background-color: red;" lay-event="delete">删除</a>
+		<span>
+		{{#  if (d.showType ==1){ }}
+    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs" style="background:red;" lay-event="delete">删除</a>
+		<a class="layui-btn layui-btn-xs" style="background:#00375F;" lay-event="forbidden">禁用</a>
+  	{{#  }else{ }}
+		<a class="layui-btn layui-btn-xs" style="background:green;" lay-event="forbidden">启用</a>
+  	{{#  } }}
+	</span>
 		</script>
 
 	<!--注册信息-->
@@ -135,14 +142,14 @@
 		</div>
 	</script>
 
-	<script type="text/html" id="showType">
-	<div>{{#	if (d.showType == 1) {
+	<script type="text/html" id="pictureType">
+	<div>{{#	if (d.pictureType == 1) {
 			return '首页展示'
-		} else if (d.showType == 2) {
+		} else if (d.pictureType == 2) {
 			return '底部展示'
-		} else if (d.showType == 2) {
+		} else if (d.pictureType == 2) {
 			return 'LOGO'
-		} else if (d.showType == 2) {
+		} else if (d.pictureType == 2) {
 			return '其他'
 		}}}
 	</div>
