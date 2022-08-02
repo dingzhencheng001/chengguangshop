@@ -41,4 +41,8 @@ public class AppConveyParam {
     @ApiModelProperty(value = "交易状态")
     private String status;
 
+    @ApiModelProperty(value = "会员手机号")
+    private String phoneNumber;
+
+    
 }

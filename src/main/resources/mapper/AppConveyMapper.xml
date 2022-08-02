@@ -117,6 +117,9 @@
         <if test="appConveyParam.userAccount != null and appConveyParam.userAccount !=''">
             and m3.user_account = #{appConveyParam.userAccount,jdbcType=VARCHAR}
         </if>
+        <if test="appConveyParam.phoneNumber != null and appConveyParam.phoneNumber !=''">
+            and m3.phone_number = #{appConveyParam.phoneNumber,jdbcType=VARCHAR}
+        </if>
         <if test="appConveyParam.selectBeginTime != null">
             and
             t1.addtime BETWEEN #{appConveyParam.selectBeginTime,jdbcType=TIMESTAMP} and #{appConveyParam.selectEndTime,jdbcType=TIMESTAMP}
