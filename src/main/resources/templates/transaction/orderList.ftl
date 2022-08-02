@@ -20,7 +20,7 @@
                     <div class="layui-form-item layui-inline">
                         <label class="layui-form-label">ID</label>
                         <div class="layui-input-inline">
-                            <input name="id" value="" placeholder="请输入订单ID" class="layui-input">
+                            <input name="memberId" value="" placeholder="请输入会员ID" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
@@ -66,7 +66,7 @@
             method: 'post',
             contentType: 'application/json',
             cols: [[ //表头
-                {field: 'id', title: 'ID', width: 80, sort: true},
+                {field: 'memberId', title: '会员ID', width: 120, sort: true},
                 {field: 'lno', title: '订单号', width: 150, sort: true}
                 // , {field: 'userAccount', title: '用户名'}
                 // , {field: 'xxx', title: '上级用户'}
