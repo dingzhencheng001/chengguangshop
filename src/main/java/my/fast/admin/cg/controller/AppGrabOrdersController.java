@@ -1,5 +1,7 @@
 package my.fast.admin.cg.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,14 +64,14 @@ public class AppGrabOrdersController {
         AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
         appRandomOrderParam.setMemberId(appUserVO.getId());
         appRandomOrderParam.setChannelId(channelId);
-        Object appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
+        Map<String, Object> appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
         return CommonResult.success(appGoods);
     }
 
     @ApiOperation(value = "提交随机生成的订单")
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult submitOrders(HttpServletRequest request, @RequestBody AppGoods appGoods) throws Exception {
+    public CommonResult submitOrders(HttpServletRequest request, @RequestBody Map<String, Object> goods) throws Exception {
         CommonResult commonResult;
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
@@ -84,7 +86,7 @@ public class AppGrabOrdersController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        int count = appGrabOrdersService.submitOrders(appGoods, memberId,channelId);
+        int count = appGrabOrdersService.submitOrders(goods, memberId,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {
