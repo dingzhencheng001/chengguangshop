@@ -140,4 +140,7 @@ public class AppMemberDto {
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
+    
+    @ApiModelProperty(value = "设定金额")
+    private BigDecimal limitAmount;
 }

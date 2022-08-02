@@ -96,9 +96,21 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ApiModelProperty(value = "设定金额")
+    private BigDecimal limitAmount;
+    
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    
+    public BigDecimal getLimitAmount() {
+		return limitAmount;
+	}
+
+	public void setLimitAmount(BigDecimal limitAmount) {
+		this.limitAmount = limitAmount;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -374,6 +386,7 @@ public class AppMember implements Serializable {
         sb.append(", registerCountry=").append(registerCountry);
         sb.append(", totalCommission=").append(totalCommission);
         sb.append(", channelId=").append(channelId);
+        sb.append(", limitAmount=").append(limitAmount);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

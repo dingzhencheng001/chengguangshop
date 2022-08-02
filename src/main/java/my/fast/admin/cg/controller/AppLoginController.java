@@ -169,6 +169,8 @@ public class AppLoginController {
     	tbAppUser.setRechargeNum(new BigDecimal(0.00));
     	tbAppUser.setDepositNum(new BigDecimal(0.00));
     	tbAppUser.setDeductionNum(new BigDecimal(0.00));
+    	//设定余额必须 大于 限制交易金额 默认100
+    	tbAppUser.setLimitAmount(new BigDecimal(100.00));
     	tbAppUser.setPassword(userLoginVO.getPassword());//注册密码用户自己输入
     	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
     	tbAppUser.setParentUserName(parentUser.getUserAccount());//上级会员昵称

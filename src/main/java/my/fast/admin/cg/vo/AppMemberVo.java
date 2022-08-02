@@ -153,28 +153,39 @@ public class AppMemberVo implements Serializable {
     @ApiModelProperty(value = "会员等级")
     private Integer membersLevel;
 
-    @Override
-    public String toString() {
-        return "AppMemberVo{" + "id=" + id + ", memberLevelId=" + memberLevelId + ", userAccount='" + userAccount + '\''
-            + ", nickName='" + nickName + '\'' + ", realName='" + realName + '\'' + ", idCardNum='" + idCardNum + '\''
-            + ", idStatus=" + idStatus + ", balance=" + balance + ", freezeBalance=" + freezeBalance + ", rechargeNum="
-            + rechargeNum + ", depositNum=" + depositNum + ", deductionNum=" + deductionNum + ", matching='" + matching
-            + '\'' + ", password='" + password + '\'' + ", parentUserId=" + parentUserId + ", parentUserName='"
-            + parentUserName + '\'' + ", isAgent=" + isAgent + ", agentLevel=" + agentLevel + ", status=" + status
-            + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", delFlag=" + delFlag
-            + ", loginIp='" + loginIp + '\'' + ", loginDate=" + loginDate + ", createBy='" + createBy + '\''
-            + ", createTime=" + createTime + ", updateBy='" + updateBy + '\'' + ", updateTime=" + updateTime
-            + ", remark='" + remark + '\'' + ", inviteCode='" + inviteCode + '\'' + ", dealStatus=" + dealStatus
-            + ", dealError=" + dealError + ", dealRewardCount=" + dealRewardCount + ", dealCount=" + dealCount
-            + ", dealTime=" + dealTime + ", active=" + active + ", matchMin=" + matchMin + ", matchMax=" + matchMax
-            + ", registrationTime=" + registrationTime + ", memberStatus=" + memberStatus + ", registerIp='"
-            + registerIp + '\'' + ", registerCountry='" + registerCountry + '\'' + ", topPic='" + topPic + '\''
-            + ", botPic='" + botPic + '\'' + ", todaySum=" + todaySum + ", totalCommission=" + totalCommission
-            + ", channelId=" + channelId + ", membersLevel=" + membersLevel + ", levelList=" + levelList
-            + ", agentList=" + agentList + '}';
-    }
+    @ApiModelProperty(value = "设定金额")
+    private BigDecimal limitAmount;
+    
+    public BigDecimal getLimitAmount() {
+		return limitAmount;
+	}
 
-    public Integer getMembersLevel() {
+	public void setLimitAmount(BigDecimal limitAmount) {
+		this.limitAmount = limitAmount;
+	}
+
+
+    @Override
+	public String toString() {
+		return "AppMemberVo [id=" + id + ", memberLevelId=" + memberLevelId + ", userAccount=" + userAccount
+				+ ", nickName=" + nickName + ", realName=" + realName + ", idCardNum=" + idCardNum + ", idStatus="
+				+ idStatus + ", balance=" + balance + ", freezeBalance=" + freezeBalance + ", rechargeNum="
+				+ rechargeNum + ", depositNum=" + depositNum + ", deductionNum=" + deductionNum + ", matching="
+				+ matching + ", password=" + password + ", parentUserId=" + parentUserId + ", parentUserName="
+				+ parentUserName + ", isAgent=" + isAgent + ", agentLevel=" + agentLevel + ", status=" + status
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", delFlag=" + delFlag + ", loginIp=" + loginIp
+				+ ", loginDate=" + loginDate + ", createBy=" + createBy + ", createTime=" + createTime + ", updateBy="
+				+ updateBy + ", updateTime=" + updateTime + ", remark=" + remark + ", inviteCode=" + inviteCode
+				+ ", dealStatus=" + dealStatus + ", dealError=" + dealError + ", dealRewardCount=" + dealRewardCount
+				+ ", dealCount=" + dealCount + ", dealTime=" + dealTime + ", active=" + active + ", matchMin="
+				+ matchMin + ", matchMax=" + matchMax + ", registrationTime=" + registrationTime + ", memberStatus="
+				+ memberStatus + ", registerIp=" + registerIp + ", registerCountry=" + registerCountry + ", topPic="
+				+ topPic + ", botPic=" + botPic + ", todaySum=" + todaySum + ", totalCommission=" + totalCommission
+				+ ", channelId=" + channelId + ", membersLevel=" + membersLevel + ", limitAmount=" + limitAmount
+				+ ", levelList=" + levelList + ", agentList=" + agentList + "]";
+	}
+
+	public Integer getMembersLevel() {
         return membersLevel;
     }
 

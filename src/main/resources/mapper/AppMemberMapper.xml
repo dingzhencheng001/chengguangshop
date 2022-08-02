@@ -32,6 +32,7 @@
         <result column="register_country" jdbcType="VARCHAR" property="registerCountry"/>
         <result column="total_commission" jdbcType="DECIMAL" property="totalCommission"/>
         <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
+        <result column="limit_amount" jdbcType="DECIMAL" property="limitAmount"/>
     </resultMap>
 
     <sql id="Example_Where_Clause">
@@ -100,7 +101,7 @@
     deduction_num, matching, password, parent_user_id, parent_user_name, is_agent, agent_level, 
     status, email, phone_number, del_flag, login_ip, login_date, create_by, create_time, 
     remark, invite_code, registration_time, member_status, register_ip, register_country, 
-    total_commission, channel_id
+    total_commission, channel_id,limit_amount
     </sql>
     <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberExample" resultMap="BaseResultMap">
         select
@@ -194,7 +195,7 @@
         login_date, create_by, create_time,
         remark, invite_code,
         registration_time, member_status, register_ip,
-        register_country, total_commission, channel_id)
+        register_country, total_commission, channel_id,limit_amount)
         values (#{memberLevelId,jdbcType=BIGINT}, #{userAccount,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL},
         #{freezeBalance,jdbcType=DECIMAL}, #{rechargeNum,jdbcType=DECIMAL}, #{depositNum,jdbcType=DECIMAL},
         #{deductionNum,jdbcType=DECIMAL}, #{matching,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
@@ -204,7 +205,8 @@
         #{loginDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
         #{remark,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR},
         #{registrationTime,jdbcType=TIMESTAMP}, #{memberStatus,jdbcType=INTEGER}, #{registerIp,jdbcType=VARCHAR},
-        #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL}, #{channelId,jdbcType=BIGINT})
+        #{registerCountry,jdbcType=VARCHAR}, #{totalCommission,jdbcType=DECIMAL}, #{channelId,jdbcType=BIGINT}
+        , #{limitAmount,jdbcType=DECIMAL})
     </insert>
     <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMember">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -299,6 +301,9 @@
             <if test="channelId != null">
                 channel_id,
             </if>
+            <if test="limitAmount != null">
+                limit_amount,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="memberLevelId != null">
@@ -387,6 +392,9 @@
             </if>
             <if test="channelId != null">
                 #{channelId,jdbcType=BIGINT},
+            </if>
+             <if test="limitAmount != null">
+                #{limitAmount,jdbcType=DECIMAL},
             </if>
         </trim>
     </insert>
@@ -490,6 +498,9 @@
             <if test="record.channelId != null">
                 channel_id = #{record.channelId,jdbcType=BIGINT},
             </if>
+            <if test="record.limitAmount != null">
+                balance = #{record.limitAmount,jdbcType=DECIMAL},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -526,7 +537,8 @@
         register_ip = #{record.registerIp,jdbcType=VARCHAR},
         register_country = #{record.registerCountry,jdbcType=VARCHAR},
         total_commission = #{record.totalCommission,jdbcType=DECIMAL},
-        channel_id = #{record.channelId,jdbcType=BIGINT}
+        channel_id = #{record.channelId,jdbcType=BIGINT},
+        limit_amount = #{record.limitAmount,jdbcType=DECIMAL}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -621,6 +633,9 @@
             <if test="channelId != null">
                 channel_id = #{channelId,jdbcType=BIGINT},
             </if>
+            <if test="limitAmount != null">
+                limit_amount = #{limitAmount,jdbcType=DECIMAL},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -654,7 +669,8 @@
             register_ip       = #{registerIp,jdbcType=VARCHAR},
             register_country  = #{registerCountry,jdbcType=VARCHAR},
             total_commission  = #{totalCommission,jdbcType=DECIMAL},
-            channel_id        = #{channelId,jdbcType=BIGINT}
+            channel_id        = #{channelId,jdbcType=BIGINT},
+            limit_amount      = #{limitAmount,jdbcType=DECIMAL}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
