@@ -80,9 +80,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">邀请码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="inviteCode" required
-                               id="newInviteCode"
-                               lay-verify="required" placeholder="请输入邀请码" autocomplete="off" class="layui-input">
+                        <input type="text" name="inviteCode" required id="newInviteCode" lay-verify="required"
+                               placeholder="请输入邀请码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -102,7 +101,8 @@
                     <label class="layui-form-label label-required label-required-next">金额</label>
                     <div class="layui-input-block">
                         <input type="number" name="operaMount" lay-verify="number" placeholder="请输入金额"
-                               autocomplete="off" class="layui-input">
+                               autocomplete="off"
+                               class="layui-input">
                         <p class="help-block">正表示加，负表示扣</p>
                     </div>
                 </div>
@@ -130,15 +130,11 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">1: 第几单</label>
                     <div class="layui-input-block J_div">
-                        <input name="id_num[0]" placeholder="第几单" value=""
-                               class="layui-input J_id_num"
+                        <input name="id_num[0]" placeholder="第几单" value="" class="layui-input J_id_num"
                                style="display: inline; width: 10%;"/> min(元):
-                        <input
-                                name="min[0]" value="" placeholder="请输入min" class="layui-input J_min"
-                                style="display: inline; width: 20%;"> max(元):
-                        <input name="max[0]" value=""
-                               placeholder="请输入max"
-                               class="layui-input J_max"
+                        <input name="min[0]" value="" placeholder="请输入min" class="layui-input J_min"
+                               style="display: inline; width: 20%;"> max(元):
+                        <input name="max[0]" value="" placeholder="请输入max" class="layui-input J_max"
                                style="display: inline; width: 20%;">卡单:
                         <input type="checkbox" name="lock[0]" value="1" class="layui-input J_sign" lay-filter="lock">
                         <div class="layui-unselect layui-form-checkbox"><i class="layui-icon layui-icon-ok"></i></div>
@@ -160,27 +156,29 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
                     <div class="layui-input-block">
-                        <input name="userAccount" required="" placeholder="请输入用户名称" value="" class="layui-input"/>
+                        <input name="userAccount" lay-verify="required" placeholder="请输入用户名称" value=""
+                               class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">手机号码</label>
                     <div class="layui-input-block">
-                        <input name="phoneNumber" required="" placeholder="请输入手机号码" value="" class="layui-input"/>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required label-required-next">账号余额</label>
-                    <div class="layui-input-block">
-                        <input name="balance" type="number" min="0" required="" placeholder="请输入账号余额" value=""
+                        <input name="phoneNumber" lay-verify="phone" placeholder="请输入手机号码" value=""
                                class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label label-required label-required-next">冻结金额</label>
+                    <label class="layui-form-label">账号余额</label>
                     <div class="layui-input-block">
-                        <input name="freezeBalance" type="number" min="0" required="" placeholder="冻结金额" value=""
-                               class="layui-input">
+                        <input name="balance" type="number" min="0" placeholder="请输入账号余额" value=""
+                               class="layui-input" disabled/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">冻结金额</label>
+                    <div class="layui-input-block">
+                        <input name="freezeBalance" type="number" min="0" placeholder="冻结金额" value=""
+                               class="layui-input" disabled>
                     </div>
                 </div>
                 <!--                <div class="layui-form-item">-->
@@ -205,7 +203,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required">会员等级</label>
                     <div class="layui-input-block">
-                        <select name="memberLevelId">
+                        <select name="memberLevelId" lay-verify="required">
                             <option value="1" selected="">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -282,13 +280,12 @@
 
     <!--    创建会员-->
     <div id="createId" style="display: none">
-        <form class="layui-form layui-card" lay-filter="createForm" >
+        <form class="layui-form layui-card" lay-filter="createForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">用户名称</label>
                     <div class="layui-input-block">
-                        <input name="userAccount" placeholder="请输入用户名" lay-verify="required"
-                               class="layui-input"/>
+                        <input name="userAccount" placeholder="请输入用户名" lay-verify="required" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -320,27 +317,26 @@
 
     <!--    发送消息-->
     <div id="sendMessageId" style="display: none">
-        <form class="layui-form layui-card" lay-filter="sendMessageForm" >
+        <form class="layui-form layui-card" lay-filter="sendMessageForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">标题</label>
                     <div class="layui-input-block">
-                        <input name="noticeTitle" placeholder="请输入标题" lay-verify="required"
-                               class="layui-input"/>
+                        <input name="noticeTitle" placeholder="请输入标题" lay-verify="required" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">内容</label>
                     <div class="layui-input-block">
-                        <input name="noticeContent" placeholder="请输入内容" lay-verify="required"
-                               class="layui-input"/>
+                        <input name="noticeContent" placeholder="请输入内容" lay-verify="required" class="layui-input"/>
                     </div>
                 </div>
 
                 <div class="hr-line-dashed"></div>
                 <div class="layui-form-item text-center">
                     <button class="layui-btn" type="button" lay-submit lay-filter="sendMessageSubmit">提交</button>
-                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="sendMessageCancel">取消</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="sendMessageCancel">取消
+                    </button>
                 </div>
             </div>
         </form>
@@ -348,7 +344,7 @@
 
     <!--银行卡信息-->
     <div id="bankCardInfoId" style="display: none">
-        <form class="layui-form layui-card" lay-filter="bankCardInfoForm" >
+        <form class="layui-form layui-card" lay-filter="bankCardInfoForm">
             <div class="layui-card-body">
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">开户名</label>
@@ -371,7 +367,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required label-required-next">银行卡号</label>
                     <div class="layui-input-block">
-                        <input name="cardNum" type="number" placeholder="请输入银行卡号" lay-verify="required" class="layui-input"/>
+                        <input name="cardNum" type="number" placeholder="请输入银行卡号" lay-verify="required"
+                               class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -384,7 +381,8 @@
                 <div class="hr-line-dashed"></div>
                 <div class="layui-form-item text-center">
                     <button class="layui-btn" type="button" lay-submit lay-filter="bankCardInfoSubmit">提交</button>
-                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="bankCardInfoCancel">取消</button>
+                    <button class="layui-btn layui-btn-danger" type="button" data-close="" id="bankCardInfoCancel">取消
+                    </button>
                 </div>
             </div>
         </form>

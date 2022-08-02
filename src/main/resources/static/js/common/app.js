@@ -65,8 +65,9 @@ jQuery.request = function (options) {
     if (options.showLoading) {
         loadingIndex = layer.load(1); // loading
     }
+    var url = location.hostname === 'localhost' ? ('http://localhost:8080' + options.url) : options.url;
     return $.ajax(Object.assign({}, options, {
-        url: options.url,
+        url: url,
         // url: 'http://localhost:8080' + options.url, // 开发环境使用
         type: options.type || 'get',
         data: data,
