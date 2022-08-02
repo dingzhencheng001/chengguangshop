@@ -82,6 +82,7 @@ public class PictureController {
         }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;
+        appPicture.setShowType(0);
         int count = pictureService.createPicture(appPicture,channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
