@@ -210,6 +210,38 @@ layui.use(['table', 'upload', 'form'], function () {
 					}
 				})
 			})
+		} else if (layEvent === 'forbidden') {
+			let showType = data.showType
+			if (showType == null) {
+				showType = 1
+			} else {
+				showType == 0 ? (showType = 1) : (showType = 0)
+			}
+			if (showType !== 1) {
+				layer.confirm('确定要禁用吗', { title: '操作确认' }, function (index) {
+					actions.onUpdateItem(
+						data.id,
+						{ showType: showType },
+						{
+							success: function () {
+								layer.close(index)
+							}
+						}
+					)
+				})
+			} else {
+				layer.confirm('确定要启用吗', { title: '操作确认' }, function (index) {
+					actions.onUpdateItem(
+						data.id,
+						{ showType: showType },
+						{
+							success: function () {
+								layer.close(index)
+							}
+						}
+					)
+				})
+			}
 		}
 	})
 
@@ -232,7 +264,7 @@ layui.use(['table', 'upload', 'form'], function () {
 				//表头
 				{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
 				{ field: 'picturePath', title: '图片', templet: '#picturePath', minWidth: 160 },
-				{ field: 'showType', title: '展示类型', templet: '#showType', width: 120 },
+				{ field: 'pictureType', title: '展示类型', templet: '#pictureType', width: 120 },
 				{ field: 'title', title: '标题', width: 120 },
 				{ field: 'content', title: '描述', minWidth: 160 },
 				{ field: 'updateTime', title: '发表时间', templet: '#updateTime', minWidth: 160 },
