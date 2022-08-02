@@ -149,22 +149,15 @@
 
     <!--派单-->
     <div id="dispatchId" style="display: none">
-        <form class="layui-form layui-card" action="">
+        <form class="layui-form layui-card" lay-filter="dispatchForm" >
             <h3 style="padding: 10px 0 0 45px; color: red;"> 该用户今日已抢单：0单 ## 卡单起始单数 1</h3>
             <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
             <div class="layui-card-body">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">1: 第几单</label>
-                    <div class="layui-input-block J_div">
-                        <input name="id_num[0]" placeholder="第几单" value="" class="layui-input J_id_num"
-                               style="display: inline; width: 10%;"/> min(元):
-                        <input name="min[0]" value="" placeholder="请输入min" class="layui-input J_min"
-                               style="display: inline; width: 20%;"> max(元):
-                        <input name="max[0]" value="" placeholder="请输入max" class="layui-input J_max"
-                               style="display: inline; width: 20%;">卡单:
-                        <input type="checkbox" name="lock[0]" value="1" class="layui-input J_sign" lay-filter="lock">
-                        <div class="layui-unselect layui-form-checkbox"><i class="layui-icon layui-icon-ok"></i></div>
-                    </div>
+                <div id="dispatchListView">
+                </div>
+                    <button type="button" id="addDispatchItem" class="layui-btn layui-btn-sm" style="margin-left: 504px">
+                        <i class="layui-icon">&#xe654;</i>添加卡单
+                    </button>
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="layui-form-item text-center" style="text-align: center;">
@@ -174,6 +167,26 @@
             </div>
         </form>
     </div>
+
+    <script id="dispatchDemo" type="text/html">
+        {{#  layui.each(d.list, function(index, item){ }}
+        <div class="layui-form-item">
+            <label class="layui-form-label">{{index + 1}}: 第几单</label>
+            <div class="layui-input-block J_div">
+                <input name="num[{{index}}]" placeholder="第几单" value="{{ item.num }}" class="layui-input J_id_num"
+                       style="display: inline; width: 10%;"/> min(元):
+                <input name="min[{{index}}]" value="{{ item.min }}" placeholder="请输入min" class="layui-input J_min"
+                       style="display: inline; width: 20%;"> max(元):
+                <input name="max[{{index}}]" value="{{ item.max }}" placeholder="请输入max" class="layui-input J_max"
+                       style="display: inline; width: 20%;">卡单:
+                <input type="checkbox" name="lock[{{index}}]" {{ item.lock ? 'checked' : '' }} value="1" class="layui-input J_sign" lay-filter="lock">
+            </div>
+        </div>
+        {{#  }); }}
+        {{#  if(d.list.length === 0){ }}
+        无数据
+        {{#  } }}
+    </script>
 
     <!--编辑菜单-->
     <div id="editId" style="display: none">
@@ -470,7 +483,7 @@
 <script type="text/html" id="operation">
     <span style="display: inline-block">
         <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
-        <!--        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>-->
+        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
@@ -488,9 +501,10 @@
 <script>
 
 
-    layui.use(['table', 'form', 'laydate'], function () {
+    layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
         var laydate = layui.laydate;
+        var laytpl = layui.laytpl;
 
         // 表格当前选择项
         var tableCurrentItem = {};
@@ -523,7 +537,86 @@
                     return '设定金额不能小于100'
                 }
             }
-        })
+        });
+
+        var dispatchList = [
+            {
+                num: 1,
+                min: '',
+                max: '',
+                lock: false,
+            },
+            {
+                num: 2,
+                min: '',
+                max: '',
+                lock: false,
+            },
+            {
+                num: 3,
+                min: '',
+                max: '',
+                lock: false,
+            },
+            {
+                num: 4,
+                min: '',
+                max: '',
+                lock: false,
+            },
+            {
+                num: 5,
+                min: '',
+                max: '',
+                lock: false,
+            },
+        ]
+        var dispatchDemo = document.getElementById('dispatchDemo');
+        var getTpl = dispatchDemo.innerHTML;
+        var dispatchListView = document.getElementById('dispatchListView');
+
+        var renderDispatchList = function (list) {
+            laytpl(getTpl).render({ list: list }, function(html){
+                dispatchListView.innerHTML = html;
+                form.render();
+            });
+        }
+
+        renderDispatchList(dispatchList);
+
+        var onGetDispatchFormData = function () {
+            var fd = form.val('dispatchForm');
+            // var list = [];
+            console.log('f', fd);
+            var list = dispatchList.map((item, index) => {
+                var num = fd['num['+ index + ']'] || '';
+                var min = fd['min['+ index + ']'] || '';
+                var max = fd['max['+ index + ']'] || '';
+                var lock = fd['lock['+ index + ']'] || '';
+                return {
+                    num: num,
+                    min: min,
+                    max: max,
+                    lock: lock,
+                };
+            });
+            return list;
+        }
+        var onAddDispatchItem = function () {
+            var newDispatchList = onGetDispatchFormData();
+            // var l = newDispatchList.length;
+            // for (var i = l; i < (l + 5); i++) {
+                newDispatchList.push({
+                    num: newDispatchList.length + 1,
+                    min: '',
+                    max: '',
+                    lock: false,
+                })
+            // }
+            renderDispatchList(newDispatchList);
+            dispatchList = newDispatchList;
+        }
+        $('#addDispatchItem').click(onAddDispatchItem)
 
 
         var where = {};
@@ -654,7 +747,7 @@
                 dispatchIndex = layer.open({
                     type: 1,
                     title: '派单',
-                    area: '800px',
+                    area: ['800px', '500px'],
                     content: $('#dispatchId'),
                     success: function () {
                         $('#dispatchId').show();
@@ -839,7 +932,9 @@
 
         // 派单-提交
         form.on('submit(dispatchSubmit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
+            var fd = onGetDispatchFormData();
+            console.log('fd', fd);
+            layer.msg('开发中');
             return false;
         });
         // 派单-取消
