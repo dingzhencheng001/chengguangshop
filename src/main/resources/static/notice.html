@@ -185,10 +185,10 @@
 
 			var actions = {
 				apiUrl: {
-					// http://localhost:8080/action/notice/list: actions.apiUrl.update + id,
-					update: 'http://localhost:8080/action/notice/update/',
-					delete: 'http://localhost:8080/action/notice/delete/',
-					create: 'http://localhost:8080/action/notice/create'
+					// /action/notice/list: actions.apiUrl.update + id,
+					update: '/action/notice/update/',
+					delete: '/action/notice/delete/',
+					create: '/action/notice/create'
 				},
 				// 刷新表格数据
 				onReloadData: function () {
@@ -312,7 +312,7 @@
 			table.render({
 				elem: '#level',
 				height: 312,
-				url: 'http://localhost:8080/action/notice/list', //数据接口
+				url: '/action/notice/list', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度
 				where: where,
