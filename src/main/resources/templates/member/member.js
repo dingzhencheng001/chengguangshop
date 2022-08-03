@@ -132,9 +132,9 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			, {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
 			, {field: 'memberLevelId', title: '会员等级', templet: function (d) {
 					var name = $.findName(memberLevelOptions, d.memberLevelId);
-					// mateMin  mateMax
-					var min = d.mateMin || 0;
-					var max = d.mateMax || 0;
+					// matchMin  matchMax
+					var min = d.matchMin || 0;
+					var max = d.matchMax || 0;
 					return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
 				}, sort: true, width: 110}
 			, {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
