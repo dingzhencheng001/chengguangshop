@@ -346,63 +346,63 @@ public class AppDispatchOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdIsNull() {
-            addCriterion("goods_id is null");
+        public Criteria andDistributionGoodsIdIsNull() {
+            addCriterion("distribution_goods_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdIsNotNull() {
-            addCriterion("goods_id is not null");
+        public Criteria andDistributionGoodsIdIsNotNull() {
+            addCriterion("distribution_goods_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdEqualTo(Long value) {
-            addCriterion("goods_id =", value, "goodsId");
+        public Criteria andDistributionGoodsIdEqualTo(Long value) {
+            addCriterion("distribution_goods_id =", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdNotEqualTo(Long value) {
-            addCriterion("goods_id <>", value, "goodsId");
+        public Criteria andDistributionGoodsIdNotEqualTo(Long value) {
+            addCriterion("distribution_goods_id <>", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdGreaterThan(Long value) {
-            addCriterion("goods_id >", value, "goodsId");
+        public Criteria andDistributionGoodsIdGreaterThan(Long value) {
+            addCriterion("distribution_goods_id >", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("goods_id >=", value, "goodsId");
+        public Criteria andDistributionGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("distribution_goods_id >=", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdLessThan(Long value) {
-            addCriterion("goods_id <", value, "goodsId");
+        public Criteria andDistributionGoodsIdLessThan(Long value) {
+            addCriterion("distribution_goods_id <", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdLessThanOrEqualTo(Long value) {
-            addCriterion("goods_id <=", value, "goodsId");
+        public Criteria andDistributionGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("distribution_goods_id <=", value, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdIn(List<Long> values) {
-            addCriterion("goods_id in", values, "goodsId");
+        public Criteria andDistributionGoodsIdIn(List<Long> values) {
+            addCriterion("distribution_goods_id in", values, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdNotIn(List<Long> values) {
-            addCriterion("goods_id not in", values, "goodsId");
+        public Criteria andDistributionGoodsIdNotIn(List<Long> values) {
+            addCriterion("distribution_goods_id not in", values, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdBetween(Long value1, Long value2) {
-            addCriterion("goods_id between", value1, value2, "goodsId");
+        public Criteria andDistributionGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("distribution_goods_id between", value1, value2, "distributionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdNotBetween(Long value1, Long value2) {
-            addCriterion("goods_id not between", value1, value2, "goodsId");
+        public Criteria andDistributionGoodsIdNotBetween(Long value1, Long value2) {
+            addCriterion("distribution_goods_id not between", value1, value2, "distributionGoodsId");
             return (Criteria) this;
         }
 
@@ -773,6 +773,126 @@ public class AppDispatchOrderExample {
 
         public Criteria andCreateByNotBetween(String value1, String value2) {
             addCriterion("create_by not between", value1, value2, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusIsNull() {
+            addCriterion("order_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusIsNotNull() {
+            addCriterion("order_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusEqualTo(Integer value) {
+            addCriterion("order_status =", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusNotEqualTo(Integer value) {
+            addCriterion("order_status <>", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusGreaterThan(Integer value) {
+            addCriterion("order_status >", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("order_status >=", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusLessThan(Integer value) {
+            addCriterion("order_status <", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("order_status <=", value, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusIn(List<Integer> values) {
+            addCriterion("order_status in", values, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusNotIn(List<Integer> values) {
+            addCriterion("order_status not in", values, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusBetween(Integer value1, Integer value2) {
+            addCriterion("order_status between", value1, value2, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("order_status not between", value1, value2, "orderStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdIsNull() {
+            addCriterion("tradition_goods_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdIsNotNull() {
+            addCriterion("tradition_goods_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdEqualTo(Long value) {
+            addCriterion("tradition_goods_id =", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdNotEqualTo(Long value) {
+            addCriterion("tradition_goods_id <>", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdGreaterThan(Long value) {
+            addCriterion("tradition_goods_id >", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("tradition_goods_id >=", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdLessThan(Long value) {
+            addCriterion("tradition_goods_id <", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("tradition_goods_id <=", value, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdIn(List<Long> values) {
+            addCriterion("tradition_goods_id in", values, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdNotIn(List<Long> values) {
+            addCriterion("tradition_goods_id not in", values, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("tradition_goods_id between", value1, value2, "traditionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraditionGoodsIdNotBetween(Long value1, Long value2) {
+            addCriterion("tradition_goods_id not between", value1, value2, "traditionGoodsId");
             return (Criteria) this;
         }
     }

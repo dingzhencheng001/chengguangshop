@@ -1,11 +1,10 @@
 package my.fast.admin.cg.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import my.fast.admin.cg.entity.AppAssignGoods;
+import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.model.DispatchOrderParam;
 
 /**
@@ -24,4 +23,11 @@ public interface DispatchOrderService {
     @Transactional
     int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception;
 
+    /**
+     * 获取当天派单列表
+     * @return
+     * @param channelId
+     * @param memberId
+     */
+    List<AppDispatchOrder> getOrderList(Long channelId, Long memberId);
 }

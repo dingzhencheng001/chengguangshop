@@ -6,13 +6,15 @@
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
     <result column="convey_id" jdbcType="BIGINT" property="conveyId" />
-    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="distribution_goods_id" jdbcType="BIGINT" property="distributionGoodsId" />
     <result column="hinder" jdbcType="INTEGER" property="hinder" />
     <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
     <result column="min_price" jdbcType="DECIMAL" property="minPrice" />
     <result column="max_price" jdbcType="DECIMAL" property="maxPrice" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="tradition_goods_id" jdbcType="BIGINT" property="traditionGoodsId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, channel_id, convey_id, goods_id, hinder, order_quantity, min_price, 
-    max_price, create_time, create_by
+    id, member_id, channel_id, convey_id, distribution_goods_id, hinder, order_quantity, 
+    min_price, max_price, create_time, create_by, order_status, tradition_goods_id
   </sql>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample" resultMap="BaseResultMap">
     select
@@ -111,13 +113,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into app_dispatch_order (member_id, channel_id, convey_id, 
-      goods_id, hinder, order_quantity, 
+      distribution_goods_id, hinder, order_quantity, 
       min_price, max_price, create_time, 
-      create_by)
+      create_by, order_status, tradition_goods_id
+      )
     values (#{memberId,jdbcType=BIGINT}, #{channelId,jdbcType=BIGINT}, #{conveyId,jdbcType=BIGINT}, 
-      #{goodsId,jdbcType=BIGINT}, #{hinder,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER}, 
+      #{distributionGoodsId,jdbcType=BIGINT}, #{hinder,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER}, 
       #{minPrice,jdbcType=DECIMAL}, #{maxPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR})
+      #{createBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{traditionGoodsId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -134,8 +138,8 @@
       <if test="conveyId != null">
         convey_id,
       </if>
-      <if test="goodsId != null">
-        goods_id,
+      <if test="distributionGoodsId != null">
+        distribution_goods_id,
       </if>
       <if test="hinder != null">
         hinder,
@@ -155,6 +159,12 @@
       <if test="createBy != null">
         create_by,
       </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="traditionGoodsId != null">
+        tradition_goods_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="memberId != null">
@@ -166,8 +176,8 @@
       <if test="conveyId != null">
         #{conveyId,jdbcType=BIGINT},
       </if>
-      <if test="goodsId != null">
-        #{goodsId,jdbcType=BIGINT},
+      <if test="distributionGoodsId != null">
+        #{distributionGoodsId,jdbcType=BIGINT},
       </if>
       <if test="hinder != null">
         #{hinder,jdbcType=INTEGER},
@@ -186,6 +196,12 @@
       </if>
       <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="traditionGoodsId != null">
+        #{traditionGoodsId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -210,8 +226,8 @@
       <if test="record.conveyId != null">
         convey_id = #{record.conveyId,jdbcType=BIGINT},
       </if>
-      <if test="record.goodsId != null">
-        goods_id = #{record.goodsId,jdbcType=BIGINT},
+      <if test="record.distributionGoodsId != null">
+        distribution_goods_id = #{record.distributionGoodsId,jdbcType=BIGINT},
       </if>
       <if test="record.hinder != null">
         hinder = #{record.hinder,jdbcType=INTEGER},
@@ -231,6 +247,12 @@
       <if test="record.createBy != null">
         create_by = #{record.createBy,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.traditionGoodsId != null">
+        tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -242,13 +264,15 @@
       member_id = #{record.memberId,jdbcType=BIGINT},
       channel_id = #{record.channelId,jdbcType=BIGINT},
       convey_id = #{record.conveyId,jdbcType=BIGINT},
-      goods_id = #{record.goodsId,jdbcType=BIGINT},
+      distribution_goods_id = #{record.distributionGoodsId,jdbcType=BIGINT},
       hinder = #{record.hinder,jdbcType=INTEGER},
       order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
       min_price = #{record.minPrice,jdbcType=DECIMAL},
       max_price = #{record.maxPrice,jdbcType=DECIMAL},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_by = #{record.createBy,jdbcType=VARCHAR}
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -265,8 +289,8 @@
       <if test="conveyId != null">
         convey_id = #{conveyId,jdbcType=BIGINT},
       </if>
-      <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=BIGINT},
+      <if test="distributionGoodsId != null">
+        distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
       </if>
       <if test="hinder != null">
         hinder = #{hinder,jdbcType=INTEGER},
@@ -286,6 +310,12 @@
       <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
       </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="traditionGoodsId != null">
+        tradition_goods_id = #{traditionGoodsId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -294,13 +324,29 @@
     set member_id = #{memberId,jdbcType=BIGINT},
       channel_id = #{channelId,jdbcType=BIGINT},
       convey_id = #{conveyId,jdbcType=BIGINT},
-      goods_id = #{goodsId,jdbcType=BIGINT},
+      distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
       hinder = #{hinder,jdbcType=INTEGER},
       order_quantity = #{orderQuantity,jdbcType=INTEGER},
       min_price = #{minPrice,jdbcType=DECIMAL},
       max_price = #{maxPrice,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_by = #{createBy,jdbcType=VARCHAR}
+      create_by = #{createBy,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      tradition_goods_id = #{traditionGoodsId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+    <select id="selectOrderList" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
+        select *
+        from app_dispatch_order
+        where TO_DAYS(create_time) = TO_DAYS(now())
+        <if test="channelId != null">
+            and
+            #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="memberId != null">
+            and
+            #{memberId,jdbcType=BIGINT}
+        </if>
+    </select>
+
 </mapper>

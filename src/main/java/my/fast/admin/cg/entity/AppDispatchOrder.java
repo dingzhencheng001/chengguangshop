@@ -15,11 +15,11 @@ public class AppDispatchOrder implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
-    @ApiModelProperty(value = "抢单商品id")
+    @ApiModelProperty(value = "抢单id")
     private Long conveyId;
 
     @ApiModelProperty(value = "派单商品id")
-    private Long goodsId;
+    private Long distributionGoodsId;
 
     @ApiModelProperty(value = "是否卡单1.卡单2.不卡单")
     private Integer hinder;
@@ -38,6 +38,12 @@ public class AppDispatchOrder implements Serializable {
 
     @ApiModelProperty(value = "操作人")
     private String createBy;
+
+    @ApiModelProperty(value = "订单状态0.未完成1.完成")
+    private Integer orderStatus;
+
+    @ApiModelProperty(value = "商品id")
+    private Long traditionGoodsId;
 
     private static final long serialVersionUID = 1L;
 
@@ -73,12 +79,12 @@ public class AppDispatchOrder implements Serializable {
         this.conveyId = conveyId;
     }
 
-    public Long getGoodsId() {
-        return goodsId;
+    public Long getDistributionGoodsId() {
+        return distributionGoodsId;
     }
 
-    public void setGoodsId(Long goodsId) {
-        this.goodsId = goodsId;
+    public void setDistributionGoodsId(Long distributionGoodsId) {
+        this.distributionGoodsId = distributionGoodsId;
     }
 
     public Integer getHinder() {
@@ -129,6 +135,22 @@ public class AppDispatchOrder implements Serializable {
         this.createBy = createBy;
     }
 
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Long getTraditionGoodsId() {
+        return traditionGoodsId;
+    }
+
+    public void setTraditionGoodsId(Long traditionGoodsId) {
+        this.traditionGoodsId = traditionGoodsId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -139,13 +161,15 @@ public class AppDispatchOrder implements Serializable {
         sb.append(", memberId=").append(memberId);
         sb.append(", channelId=").append(channelId);
         sb.append(", conveyId=").append(conveyId);
-        sb.append(", goodsId=").append(goodsId);
+        sb.append(", distributionGoodsId=").append(distributionGoodsId);
         sb.append(", hinder=").append(hinder);
         sb.append(", orderQuantity=").append(orderQuantity);
         sb.append(", minPrice=").append(minPrice);
         sb.append(", maxPrice=").append(maxPrice);
         sb.append(", createTime=").append(createTime);
         sb.append(", createBy=").append(createBy);
+        sb.append(", orderStatus=").append(orderStatus);
+        sb.append(", traditionGoodsId=").append(traditionGoodsId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

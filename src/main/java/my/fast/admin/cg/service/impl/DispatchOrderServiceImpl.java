@@ -1,7 +1,5 @@
 package my.fast.admin.cg.service.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -10,9 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import my.fast.admin.cg.entity.AppAssignGoods;
-import my.fast.admin.cg.entity.AppAssignGoodsExample;
+import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.mapper.AppAssignGoodsMapper;
+import my.fast.admin.cg.mapper.AppDispatchOrderMapper;
 import my.fast.admin.cg.mapper.AppGoodsMapper;
 import my.fast.admin.cg.model.DispatchOrderParam;
 import my.fast.admin.cg.service.DispatchOrderService;
@@ -34,8 +33,19 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     @Autowired
     private AppAssignGoodsMapper appAssignGoodsMapper;
 
+    @Autowired
+    private AppDispatchOrderMapper appDispatchOrderMapper;
+
+
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
+        //先入派单业务表库
+        AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
+        for (DispatchOrderParam orderParam : dispatchOrderParam) {
+            BeanUtils.copyProperties(orderParam, appDispatchOrder);
+            appDispatchOrder.setCreateTime(DateFormat.getNowDate());
+            appDispatchOrderMapper.insert(appDispatchOrder);
+        }
         AppAssignGoods appAssignGoods = new AppAssignGoods();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {
             //根据价格范围随机生成商品
@@ -53,4 +63,10 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         }
         return 1;
     }
+
+    @Override
+    public List<AppDispatchOrder> getOrderList(Long channelId, Long memberId) {
+        return appDispatchOrderMapper.selectOrderList(channelId,memberId);
+    }
+
 }

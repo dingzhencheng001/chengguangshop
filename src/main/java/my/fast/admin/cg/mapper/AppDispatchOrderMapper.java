@@ -29,4 +29,6 @@ public interface AppDispatchOrderMapper {
     int updateByPrimaryKeySelective(AppDispatchOrder record);
 
     int updateByPrimaryKey(AppDispatchOrder record);
+
+    List<AppDispatchOrder> selectOrderList(@Param("channelId")Long channelId, @Param("memberId")Long memberId);
 }
