@@ -143,4 +143,7 @@ public class AppMemberDto {
     
     @ApiModelProperty(value = "设定金额")
     private BigDecimal limitAmount;
+    
+    @ApiModelProperty(value = "提现状态(0:正常 1 禁止提现)")
+    private Integer drawalStatus;
 }

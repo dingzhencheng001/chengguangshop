@@ -156,6 +156,9 @@ public class AppMemberVo implements Serializable {
     @ApiModelProperty(value = "设定金额")
     private BigDecimal limitAmount;
     
+    @ApiModelProperty(value = "提现状态(0:正常 1 禁止提现)")
+    private Integer drawalStatus;
+    
     public BigDecimal getLimitAmount() {
 		return limitAmount;
 	}
@@ -165,24 +168,12 @@ public class AppMemberVo implements Serializable {
 	}
 
 
-    @Override
-	public String toString() {
-		return "AppMemberVo [id=" + id + ", memberLevelId=" + memberLevelId + ", userAccount=" + userAccount
-				+ ", nickName=" + nickName + ", realName=" + realName + ", idCardNum=" + idCardNum + ", idStatus="
-				+ idStatus + ", balance=" + balance + ", freezeBalance=" + freezeBalance + ", rechargeNum="
-				+ rechargeNum + ", depositNum=" + depositNum + ", deductionNum=" + deductionNum + ", matching="
-				+ matching + ", password=" + password + ", parentUserId=" + parentUserId + ", parentUserName="
-				+ parentUserName + ", isAgent=" + isAgent + ", agentLevel=" + agentLevel + ", status=" + status
-				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", delFlag=" + delFlag + ", loginIp=" + loginIp
-				+ ", loginDate=" + loginDate + ", createBy=" + createBy + ", createTime=" + createTime + ", updateBy="
-				+ updateBy + ", updateTime=" + updateTime + ", remark=" + remark + ", inviteCode=" + inviteCode
-				+ ", dealStatus=" + dealStatus + ", dealError=" + dealError + ", dealRewardCount=" + dealRewardCount
-				+ ", dealCount=" + dealCount + ", dealTime=" + dealTime + ", active=" + active + ", matchMin="
-				+ matchMin + ", matchMax=" + matchMax + ", registrationTime=" + registrationTime + ", memberStatus="
-				+ memberStatus + ", registerIp=" + registerIp + ", registerCountry=" + registerCountry + ", topPic="
-				+ topPic + ", botPic=" + botPic + ", todaySum=" + todaySum + ", totalCommission=" + totalCommission
-				+ ", channelId=" + channelId + ", membersLevel=" + membersLevel + ", limitAmount=" + limitAmount
-				+ ", levelList=" + levelList + ", agentList=" + agentList + "]";
+	public Integer getDrawalStatus() {
+		return drawalStatus;
+	}
+
+	public void setDrawalStatus(Integer drawalStatus) {
+		this.drawalStatus = drawalStatus;
 	}
 
 	public Integer getMembersLevel() {
@@ -594,4 +585,27 @@ public class AppMemberVo implements Serializable {
 		this.channelId = channelId;
 	}
 
+	@Override
+	public String toString() {
+		return "AppMemberVo [id=" + id + ", memberLevelId=" + memberLevelId + ", userAccount=" + userAccount
+				+ ", nickName=" + nickName + ", realName=" + realName + ", idCardNum=" + idCardNum + ", idStatus="
+				+ idStatus + ", balance=" + balance + ", freezeBalance=" + freezeBalance + ", rechargeNum="
+				+ rechargeNum + ", depositNum=" + depositNum + ", deductionNum=" + deductionNum + ", matching="
+				+ matching + ", password=" + password + ", parentUserId=" + parentUserId + ", parentUserName="
+				+ parentUserName + ", isAgent=" + isAgent + ", agentLevel=" + agentLevel + ", status=" + status
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", delFlag=" + delFlag + ", loginIp=" + loginIp
+				+ ", loginDate=" + loginDate + ", createBy=" + createBy + ", createTime=" + createTime + ", updateBy="
+				+ updateBy + ", updateTime=" + updateTime + ", remark=" + remark + ", inviteCode=" + inviteCode
+				+ ", dealStatus=" + dealStatus + ", dealError=" + dealError + ", dealRewardCount=" + dealRewardCount
+				+ ", dealCount=" + dealCount + ", dealTime=" + dealTime + ", active=" + active + ", matchMin="
+				+ matchMin + ", matchMax=" + matchMax + ", registrationTime=" + registrationTime + ", memberStatus="
+				+ memberStatus + ", registerIp=" + registerIp + ", registerCountry=" + registerCountry + ", topPic="
+				+ topPic + ", botPic=" + botPic + ", todaySum=" + todaySum + ", totalCommission=" + totalCommission
+				+ ", channelId=" + channelId + ", membersLevel=" + membersLevel + ", limitAmount=" + limitAmount
+				+ ", drawalStatus=" + drawalStatus + ", levelList=" + levelList + ", agentList=" + agentList + "]";
+	}
+
+	
+	
+	
 }

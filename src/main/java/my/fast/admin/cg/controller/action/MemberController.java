@@ -203,6 +203,7 @@ public class MemberController {
     	tbAppUser.setDeductionNum(new BigDecimal(0.00));
     	//设定余额必须 大于 限制交易金额 默认100
     	tbAppUser.setLimitAmount(new BigDecimal(100.00));
+    	tbAppUser.setDrawalStatus(0);//0.正常 1.禁止提现
     	tbAppUser.setPassword(appMember.getPassword());//注册密码用户自己输入
     	tbAppUser.setIsAgent(1);
     	tbAppUser.setAgentLevel(1);

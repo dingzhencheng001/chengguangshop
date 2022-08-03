@@ -99,10 +99,21 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "设定金额")
     private BigDecimal limitAmount;
     
+    @ApiModelProperty(value = "提现状态(0:正常 1 禁止提现)")
+    private Integer drawalStatus;
+    
     private static final long serialVersionUID = 1L;
 
     
-    public BigDecimal getLimitAmount() {
+    public Integer getDrawalStatus() {
+		return drawalStatus;
+	}
+
+	public void setDrawalStatus(Integer drawalStatus) {
+		this.drawalStatus = drawalStatus;
+	}
+
+	public BigDecimal getLimitAmount() {
 		return limitAmount;
 	}
 
@@ -387,6 +398,7 @@ public class AppMember implements Serializable {
         sb.append(", totalCommission=").append(totalCommission);
         sb.append(", channelId=").append(channelId);
         sb.append(", limitAmount=").append(limitAmount);
+        sb.append(", drawalStatus=").append(drawalStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
