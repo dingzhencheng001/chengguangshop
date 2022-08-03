@@ -80,6 +80,12 @@ public class AppLoginController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
             return CommonResult.failed("账号不存在");
         }
+        if (!"0".equals(appUserVO.getStatus()) ) {
+            return CommonResult.failed("账号已停用");
+        }
+        if (!"1".equals(appUserVO.getMemberStatus()) ) {
+            return CommonResult.failed("账号状态为假人，请联系管理员");
+        }
         //后续加上密码加密串字段salt
 //        SimpleHash password = new SimpleHash("MD5", appUserVO.getPassword(), appUserVO.get);
 //        if (!password.toString().equals(loginVO.getPassword())) {
@@ -183,7 +189,7 @@ public class AppLoginController {
     	tbAppUser.setDelFlag(1);
     	tbAppUser.setCreateBy(tbAppUser.getUserAccount());//自己本人注册
     	tbAppUser.setCreateTime(DateFormat.getNowDate());
-    	tbAppUser.setMemberStatus(1);
+    	tbAppUser.setMemberStatus(1);//1.真人 2 假人
     	tbAppUser.setRegistrationTime(DateFormat.getNowDate());
     	//注册IP  注册国家
         String ip = RequestUtil.getRequestIp(request);
