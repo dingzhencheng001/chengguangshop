@@ -461,7 +461,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">{{=d.drawal_status === 1 ? '正常提现' : '禁止提现'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">{{=d.drawalStatus === 1 ? '正常提现' : '禁止提现'}}</a>
         <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
         <!--    </span>-->
         <!--    <span style="display: inline-block">-->

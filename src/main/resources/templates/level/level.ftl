@@ -66,11 +66,11 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label label-required label-required-next">匹配区间</label>
 				<div class="layui-input-inline" style="width: 100px;">
-					<input type="number" name="mate_min" placeholder="请输入匹配最小值" lay-verify="required|number" class="layui-input">
+					<input type="number" name="mateMin" placeholder="请输入匹配最小值" lay-verify="required|number" class="layui-input">
 				</div>
 				<div class="layui-form-mid">-</div>
 				<div class="layui-input-inline" style="width: 100px;">
-					<input type="number" name="mate_max" placeholder="请输入匹配最大值" lay-verify="required|number" class="layui-input">
+					<input type="number" name="mateMax" placeholder="请输入匹配最大值" lay-verify="required|number" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -147,11 +147,11 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label label-required label-required-next">匹配区间</label>
 				<div class="layui-input-inline" style="width: 100px;">
-					<input type="number" name="mate_min" placeholder="请输入匹配最小值" lay-verify="required|number" class="layui-input">
+					<input type="number" name="mateMin" placeholder="请输入匹配最小值" lay-verify="required|number" class="layui-input">
 				</div>
 				<div class="layui-form-mid">-</div>
 				<div class="layui-input-inline" style="width: 100px;">
-					<input type="number" name="mate_max" placeholder="请输入匹配最大值" lay-verify="required|number" class="layui-input">
+					<input type="number" name="mateMax" placeholder="请输入匹配最大值" lay-verify="required|number" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
