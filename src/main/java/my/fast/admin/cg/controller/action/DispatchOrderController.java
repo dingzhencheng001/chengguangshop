@@ -59,7 +59,7 @@ public class DispatchOrderController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        DispatchOrderParam.stream().peek(p->p.setChannelId(channelId));
+        DispatchOrderParam.forEach(item -> item.setChannelId(channelId));
         int count  = dispatchOrderService.assignGoods(DispatchOrderParam);
         if (count == 1) {
             return CommonResult.success(null);
