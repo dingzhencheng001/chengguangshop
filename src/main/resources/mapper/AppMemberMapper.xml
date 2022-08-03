@@ -825,7 +825,7 @@
     <select id="selectPage" resultType="my.fast.admin.cg.vo.AppMemberVo">
         SELECT
             m.*,
-            ml.members_level
+            ml.members_level,ml.mate_min as matchMin ,ml.mate_max as matchMax 
         FROM
             app_member m
                 LEFT JOIN app_member_level ml ON m.member_level_id = ml.id
