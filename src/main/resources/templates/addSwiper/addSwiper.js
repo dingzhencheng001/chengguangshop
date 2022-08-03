@@ -1,9 +1,67 @@
-layui.use(['table', 'upload', 'form'], function () {
+layui.use(['table', 'upload', 'form', 'layedit'], function () {
 	var table = layui.table,
 		form = layui.form,
-		upload = layui.upload
+		upload = layui.upload,
+		layedit = layui.layedit
+
+	layedit.set({
+		//暴露layupload参数设置接口 --详细查看layupload参数说明
+		uploadImage: {
+			url: '/Attachment/LayUploadFile',
+			accept: 'image',
+			acceptMime: 'image/*',
+			exts: 'jpg|png|gif|bmp|jpeg',
+			size: '10240'
+		},
+		uploadVideo: {
+			url: '/Attachment/LayUploadFile',
+			accept: 'video',
+			acceptMime: 'video/*',
+			exts: 'mp4|flv|avi|rm|rmvb',
+			size: '20480'
+		},
+		//右键删除图片/视频时的回调参数，post到后台删除服务器文件等操作，
+		//传递参数：
+		//图片： imgpath --图片路径
+		//视频： filepath --视频路径 imgpath --封面路径
+		calldel: {
+			url: '/Attachment/DeleteFile'
+		},
+		tool: [
+			'strong',
+			'italic',
+			'underline',
+			'del',
+			'addhr',
+			'|',
+			'fontFomatt',
+			'colorpicker',
+			'face',
+			'|',
+			'left',
+			'center',
+			'right',
+			'|',
+			'link',
+			'unlink',
+			'images',
+			'image_alt',
+			'video',
+			'anchors',
+			'|',
+			'fullScreen'
+		],
+		height: '90%'
+	})
+
+	var editeditor
+	var addeditor
+
+	var createTextIndex
 
 	var editIndex
+
+	var type
 
 	// 表格当前选择项
 	var tableCurrentItem = {}
@@ -160,7 +218,11 @@ layui.use(['table', 'upload', 'form'], function () {
 				success: function (result, status, xhr) {
 					if (result.code === 200) {
 						actions.onReloadData()
-						layer.msg('添加图片成功', { icon: 1 })
+						if (fields.pictureType == 5) {
+							layer.msg('添加纯文本成功', { icon: 1 })
+						} else {
+							layer.msg('添加图片成功', { icon: 1 })
+						}
 						_options.success && _options.success(result, status, xhr)
 					} else {
 						layer.msg(result.msg, { icon: 2 })
@@ -169,7 +231,11 @@ layui.use(['table', 'upload', 'form'], function () {
 					_options.complete && _options.complete(status, xhr)
 				},
 				error: function (xhr, status, error) {
-					layer.msg('添加图片失败', { icon: 2 })
+					if (fields.pictureType == 5) {
+						layer.msg('添加纯文本失败', { icon: 1 })
+					} else {
+						layer.msg('添加图片失败', { icon: 2 })
+					}
 					_options.error && _options.error(xhr, status, error)
 				}
 			})
@@ -188,19 +254,38 @@ layui.use(['table', 'upload', 'form'], function () {
 		// 修改邀请码
 		if (layEvent === 'edit') {
 			// 编辑菜单
-			editIndex = layer.open({
-				type: 1,
-				title: '编辑菜单',
-				area: '800px',
-				content: $('#editId'),
-				success: function () {
-					form.val('editForm', data)
-					$('#editId').show()
-				},
-				cancel: function () {
-					$('#editId').hide()
-				}
-			})
+			if (data.pictureType == 5) {
+				type = 'edit'
+				createTextIndex = layer.open({
+					type: 1,
+					title: '编辑菜单',
+					area: '800px',
+					content: $('#createTextId'),
+					success: function () {
+						form.val('addTextForm', data)
+						addeditor = layedit.build('addTextarea', {})
+						$('#addTextarea').html(data.content)
+						$('#createTextId').show()
+					},
+					cancel: function () {
+						$('#createTextId').hide()
+					}
+				})
+			} else {
+				editIndex = layer.open({
+					type: 1,
+					title: '编辑菜单',
+					area: '800px',
+					content: $('#editId'),
+					success: function () {
+						form.val('editForm', data)
+						$('#editId').show()
+					},
+					cancel: function () {
+						$('#editId').hide()
+					}
+				})
+			}
 		} else if (layEvent === 'delete') {
 			// 删除
 			layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
@@ -308,7 +393,7 @@ layui.use(['table', 'upload', 'form'], function () {
 	$('#createBtn').click(function () {
 		createIndex = layer.open({
 			type: 1,
-			title: '新建会员等级',
+			title: '添加图片',
 			area: '800px',
 			content: $('#createId'),
 			success: function () {
@@ -341,5 +426,55 @@ layui.use(['table', 'upload', 'form'], function () {
 				})
 			}
 		})
+	})
+
+	$('#createTextBtn').click(function () {
+		type = 'add'
+		createTextIndex = layer.open({
+			type: 1,
+			title: '添加纯文本',
+			area: '800px',
+			content: $('#createTextId'),
+			success: function () {
+				$('#createTextId').show()
+				addeditor = layedit.build('addTextarea', {})
+			},
+			cancel: function () {
+				$('#createTextId').hide()
+			}
+		})
+	})
+
+	$('#createTextCancel').click(function () {
+		layer.close(createTextIndex)
+		form.val('addTextForm', {
+			content: '',
+			title: ''
+		})
+	})
+
+	form.on('submit(createTextSubmit)', function (data) {
+		if (type == 'edit') {
+			data.field.content = layedit.getContent(addeditor)
+			actions.onUpdateItem(tableCurrentItem.id, data.field, {
+				success: function () {
+					layer.close(createTextIndex)
+					$('#editId').hide()
+				}
+			})
+			return false
+		} else {
+			data.field.pictureType = '5'
+			data.field.content = layedit.getContent(addeditor)
+			actions.onCreate(data.field, {
+				success: function () {
+					layer.close(createTextIndex)
+					form.val('addTextForm', {
+						content: '',
+						title: ''
+					})
+				}
+			})
+		}
 	})
 })

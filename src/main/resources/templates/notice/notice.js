@@ -1,9 +1,8 @@
-layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function () {
+layui.use(['table', 'form', 'element', 'layedit'], function () {
 	var table = layui.table,
 		$ = layui.$,
 		form = layui.form,
-		util = layui.util
-	layedit = layui.layedit
+		layedit = layui.layedit
 
 	layedit.set({
 		//暴露layupload参数设置接口 --详细查看layupload参数说明
@@ -28,16 +27,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function (
 		calldel: {
 			url: '/Attachment/DeleteFile'
 		},
-		//开发者模式 --默认为false
-		devmode: true,
-		//插入代码设置
-		codeConfig: {
-			hide: true, //是否显示编码语言选择框
-			default: 'javascript' //hide为true时的默认语言格式
-		},
 		tool: [
-			'html',
-			'code',
 			'strong',
 			'italic',
 			'underline',
@@ -203,8 +193,9 @@ layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function (
 				content: $('#editId'),
 				success: function () {
 					form.val('editForm', data)
-					editeditor = layedit.build('editTextarea')
-					layedit.setContent(editeditor, data.noticeContent, false)
+					editeditor = layedit.build('editTextarea', {})
+					$('#editTextarea').html(data.noticeContent)
+					// layedit.setContent(editeditor, data.noticeContent, false)
 					$('#editId').show()
 				},
 				cancel: function () {
@@ -293,7 +284,6 @@ layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function (
 
 	// 编辑-提交
 	form.on('submit(editSubmit)', function (data) {
-		editeditor = layedit.build('editTextarea')
 		data.field.noticeContent = layedit.getContent(editeditor)
 		actions.onUpdateItem(tableCurrentItem.noticeId, data.field, {
 			success: function () {
@@ -319,7 +309,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function (
 			content: $('#createId'),
 			success: function () {
 				$('#createId').show()
-				addeditor = layedit.build('addTextarea')
+				addeditor = layedit.build('addTextarea', {})
 			},
 			cancel: function () {
 				$('#createId').hide()
