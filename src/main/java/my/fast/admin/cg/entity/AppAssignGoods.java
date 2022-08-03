@@ -51,6 +51,9 @@ public class AppAssignGoods implements Serializable {
     @ApiModelProperty(value = "是否被消费0.未消费1.已经消费")
     private Integer isConsumed;
 
+    @ApiModelProperty(value = "流水号")
+    private String serialNumber;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -173,6 +176,14 @@ public class AppAssignGoods implements Serializable {
         this.isConsumed = isConsumed;
     }
 
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -194,6 +205,7 @@ public class AppAssignGoods implements Serializable {
         sb.append(", hinder=").append(hinder);
         sb.append(", orderQuantity=").append(orderQuantity);
         sb.append(", isConsumed=").append(isConsumed);
+        sb.append(", serialNumber=").append(serialNumber);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

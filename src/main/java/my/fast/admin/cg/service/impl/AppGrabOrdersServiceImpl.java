@@ -111,13 +111,12 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             AppAssignGoods distributionGoods = appAssignGoodsLinkedList.getFirst();
 
             remap.put("distributionGoods", distributionGoods);
-            return remap;
             //派单为空,随机生成订单
         } else {
             Object traditionGoods = randomGoods(appMember);
             remap.put("traditionGoods", traditionGoods);
-            return remap;
         }
+        return remap;
     }
 
     //随机生成订单
@@ -153,7 +152,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         BigDecimal goodsPrice = appGoods.getGoodsPrice();
-        //BigDecimal balance = appMember.getBalance();
         //获取会员等级
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
         BigDecimal commission = appMemberLevel.getCommission();
@@ -176,7 +174,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setEndtime(DateFormat.getNowDate());
         //设置订单状态
         appConvey.setStatus("1");
-        //设置订单状态
+        //设置佣金发放状态
         appConvey.setcStatus("1");
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
@@ -225,13 +223,102 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
+
     //指派订单
     private int submitDistributionGoods(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
+        //如果不是是卡单
+        if (appGoods.getHinder() == 0) {
+            return smooth(appGoods, memberId, channelId);
+        }
+        //如果是卡单
+        if (appGoods.getHinder() == 1) {
+            return stuck(appGoods, memberId, channelId);
+        }
+      return 1;
+    }
+
+    private int smooth(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         BigDecimal goodsPrice = appGoods.getGoodsPrice();
-        //BigDecimal balance = appMember.getBalance();
+        //获取会员等级
+        AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
+        BigDecimal commission = appMemberLevel.getCommission();
+        //佣金计算
+        BigDecimal GrabCommission = goodsPrice.multiply(commission);
+        appConvey.setCommission(GrabCommission);
+        //设置商品订单id
+        appConvey.setGoodsId(appGoods.getId());
+        //设置渠道id
+        appConvey.setChannelId(channelId);
+        //设置会员id
+        appConvey.setMemberId(appMember.getId());
+        //生成订单号
+        appConvey.setLno(generateOrderSn());
+        //设置本单金额
+        appConvey.setAmount(appGoods.getGoodsPrice());
+        //设置下单时间
+        appConvey.setAddtime(DateFormat.getNowDate());
+        //设置完成时间
+        appConvey.setEndtime(DateFormat.getNowDate());
+        //设置订单状态
+        appConvey.setStatus("1");
+        //设置佣金发放状态
+        appConvey.setcStatus("1");
+        //设置会员收货地址id
+        AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
+        if (!StringUtils.isEmpty(appMemberAddress)) {
+            appConvey.setAddId(appMemberAddress.getId());
+        } else {
+            throw new Exception("会员收货地址不存在");
+        }
+        //设置抢单数
+        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+        if (null == appConveys || appConveys.size() == 0) {
+            appConvey.setQiang(1L);
+        } else {
+            Long qiang = appConveys.stream()
+                .map(e -> e.getQiang())
+                .reduce(Long::max)
+                .get();
+            appConvey.setQiang(qiang + 1);
+        }
+        //修改会员余额金额
+        AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+        appMemberBalanceParam.setMemberId(memberId);
+        appMemberBalanceParam.setGoodsPrice(goodsPrice);
+        appMemberBalanceParam.setBalance(appMember.getBalance());
+        appMemberBalanceParam.setGrabCommission(GrabCommission);
+        appMemberBalanceParam.setChannelId(channelId);
+        appMemberMapper.updateMemberBalance(appMemberBalanceParam);
+        //查询parentAgent
+        appMemberMapper.selectParent();
+        List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
+        //更新parentAgentBalance
+        calculateCommission(appMembers, goodsPrice);
+        //插入账目变动表信息
+        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+        appMemberAccountChange.setMemberId(memberId);
+        appMemberAccountChange.setOperaType(2);
+        appMemberAccountChange.setPreOperaMount(appMember.getBalance());
+        appMemberAccountChange.setOperaMount(goodsPrice);
+        //获取更新后的金额
+        AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
+        appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
+        appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
+        Date date = new Date(System.currentTimeMillis());
+        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+        return appConveyMapper.insertSelective(appConvey);
+    }
+
+    private int stuck(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
+        AppConvey appConvey = new AppConvey();
+        //获取会员信息
+        AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+        BigDecimal goodsPrice = appGoods.getGoodsPrice();
         //获取会员等级
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
         BigDecimal commission = appMemberLevel.getCommission();
@@ -254,8 +341,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setEndtime(DateFormat.getNowDate());
         //设置订单状态
         appConvey.setStatus("5");
-        //设置订单状态
-        appConvey.setcStatus("5");
+        //设置佣金发放状态
+        appConvey.setcStatus("2");
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -358,7 +445,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     /**
      * 生成订单编号
      */
-    private String generateOrderSn() {
+    public String generateOrderSn() {
         StringBuilder sb = new StringBuilder();
         sb.append("UB");
         String date = new SimpleDateFormat("yyyyMMdd").format(new Date());

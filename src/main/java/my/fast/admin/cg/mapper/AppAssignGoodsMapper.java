@@ -31,5 +31,9 @@ public interface AppAssignGoodsMapper {
 
     int updateByPrimaryKey(AppAssignGoods record);
 
+    /**
+     * 获取指派单商品库
+     */
     List<AppAssignGoods> assignGoodsList(AppRandomOrderParam appRandomOrderParam);
+
 }

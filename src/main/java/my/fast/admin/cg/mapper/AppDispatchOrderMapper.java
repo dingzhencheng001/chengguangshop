@@ -30,5 +30,8 @@ public interface AppDispatchOrderMapper {
 
     int updateByPrimaryKey(AppDispatchOrder record);
 
-    List<AppDispatchOrder> selectOrderList(@Param("channelId")Long channelId, @Param("memberId")Long memberId);
+    /**
+     * 获取派单列表
+     */
+    List<AppDispatchOrder> selectOrderList(@Param("channelId")Long channelId,@Param("memberId") Long memberId);
 }

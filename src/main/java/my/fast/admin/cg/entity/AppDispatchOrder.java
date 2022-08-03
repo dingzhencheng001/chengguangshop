@@ -45,6 +45,9 @@ public class AppDispatchOrder implements Serializable {
     @ApiModelProperty(value = "商品id")
     private Long traditionGoodsId;
 
+    @ApiModelProperty(value = "流水号")
+    private String serialNumber;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -151,6 +154,14 @@ public class AppDispatchOrder implements Serializable {
         this.traditionGoodsId = traditionGoodsId;
     }
 
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -170,6 +181,7 @@ public class AppDispatchOrder implements Serializable {
         sb.append(", createBy=").append(createBy);
         sb.append(", orderStatus=").append(orderStatus);
         sb.append(", traditionGoodsId=").append(traditionGoodsId);
+        sb.append(", serialNumber=").append(serialNumber);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

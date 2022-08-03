@@ -1,5 +1,7 @@
 package my.fast.admin.cg.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -39,24 +41,25 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
-        //先入派单业务表库
-        AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
-        for (DispatchOrderParam orderParam : dispatchOrderParam) {
-            BeanUtils.copyProperties(orderParam, appDispatchOrder);
-            appDispatchOrder.setCreateTime(DateFormat.getNowDate());
-            appDispatchOrderMapper.insert(appDispatchOrder);
-        }
         AppAssignGoods appAssignGoods = new AppAssignGoods();
+        AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {
             //根据价格范围随机生成商品
             AppGoods appGoods = appGoodsMapper.randomGoodsByExample(orderParam);
             if(!StringUtils.isEmpty(appGoods)){
+                String orderSn = generateOrderSn();
                 BeanUtils.copyProperties(appGoods, appAssignGoods);
                 appAssignGoods.setHinder(orderParam.getHinder());
                 appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
                 appAssignGoods.setMemberId(orderParam.getMemberId());
+                appAssignGoods.setSerialNumber(orderSn);
                 //插入派单商品库
                 appAssignGoodsMapper.insert(appAssignGoods);
+                //先入派单业务表库
+                BeanUtils.copyProperties(orderParam, appDispatchOrder);
+                appDispatchOrder.setCreateTime(DateFormat.getNowDate());
+                appDispatchOrder.setSerialNumber(orderSn);
+                appDispatchOrderMapper.insert(appDispatchOrder);
             }else {
                 throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
             }
@@ -67,6 +70,23 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     @Override
     public List<AppDispatchOrder> getOrderList(Long channelId, Long memberId) {
         return appDispatchOrderMapper.selectOrderList(channelId,memberId);
+    }
+
+    /**
+     * 生成订单编号
+     */
+    public String generateOrderSn() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PD");
+        String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        sb.append(date);
+        int num = 0;
+        for (int i = 0; i < 5000; i++) {
+            num = (int) ((Math.random() * 9 + 1) * 100000);
+        }
+        String num_str = String.valueOf(num);
+        sb.append(num_str);
+        return sb.toString();
     }
 
 }

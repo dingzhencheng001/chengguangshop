@@ -895,6 +895,76 @@ public class AppDispatchOrderExample {
             addCriterion("tradition_goods_id not between", value1, value2, "traditionGoodsId");
             return (Criteria) this;
         }
+
+        public Criteria andSerialNumberIsNull() {
+            addCriterion("serial_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberIsNotNull() {
+            addCriterion("serial_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberEqualTo(String value) {
+            addCriterion("serial_number =", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberNotEqualTo(String value) {
+            addCriterion("serial_number <>", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberGreaterThan(String value) {
+            addCriterion("serial_number >", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("serial_number >=", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberLessThan(String value) {
+            addCriterion("serial_number <", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberLessThanOrEqualTo(String value) {
+            addCriterion("serial_number <=", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberLike(String value) {
+            addCriterion("serial_number like", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberNotLike(String value) {
+            addCriterion("serial_number not like", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberIn(List<String> values) {
+            addCriterion("serial_number in", values, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberNotIn(List<String> values) {
+            addCriterion("serial_number not in", values, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberBetween(String value1, String value2) {
+            addCriterion("serial_number between", value1, value2, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberNotBetween(String value1, String value2) {
+            addCriterion("serial_number not between", value1, value2, "serialNumber");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
