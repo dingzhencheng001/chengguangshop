@@ -18,7 +18,7 @@
                             <input name="lno" value="" placeholder="请输入订单号" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">ID</label>
+                        <label class="layui-form-label">会员ID</label>
                         <div class="layui-input-inline">
                             <input name="memberId" value="" placeholder="请输入会员ID" class="layui-input">
                         </div>
@@ -73,9 +73,18 @@
                 , {field: 'goodsName', title: '商品名称'}
                 , {field: 'goodsCount', title: '商品数量', sort: true}
                 , {field: 'shopName', title: '商店名称'}
-                , {field: 'balance', title: '余额', sort: true}
-                , {field: 'amount', title: '交易金额', sort: true}
-                , {field: 'commission', title: '佣金', sort: true}
+                , {field: 'balance', title: '余额', templet: function (d) {
+                        return $.financial(d.balance)
+                    }, sort: true}
+                , {field: 'amount', title: '交易金额', templet: function (d) {
+                        return $.financial(d.amount)
+                    }, sort: true}
+                , {field: 'commission', title: '佣金', templet: function (d) {
+                        return $.financial(d.commission)
+                    }, sort: true}
+                , {field: 'x', title: '交易后金额', templet: function (d) {
+                        return $.financial(d.balance + d.commission)
+                    }, width: 120, sort: true}
                 , {field: 'addtime', title: '下单时间', width: 180, templet: function (d) {
                         return layui.util.toDateString(d.addtime, 'yyyy年MM月dd日 HH:mm:ss')
                     } }

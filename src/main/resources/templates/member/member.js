@@ -20,6 +20,20 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var bankCardInfoIndex;
 	var sendMessageIndex;
 
+	var memberLevelOptions = [
+		{ name: '普通会员', value: 1 },
+		{ name: '黄金会员', value: 2 },
+		{ name: '铂金会员', value: 3 },
+		{ name: '钻石会员', value: 4 },
+		{ name: '至尊会员', value: 5 },
+	];
+	memberLevelOptions.forEach(function (item) {
+		var option = document.createElement('option');
+		option.setAttribute('value', item.value);
+		option.innerText = item.name;
+		$('#memberLevelSelect').append(option);
+	});
+
 	laydate.render({
 		elem: '#registrationTime',
 		range: true //或 range: '~' 来自定义分割字符
@@ -128,20 +142,30 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		contentType: 'application/json',
 		page: true, //开启分页
 		where: where,
-		lineStyle: 'height: 100px;',
+		lineStyle: 'height: 100px; padding-bottom: 0;',
 		// ID	账号	会员等级	账户余额	提现	冻结金额	上级用户	邀请码	注册信息	操作
 		cols: [[ //表头
 			{type: 'checkbox', fixed: 'left'}
 			, {field: 'id', title: 'ID', sort: true}
 			, {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
-			, {field: 'memberLevelId', title: '会员等级', templet: '#memberLevelId', sort: true, width: 110}
+			, {field: 'memberLevelId', title: '会员等级', templet: function (d) {
+					var name = $.findName(memberLevelOptions, d.memberLevelId);
+					// mate_min  mate_max
+					var min = d.mate_min || 0;
+					var max = d.mate_max || 0;
+					return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
+				}, sort: true, width: 110}
 			, {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
-			, {field: 'depositNum', title: '提现', sort: true, minWidth: 120}
-			, {field: 'freezeBalance', title: '冻结金额', sort: true, minWidth: 120}
+			, {field: 'depositNum', title: '提现', templet: function (d) {
+					return $.financial(d.depositNum)
+				}, sort: true, minWidth: 120}
+			, {field: 'freezeBalance', title: '冻结金额', templet: function (d) {
+					return $.financial(d.freezeBalance)
+				}, sort: true, minWidth: 120}
 			, {field: 'parentUserName', title: '上级用户', sort: true, minWidth: 120}
 			, {field: 'inviteCode', title: '邀请码', templet: '#inviteCode', sort: true, minWidth: 160}
 			, {field: 'registerId', title: '注册信息', templet: '#register', sort: true, minWidth: 160}
-			, {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336}
+			, {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 300 }
 		]],
 		id: memberListTableId, // 容器唯一ID
 	}));
@@ -305,6 +329,9 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'toggleState') { //状态切换
 			// 帐号状态（0正常 1停用）
 			actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
+		} else if (layEvent === 'drawalStatus') { //提现状态切换
+			// 帐号状态（0正常 1停用）
+			actions.onUpdateItem(tableCurrentItem.id, { drawal_status: data.drawal_status === 0 ? 1 : 0})
 		} else if (layEvent === 'addressInfo') { // 地址信息
 			$.request({
 				url: '/action/address/select/' + tableCurrentItem.id,

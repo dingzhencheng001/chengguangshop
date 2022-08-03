@@ -208,3 +208,12 @@ $.findName = function (arr, value) {
     if (!find) return '';
     return find.name;
 }
+
+/**
+ * 金额。保留两位小数点
+ * @param x
+ * @returns {string}
+ */
+$.financial = function (x) {
+    return Number.parseFloat(x || '0').toFixed(2);
+}
