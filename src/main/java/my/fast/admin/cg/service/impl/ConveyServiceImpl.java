@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
@@ -42,11 +43,15 @@ public class ConveyServiceImpl implements ConveyService {
     @Override
     public Long selectFinishOrder(Long memberId, Long channelId) {
         List<AppConvey> appConveys = appConveyMapper.selectFinishOrder(memberId, channelId);
-        Long qiang = appConveys.stream()
-            .map(e -> e.getQiang())
-            .reduce(Long::max)
-            .get();
-        return qiang;
+        if (!StringUtils.isEmpty(appConveys)){
+            Long qiang = appConveys.stream()
+                .map(e -> e.getQiang())
+                .reduce(Long::max)
+                .get();
+            return qiang;
+        }else {
+            return 0L;
+        }
     }
 
     @Override
