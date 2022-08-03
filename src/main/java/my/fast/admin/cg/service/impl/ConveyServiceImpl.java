@@ -40,6 +40,16 @@ public class ConveyServiceImpl implements ConveyService {
     }
 
     @Override
+    public Long selectFinishOrder(Long memberId, Long channelId) {
+        List<AppConvey> appConveys = appConveyMapper.selectFinishOrder(memberId, channelId);
+        Long qiang = appConveys.stream()
+            .map(e -> e.getQiang())
+            .reduce(Long::max)
+            .get();
+        return qiang;
+    }
+
+    @Override
     public int deleteConveyById(Long id) {
         return appConveyMapper.deleteByPrimaryKey(id);
     }

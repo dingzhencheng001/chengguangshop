@@ -42,4 +42,9 @@ public interface ConveyService {
      * 分页查询
      */
     List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Long channelId);
+
+    /**
+     * 根据id查询当日抢单数据
+     */
+    Long selectFinishOrder(Long memberId, Long channelId);
 }

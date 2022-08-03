@@ -37,4 +37,6 @@ public interface AppConveyMapper {
     List<AppConveyDto> selectByConveyByStatus(@Param("appConveyParam")AppConveyParam appConveyParam, @Param("channelId")Long channelId);
 
     List<AppConveyDto> selectUserConvey(AppConveyParam appConveyParam);
+
+    List<AppConvey> selectFinishOrder(@Param("memberId")Long memberId,@Param("channelId")Long channelId);
 }

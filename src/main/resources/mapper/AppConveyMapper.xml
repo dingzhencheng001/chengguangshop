@@ -289,6 +289,13 @@
         from app_convey
         where  member_id = #{memberId,jdbcType=BIGINT},
     </select>
+    <select id="selectFinishOrder" resultType="my.fast.admin.cg.entity.AppConvey">
+        select *
+        from app_convey
+        where TO_DAYS(endtime) = TO_DAYS(now())
+        and member_id = #{memberId,jdbcType=BIGINT}
+        and channel_id = #{channelId,jdbcType=BIGINT}
+    </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_convey
         <set>
