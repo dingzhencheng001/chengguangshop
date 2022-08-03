@@ -1,366 +1,373 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.cg.mapper.AppDispatchOrderMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppDispatchOrder">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
-    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-    <result column="convey_id" jdbcType="BIGINT" property="conveyId" />
-    <result column="distribution_goods_id" jdbcType="BIGINT" property="distributionGoodsId" />
-    <result column="hinder" jdbcType="INTEGER" property="hinder" />
-    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
-    <result column="min_price" jdbcType="DECIMAL" property="minPrice" />
-    <result column="max_price" jdbcType="DECIMAL" property="maxPrice" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
-    <result column="tradition_goods_id" jdbcType="BIGINT" property="traditionGoodsId" />
-      <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppDispatchOrder">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="member_id" jdbcType="BIGINT" property="memberId"/>
+        <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
+        <result column="convey_id" jdbcType="BIGINT" property="conveyId"/>
+        <result column="distribution_goods_id" jdbcType="BIGINT" property="distributionGoodsId"/>
+        <result column="hinder" jdbcType="INTEGER" property="hinder"/>
+        <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity"/>
+        <result column="min_price" jdbcType="DECIMAL" property="minPrice"/>
+        <result column="max_price" jdbcType="DECIMAL" property="maxPrice"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="order_status" jdbcType="INTEGER" property="orderStatus"/>
+        <result column="tradition_goods_id" jdbcType="BIGINT" property="traditionGoodsId"/>
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, member_id, channel_id, convey_id, distribution_goods_id, hinder, order_quantity, 
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , member_id, channel_id, convey_id, distribution_goods_id, hinder, order_quantity,
     min_price, max_price, create_time, create_by, order_status, tradition_goods_id, serial_number
-  </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from app_dispatch_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from app_dispatch_order
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from app_dispatch_order
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample">
-    delete from app_dispatch_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_dispatch_order (member_id, channel_id, convey_id, 
-      distribution_goods_id, hinder, order_quantity, 
-      min_price, max_price, create_time, 
-      create_by, order_status, tradition_goods_id,serial_number
-      )
-    values (#{memberId,jdbcType=BIGINT}, #{channelId,jdbcType=BIGINT}, #{conveyId,jdbcType=BIGINT}, 
-      #{distributionGoodsId,jdbcType=BIGINT}, #{hinder,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER}, 
-      #{minPrice,jdbcType=DECIMAL}, #{maxPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{traditionGoodsId,jdbcType=BIGINT},#{serialNumber,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_dispatch_order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        member_id,
-      </if>
-      <if test="channelId != null">
-        channel_id,
-      </if>
-      <if test="conveyId != null">
-        convey_id,
-      </if>
-      <if test="distributionGoodsId != null">
-        distribution_goods_id,
-      </if>
-      <if test="hinder != null">
-        hinder,
-      </if>
-      <if test="orderQuantity != null">
-        order_quantity,
-      </if>
-      <if test="minPrice != null">
-        min_price,
-      </if>
-      <if test="maxPrice != null">
-        max_price,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="orderStatus != null">
-        order_status,
-      </if>
-      <if test="traditionGoodsId != null">
-        tradition_goods_id,
-      </if>
-        <if test="serialNumber != null">
-            serial_number,
+    </sql>
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="channelId != null">
-        #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="conveyId != null">
-        #{conveyId,jdbcType=BIGINT},
-      </if>
-      <if test="distributionGoodsId != null">
-        #{distributionGoodsId,jdbcType=BIGINT},
-      </if>
-      <if test="hinder != null">
-        #{hinder,jdbcType=INTEGER},
-      </if>
-      <if test="orderQuantity != null">
-        #{orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="minPrice != null">
-        #{minPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="maxPrice != null">
-        #{maxPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createBy != null">
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="orderStatus != null">
-        #{orderStatus,jdbcType=INTEGER},
-      </if>
-      <if test="traditionGoodsId != null">
-        #{traditionGoodsId,jdbcType=BIGINT},
-      </if>
-        <if test="serialNumber != null">
-            #{serialNumber,jdbcType=VARCHAR},
+        <include refid="Base_Column_List"/>
+        from app_dispatch_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
         </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample" resultType="java.lang.Long">
-    select count(*) from app_dispatch_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update app_dispatch_order
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.memberId != null">
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_dispatch_order
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from app_dispatch_order
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample">
+        delete from app_dispatch_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_dispatch_order (member_id, channel_id, convey_id,
+        distribution_goods_id, hinder, order_quantity,
+        min_price, max_price, create_time,
+        create_by, order_status, tradition_goods_id,serial_number
+        )
+        values (#{memberId,jdbcType=BIGINT}, #{channelId,jdbcType=BIGINT}, #{conveyId,jdbcType=BIGINT},
+        #{distributionGoodsId,jdbcType=BIGINT}, #{hinder,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER},
+        #{minPrice,jdbcType=DECIMAL}, #{maxPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+        #{createBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER},
+        #{traditionGoodsId,jdbcType=BIGINT},#{serialNumber,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_dispatch_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                member_id,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="conveyId != null">
+                convey_id,
+            </if>
+            <if test="distributionGoodsId != null">
+                distribution_goods_id,
+            </if>
+            <if test="hinder != null">
+                hinder,
+            </if>
+            <if test="orderQuantity != null">
+                order_quantity,
+            </if>
+            <if test="minPrice != null">
+                min_price,
+            </if>
+            <if test="maxPrice != null">
+                max_price,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="traditionGoodsId != null">
+                tradition_goods_id,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="conveyId != null">
+                #{conveyId,jdbcType=BIGINT},
+            </if>
+            <if test="distributionGoodsId != null">
+                #{distributionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="hinder != null">
+                #{hinder,jdbcType=INTEGER},
+            </if>
+            <if test="orderQuantity != null">
+                #{orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="minPrice != null">
+                #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="maxPrice != null">
+                #{maxPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="traditionGoodsId != null">
+                #{traditionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample"
+            resultType="java.lang.Long">
+        select count(*) from app_dispatch_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update app_dispatch_order
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.memberId != null">
+                member_id = #{record.memberId,jdbcType=BIGINT},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=BIGINT},
+            </if>
+            <if test="record.conveyId != null">
+                convey_id = #{record.conveyId,jdbcType=BIGINT},
+            </if>
+            <if test="record.distributionGoodsId != null">
+                distribution_goods_id = #{record.distributionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="record.hinder != null">
+                hinder = #{record.hinder,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderQuantity != null">
+                order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="record.minPrice != null">
+                min_price = #{record.minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="record.maxPrice != null">
+                max_price = #{record.maxPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createBy != null">
+                create_by = #{record.createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderStatus != null">
+                order_status = #{record.orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.traditionGoodsId != null">
+                tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="record.serialNumber != null">
+                serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update app_dispatch_order
+        set id = #{record.id,jdbcType=BIGINT},
         member_id = #{record.memberId,jdbcType=BIGINT},
-      </if>
-      <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
-      </if>
-      <if test="record.conveyId != null">
         convey_id = #{record.conveyId,jdbcType=BIGINT},
-      </if>
-      <if test="record.distributionGoodsId != null">
         distribution_goods_id = #{record.distributionGoodsId,jdbcType=BIGINT},
-      </if>
-      <if test="record.hinder != null">
         hinder = #{record.hinder,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderQuantity != null">
         order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="record.minPrice != null">
         min_price = #{record.minPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.maxPrice != null">
         max_price = #{record.maxPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.createBy != null">
         create_by = #{record.createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderStatus != null">
         order_status = #{record.orderStatus,jdbcType=INTEGER},
-      </if>
-      <if test="record.traditionGoodsId != null">
         tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT},
-      </if>
-        <if test="record.serialNumber != null">
-            serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update app_dispatch_order
-    set id = #{record.id,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      convey_id = #{record.conveyId,jdbcType=BIGINT},
-      distribution_goods_id = #{record.distributionGoodsId,jdbcType=BIGINT},
-      hinder = #{record.hinder,jdbcType=INTEGER},
-      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
-      min_price = #{record.minPrice,jdbcType=DECIMAL},
-      max_price = #{record.maxPrice,jdbcType=DECIMAL},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_by = #{record.createBy,jdbcType=VARCHAR},
-      order_status = #{record.orderStatus,jdbcType=INTEGER},
-      tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT},
-      serial_number = #{record.serialNumber,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
-    update app_dispatch_order
-    <set>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="channelId != null">
-        channel_id = #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="conveyId != null">
-        convey_id = #{conveyId,jdbcType=BIGINT},
-      </if>
-      <if test="distributionGoodsId != null">
-        distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
-      </if>
-      <if test="hinder != null">
-        hinder = #{hinder,jdbcType=INTEGER},
-      </if>
-      <if test="orderQuantity != null">
-        order_quantity = #{orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="minPrice != null">
-        min_price = #{minPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="maxPrice != null">
-        max_price = #{maxPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createBy != null">
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="orderStatus != null">
-        order_status = #{orderStatus,jdbcType=INTEGER},
-      </if>
-      <if test="traditionGoodsId != null">
-        tradition_goods_id = #{traditionGoodsId,jdbcType=BIGINT},
-      </if>
-        <if test="serialNumber != null">
-            serial_number = #{serialNumber,jdbcType=VARCHAR},
-        </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
-    update app_dispatch_order
-    set member_id = #{memberId,jdbcType=BIGINT},
-      channel_id = #{channelId,jdbcType=BIGINT},
-      convey_id = #{conveyId,jdbcType=BIGINT},
-      distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
-      hinder = #{hinder,jdbcType=INTEGER},
-      order_quantity = #{orderQuantity,jdbcType=INTEGER},
-      min_price = #{minPrice,jdbcType=DECIMAL},
-      max_price = #{maxPrice,jdbcType=DECIMAL},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      order_status = #{orderStatus,jdbcType=INTEGER},
-      tradition_goods_id = #{traditionGoodsId,jdbcType=BIGINT},
-        serial_number = #{serialNumber,jdbcType=VARCHAR},
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
+        update app_dispatch_order
+        <set>
+            <if test="memberId != null">
+                member_id = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="conveyId != null">
+                convey_id = #{conveyId,jdbcType=BIGINT},
+            </if>
+            <if test="distributionGoodsId != null">
+                distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="hinder != null">
+                hinder = #{hinder,jdbcType=INTEGER},
+            </if>
+            <if test="orderQuantity != null">
+                order_quantity = #{orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="minPrice != null">
+                min_price = #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="maxPrice != null">
+                max_price = #{maxPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="traditionGoodsId != null">
+                tradition_goods_id = #{traditionGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
+        update app_dispatch_order
+        set member_id             = #{memberId,jdbcType=BIGINT},
+            channel_id            = #{channelId,jdbcType=BIGINT},
+            convey_id             = #{conveyId,jdbcType=BIGINT},
+            distribution_goods_id = #{distributionGoodsId,jdbcType=BIGINT},
+            hinder                = #{hinder,jdbcType=INTEGER},
+            order_quantity        = #{orderQuantity,jdbcType=INTEGER},
+            min_price             = #{minPrice,jdbcType=DECIMAL},
+            max_price             = #{maxPrice,jdbcType=DECIMAL},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            create_by             = #{createBy,jdbcType=VARCHAR},
+            order_status          = #{orderStatus,jdbcType=INTEGER},
+            tradition_goods_id    = #{traditionGoodsId,jdbcType=BIGINT},
+            serial_number         = #{serialNumber,jdbcType=VARCHAR},
+            where id = #{id,jdbcType=BIGINT}
+    </update>
     <select id="selectOrderList" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
         select *
         from app_dispatch_order
         where TO_DAYS(create_time) = TO_DAYS(now())
         <if test="channelId != null">
             and
-            #{channelId,jdbcType=BIGINT}
+            channel_id = #{channelId,jdbcType=BIGINT}
         </if>
         <if test="memberId != null">
             and
-            #{memberId,jdbcType=BIGINT}
+            member_id = #{memberId,jdbcType=BIGINT}
         </if>
     </select>
 
