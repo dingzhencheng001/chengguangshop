@@ -150,9 +150,9 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			, {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
 			, {field: 'memberLevelId', title: '会员等级', templet: function (d) {
 					var name = $.findName(memberLevelOptions, d.memberLevelId);
-					// mate_min  mate_max
-					var min = d.mate_min || 0;
-					var max = d.mate_max || 0;
+					// mateMin  mateMax
+					var min = d.mateMin || 0;
+					var max = d.mateMax || 0;
 					return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
 				}, sort: true, width: 110}
 			, {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
@@ -331,7 +331,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
 		} else if (layEvent === 'drawalStatus') { //提现状态切换
 			// 帐号状态（0正常 1停用）
-			actions.onUpdateItem(tableCurrentItem.id, { drawal_status: data.drawal_status === 0 ? 1 : 0})
+			actions.onUpdateItem(tableCurrentItem.id, { drawalStatus: data.drawalStatus === 0 ? 1 : 0})
 		} else if (layEvent === 'addressInfo') { // 地址信息
 			$.request({
 				url: '/action/address/select/' + tableCurrentItem.id,
