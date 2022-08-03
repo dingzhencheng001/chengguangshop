@@ -20,7 +20,6 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMemberLevel;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.service.AppChannelService;
-import my.fast.admin.cg.service.AppMemberLevelService;
 import my.fast.admin.cg.service.MemberLevelService;
 import my.fast.admin.framework.utils.DateFormat;
 

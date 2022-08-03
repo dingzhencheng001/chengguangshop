@@ -53,10 +53,34 @@ public class AppMemberLevel implements Serializable {
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
+    
+    @ApiModelProperty(value = "最小匹配区间")
+    private Float mateMin;
+    
+    @ApiModelProperty(value = "最大匹配区间")
+    private Float mateMax;
+    
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    
+    public Float getMateMin() {
+		return mateMin;
+	}
+
+	public void setMateMin(Float mateMin) {
+		this.mateMin = mateMin;
+	}
+
+	public Float getMateMax() {
+		return mateMax;
+	}
+
+	public void setMateMax(Float mateMax) {
+		this.mateMax = mateMax;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -206,6 +230,8 @@ public class AppMemberLevel implements Serializable {
         sb.append(", serviceCharge=").append(serviceCharge);
         sb.append(", pic=").append(pic);
         sb.append(", channelId=").append(channelId);
+        sb.append(", mateMin=").append(mateMin);
+        sb.append(", mateMax=").append(mateMax);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
