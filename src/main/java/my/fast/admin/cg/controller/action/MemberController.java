@@ -127,14 +127,14 @@ public class MemberController {
         if (oldUser == null || oldUser.getChannelId()==null ) {
             return CommonResult.failed("查询错误，会员ID不存在");
         }
-        if(!appMember.getUserAccount().equals(oldUser.getUserAccount())){//原用户名与上送用户名不一致
+        if(appMember.getUserAccount()!=null && !appMember.getUserAccount().equals(oldUser.getUserAccount())){//原用户名与上送用户名不一致
         	//修改会员账号渠道唯一判断
         	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(appMember)))
             {
                 return CommonResult.failed("修改会员" + appMember.getUserAccount() + "失败，该渠道下此账号已存在");
             }
         }
-        if(!appMember.getPhoneNumber().equals(oldUser.getPhoneNumber())){//原手机号与上送手机号不一致
+        if(appMember.getPhoneNumber()!=null && !appMember.getPhoneNumber().equals(oldUser.getPhoneNumber())){//原手机号与上送手机号不一致
         	//修改会员手机号渠道唯一判断
         	if (StringUtils.isNotEmpty(appMember.getPhoneNumber())
                     && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(appMember)))
