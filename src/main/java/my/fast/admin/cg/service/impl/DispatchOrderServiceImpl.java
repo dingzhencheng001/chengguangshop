@@ -72,6 +72,17 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         return appDispatchOrderMapper.selectOrderList(channelId,memberId);
     }
 
+    @Override
+    public int checkPrice(DispatchOrderParam dispatchOrderParam) throws Exception {
+            //生成随机商品
+            AppGoods appGoods = appGoodsMapper.randomGoodsByExample(dispatchOrderParam);
+            //如果为空则报错
+            if(StringUtils.isEmpty(appGoods)){
+                throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+            }
+            return 1;
+    }
+
     /**
      * 生成订单编号
      */

@@ -89,6 +89,19 @@ public class DispatchOrderController {
         return CommonResult.success(orderList);
     }
 
+    @ApiOperation(value = "派单商品价格校验")
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult checkPrice(@RequestBody DispatchOrderParam dispatchOrderParam)
+    throws Exception {
+        int count  = dispatchOrderService.checkPrice(dispatchOrderParam);
+        if (count == 1) {
+            return CommonResult.success(null);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
 
 
 }

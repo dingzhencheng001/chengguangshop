@@ -30,4 +30,10 @@ public interface DispatchOrderService {
      * @param memberId
      */
     List<AppDispatchOrder> getOrderList(Long channelId, Long memberId);
+
+    /**
+     * 商品价格校验
+     */
+    int checkPrice(DispatchOrderParam dispatchOrderParam) throws Exception;
+
 }
