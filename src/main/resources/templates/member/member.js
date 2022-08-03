@@ -1,4 +1,3 @@
-
 layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var table = layui.table, $ = layui.$, form = layui.form;
 	var laydate = layui.laydate;
@@ -51,38 +50,8 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		}
 	});
 
-	var dispatchList = [
-		{
-			num: 1,
-			min: '',
-			max: '',
-			lock: false,
-		},
-		{
-			num: 2,
-			min: '',
-			max: '',
-			lock: false,
-		},
-		{
-			num: 3,
-			min: '',
-			max: '',
-			lock: false,
-		},
-		{
-			num: 4,
-			min: '',
-			max: '',
-			lock: false,
-		},
-		{
-			num: 5,
-			min: '',
-			max: '',
-			lock: false,
-		},
-	]
+	// 派单列表数据
+	var dispatchList = []
 	var dispatchDemo = document.getElementById('dispatchDemo');
 	var getTpl = dispatchDemo.innerHTML;
 	var dispatchListView = document.getElementById('dispatchListView');
@@ -101,15 +70,16 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		// var list = [];
 		console.log('f', fd);
 		var list = dispatchList.map((item, index) => {
-			var num = fd['num['+ index + ']'] || '';
-			var min = fd['min['+ index + ']'] || '';
-			var max = fd['max['+ index + ']'] || '';
-			var lock = fd['lock['+ index + ']'] || '';
+			var orderQuantity = fd['orderQuantity['+ index + ']'] || '';
+			var minPrice = fd['minPrice['+ index + ']'] || '';
+			var maxPrice = fd['maxPrice['+ index + ']'] || '';
+			var hinder = fd['hinder['+ index + ']'] ? 1 : 2;
 			return {
-				num: num,
-				min: min,
-				max: max,
-				lock: lock,
+				memberId: tableCurrentItem.id,
+				orderQuantity: orderQuantity,
+				minPrice: minPrice,
+				maxPrice: maxPrice,
+				hinder: hinder, // 是否卡单1.卡单2.不卡单
 			};
 		});
 		return list;
@@ -119,16 +89,28 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		// var l = newDispatchList.length;
 		// for (var i = l; i < (l + 5); i++) {
 		newDispatchList.push({
-			num: newDispatchList.length + 1,
-			min: '',
-			max: '',
-			lock: false,
+			memberId: tableCurrentItem.id,
+			orderQuantity: '',
+			minPrice: '',
+			maxPrice: '',
+			hinder: 2,
 		})
 		// }
 		renderDispatchList(newDispatchList);
 		dispatchList = newDispatchList;
 	}
 	$('#addDispatchItem').click(onAddDispatchItem)
+
+	var onDispatchCheck = function (data) {
+		$.request({
+			url: '/action/dispatch/check',
+			type: 'post',
+			data: data,
+			success: function () {
+
+			}
+		})
+	}
 
 
 	var where = {};
@@ -272,6 +254,41 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				area: ['800px', '500px'],
 				content: $('#dispatchId'),
 				success: function () {
+
+					$.request({
+						url: '/action/convey/qiang?memberId=' + tableCurrentItem.id,
+						success: function (result) {
+							// 该用户今日已抢单
+							var n = result.data || 0;
+							$('#dispatchText').text(' 该用户今日已抢单：'+ n +'单 ## 卡单起始单数 ' + n + 1)
+						}
+					});
+
+					$.request({
+						url: '/action/dispatch/list?memberId=' + tableCurrentItem.id,
+						success: function (result) {
+							var newDispatchList = result.data || [];
+							// if (newDispatchList.length < 5) {
+							//     var l = newDispatchList.length;
+							//     var orderQuantitys = newDispatchList.map(function (item) {
+							//         return item.orderQuantity;
+							//     })
+							//     var max = Math.max.apply(null, orderQuantitys)
+							//     for (var i = 0; i < 5 - l; i++) {
+							//         newDispatchList.push({
+							//             memberId: tableCurrentItem.id,
+							//             orderQuantity: max + i + 1,
+							//             minPrice: '',
+							//             maxPrice: '',
+							//             hinder: 2,
+							//         })
+							//     }
+							// }
+							renderDispatchList(newDispatchList);
+							dispatchList = newDispatchList;
+							console.log('result', result.data);
+						}
+					})
 					$('#dispatchId').show();
 				},
 				cancel: function () {
@@ -457,15 +474,35 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 
 	// 派单-提交
 	form.on('submit(dispatchSubmit)', function (data) {
-		var fd = onGetDispatchFormData();
+		var fd = onGetDispatchFormData().map(function (item) {
+			item.minPrice = Number(item.minPrice);
+			item.maxPrice = Number(item.maxPrice);
+			item.hinder = Number(item.hinder);
+			item.orderQuantity = Number(item.orderQuantity);
+			return item;
+		});
 		console.log('fd', fd);
-		layer.msg('开发中');
+		$.request({
+			url: '/action/dispatch/assign',
+			type: 'post',
+			data: fd,
+			showLoading: true,
+			success: function (result) {
+				console.log(result);
+				onDispatchCancel();
+				actions.onReloadData();
+				layer.msg('派单成功', {icon: 1});
+			}
+		})
 		return false;
 	});
-	// 派单-取消
-	$('#dispatchCancel').click(function () {
+	var onDispatchCancel = function () {
+		dispatchList = [];
+		renderDispatchList(dispatchList);
 		layer.close(dispatchIndex);
-	});
+	}
+	// 派单-取消
+	$('#dispatchCancel').click(onDispatchCancel);
 
 
 	// 编辑-提交

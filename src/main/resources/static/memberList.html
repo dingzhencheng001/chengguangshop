@@ -150,7 +150,7 @@
     <!--派单-->
     <div id="dispatchId" style="display: none">
         <form class="layui-form layui-card" lay-filter="dispatchForm" >
-            <h3 style="padding: 10px 0 0 45px; color: red;"> 该用户今日已抢单：0单 ## 卡单起始单数 1</h3>
+            <h3 style="padding: 10px 0 0 45px; color: red;" id="dispatchText"> 该用户今日已抢单：0单 ## 卡单起始单数 1</h3>
             <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
             <div class="layui-card-body">
                 <div id="dispatchListView"></div>
@@ -594,7 +594,7 @@
             // for (var i = l; i < (l + 5); i++) {
                 newDispatchList.push({
                     memberId: tableCurrentItem.id,
-                    orderQuantity: newDispatchList.length + 1,
+                    orderQuantity: '',
                     minPrice: '',
                     maxPrice: '',
                     hinder: 2,
@@ -762,7 +762,9 @@
                         $.request({
                             url: '/action/convey/qiang?memberId=' + tableCurrentItem.id,
                             success: function (result) {
-                                
+                                // 该用户今日已抢单
+                                var n = result.data || 0;
+                                $('#dispatchText').text(' 该用户今日已抢单：'+ n +'单 ## 卡单起始单数 ' + n + 1)
                             }
                         });
 
@@ -987,21 +989,24 @@
             $.request({
                 url: '/action/dispatch/assign',
                 type: 'post',
-                data: fd.filter(function (item) {
-                    return item.orderQuantity === 3
-                }),
+                data: fd,
                 showLoading: true,
                 success: function (result) {
                     console.log(result);
+                    onDispatchCancel();
+                    actions.onReloadData();
+                    layer.msg('派单成功', {icon: 1});
                 }
             })
-            layer.msg('开发中');
             return false;
         });
-        // 派单-取消
-        $('#dispatchCancel').click(function () {
+        var onDispatchCancel = function () {
+            dispatchList = [];
+            renderDispatchList(dispatchList);
             layer.close(dispatchIndex);
-        });
+        }
+        // 派单-取消
+        $('#dispatchCancel').click(onDispatchCancel);
 
 
         // 编辑-提交
