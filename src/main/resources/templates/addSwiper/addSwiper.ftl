@@ -26,22 +26,22 @@
 				</div>
 
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">图片描述</label>
+					<label class="layui-form-label">选择添加类型</label>
 					<div class="layui-input-block">
-						<input name="content" lay-filter="content" required placeholder="请输入图片描述" value="" lay-verify="required" class="layui-input" />
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label">选择图片类型</label>
-					<div class="layui-input-block">
-						<select name="pictureType" lay-verify="required">
+						<select name="pictureType" lay-filter="pictureType" lay-verify="required">
 							<option value=""></option>
 							<option value="1">首页展示</option>
 							<option value="2">底部展示</option>
 							<option value="3">LOGO</option>
 							<option value="4">其他</option>
 						</select>
+					</div>
+				</div>
+
+					<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">图片描述</label>
+					<div class="layui-input-block">
+						<input name="content" lay-filter="content" required placeholder="请输入图片描述" value="" lay-verify="required" class="layui-input" />
 					</div>
 				</div>
 
@@ -64,6 +64,7 @@
 	</div>
 	</form>
 	</div>
+
 
 	<!--编辑表单-->
 	<div id="editId" style="display: none">
@@ -116,9 +117,68 @@
 		</form>
 	</div>
 
+		<#--  纯文本  -->
+	<div id="createTextId" style="display: none;height:380px">
+		<form class="layui-form layui-card" lay-filter="addTextForm">
+			<div class="layui-card-body">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">文本标题</label>
+					<div class="layui-input-block">
+						<input name="title" lay-filter="title" required placeholder="请输入图片标题" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">文本描述</label>
+					<div class="layui-input-block">
+						<textarea id="addTextarea" placeholder="请输入内容" name="content" ></textarea>
+					</div>
+				</div>
+
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button type="button" class="layui-btn" lay-submit lay-filter="createTextSubmit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="createTextCancel">取消</button>
+				</div>
+			</div>
+	</div>
+	</form>
+	</div>
+
+	<div id="editTextId" style="display: none;height:380px">
+		<form class="layui-form layui-card" lay-filter="editTextForm">
+			<div class="layui-card-body">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">文本标题</label>
+					<div class="layui-input-block">
+						<input name="title" lay-filter="title" required placeholder="请输入图片标题" value="" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label label-required label-required-next">文本描述</label>
+					<div class="layui-input-block">
+						<textarea id="addTextarea" placeholder="请输入内容" name="content" ></textarea>
+					</div>
+				</div>
+
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button type="button" class="layui-btn" lay-submit lay-filter="editTextSubmit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="editTextCancel">取消</button>
+				</div>
+			</div>
+	</div>
+	</form>
+	</div>
+
+
 
 	<div class="layui-btn-container" style="margin-top: 20px;">
 		<button class="layui-btn" id="createBtn">添加图片</button>
+		<button class="layui-btn" id="createTextBtn">添加纯文本</button>
 	</div>
 
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
@@ -147,13 +207,15 @@
 			return '首页展示'
 		} else if (d.pictureType == 2) {
 			return '底部展示'
-		} else if (d.pictureType == 2) {
+		} else if (d.pictureType == 3) {
 			return 'LOGO'
-		} else if (d.pictureType == 2) {
+		} else if (d.pictureType == 4) {
 			return '其他'
+		}else if (d.pictureType == 5) {
+			return '纯文本'
 		}}}
 	</div>
-		
+
 	</script>
 
 	<script type="text/html" id="updateTime">

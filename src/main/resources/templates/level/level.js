@@ -306,8 +306,8 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			numMin: '',
 			orderNum: '',
 			withdrawalTimes: '',
-			mate_min: '',
-			mate_max: '',
+			mateMin: '',
+			mateMax: '',
 			withdrawalMin: '',
 			withdrawalMax: ''
 		})

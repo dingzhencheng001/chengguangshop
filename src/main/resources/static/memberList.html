@@ -173,13 +173,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">{{index + 1}}: 第几单</label>
             <div class="layui-input-block J_div">
-                <input name="num[{{index}}]" placeholder="第几单" value="{{ item.num }}" class="layui-input J_id_num"
+                <input name="orderQuantity[{{index}}]" placeholder="第几单" value="{{ item.orderQuantity }}" class="layui-input J_id_num"
                        style="display: inline; width: 10%;"/> min(元):
-                <input name="min[{{index}}]" value="{{ item.min }}" placeholder="请输入min" class="layui-input J_min"
+                <input name="minPrice[{{index}}]" value="{{ item.minPrice }}" lay-verify="required" placeholder="请输入min" class="layui-input J_min"
                        style="display: inline; width: 20%;"> max(元):
-                <input name="max[{{index}}]" value="{{ item.max }}" placeholder="请输入max" class="layui-input J_max"
+                <input name="maxPrice[{{index}}]" value="{{ item.maxPrice }}" lay-verify="required" placeholder="请输入max" class="layui-input J_max"
                        style="display: inline; width: 20%;">卡单:
-                <input type="checkbox" name="lock[{{index}}]" {{item.lock ? 'checked' : ''}} value="1" class="layui-input J_sign" lay-filter="lock">
+                <input type="checkbox" name="hinder[{{index}}]" {{item.hinder === 1 ? 'checked' : ''}} value="1" class="layui-input J_sign" lay-filter="lock">
             </div>
         </div>
         {{#  }); }}
@@ -487,7 +487,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">{{=d.drawal_status === 1 ? '正常提现' : '禁止提现'}}</a>
+        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">{{=d.drawalStatus === 1 ? '正常提现' : '禁止提现'}}</a>
         <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
 <!--    </span>-->
 <!--    <span style="display: inline-block">-->
@@ -554,38 +554,8 @@
             }
         });
 
-        var dispatchList = [
-            {
-                num: 1,
-                min: '',
-                max: '',
-                lock: false,
-            },
-            {
-                num: 2,
-                min: '',
-                max: '',
-                lock: false,
-            },
-            {
-                num: 3,
-                min: '',
-                max: '',
-                lock: false,
-            },
-            {
-                num: 4,
-                min: '',
-                max: '',
-                lock: false,
-            },
-            {
-                num: 5,
-                min: '',
-                max: '',
-                lock: false,
-            },
-        ]
+        // 派单列表数据
+        var dispatchList = []
         var dispatchDemo = document.getElementById('dispatchDemo');
         var getTpl = dispatchDemo.innerHTML;
         var dispatchListView = document.getElementById('dispatchListView');
@@ -604,15 +574,16 @@
             // var list = [];
             console.log('f', fd);
             var list = dispatchList.map((item, index) => {
-                var num = fd['num['+ index + ']'] || '';
-                var min = fd['min['+ index + ']'] || '';
-                var max = fd['max['+ index + ']'] || '';
-                var lock = fd['lock['+ index + ']'] || '';
+                var orderQuantity = fd['orderQuantity['+ index + ']'] || '';
+                var minPrice = fd['minPrice['+ index + ']'] || '';
+                var maxPrice = fd['maxPrice['+ index + ']'] || '';
+                var hinder = fd['hinder['+ index + ']'] ? 1 : 2;
                 return {
-                    num: num,
-                    min: min,
-                    max: max,
-                    lock: lock,
+                    memberId: tableCurrentItem.id,
+                    orderQuantity: orderQuantity,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    hinder: hinder, // 是否卡单1.卡单2.不卡单
                 };
             });
             return list;
@@ -622,16 +593,28 @@
             // var l = newDispatchList.length;
             // for (var i = l; i < (l + 5); i++) {
                 newDispatchList.push({
-                    num: newDispatchList.length + 1,
-                    min: '',
-                    max: '',
-                    lock: false,
+                    memberId: tableCurrentItem.id,
+                    orderQuantity: newDispatchList.length + 1,
+                    minPrice: '',
+                    maxPrice: '',
+                    hinder: 2,
                 })
             // }
             renderDispatchList(newDispatchList);
             dispatchList = newDispatchList;
         }
         $('#addDispatchItem').click(onAddDispatchItem)
+        
+        var onDispatchCheck = function (data) {
+            $.request({
+                url: '/action/dispatch/check',
+                type: 'post',
+                data: data,
+                success: function () {
+
+                }
+            })
+        }
 
 
         var where = {};
@@ -653,9 +636,9 @@
                 , {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
                 , {field: 'memberLevelId', title: '会员等级', templet: function (d) {
                         var name = $.findName(memberLevelOptions, d.memberLevelId);
-                        // mate_min  mate_max
-                        var min = d.mate_min || 0;
-                        var max = d.mate_max || 0;
+                        // mateMin  mateMax
+                        var min = d.mateMin || 0;
+                        var max = d.mateMax || 0;
                         return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
                     }, sort: true, width: 110}
                 , {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
@@ -775,6 +758,39 @@
                     area: ['800px', '500px'],
                     content: $('#dispatchId'),
                     success: function () {
+
+                        $.request({
+                            url: '/action/convey/qiang?memberId=' + tableCurrentItem.id,
+                            success: function (result) {
+                                
+                            }
+                        });
+
+                        $.request({
+                            url: '/action/dispatch/list?memberId=' + tableCurrentItem.id,
+                            success: function (result) {
+                                var newDispatchList = result.data || [];
+                                // if (newDispatchList.length < 5) {
+                                //     var l = newDispatchList.length;
+                                //     var orderQuantitys = newDispatchList.map(function (item) {
+                                //         return item.orderQuantity;
+                                //     })
+                                //     var max = Math.max.apply(null, orderQuantitys)
+                                //     for (var i = 0; i < 5 - l; i++) {
+                                //         newDispatchList.push({
+                                //             memberId: tableCurrentItem.id,
+                                //             orderQuantity: max + i + 1,
+                                //             minPrice: '',
+                                //             maxPrice: '',
+                                //             hinder: 2,
+                                //         })
+                                //     }
+                                // }
+                                renderDispatchList(newDispatchList);
+                                dispatchList = newDispatchList;
+                                console.log('result', result.data);
+                            }
+                        })
                         $('#dispatchId').show();
                     },
                     cancel: function () {
@@ -834,7 +850,7 @@
                 actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
             } else if (layEvent === 'drawalStatus') { //提现状态切换
                 // 帐号状态（0正常 1停用）
-                actions.onUpdateItem(tableCurrentItem.id, { drawal_status: data.drawal_status === 0 ? 1 : 0})
+                actions.onUpdateItem(tableCurrentItem.id, { drawalStatus: data.drawalStatus === 0 ? 1 : 0})
             } else if (layEvent === 'addressInfo') { // 地址信息
                 $.request({
                     url: '/action/address/select/' + tableCurrentItem.id,
@@ -960,8 +976,25 @@
 
         // 派单-提交
         form.on('submit(dispatchSubmit)', function (data) {
-            var fd = onGetDispatchFormData();
+            var fd = onGetDispatchFormData().map(function (item) {
+                item.minPrice = Number(item.minPrice);
+                item.maxPrice = Number(item.maxPrice);
+                item.hinder = Number(item.hinder);
+                item.orderQuantity = Number(item.orderQuantity);
+                return item;
+            });
             console.log('fd', fd);
+            $.request({
+                url: '/action/dispatch/assign',
+                type: 'post',
+                data: fd.filter(function (item) {
+                    return item.orderQuantity === 3
+                }),
+                showLoading: true,
+                success: function (result) {
+                    console.log(result);
+                }
+            })
             layer.msg('开发中');
             return false;
         });
