@@ -77,7 +77,7 @@
         var tableId = 'tableId';
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#tableId',
-            url: 'http://localhost:8080/action/withdrawal/list', //数据接口
+            url: '/action/withdrawal/list', //数据接口
             where: where,
             method: 'post',
             contentType: 'application/json',
