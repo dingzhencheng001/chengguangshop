@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
@@ -37,19 +36,19 @@ public class ConveyServiceImpl implements ConveyService {
     @Override
     public List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Long channelId) {
         PageHelper.startPage(appConveyParam.getPageNum(), appConveyParam.getPageSize());
-        return appConveyMapper.selectByConveyByStatus(appConveyParam,channelId);
+        return appConveyMapper.selectByConveyByStatus(appConveyParam, channelId);
     }
 
     @Override
     public Long selectFinishOrder(Long memberId, Long channelId) {
         List<AppConvey> appConveys = appConveyMapper.selectFinishOrder(memberId, channelId);
-        if (!StringUtils.isEmpty(appConveys)){
+        if (appConveys != null && appConveys.size() > 0) {
             Long qiang = appConveys.stream()
                 .map(e -> e.getQiang())
                 .reduce(Long::max)
                 .get();
             return qiang;
-        }else {
+        } else {
             return 0L;
         }
     }
