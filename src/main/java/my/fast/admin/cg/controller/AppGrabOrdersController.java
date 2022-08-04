@@ -22,6 +22,7 @@ import my.fast.admin.cg.model.AppRandomOrderParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppGrabOrdersService;
 import my.fast.admin.cg.service.AppMemberService;
+import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.TokenUtils;
 
 /**
@@ -61,11 +62,16 @@ public class AppGrabOrdersController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
-        appRandomOrderParam.setMemberId(appUserVO.getId());
-        appRandomOrderParam.setChannelId(channelId);
-        Map<String, Object> appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
-        return CommonResult.success(appGoods);
+        //判断该账户提现状态是否正常
+        if (CommonUtils.moneyComp(appUserVO.getBalance(),appUserVO.getLimitAmount())) {
+            AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
+            appRandomOrderParam.setMemberId(appUserVO.getId());
+            appRandomOrderParam.setChannelId(channelId);
+            Map<String, Object> appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
+            return CommonResult.success(appGoods);
+        }else {
+            return CommonResult.failed("账户余额无法支付抢单商品,请充值后抢单!");
+        }
     }
 
     @ApiOperation(value = "提交随机生成的订单")

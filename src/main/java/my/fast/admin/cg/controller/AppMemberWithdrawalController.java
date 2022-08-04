@@ -55,7 +55,7 @@ public class AppMemberWithdrawalController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("用户未登录");
         }
-        //判断改账户提现状态是否正常
+        //判断该账户提现状态是否正常
         if (!"0".equals(appUserVO.getDrawalStatus())) {
             return CommonResult.failed("该用户账号被禁止提现，请联系管理员");
         }
