@@ -48,6 +48,9 @@ public class AppDispatchOrder implements Serializable {
     @ApiModelProperty(value = "流水号")
     private String serialNumber;
 
+    @ApiModelProperty(value = "订单完成时间")
+    private Date finishTime;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -162,6 +165,14 @@ public class AppDispatchOrder implements Serializable {
         this.serialNumber = serialNumber;
     }
 
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -182,6 +193,7 @@ public class AppDispatchOrder implements Serializable {
         sb.append(", orderStatus=").append(orderStatus);
         sb.append(", traditionGoodsId=").append(traditionGoodsId);
         sb.append(", serialNumber=").append(serialNumber);
+        sb.append(", finishTime=").append(finishTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
