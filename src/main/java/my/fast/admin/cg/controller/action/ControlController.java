@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonResult;
@@ -29,6 +31,14 @@ public class ControlController {
 
     @Autowired
     private AppChannelService appChannelService;
+
+
+		@RequestMapping("/lists")
+    public Object lists() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("transactionControl/transactionControl");
+        return mav;
+    }
 
 
     @ApiOperation(value = "获取渠道交易控制信息")

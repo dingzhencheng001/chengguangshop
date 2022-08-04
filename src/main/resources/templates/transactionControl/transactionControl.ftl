@@ -4,27 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>交易控制</title>
-	<script src="plugins/jquery/jquery-3.2.0.min.js"></script>
-	<link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all" />
-	<script src="plugins/layui-v2.7.5/layui.js"></script>
-
-	<!-- 图标库 -->
-	<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all" />
-	<!-- ztree -->
-	<link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css" />
-	<script src="plugins/ztree/js/jquery.ztree.all.js"></script>
-	<!-- 下拉列表 -->
-	<script src="js/common/combobox.js"></script>
-	<script src="js/common/inputTree.js"></script>
-	<!-- 全局属性 -->
-	<script src="js/common/setting.js"></script>
-	<script src="js/common/app.js"></script>
-	<!-- css -->
-	<link rel="stylesheet" href="css/app.css" />
-	<!-- 加载formSelects -->
-	<link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css" />
-	<script src="plugins/formSelects/formSelects-v4.js"></script>
-	<link rel="stylesheet" href="css/console.css" />
+	<#include "../resource.ftl"/>
 </head>
 
 <body>
@@ -255,7 +235,7 @@
 			$(document).ready(function () {
 				console.log('页面加载')
 				$.ajax({
-					url: 'http://localhost:8080/action/control/select',
+					url: '/action/control/select',
 					type: 'POST',
 					success: function (res) {
 						startRang = res.data.startRang, endRang = res.data.endRang
@@ -282,7 +262,7 @@
 				data.field.startRang = $('#min').val();
 				data.field.endRang = $('#max').val();
 				$.ajax({
-					url: 'http://localhost:8080/action/control/save',
+					url: '/action/control/save',
 					type: 'POST',
 					data: JSON.stringify(data.field),
 					dataType: "json",
