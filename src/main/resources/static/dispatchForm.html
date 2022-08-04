@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>派单</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" media="all"/>
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugins/ztree/css/metroStyle/metroStyle.css"/>
+    <script src="plugins/ztree/js/jquery.ztree.all.js"></script>
+    <!-- 下拉列表 -->
+    <script src="js/common/combobox.js"></script>
+    <script src="js/common/inputTree.js"></script>
+    <!-- 全局属性 -->
+    <script src="js/common/setting.js"></script>
+    <script src="js/common/app.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- 加载formSelects -->
+    <link rel="stylesheet" href="plugins/formSelects/formSelects-v4.css"/>
+    <script src="plugins/formSelects/formSelects-v4.js"></script>
+    <link rel="stylesheet" href="css/console.css"/>
+</head>
+<body>
+<div id="dispatchId">
+    <form class="layui-form layui-card" lay-filter="form" >
+        <h3 style="padding: 10px 0 0 45px; color: red;" id="dispatchText"> 该用户今日已抢单：0单 ## 卡单起始单数 1</h3>
+        <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
+        <div class="layui-card-body">
+            <div id="dispatchListView"></div>
+            <div>
+                <button type="button" id="addDispatchItem" class="layui-btn layui-btn-sm" style="margin-left: 504px">
+                    <i class="layui-icon">&#xe654;</i>添加卡单
+                </button>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="layui-form-item text-center" style="text-align: center;">
+                <button class="layui-btn" lay-submit lay-filter="dispatchSubmit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-danger" id="dispatchCancel">取消</button>
+            </div>
+        </div>
+    </form>
+    <style>
+        .order-status-1{
+            color: #ccc;
+        }
+        .order-status-1 .layui-input{
+            color: #ccc;
+        }
+    </style>
+</div>
+
+<script id="dispatchDemo" type="text/html">
+    {{#  layui.each(d.list, function(index, item){ }}
+    <div class="layui-form-item order-status-{{item.orderStatus}}">
+        <label class="layui-form-label">{{index + 1}}: 第几单</label>
+        <div class="layui-input-block">
+            <input name="orderQuantity[{{index}}]" placeholder="第几单"
+                   lay-verify="orderQuantity"
+                   lay-verType="tips"
+                   value="{{ item.orderQuantity }}" class="layui-input order-quantity"
+                   {{ item.orderStatus === 1 ? 'disabled' : '' }}
+                   style="display: inline; width: 10%;"/> min(元):
+            <input name="minPrice[{{index}}]"
+                   lay-verType="tips"
+                   lay-change="minPrice"
+                   value="{{ item.minPrice }}"
+                   lay-verify="required|minPrice" placeholder="请输入min" class="layui-input min-price min-price-{{index}}"
+                   {{ item.orderStatus === 1 ? 'disabled' : '' }}
+                   style="display: inline; width: 20%;"> max(元):
+            <input name="maxPrice[{{index}}]" value="{{ item.maxPrice }}" lay-verify="required|maxPrice"
+                   lay-verType="tips"
+                   lay-change="maxPrice"
+                   placeholder="请输入max" class="layui-input max-price max-price{{index}}"
+                   {{ item.orderStatus === 1 ? 'disabled' : '' }}
+                   style="display: inline; width: 20%;">卡单:
+            <input type="checkbox" name="hinder[{{index}}]" value="1" class="layui-input" lay-filter="lock"
+                   {{item.hinder === 1 ? 'checked' : ''}} {{ item.orderStatus === 1 ? 'disabled' : '' }} >
+
+            <!--隐藏的字段，编辑时需要-->
+            <input name="id[{{index}}]"  value="{{ item.id }}" class="layui-input" style="display: none" >
+            <input name="serialNumber[{{index}}]"  value="{{ item.serialNumber }}" class="layui-input" style="display: none" >
+            <input name="orderStatus[{{index}}]"  value="{{ item.orderStatus }}" class="layui-input" style="display: none" >
+
+            {{# if(item.validPrice) { }}
+                <a class="valid-price" style="color:{{item.validPrice === 1 ? 'green' : 'red'}}">
+                    {{item.validPrice === 1 ? '价格校验通过' : '请重新输入价格'}}</a>
+            {{# } }}
+        </div>
+    </div>
+    {{#  }); }}
+    {{#  if(d.list.length === 0){ }}
+    无数据
+    {{#  } }}
+</script>
+
+<script>
+
+    layui.use(['form', 'laytpl', 'util'], function () {
+        var $ = layui.$, form = layui.form, laytpl = layui.laytpl;
+        var util = layui.util;
+        var params = $.getUrlVars();
+        var id = params.id ? Number(params.id) : 15;
+        var original = [];
+        var focusIndex;
+
+        // 是否重复
+        var isRepeat = function (arr, value) {
+            var f = (arr || []).filter(function (item) {
+                return item === value;
+            })
+            return f.length > 0
+        }
+        
+        form.verify({
+            orderQuantity: function (value, item) {
+                if (!value) {
+                    return '不能为空';
+                }
+                var fd = onGetDispatchFormData();
+                var o = getItemAndIndex(item);
+                var a = fd.slice(0, o.index);
+                var vals = a.map(function (v) { return v.orderQuantity });
+                console.log('o', {o, a, fd, value});
+                var r = isRepeat(vals, Number(value));
+                if (r) {
+                    return '不能重复';
+                }
+            },
+            minPrice: function (value, item) {
+                console.warn('verify minPrice', value);
+            },
+            maxPrice: function (value, item) {
+                console.warn('verify maxPrice', value);
+            }
+        })
+
+
+
+
+        /**
+         *
+         * @param func
+         * @param wait
+         * @param immediate 第一次时，是否立即执行
+         * @returns {function(...[*]): *}
+         */
+        var debounce = function (func, wait, immediate ) {
+            var timeout;
+            var result;
+            var parameter;
+            var previous; // 之前的时间
+            var context;
+            var onRun = function () {
+                var passed = Date.now() - previous;
+                if (passed < wait) {
+                    timeout = setTimeout(onRun, wait - passed);
+                } else {
+                    timeout = null;
+                    if (!immediate) result = func.apply(context, parameter);
+                    if (!timeout) parameter = null;
+                }
+            };
+            var debouncedFunc = function (...ages) {
+                context = this;
+                previous = Date.now();
+                parameter = ages;
+                if (!timeout) {
+                    timeout = setTimeout(onRun, wait);
+                    if (immediate) result = func.apply(context, parameter);
+                }
+                return result;
+            };
+            debouncedFunc.cancel = function () {
+                clearTimeout(timeout);
+                timeout = null;
+                parameter = null;
+            };
+            return debouncedFunc;
+        };
+
+        // 获取当日数据
+        var dispatchList = [];
+        var onGetDetails = function () {
+            $.request({
+                url: '/action/dispatch/list?memberId=' + id,
+                success: function (result) {
+                    var newDispatchList = result.data || [];
+                    original = result.data || [];
+                    if (newDispatchList.length === 0) {
+                        var l = newDispatchList.length;
+                        // var orderQuantitys = newDispatchList.map(function (item) {
+                        //     return item.orderQuantity;
+                        // })
+                        // var max = Math.max.apply(null, orderQuantitys)
+                        for (var i = 0; i < 5 - l; i++) {
+                            newDispatchList.push({
+                                orderQuantity: '',
+                                minPrice: '',
+                                maxPrice: '',
+                                hinder: 2,
+                            })
+                        }
+                    }
+                    dispatchList = newDispatchList;
+                    renderDispatchList(newDispatchList);
+                    console.log('result', result.data);
+                }
+            })
+        };
+        onGetDetails();
+
+        // 渲染模版
+        var dispatchDemo = document.getElementById('dispatchDemo');
+        var getTpl = dispatchDemo.innerHTML;
+        var dispatchListView = document.getElementById('dispatchListView');
+
+        // 渲染列表
+        var renderDispatchList = function (list) {
+            laytpl(getTpl).render({ list: list || dispatchList }, function(html){
+                dispatchListView.innerHTML = html;
+                form.render();
+            });
+        }
+        renderDispatchList(dispatchList);
+
+        var onGetDispatchFormData = function () {
+            var fd = form.val('form');
+            // var list = [];
+            // console.log('f', fd);
+            var list = dispatchList.map((item, index) => {
+                var orderQuantity = fd['orderQuantity['+ index + ']'];
+                var minPrice = fd['minPrice['+ index + ']'];
+                var maxPrice = fd['maxPrice['+ index + ']'];
+                var hinder = fd['hinder['+ index + ']'] ? 1 : 2;
+                var orderStatus = fd['orderStatus['+ index + ']'] || '';
+                var serialNumber = fd['serialNumber['+ index + ']'] || '';
+                var itemId = fd['id['+ index + ']'];
+                return {
+                    memberId: id,
+                    orderQuantity: orderQuantity ? Number(orderQuantity) : '',
+                    minPrice: minPrice ? Number(minPrice) : '',
+                    maxPrice: maxPrice ? Number(maxPrice) : '',
+                    hinder: hinder, // 是否卡单1.卡单2.不卡单
+                    id: itemId ? Number(itemId) : '', // id，编辑时需要
+                    serialNumber: serialNumber, // 流水号id，编辑时需要
+                    orderStatus: Number(orderStatus),
+                };
+            });
+            return list;
+        }
+        // 添加一项
+        var onAddDispatchItem = function () {
+            var newDispatchList = onGetDispatchFormData();
+            newDispatchList.push({
+                orderQuantity: '',
+                minPrice: '',
+                maxPrice: '',
+                hinder: 2,
+            })
+            dispatchList = newDispatchList;
+            renderDispatchList(newDispatchList);
+        }
+        $('#addDispatchItem').click(onAddDispatchItem)
+
+        // 校验全部数据
+        var onValidate = function (cb) {
+            var fd = onGetDispatchFormData().map(function (item) {
+                item.minPrice = Number(item.minPrice);
+                item.maxPrice = Number(item.maxPrice);
+                item.hinder = Number(item.hinder);
+                item.orderQuantity = Number(item.orderQuantity);
+                item.orderStatus = Number(item.orderStatus);
+                return item;
+            });
+            var err;
+            for (var i = 0; i < fd.length; i++) {
+                var item = fd[i];
+                var minPrice = item['minPrice[' + i +']'];
+                var maxPrice = item['maxPrice[' + i +']'];
+                var hinder = item['hinder[' + i +']'];
+                var orderQuantity = item['orderQuantity[' + i +']'];
+                var orderStatus = item['orderStatus[' + i +']'];
+            }
+            if (err) {
+                return false;
+            } else {
+                console.log('校验通过', fd);
+                cb();
+            }
+        }
+
+        var onValidateItem = debounce(function (othis) {
+            var o = getItemAndIndex(othis);
+            var item = o.item;
+            console.warn('onValidateItem', item, othis);
+            if (!item.maxPrice || !item.minPrice) {
+                return;
+            }
+            $.request({
+                url: '/action/dispatch/check',
+                type: 'post',
+                data: item,
+                success: function () {
+                    // layer.msg('校验通过了', {icon: 1});
+                    var newDispatchList = onGetDispatchFormData();
+                    newDispatchList[o.index].validPrice = 1;
+                    dispatchList = newDispatchList;
+                    renderDispatchList(dispatchList);
+                },
+                fail: function (result) {
+                    var msg = result.data || result.message || result.msg;
+                    // layer.msg(msg, {icon: 2});
+                    var newDispatchList = onGetDispatchFormData();
+                    newDispatchList[o.index].validPrice = 2;
+                    dispatchList = newDispatchList;
+                    renderDispatchList(dispatchList);
+                }
+            })
+        }, 1000, false);
+
+        var getItemAndIndex = function (othis) {
+            var formItem = $(othis).parents('.layui-form-item');
+            var i = formItem.index();
+            var fd = onGetDispatchFormData();
+            var item = fd[i];
+            return { item: item, index: i};
+        }
+
+        util.event('lay-change', {
+            minPrice: function(othis){
+                onValidateItem(othis);
+            },
+            maxPrice: function(othis){
+                onValidateItem(othis);
+            },
+        }, 'input')
+
+        // 当前枪单数
+        var onQiang = function () {
+            $.request({
+                url: '/action/convey/qiang?memberId=' + id,
+                success: function (result) {
+                    // 该用户今日已抢单
+                    var n = result.data || 0;
+                    $('#dispatchText').text(' 该用户今日已抢单：'+ n +'单 ## 卡单起始单数 ' + n + 1)
+                }
+            });
+        }
+        onQiang();
+
+        // 派单-提交
+        form.on('submit(dispatchSubmit)', function (data) {
+            onValidate(function () {
+                var fd = onGetDispatchFormData();
+                console.log('fd', fd);
+                $.request({
+                    url: '/action/dispatch/assign',
+                    type: 'post',
+                    data: fd,
+                    showLoading: true,
+                    success: function (result) {
+                        onDispatchCancel();
+                        layer.msg('派单成功', {icon: 1});
+                    }
+                })
+            });
+            return false;
+        });
+        var onDispatchCancel = function () {
+            dispatchList = [];
+            renderDispatchList(dispatchList);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+        }
+        // 派单-取消
+        $('#dispatchCancel').click(onDispatchCancel);
+
+    })
+</script>
+</body>
+</html>

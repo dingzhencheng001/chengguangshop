@@ -121,47 +121,6 @@
         </form>
     </div>
 
-    <!--派单-->
-    <div id="dispatchId" style="display: none">
-        <form class="layui-form layui-card" lay-filter="dispatchForm" >
-            <h3 style="padding: 10px 0 0 45px; color: red;" id="dispatchText"> 该用户今日已抢单：0单 ## 卡单起始单数 1</h3>
-            <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
-            <div class="layui-card-body">
-                <div id="dispatchListView"></div>
-                <div>
-                    <button type="button" id="addDispatchItem" class="layui-btn layui-btn-sm" style="margin-left: 504px">
-                        <i class="layui-icon">&#xe654;</i>添加卡单
-                    </button>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="layui-form-item text-center" style="text-align: center;">
-                    <button class="layui-btn" lay-submit lay-filter="dispatchSubmit">提交</button>
-                    <button type="reset" class="layui-btn layui-btn-danger" id="dispatchCancel">取消</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <script id="dispatchDemo" type="text/html">
-        {{#  layui.each(d.list, function(index, item){ }}
-        <div class="layui-form-item">
-            <label class="layui-form-label">{{index + 1}}: 第几单</label>
-            <div class="layui-input-block J_div">
-                <input name="orderQuantity[{{index}}]" placeholder="第几单" value="{{ item.orderQuantity }}" class="layui-input J_id_num"
-                       style="display: inline; width: 10%;"/> min(元):
-                <input name="minPrice[{{index}}]" value="{{ item.minPrice }}" lay-verify="required" placeholder="请输入min" class="layui-input J_min"
-                       style="display: inline; width: 20%;"> max(元):
-                <input name="maxPrice[{{index}}]" value="{{ item.maxPrice }}" lay-verify="required" placeholder="请输入max" class="layui-input J_max"
-                       style="display: inline; width: 20%;">卡单:
-                <input type="checkbox" name="hinder[{{index}}]" {{item.hinder === 1 ? 'checked' : ''}} value="1" class="layui-input J_sign" lay-filter="lock">
-            </div>
-        </div>
-        {{#  }); }}
-        {{#  if(d.list.length === 0){ }}
-        无数据
-        {{#  } }}
-    </script>
-
     <!--编辑菜单-->
     <div id="editId" style="display: none">
         <form class="layui-form layui-card" lay-filter="editForm">

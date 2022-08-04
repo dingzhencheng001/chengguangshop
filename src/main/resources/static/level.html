@@ -466,7 +466,7 @@
 			//第一个实例
 			table.render({
 				elem: '#level',
-				height: 312,
+				// height: 312,
 				url: 'http://localhost:8080/action/level/list', //数据接口
 				// url: '/levelaction/list?pageNum=1&pageSize=20', //数据接口
 				page: true, //开启分页
@@ -491,7 +491,7 @@
 						{ field: 'withdrawalMin', title: '提现最小金额', width: 120 },
 						{ field: 'withdrawalMax', title: '提现最大金额', width: 120 },
 						{ field: 'registerTime', title: '注册时间', templet: '#register', minWidth: 160 },
-						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
+						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120 }
 					]
 				],
 				parseData: parseData,
