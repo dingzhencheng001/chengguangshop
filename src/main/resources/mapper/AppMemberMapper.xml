@@ -685,7 +685,7 @@
             total_commission  = #{totalCommission,jdbcType=DECIMAL},
             channel_id        = #{channelId,jdbcType=BIGINT},
             limit_amount      = #{limitAmount,jdbcType=DECIMAL},
-            drawal_status     = #{drawalStatus,jdbcType=INTEGER},
+            drawal_status     = #{drawalStatus,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
