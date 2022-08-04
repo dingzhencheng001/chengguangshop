@@ -109,7 +109,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             AppAssignGoods first = appAssignGoods.getFirst();
             appAssignGoodsLinkedList.add(first);
             AppAssignGoods distributionGoods = appAssignGoodsLinkedList.getFirst();
-
             remap.put("distributionGoods", distributionGoods);
             //派单为空,随机生成订单
         } else {
@@ -124,6 +123,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         Object appGoods = new AppGoods();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
+            //先写死,后续从规则里面获取
             BigDecimal rate = new BigDecimal("0.5");
             BigDecimal useBalance = balance.multiply(rate);
             appGoods = appGoodsMapper.randomOrders(useBalance);

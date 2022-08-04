@@ -92,8 +92,22 @@ public class DispatchOrderController {
     @ApiOperation(value = "派单商品价格校验")
     @RequestMapping(value = "/check", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult checkPrice(@RequestBody DispatchOrderParam dispatchOrderParam)
+    public CommonResult checkPrice(@RequestBody DispatchOrderParam dispatchOrderParam,HttpServletRequest request)
     throws Exception {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        dispatchOrderParam.setChannelId(channelId);
         int count  = dispatchOrderService.checkPrice(dispatchOrderParam);
         if (count == 1) {
             return CommonResult.success(null);
@@ -101,7 +115,4 @@ public class DispatchOrderController {
             return CommonResult.failed();
         }
     }
-
-
-
 }
