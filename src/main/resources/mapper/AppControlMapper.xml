@@ -31,7 +31,7 @@
     <result column="start_convey" jdbcType="VARCHAR" property="startConvey" />
     <result column="end_convey" jdbcType="VARCHAR" property="endConvey" />
     <result column="shop_status" jdbcType="INTEGER" property="shopStatus" />
-    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
     <result column="remank" jdbcType="VARCHAR" property="remank" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -119,6 +119,14 @@
     from app_control
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
+  <select id="selectByChannelId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_control
+    where channel_id = #{channelId,jdbcType=BIGINT} limit 1
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from app_control
     where id = #{id,jdbcType=BIGINT}
@@ -153,7 +161,7 @@
       #{responseTime,jdbcType=INTEGER}, #{appAdress,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
       #{startWithdraw,jdbcType=VARCHAR}, #{endWithdraw,jdbcType=VARCHAR}, #{startDeposit,jdbcType=VARCHAR}, 
       #{endDeposit,jdbcType=VARCHAR}, #{startConvey,jdbcType=VARCHAR}, #{endConvey,jdbcType=VARCHAR}, 
-      #{shopStatus,jdbcType=INTEGER}, #{channelId,jdbcType=VARCHAR}, #{remank,jdbcType=VARCHAR}
+      #{shopStatus,jdbcType=INTEGER}, #{channelId,jdbcType=BIGINT}, #{remank,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppControl">
@@ -339,7 +347,7 @@
         #{shopStatus,jdbcType=INTEGER},
       </if>
       <if test="channelId != null">
-        #{channelId,jdbcType=VARCHAR},
+        #{channelId,jdbcType=BIGINT},
       </if>
       <if test="remank != null">
         #{remank,jdbcType=VARCHAR},
@@ -443,7 +451,7 @@
         shop_status = #{record.shopStatus,jdbcType=INTEGER},
       </if>
       <if test="record.channelId != null">
-        channel_id = #{record.channelId,jdbcType=VARCHAR},
+        channel_id = #{record.channelId,jdbcType=BIGINT},
       </if>
       <if test="record.remank != null">
         remank = #{record.remank,jdbcType=VARCHAR},
@@ -484,7 +492,7 @@
       start_convey = #{record.startConvey,jdbcType=VARCHAR},
       end_convey = #{record.endConvey,jdbcType=VARCHAR},
       shop_status = #{record.shopStatus,jdbcType=INTEGER},
-      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=BIGINT},
       remank = #{record.remank,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -578,7 +586,7 @@
         shop_status = #{shopStatus,jdbcType=INTEGER},
       </if>
       <if test="channelId != null">
-        channel_id = #{channelId,jdbcType=VARCHAR},
+        channel_id = #{channelId,jdbcType=BIGINT},
       </if>
       <if test="remank != null">
         remank = #{remank,jdbcType=VARCHAR},
@@ -616,7 +624,7 @@
       start_convey = #{startConvey,jdbcType=VARCHAR},
       end_convey = #{endConvey,jdbcType=VARCHAR},
       shop_status = #{shopStatus,jdbcType=INTEGER},
-      channel_id = #{channelId,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=BIGINT},
       remank = #{remank,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

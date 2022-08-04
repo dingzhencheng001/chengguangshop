@@ -93,7 +93,7 @@ public class AppControl implements Serializable {
     private Integer shopStatus;
 
     @ApiModelProperty(value = "渠道编号")
-    private String channelId;
+    private Long channelId;
 
     @ApiModelProperty(value = "备注")
     private String remank;
@@ -332,15 +332,17 @@ public class AppControl implements Serializable {
         this.shopStatus = shopStatus;
     }
 
-    public String getChannelId() {
-        return channelId;
-    }
+    
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
-    }
+    public Long getChannelId() {
+		return channelId;
+	}
 
-    public String getRemank() {
+	public void setChannelId(Long channelId) {
+		this.channelId = channelId;
+	}
+
+	public String getRemank() {
         return remank;
     }
 

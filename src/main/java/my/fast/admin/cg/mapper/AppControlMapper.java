@@ -21,6 +21,8 @@ public interface AppControlMapper {
     List<AppControl> selectByExample(AppControlExample example);
 
     AppControl selectByPrimaryKey(Long id);
+    
+    AppControl selectByChannelId(Long channelId);
 
     int updateByExampleSelective(@Param("record") AppControl record, @Param("example") AppControlExample example);
 
