@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="my.fast.admin.cg.mapper.AppControlMapper">
+  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppControl">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="trc" jdbcType="VARCHAR" property="trc" />
+    <result column="erc" jdbcType="VARCHAR" property="erc" />
+    <result column="usdt" jdbcType="VARCHAR" property="usdt" />
+    <result column="deal_amount" jdbcType="DECIMAL" property="dealAmount" />
+    <result column="wait" jdbcType="INTEGER" property="wait" />
+    <result column="start_rang" jdbcType="INTEGER" property="startRang" />
+    <result column="end_rang" jdbcType="INTEGER" property="endRang" />
+    <result column="trade_num" jdbcType="INTEGER" property="tradeNum" />
+    <result column="reward_num" jdbcType="INTEGER" property="rewardNum" />
+    <result column="general_commission" jdbcType="DECIMAL" property="generalCommission" />
+    <result column="up_one_commission" jdbcType="DECIMAL" property="upOneCommission" />
+    <result column="up_two_commission" jdbcType="DECIMAL" property="upTwoCommission" />
+    <result column="up_three_commission" jdbcType="DECIMAL" property="upThreeCommission" />
+    <result column="up_four_commission" jdbcType="DECIMAL" property="upFourCommission" />
+    <result column="up_five_commission" jdbcType="DECIMAL" property="upFiveCommission" />
+    <result column="freeze" jdbcType="INTEGER" property="freeze" />
+    <result column="violate" jdbcType="INTEGER" property="violate" />
+    <result column="distribute_time" jdbcType="INTEGER" property="distributeTime" />
+    <result column="response_time" jdbcType="INTEGER" property="responseTime" />
+    <result column="app_adress" jdbcType="VARCHAR" property="appAdress" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="start_withdraw" jdbcType="VARCHAR" property="startWithdraw" />
+    <result column="end_withdraw" jdbcType="VARCHAR" property="endWithdraw" />
+    <result column="start_deposit" jdbcType="VARCHAR" property="startDeposit" />
+    <result column="end_deposit" jdbcType="VARCHAR" property="endDeposit" />
+    <result column="start_convey" jdbcType="VARCHAR" property="startConvey" />
+    <result column="end_convey" jdbcType="VARCHAR" property="endConvey" />
+    <result column="shop_status" jdbcType="INTEGER" property="shopStatus" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="remank" jdbcType="VARCHAR" property="remank" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, trc, erc, usdt, deal_amount, wait, start_rang, end_rang, trade_num, reward_num, 
+    general_commission, up_one_commission, up_two_commission, up_three_commission, up_four_commission, 
+    up_five_commission, freeze, violate, distribute_time, response_time, app_adress, 
+    version, start_withdraw, end_withdraw, start_deposit, end_deposit, start_convey, 
+    end_convey, shop_status, channel_id, remank
+  </sql>
+  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppControlExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_control
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_control
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_control
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppControlExample">
+    delete from app_control
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppControl">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_control (trc, erc, usdt, 
+      deal_amount, wait, start_rang, 
+      end_rang, trade_num, reward_num, 
+      general_commission, up_one_commission, up_two_commission, 
+      up_three_commission, up_four_commission, up_five_commission, 
+      freeze, violate, distribute_time, 
+      response_time, app_adress, version, 
+      start_withdraw, end_withdraw, start_deposit, 
+      end_deposit, start_convey, end_convey, 
+      shop_status, channel_id, remank
+      )
+    values (#{trc,jdbcType=VARCHAR}, #{erc,jdbcType=VARCHAR}, #{usdt,jdbcType=VARCHAR}, 
+      #{dealAmount,jdbcType=DECIMAL}, #{wait,jdbcType=INTEGER}, #{startRang,jdbcType=INTEGER}, 
+      #{endRang,jdbcType=INTEGER}, #{tradeNum,jdbcType=INTEGER}, #{rewardNum,jdbcType=INTEGER}, 
+      #{generalCommission,jdbcType=DECIMAL}, #{upOneCommission,jdbcType=DECIMAL}, #{upTwoCommission,jdbcType=DECIMAL}, 
+      #{upThreeCommission,jdbcType=DECIMAL}, #{upFourCommission,jdbcType=DECIMAL}, #{upFiveCommission,jdbcType=DECIMAL}, 
+      #{freeze,jdbcType=INTEGER}, #{violate,jdbcType=INTEGER}, #{distributeTime,jdbcType=INTEGER}, 
+      #{responseTime,jdbcType=INTEGER}, #{appAdress,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{startWithdraw,jdbcType=VARCHAR}, #{endWithdraw,jdbcType=VARCHAR}, #{startDeposit,jdbcType=VARCHAR}, 
+      #{endDeposit,jdbcType=VARCHAR}, #{startConvey,jdbcType=VARCHAR}, #{endConvey,jdbcType=VARCHAR}, 
+      #{shopStatus,jdbcType=INTEGER}, #{channelId,jdbcType=VARCHAR}, #{remank,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppControl">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_control
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="trc != null">
+        trc,
+      </if>
+      <if test="erc != null">
+        erc,
+      </if>
+      <if test="usdt != null">
+        usdt,
+      </if>
+      <if test="dealAmount != null">
+        deal_amount,
+      </if>
+      <if test="wait != null">
+        wait,
+      </if>
+      <if test="startRang != null">
+        start_rang,
+      </if>
+      <if test="endRang != null">
+        end_rang,
+      </if>
+      <if test="tradeNum != null">
+        trade_num,
+      </if>
+      <if test="rewardNum != null">
+        reward_num,
+      </if>
+      <if test="generalCommission != null">
+        general_commission,
+      </if>
+      <if test="upOneCommission != null">
+        up_one_commission,
+      </if>
+      <if test="upTwoCommission != null">
+        up_two_commission,
+      </if>
+      <if test="upThreeCommission != null">
+        up_three_commission,
+      </if>
+      <if test="upFourCommission != null">
+        up_four_commission,
+      </if>
+      <if test="upFiveCommission != null">
+        up_five_commission,
+      </if>
+      <if test="freeze != null">
+        freeze,
+      </if>
+      <if test="violate != null">
+        violate,
+      </if>
+      <if test="distributeTime != null">
+        distribute_time,
+      </if>
+      <if test="responseTime != null">
+        response_time,
+      </if>
+      <if test="appAdress != null">
+        app_adress,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="startWithdraw != null">
+        start_withdraw,
+      </if>
+      <if test="endWithdraw != null">
+        end_withdraw,
+      </if>
+      <if test="startDeposit != null">
+        start_deposit,
+      </if>
+      <if test="endDeposit != null">
+        end_deposit,
+      </if>
+      <if test="startConvey != null">
+        start_convey,
+      </if>
+      <if test="endConvey != null">
+        end_convey,
+      </if>
+      <if test="shopStatus != null">
+        shop_status,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="remank != null">
+        remank,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="trc != null">
+        #{trc,jdbcType=VARCHAR},
+      </if>
+      <if test="erc != null">
+        #{erc,jdbcType=VARCHAR},
+      </if>
+      <if test="usdt != null">
+        #{usdt,jdbcType=VARCHAR},
+      </if>
+      <if test="dealAmount != null">
+        #{dealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="wait != null">
+        #{wait,jdbcType=INTEGER},
+      </if>
+      <if test="startRang != null">
+        #{startRang,jdbcType=INTEGER},
+      </if>
+      <if test="endRang != null">
+        #{endRang,jdbcType=INTEGER},
+      </if>
+      <if test="tradeNum != null">
+        #{tradeNum,jdbcType=INTEGER},
+      </if>
+      <if test="rewardNum != null">
+        #{rewardNum,jdbcType=INTEGER},
+      </if>
+      <if test="generalCommission != null">
+        #{generalCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upOneCommission != null">
+        #{upOneCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upTwoCommission != null">
+        #{upTwoCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upThreeCommission != null">
+        #{upThreeCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upFourCommission != null">
+        #{upFourCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upFiveCommission != null">
+        #{upFiveCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="freeze != null">
+        #{freeze,jdbcType=INTEGER},
+      </if>
+      <if test="violate != null">
+        #{violate,jdbcType=INTEGER},
+      </if>
+      <if test="distributeTime != null">
+        #{distributeTime,jdbcType=INTEGER},
+      </if>
+      <if test="responseTime != null">
+        #{responseTime,jdbcType=INTEGER},
+      </if>
+      <if test="appAdress != null">
+        #{appAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="startWithdraw != null">
+        #{startWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="endWithdraw != null">
+        #{endWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="startDeposit != null">
+        #{startDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="endDeposit != null">
+        #{endDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="startConvey != null">
+        #{startConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="endConvey != null">
+        #{endConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="shopStatus != null">
+        #{shopStatus,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="remank != null">
+        #{remank,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppControlExample" resultType="java.lang.Long">
+    select count(*) from app_control
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_control
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.trc != null">
+        trc = #{record.trc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.erc != null">
+        erc = #{record.erc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usdt != null">
+        usdt = #{record.usdt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealAmount != null">
+        deal_amount = #{record.dealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.wait != null">
+        wait = #{record.wait,jdbcType=INTEGER},
+      </if>
+      <if test="record.startRang != null">
+        start_rang = #{record.startRang,jdbcType=INTEGER},
+      </if>
+      <if test="record.endRang != null">
+        end_rang = #{record.endRang,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradeNum != null">
+        trade_num = #{record.tradeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rewardNum != null">
+        reward_num = #{record.rewardNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.generalCommission != null">
+        general_commission = #{record.generalCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upOneCommission != null">
+        up_one_commission = #{record.upOneCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upTwoCommission != null">
+        up_two_commission = #{record.upTwoCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upThreeCommission != null">
+        up_three_commission = #{record.upThreeCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upFourCommission != null">
+        up_four_commission = #{record.upFourCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upFiveCommission != null">
+        up_five_commission = #{record.upFiveCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="record.freeze != null">
+        freeze = #{record.freeze,jdbcType=INTEGER},
+      </if>
+      <if test="record.violate != null">
+        violate = #{record.violate,jdbcType=INTEGER},
+      </if>
+      <if test="record.distributeTime != null">
+        distribute_time = #{record.distributeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.responseTime != null">
+        response_time = #{record.responseTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.appAdress != null">
+        app_adress = #{record.appAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startWithdraw != null">
+        start_withdraw = #{record.startWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endWithdraw != null">
+        end_withdraw = #{record.endWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDeposit != null">
+        start_deposit = #{record.startDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endDeposit != null">
+        end_deposit = #{record.endDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startConvey != null">
+        start_convey = #{record.startConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endConvey != null">
+        end_convey = #{record.endConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopStatus != null">
+        shop_status = #{record.shopStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remank != null">
+        remank = #{record.remank,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_control
+    set id = #{record.id,jdbcType=BIGINT},
+      trc = #{record.trc,jdbcType=VARCHAR},
+      erc = #{record.erc,jdbcType=VARCHAR},
+      usdt = #{record.usdt,jdbcType=VARCHAR},
+      deal_amount = #{record.dealAmount,jdbcType=DECIMAL},
+      wait = #{record.wait,jdbcType=INTEGER},
+      start_rang = #{record.startRang,jdbcType=INTEGER},
+      end_rang = #{record.endRang,jdbcType=INTEGER},
+      trade_num = #{record.tradeNum,jdbcType=INTEGER},
+      reward_num = #{record.rewardNum,jdbcType=INTEGER},
+      general_commission = #{record.generalCommission,jdbcType=DECIMAL},
+      up_one_commission = #{record.upOneCommission,jdbcType=DECIMAL},
+      up_two_commission = #{record.upTwoCommission,jdbcType=DECIMAL},
+      up_three_commission = #{record.upThreeCommission,jdbcType=DECIMAL},
+      up_four_commission = #{record.upFourCommission,jdbcType=DECIMAL},
+      up_five_commission = #{record.upFiveCommission,jdbcType=DECIMAL},
+      freeze = #{record.freeze,jdbcType=INTEGER},
+      violate = #{record.violate,jdbcType=INTEGER},
+      distribute_time = #{record.distributeTime,jdbcType=INTEGER},
+      response_time = #{record.responseTime,jdbcType=INTEGER},
+      app_adress = #{record.appAdress,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      start_withdraw = #{record.startWithdraw,jdbcType=VARCHAR},
+      end_withdraw = #{record.endWithdraw,jdbcType=VARCHAR},
+      start_deposit = #{record.startDeposit,jdbcType=VARCHAR},
+      end_deposit = #{record.endDeposit,jdbcType=VARCHAR},
+      start_convey = #{record.startConvey,jdbcType=VARCHAR},
+      end_convey = #{record.endConvey,jdbcType=VARCHAR},
+      shop_status = #{record.shopStatus,jdbcType=INTEGER},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      remank = #{record.remank,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppControl">
+    update app_control
+    <set>
+      <if test="trc != null">
+        trc = #{trc,jdbcType=VARCHAR},
+      </if>
+      <if test="erc != null">
+        erc = #{erc,jdbcType=VARCHAR},
+      </if>
+      <if test="usdt != null">
+        usdt = #{usdt,jdbcType=VARCHAR},
+      </if>
+      <if test="dealAmount != null">
+        deal_amount = #{dealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="wait != null">
+        wait = #{wait,jdbcType=INTEGER},
+      </if>
+      <if test="startRang != null">
+        start_rang = #{startRang,jdbcType=INTEGER},
+      </if>
+      <if test="endRang != null">
+        end_rang = #{endRang,jdbcType=INTEGER},
+      </if>
+      <if test="tradeNum != null">
+        trade_num = #{tradeNum,jdbcType=INTEGER},
+      </if>
+      <if test="rewardNum != null">
+        reward_num = #{rewardNum,jdbcType=INTEGER},
+      </if>
+      <if test="generalCommission != null">
+        general_commission = #{generalCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upOneCommission != null">
+        up_one_commission = #{upOneCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upTwoCommission != null">
+        up_two_commission = #{upTwoCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upThreeCommission != null">
+        up_three_commission = #{upThreeCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upFourCommission != null">
+        up_four_commission = #{upFourCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="upFiveCommission != null">
+        up_five_commission = #{upFiveCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="freeze != null">
+        freeze = #{freeze,jdbcType=INTEGER},
+      </if>
+      <if test="violate != null">
+        violate = #{violate,jdbcType=INTEGER},
+      </if>
+      <if test="distributeTime != null">
+        distribute_time = #{distributeTime,jdbcType=INTEGER},
+      </if>
+      <if test="responseTime != null">
+        response_time = #{responseTime,jdbcType=INTEGER},
+      </if>
+      <if test="appAdress != null">
+        app_adress = #{appAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="startWithdraw != null">
+        start_withdraw = #{startWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="endWithdraw != null">
+        end_withdraw = #{endWithdraw,jdbcType=VARCHAR},
+      </if>
+      <if test="startDeposit != null">
+        start_deposit = #{startDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="endDeposit != null">
+        end_deposit = #{endDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="startConvey != null">
+        start_convey = #{startConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="endConvey != null">
+        end_convey = #{endConvey,jdbcType=VARCHAR},
+      </if>
+      <if test="shopStatus != null">
+        shop_status = #{shopStatus,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="remank != null">
+        remank = #{remank,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppControl">
+    update app_control
+    set trc = #{trc,jdbcType=VARCHAR},
+      erc = #{erc,jdbcType=VARCHAR},
+      usdt = #{usdt,jdbcType=VARCHAR},
+      deal_amount = #{dealAmount,jdbcType=DECIMAL},
+      wait = #{wait,jdbcType=INTEGER},
+      start_rang = #{startRang,jdbcType=INTEGER},
+      end_rang = #{endRang,jdbcType=INTEGER},
+      trade_num = #{tradeNum,jdbcType=INTEGER},
+      reward_num = #{rewardNum,jdbcType=INTEGER},
+      general_commission = #{generalCommission,jdbcType=DECIMAL},
+      up_one_commission = #{upOneCommission,jdbcType=DECIMAL},
+      up_two_commission = #{upTwoCommission,jdbcType=DECIMAL},
+      up_three_commission = #{upThreeCommission,jdbcType=DECIMAL},
+      up_four_commission = #{upFourCommission,jdbcType=DECIMAL},
+      up_five_commission = #{upFiveCommission,jdbcType=DECIMAL},
+      freeze = #{freeze,jdbcType=INTEGER},
+      violate = #{violate,jdbcType=INTEGER},
+      distribute_time = #{distributeTime,jdbcType=INTEGER},
+      response_time = #{responseTime,jdbcType=INTEGER},
+      app_adress = #{appAdress,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      start_withdraw = #{startWithdraw,jdbcType=VARCHAR},
+      end_withdraw = #{endWithdraw,jdbcType=VARCHAR},
+      start_deposit = #{startDeposit,jdbcType=VARCHAR},
+      end_deposit = #{endDeposit,jdbcType=VARCHAR},
+      start_convey = #{startConvey,jdbcType=VARCHAR},
+      end_convey = #{endConvey,jdbcType=VARCHAR},
+      shop_status = #{shopStatus,jdbcType=INTEGER},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      remank = #{remank,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
