@@ -41,36 +41,43 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
+        for (DispatchOrderParam orderParam : dispatchOrderParam) {
+            Integer flag = orderParam.getIsConsumed();
+            String serialNumber = orderParam.getSerialNumber();
+            if (!"".equals(serialNumber)) {
+                //删除之前生成的商品
+                appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
+                //生成商品
+            }
+            makeOrders(dispatchOrderParam);
+        }
+        return 1;
+    }
+
+    public int makeOrders(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
         AppAssignGoods appAssignGoods = new AppAssignGoods();
         AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {
-            if (StringUtils.isEmpty(orderParam.getSerialNumber())) {
-                //根据价格范围随机生成商品
-                AppGoods appGoods = appGoodsMapper.randomGoodsByExample(orderParam);
-                if (!StringUtils.isEmpty(appGoods)) {
-                    String orderSn = generateOrderSn();
-                    BeanUtils.copyProperties(appGoods, appAssignGoods);
-                    appAssignGoods.setHinder(orderParam.getHinder());
-                    appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
-                    appAssignGoods.setMemberId(orderParam.getMemberId());
-                    appAssignGoods.setSerialNumber(orderSn);
-                    appAssignGoods.setIsConsumed(0);
-                    //先插入派单商品库
-                    appAssignGoodsMapper.insert(appAssignGoods);
-                    //后插入派单业务表库
-                    BeanUtils.copyProperties(orderParam, appDispatchOrder);
-                    appDispatchOrder.setCreateTime(DateFormat.getNowDate());
-                    appDispatchOrder.setSerialNumber(orderSn);
-                    appDispatchOrder.setOrderStatus(0);
-                    appDispatchOrderMapper.insert(appDispatchOrder);
-                } else {
-                    throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
-                }
+            //根据价格范围随机生成商品
+            AppGoods appGoods = appGoodsMapper.randomGoodsByExample(orderParam);
+            if (!StringUtils.isEmpty(appGoods)) {
+                String orderSn = generateOrderSn();
+                BeanUtils.copyProperties(appGoods, appAssignGoods);
+                appAssignGoods.setHinder(orderParam.getHinder());
+                appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
+                appAssignGoods.setMemberId(orderParam.getMemberId());
+                appAssignGoods.setSerialNumber(orderSn);
+                appAssignGoods.setIsConsumed(0);
+                //先插入派单商品库
+                appAssignGoodsMapper.insert(appAssignGoods);
+                //后插入派单业务表库
+                BeanUtils.copyProperties(orderParam, appDispatchOrder);
+                appDispatchOrder.setCreateTime(DateFormat.getNowDate());
+                appDispatchOrder.setSerialNumber(orderSn);
+                appDispatchOrder.setOrderStatus(0);
+                appDispatchOrderMapper.insert(appDispatchOrder);
             } else {
-                //根据流水号和订单状态删除未消费的单
-                Integer flag = orderParam.getIsConsumed();
-                String serialNumber = orderParam.getSerialNumber();
-                appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
+                throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
             }
         }
         return 1;
