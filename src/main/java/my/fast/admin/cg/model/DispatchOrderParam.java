@@ -34,4 +34,19 @@ public class DispatchOrderParam {
 
     @ApiModelProperty(value = "最大价")
     private BigDecimal maxPrice;
+
+    @ApiModelProperty(value = "流水号")
+    private String serialNumber;
+
+    @ApiModelProperty(value = "是否被消费0.未消费1.已经消费")
+    private Integer isConsumed;
+
+    @ApiModelProperty(value = "第几组")
+    private Integer whichGroup;
+
+    @ApiModelProperty(value = "操作时间")
+    private String selectTime;
+
+
+
 }
