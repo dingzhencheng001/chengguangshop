@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppDispatchOrderExample;
+import my.fast.admin.cg.model.DispatchParam;
 
 public interface AppDispatchOrderMapper {
     long countByExample(AppDispatchOrderExample example);
@@ -34,4 +35,9 @@ public interface AppDispatchOrderMapper {
      * 获取派单列表
      */
     List<AppDispatchOrder> selectOrderList(@Param("channelId")Long channelId,@Param("memberId") Long memberId);
+
+    /**
+     * 获取时间获取列表
+     */
+    List<AppDispatchOrder> findGroup(DispatchParam dispatchParam);
 }

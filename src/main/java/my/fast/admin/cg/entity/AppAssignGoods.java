@@ -54,6 +54,9 @@ public class AppAssignGoods implements Serializable {
     @ApiModelProperty(value = "流水号")
     private String serialNumber;
 
+    @ApiModelProperty(value = "第几组")
+    private Integer whichGroup;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -184,6 +187,14 @@ public class AppAssignGoods implements Serializable {
         this.serialNumber = serialNumber;
     }
 
+    public Integer getWhichGroup() {
+        return whichGroup;
+    }
+
+    public void setWhichGroup(Integer whichGroup) {
+        this.whichGroup = whichGroup;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -206,6 +217,7 @@ public class AppAssignGoods implements Serializable {
         sb.append(", orderQuantity=").append(orderQuantity);
         sb.append(", isConsumed=").append(isConsumed);
         sb.append(", serialNumber=").append(serialNumber);
+        sb.append(", whichGroup=").append(whichGroup);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

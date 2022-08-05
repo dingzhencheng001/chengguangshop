@@ -16,6 +16,7 @@ import my.fast.admin.cg.mapper.AppAssignGoodsMapper;
 import my.fast.admin.cg.mapper.AppDispatchOrderMapper;
 import my.fast.admin.cg.mapper.AppGoodsMapper;
 import my.fast.admin.cg.model.DispatchOrderParam;
+import my.fast.admin.cg.model.DispatchParam;
 import my.fast.admin.cg.service.DispatchOrderService;
 import my.fast.admin.framework.utils.DateFormat;
 
@@ -41,6 +42,9 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
+        //先判断是新增还是修改
+        //修改需删除后随机生成
+        //新增直接新增
         AppAssignGoods appAssignGoods = new AppAssignGoods();
         AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {
@@ -81,6 +85,11 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
             }
             return 1;
+    }
+
+    @Override
+    public List<AppDispatchOrder> findGroup(DispatchParam dispatchParam) {
+        return appDispatchOrderMapper.findGroup(dispatchParam);
     }
 
     /**

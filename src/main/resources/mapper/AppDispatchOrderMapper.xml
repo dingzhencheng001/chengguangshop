@@ -17,6 +17,7 @@
         <result column="tradition_goods_id" jdbcType="BIGINT" property="traditionGoodsId"/>
         <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
         <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+        <result column="which_group" jdbcType="INTEGER" property="whichGroup" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -81,7 +82,7 @@
     <sql id="Base_Column_List">
         id
         , member_id, channel_id, convey_id, distribution_goods_id, hinder, order_quantity,
-    min_price, max_price, create_time, create_by, order_status, tradition_goods_id, serial_number , finish_time
+    min_price, max_price, create_time, create_by, order_status, tradition_goods_id, serial_number , finish_time, which_group
     </sql>
     <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppDispatchOrderExample"
             resultMap="BaseResultMap">
@@ -122,13 +123,13 @@
         insert into app_dispatch_order (member_id, channel_id, convey_id,
         distribution_goods_id, hinder, order_quantity,
         min_price, max_price, create_time,
-        create_by, order_status, tradition_goods_id,serial_number, finish_time
+        create_by, order_status, tradition_goods_id,serial_number, finish_time, which_group
         )
         values (#{memberId,jdbcType=BIGINT}, #{channelId,jdbcType=BIGINT}, #{conveyId,jdbcType=BIGINT},
         #{distributionGoodsId,jdbcType=BIGINT}, #{hinder,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER},
         #{minPrice,jdbcType=DECIMAL}, #{maxPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
         #{createBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER},
-        #{traditionGoodsId,jdbcType=BIGINT},#{serialNumber,jdbcType=VARCHAR}, #{finishTime,jdbcType=TIMESTAMP}
+        #{traditionGoodsId,jdbcType=BIGINT},#{serialNumber,jdbcType=VARCHAR}, #{finishTime,jdbcType=TIMESTAMP}, #{whichGroup,jdbcType=INTEGER}
         )
     </insert>
     <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppDispatchOrder">
@@ -179,6 +180,9 @@
             <if test="finishTime != null">
                 finish_time,
             </if>
+            <if test="whichGroup != null">
+                which_group,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="memberId != null">
@@ -222,6 +226,9 @@
             </if>
             <if test="finishTime != null">
                 #{finishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="whichGroup != null">
+                #{whichGroup,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -280,6 +287,9 @@
             <if test="record.finishTime != null">
                 finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="record.whichGroup != null">
+                which_group = #{record.whichGroup,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -301,7 +311,8 @@
         order_status = #{record.orderStatus,jdbcType=INTEGER},
         tradition_goods_id = #{record.traditionGoodsId,jdbcType=BIGINT},
         serial_number = #{record.serialNumber,jdbcType=VARCHAR},
-        finish_time = #{record.finishTime,jdbcType=TIMESTAMP}
+        finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+        which_group = #{record.whichGroup,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -351,6 +362,9 @@
             <if test="finishTime != null">
                 finish_time = #{finishTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="whichGroup != null">
+                which_group = #{whichGroup,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -369,7 +383,8 @@
             order_status          = #{orderStatus,jdbcType=INTEGER},
             tradition_goods_id    = #{traditionGoodsId,jdbcType=BIGINT},
             serial_number         = #{serialNumber,jdbcType=VARCHAR},
-            finish_time = #{finishTime,jdbcType=TIMESTAMP}
+            finish_time = #{finishTime,jdbcType=TIMESTAMP},
+            which_group = #{whichGroup,jdbcType=INTEGER}
             where id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectOrderList" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
@@ -384,6 +399,29 @@
             and
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
+    </select>
+    <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
+        SELECT
+            * FROM app_dispatch_order
+        WHERE
+              1=1
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="selectTime != null">
+            and
+            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="whichGroup != null">
+            and
+            which_group = #{whichGroup,jdbcType=INTEGER}
+        </if>
+
     </select>
 
 </mapper>

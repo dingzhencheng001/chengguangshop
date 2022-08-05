@@ -19,6 +19,7 @@ import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.DispatchOrderParam;
+import my.fast.admin.cg.model.DispatchParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.DispatchOrderService;
 
@@ -114,5 +115,27 @@ public class DispatchOrderController {
         } else {
             return CommonResult.failed();
         }
+    }
+
+    @ApiOperation(value = "根据时间查组")
+    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult findGroupByTime(HttpServletRequest request ,@RequestBody DispatchParam dispatchParam) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        dispatchParam.setChannelId(channelId);
+        List<AppDispatchOrder> orderList = dispatchOrderService.findGroup(dispatchParam);
+        return CommonResult.success(orderList);
     }
 }
