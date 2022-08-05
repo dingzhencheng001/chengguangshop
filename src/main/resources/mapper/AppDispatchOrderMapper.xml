@@ -400,5 +400,28 @@
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
     </select>
+    <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
+        SELECT
+            * FROM app_dispatch_order
+        WHERE
+              1=1
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="selectTime != null">
+            and
+            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="whichGroup != null">
+            and
+            which_group = #{whichGroup,jdbcType=INTEGER}
+        </if>
+
+    </select>
 
 </mapper>

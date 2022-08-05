@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.model.DispatchOrderParam;
+import my.fast.admin.cg.model.DispatchParam;
 
 /**
  * TODO
@@ -36,4 +37,8 @@ public interface DispatchOrderService {
      */
     int checkPrice(DispatchOrderParam dispatchOrderParam) throws Exception;
 
+    /**
+     * 根据时间查询派单组次
+     */
+    List<AppDispatchOrder> findGroup(DispatchParam dispatchParam);
 }
