@@ -91,6 +91,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
 
     public Map<String, Object> getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) {
         Map<String, Object> remap = new HashMap<>();
+        //先查出派单商品列表
         List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.assignGoodsList(appRandomOrderParam);
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
             //排序
@@ -110,8 +111,10 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             appAssignGoodsLinkedList.add(first);
             AppAssignGoods distributionGoods = appAssignGoodsLinkedList.getFirst();
             remap.put("distributionGoods", distributionGoods);
-            //派单为空,随机生成订单
-        } else {
+            //更新订单状态
+            distributionGoods.setIsConsumed(1);
+            appAssignGoodsMapper.updateByPrimaryKeySelective(distributionGoods);
+        } else { //派单为空,随机生成订单
             Object traditionGoods = randomGoods(appMember);
             remap.put("traditionGoods", traditionGoods);
         }

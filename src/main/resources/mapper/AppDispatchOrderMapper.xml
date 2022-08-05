@@ -390,7 +390,12 @@
     <select id="selectOrderList" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
         select *
         from app_dispatch_order
-        where TO_DAYS(create_time) = TO_DAYS(now())
+        where
+            1=1
+        <if test="whichGroup != null">
+            and
+            which_group = #{whichGroup,jdbcType=BIGINT}
+        </if>
         <if test="channelId != null">
             and
             channel_id = #{channelId,jdbcType=BIGINT}
@@ -399,6 +404,11 @@
             and
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
+        <if test="selectTime != null">
+            and
+            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+        </if>
+
     </select>
     <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
         SELECT

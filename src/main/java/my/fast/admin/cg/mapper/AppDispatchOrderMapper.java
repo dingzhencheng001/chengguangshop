@@ -34,7 +34,7 @@ public interface AppDispatchOrderMapper {
     /**
      * 获取派单列表
      */
-    List<AppDispatchOrder> selectOrderList(@Param("channelId")Long channelId,@Param("memberId") Long memberId);
+    List<AppDispatchOrder> selectOrderList(DispatchParam dispatchParam);
 
     /**
      * 获取时间获取列表

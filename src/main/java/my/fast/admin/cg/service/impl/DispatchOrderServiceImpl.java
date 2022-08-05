@@ -57,12 +57,14 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
                 appAssignGoods.setMemberId(orderParam.getMemberId());
                 appAssignGoods.setSerialNumber(orderSn);
-                //插入派单商品库
+                appAssignGoods.setIsConsumed(0);
+                //先插入派单商品库
                 appAssignGoodsMapper.insert(appAssignGoods);
-                //先入派单业务表库
+                //后插入派单业务表库
                 BeanUtils.copyProperties(orderParam, appDispatchOrder);
                 appDispatchOrder.setCreateTime(DateFormat.getNowDate());
                 appDispatchOrder.setSerialNumber(orderSn);
+                appDispatchOrder.setOrderStatus(0);
                 appDispatchOrderMapper.insert(appDispatchOrder);
             }else {
                 throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
@@ -72,8 +74,8 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     }
 
     @Override
-    public List<AppDispatchOrder> getOrderList(Long channelId, Long memberId) {
-        return appDispatchOrderMapper.selectOrderList(channelId,memberId);
+    public List<AppDispatchOrder> getOrderList(DispatchParam dispatchParam) {
+        return appDispatchOrderMapper.selectOrderList(dispatchParam);
     }
 
     @Override

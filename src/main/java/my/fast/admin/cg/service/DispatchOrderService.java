@@ -26,11 +26,8 @@ public interface DispatchOrderService {
 
     /**
      * 获取当天派单列表
-     * @return
-     * @param channelId
-     * @param memberId
      */
-    List<AppDispatchOrder> getOrderList(Long channelId, Long memberId);
+    List<AppDispatchOrder> getOrderList(DispatchParam dispatchParam);
 
     /**
      * 商品价格校验
@@ -41,4 +38,6 @@ public interface DispatchOrderService {
      * 根据时间查询派单组次
      */
     List<AppDispatchOrder> findGroup(DispatchParam dispatchParam);
+
+
 }
