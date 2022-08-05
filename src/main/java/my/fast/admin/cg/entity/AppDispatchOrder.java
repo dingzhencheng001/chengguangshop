@@ -51,6 +51,9 @@ public class AppDispatchOrder implements Serializable {
     @ApiModelProperty(value = "订单完成时间")
     private Date finishTime;
 
+    @ApiModelProperty(value = "第几组")
+    private Integer whichGroup;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -173,6 +176,14 @@ public class AppDispatchOrder implements Serializable {
         this.finishTime = finishTime;
     }
 
+    public Integer getWhichGroup() {
+        return whichGroup;
+    }
+
+    public void setWhichGroup(Integer whichGroup) {
+        this.whichGroup = whichGroup;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -194,6 +205,7 @@ public class AppDispatchOrder implements Serializable {
         sb.append(", traditionGoodsId=").append(traditionGoodsId);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", finishTime=").append(finishTime);
+        sb.append(", whichGroup=").append(whichGroup);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

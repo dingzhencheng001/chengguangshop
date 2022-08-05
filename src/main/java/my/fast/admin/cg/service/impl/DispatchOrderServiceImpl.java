@@ -41,6 +41,9 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
+        //先判断是新增还是修改
+        //修改需删除后随机生成
+        //新增直接新增
         AppAssignGoods appAssignGoods = new AppAssignGoods();
         AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {

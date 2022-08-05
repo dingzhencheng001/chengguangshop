@@ -1025,6 +1025,66 @@ public class AppDispatchOrderExample {
             addCriterion("finish_time not between", value1, value2, "finishTime");
             return (Criteria) this;
         }
+
+        public Criteria andWhichGroupIsNull() {
+            addCriterion("which_group is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupIsNotNull() {
+            addCriterion("which_group is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupEqualTo(Integer value) {
+            addCriterion("which_group =", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupNotEqualTo(Integer value) {
+            addCriterion("which_group <>", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupGreaterThan(Integer value) {
+            addCriterion("which_group >", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupGreaterThanOrEqualTo(Integer value) {
+            addCriterion("which_group >=", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupLessThan(Integer value) {
+            addCriterion("which_group <", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupLessThanOrEqualTo(Integer value) {
+            addCriterion("which_group <=", value, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupIn(List<Integer> values) {
+            addCriterion("which_group in", values, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupNotIn(List<Integer> values) {
+            addCriterion("which_group not in", values, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupBetween(Integer value1, Integer value2) {
+            addCriterion("which_group between", value1, value2, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andWhichGroupNotBetween(Integer value1, Integer value2) {
+            addCriterion("which_group not between", value1, value2, "whichGroup");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
