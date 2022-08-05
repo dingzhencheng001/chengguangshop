@@ -80,10 +80,10 @@ public class AppLoginController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
             return CommonResult.failed("账号不存在");
         }
-        if (!"0".equals(appUserVO.getStatus()) ) {
+        if (appUserVO.getStatus() != 0 ) {
             return CommonResult.failed("账号已停用");
         }
-        if (!"1".equals(appUserVO.getMemberStatus()) ) {
+        if (appUserVO.getMemberStatus() != 1  ) {
             return CommonResult.failed("账号状态为假人，请联系管理员");
         }
         //后续加上密码加密串字段salt
