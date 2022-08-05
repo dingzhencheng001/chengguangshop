@@ -69,10 +69,10 @@ public class DispatchOrderController {
         }
     }
 
-    @ApiOperation(value = "获取当天的派单列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation(value = "根据条件获取派单列表")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<List<AppDispatchOrder>> getOrderList(HttpServletRequest request ,@RequestParam Long memberId) {
+    public CommonResult<List<AppDispatchOrder>> getOrderList(HttpServletRequest request ,@RequestBody DispatchParam dispatchParam) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -86,7 +86,8 @@ public class DispatchOrderController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        List<AppDispatchOrder> orderList = dispatchOrderService.getOrderList(channelId, memberId);
+        dispatchParam.setChannelId(channelId);
+        List<AppDispatchOrder> orderList = dispatchOrderService.getOrderList(dispatchParam);
         return CommonResult.success(orderList);
     }
 
