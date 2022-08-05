@@ -1,405 +1,419 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="my.fast.admin.cg.mapper.AppAssignGoodsMapper">
-  <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppAssignGoods">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
-    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
-    <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo" />
-    <result column="goods_pic" jdbcType="VARCHAR" property="goodsPic" />
-    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
-    <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
-    <result column="goods_sort_id" jdbcType="BIGINT" property="goodsSortId" />
-    <result column="task_group" jdbcType="INTEGER" property="taskGroup" />
-    <result column="hinder" jdbcType="INTEGER" property="hinder" />
-    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
-    <result column="is_consumed" jdbcType="INTEGER" property="isConsumed" />
-      <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
-      <result column="which_group" jdbcType="INTEGER" property="whichGroup" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="my.fast.admin.cg.entity.AppAssignGoods">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo"/>
+        <result column="goods_pic" jdbcType="VARCHAR" property="goodsPic"/>
+        <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice"/>
+        <result column="goods_add_time" jdbcType="TIMESTAMP" property="goodsAddTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="channel_id" jdbcType="BIGINT" property="channelId"/>
+        <result column="member_id" jdbcType="BIGINT" property="memberId"/>
+        <result column="goods_sort_id" jdbcType="BIGINT" property="goodsSortId"/>
+        <result column="task_group" jdbcType="INTEGER" property="taskGroup"/>
+        <result column="hinder" jdbcType="INTEGER" property="hinder"/>
+        <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity"/>
+        <result column="is_consumed" jdbcType="INTEGER" property="isConsumed"/>
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
+        <result column="which_group" jdbcType="INTEGER" property="whichGroup"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, shop_name, goods_name, goods_info, goods_pic, goods_price, goods_add_time, status, 
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , shop_name, goods_name, goods_info, goods_pic, goods_price, goods_add_time, status,
     channel_id, member_id, goods_sort_id, task_group, hinder, order_quantity, is_consumed,serial_number, which_group
-  </sql>
-  <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from app_assign_goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from app_assign_goods
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from app_assign_goods
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample">
-    delete from app_assign_goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_assign_goods (shop_name, goods_name, goods_info, 
-      goods_pic, goods_price, goods_add_time, 
-      status, channel_id, member_id, 
-      goods_sort_id, task_group, hinder, 
-      order_quantity, is_consumed,serial_number, which_group)
-    values (#{shopName,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsInfo,jdbcType=VARCHAR}, 
-      #{goodsPic,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsAddTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{channelId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, 
-      #{goodsSortId,jdbcType=BIGINT}, #{taskGroup,jdbcType=INTEGER}, #{hinder,jdbcType=INTEGER}, 
-      #{orderQuantity,jdbcType=INTEGER}, #{isConsumed,jdbcType=INTEGER}, #{serialNumber,jdbcType=VARCHAR},#{whichGroup,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into app_assign_goods
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="shopName != null">
-        shop_name,
-      </if>
-      <if test="goodsName != null">
-        goods_name,
-      </if>
-      <if test="goodsInfo != null">
-        goods_info,
-      </if>
-      <if test="goodsPic != null">
-        goods_pic,
-      </if>
-      <if test="goodsPrice != null">
-        goods_price,
-      </if>
-      <if test="goodsAddTime != null">
-        goods_add_time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="channelId != null">
-        channel_id,
-      </if>
-      <if test="memberId != null">
-        member_id,
-      </if>
-      <if test="goodsSortId != null">
-        goods_sort_id,
-      </if>
-      <if test="taskGroup != null">
-        task_group,
-      </if>
-      <if test="hinder != null">
-        hinder,
-      </if>
-      <if test="orderQuantity != null">
-        order_quantity,
-      </if>
-      <if test="isConsumed != null">
-        is_consumed,
-      </if>
-        <if test="serialNumber != null">
-            serial_number,
+    </sql>
+    <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-        <if test="whichGroup != null">
-            which_group,
+        <include refid="Base_Column_List"/>
+        from app_assign_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
         </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="shopName != null">
-        #{shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsInfo != null">
-        #{goodsInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsPic != null">
-        #{goodsPic,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsPrice != null">
-        #{goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsAddTime != null">
-        #{goodsAddTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="channelId != null">
-        #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsSortId != null">
-        #{goodsSortId,jdbcType=BIGINT},
-      </if>
-      <if test="taskGroup != null">
-        #{taskGroup,jdbcType=INTEGER},
-      </if>
-      <if test="hinder != null">
-        #{hinder,jdbcType=INTEGER},
-      </if>
-      <if test="orderQuantity != null">
-        #{orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="isConsumed != null">
-        #{isConsumed,jdbcType=INTEGER},
-      </if>
-        <if test="serialNumber != null">
-            #{serialNumber,jdbcType=VARCHAR},
+        <if test="orderByClause != null">
+            order by ${orderByClause}
         </if>
-        <if test="whichGroup != null">
-            #{whichGroup,jdbcType=INTEGER},
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_assign_goods
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from app_assign_goods
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample">
+        delete from app_assign_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
         </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample" resultType="java.lang.Long">
-    select count(*) from app_assign_goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
+    </delete>
+    <delete id="deleteAssignGoods">
+        delete from app_assign_goods
+            where
+            serial_number = #{serialNumber,jdbcType=VARCHAR}
+            and  is_consumed = #{flag,jdbcType=INTEGER},
+    </delete>
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_assign_goods (shop_name, goods_name, goods_info,
+        goods_pic, goods_price, goods_add_time,
+        status, channel_id, member_id,
+        goods_sort_id, task_group, hinder,
+        order_quantity, is_consumed,serial_number, which_group)
+        values (#{shopName,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsInfo,jdbcType=VARCHAR},
+        #{goodsPic,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsAddTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=INTEGER}, #{channelId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT},
+        #{goodsSortId,jdbcType=BIGINT}, #{taskGroup,jdbcType=INTEGER}, #{hinder,jdbcType=INTEGER},
+        #{orderQuantity,jdbcType=INTEGER}, #{isConsumed,jdbcType=INTEGER},
+        #{serialNumber,jdbcType=VARCHAR},#{whichGroup,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into app_assign_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopName != null">
+                shop_name,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsInfo != null">
+                goods_info,
+            </if>
+            <if test="goodsPic != null">
+                goods_pic,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="goodsAddTime != null">
+                goods_add_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="memberId != null">
+                member_id,
+            </if>
+            <if test="goodsSortId != null">
+                goods_sort_id,
+            </if>
+            <if test="taskGroup != null">
+                task_group,
+            </if>
+            <if test="hinder != null">
+                hinder,
+            </if>
+            <if test="orderQuantity != null">
+                order_quantity,
+            </if>
+            <if test="isConsumed != null">
+                is_consumed,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="whichGroup != null">
+                which_group,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopName != null">
+                #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsInfo != null">
+                #{goodsInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPic != null">
+                #{goodsPic,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsAddTime != null">
+                #{goodsAddTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberId != null">
+                #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsSortId != null">
+                #{goodsSortId,jdbcType=BIGINT},
+            </if>
+            <if test="taskGroup != null">
+                #{taskGroup,jdbcType=INTEGER},
+            </if>
+            <if test="hinder != null">
+                #{hinder,jdbcType=INTEGER},
+            </if>
+            <if test="orderQuantity != null">
+                #{orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="isConsumed != null">
+                #{isConsumed,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="whichGroup != null">
+                #{whichGroup,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample"
+            resultType="java.lang.Long">
+        select count(*) from app_assign_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
     <select id="assignGoodsList" resultType="my.fast.admin.cg.entity.AppAssignGoods">
-        select * from app_assign_goods
-          where member_id = #{memberId,jdbcType=BIGINT}
-          and   channel_id = #{channelId,jdbcType=BIGINT}
-          and   is_consumed = 0
-          and   TO_DAYS(goods_add_time) = TO_DAYS(now());
+        select *
+        from app_assign_goods
+        where member_id = #{memberId,jdbcType=BIGINT}
+          and channel_id = #{channelId,jdbcType=BIGINT}
+          and is_consumed = 0
+          and TO_DAYS(goods_add_time) = TO_DAYS(now());
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-    update app_assign_goods
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.shopName != null">
+        update app_assign_goods
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.shopName != null">
+                shop_name = #{record.shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsName != null">
+                goods_name = #{record.goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsInfo != null">
+                goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsPic != null">
+                goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsPrice != null">
+                goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="record.goodsAddTime != null">
+                goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=BIGINT},
+            </if>
+            <if test="record.memberId != null">
+                member_id = #{record.memberId,jdbcType=BIGINT},
+            </if>
+            <if test="record.goodsSortId != null">
+                goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
+            </if>
+            <if test="record.taskGroup != null">
+                task_group = #{record.taskGroup,jdbcType=INTEGER},
+            </if>
+            <if test="record.hinder != null">
+                hinder = #{record.hinder,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderQuantity != null">
+                order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="record.isConsumed != null">
+                is_consumed = #{record.isConsumed,jdbcType=INTEGER},
+            </if>
+            <if test="record.serialNumber != null">
+                serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.whichGroup != null">
+                which_group = #{record.whichGroup,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update app_assign_goods
+        set id = #{record.id,jdbcType=BIGINT},
         shop_name = #{record.shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsName != null">
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsInfo != null">
         goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsPic != null">
         goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsPrice != null">
         goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.goodsAddTime != null">
         goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
-      </if>
-      <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=BIGINT},
-      </if>
-      <if test="record.memberId != null">
         member_id = #{record.memberId,jdbcType=BIGINT},
-      </if>
-      <if test="record.goodsSortId != null">
         goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
-      </if>
-      <if test="record.taskGroup != null">
         task_group = #{record.taskGroup,jdbcType=INTEGER},
-      </if>
-      <if test="record.hinder != null">
         hinder = #{record.hinder,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderQuantity != null">
         order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="record.isConsumed != null">
         is_consumed = #{record.isConsumed,jdbcType=INTEGER},
-      </if>
-        <if test="record.serialNumber != null">
-            serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+        which_group = #{record.whichGroup,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
-        <if test="record.whichGroup != null">
-            which_group = #{record.whichGroup,jdbcType=INTEGER},
-        </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update app_assign_goods
-    set id = #{record.id,jdbcType=BIGINT},
-      shop_name = #{record.shopName,jdbcType=VARCHAR},
-      goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      goods_info = #{record.goodsInfo,jdbcType=VARCHAR},
-      goods_pic = #{record.goodsPic,jdbcType=VARCHAR},
-      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      goods_add_time = #{record.goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
-      goods_sort_id = #{record.goodsSortId,jdbcType=BIGINT},
-      task_group = #{record.taskGroup,jdbcType=INTEGER},
-      hinder = #{record.hinder,jdbcType=INTEGER},
-      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
-      is_consumed = #{record.isConsumed,jdbcType=INTEGER},
-      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
-      which_group = #{record.whichGroup,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
-    update app_assign_goods
-    <set>
-      <if test="shopName != null">
-        shop_name = #{shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        goods_name = #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsInfo != null">
-        goods_info = #{goodsInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsPic != null">
-        goods_pic = #{goodsPic,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsPrice != null">
-        goods_price = #{goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsAddTime != null">
-        goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="channelId != null">
-        channel_id = #{channelId,jdbcType=BIGINT},
-      </if>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
-      </if>
-      <if test="goodsSortId != null">
-        goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
-      </if>
-      <if test="taskGroup != null">
-        task_group = #{taskGroup,jdbcType=INTEGER},
-      </if>
-      <if test="hinder != null">
-        hinder = #{hinder,jdbcType=INTEGER},
-      </if>
-      <if test="orderQuantity != null">
-        order_quantity = #{orderQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="isConsumed != null">
-        is_consumed = #{isConsumed,jdbcType=INTEGER},
-      </if>
-        <if test="serialNumber != null">
-            serial_number = #{serialNumber,jdbcType=VARCHAR},
-        </if>
-        <if test="whichGroup != null">
-            which_group = #{whichGroup,jdbcType=INTEGER},
-        </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
-    update app_assign_goods
-    set shop_name = #{shopName,jdbcType=VARCHAR},
-      goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_info = #{goodsInfo,jdbcType=VARCHAR},
-      goods_pic = #{goodsPic,jdbcType=VARCHAR},
-      goods_price = #{goodsPrice,jdbcType=DECIMAL},
-      goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      channel_id = #{channelId,jdbcType=BIGINT},
-      member_id = #{memberId,jdbcType=BIGINT},
-      goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
-      task_group = #{taskGroup,jdbcType=INTEGER},
-      hinder = #{hinder,jdbcType=INTEGER},
-      order_quantity = #{orderQuantity,jdbcType=INTEGER},
-      is_consumed = #{isConsumed,jdbcType=INTEGER},
-        serial_number = #{serialNumber,jdbcType=VARCHAR},
-        which_group = #{whichGroup,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
+        update app_assign_goods
+        <set>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsInfo != null">
+                goods_info = #{goodsInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPic != null">
+                goods_pic = #{goodsPic,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsAddTime != null">
+                goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberId != null">
+                member_id = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsSortId != null">
+                goods_sort_id = #{goodsSortId,jdbcType=BIGINT},
+            </if>
+            <if test="taskGroup != null">
+                task_group = #{taskGroup,jdbcType=INTEGER},
+            </if>
+            <if test="hinder != null">
+                hinder = #{hinder,jdbcType=INTEGER},
+            </if>
+            <if test="orderQuantity != null">
+                order_quantity = #{orderQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="isConsumed != null">
+                is_consumed = #{isConsumed,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="whichGroup != null">
+                which_group = #{whichGroup,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
+        update app_assign_goods
+        set shop_name      = #{shopName,jdbcType=VARCHAR},
+            goods_name     = #{goodsName,jdbcType=VARCHAR},
+            goods_info     = #{goodsInfo,jdbcType=VARCHAR},
+            goods_pic      = #{goodsPic,jdbcType=VARCHAR},
+            goods_price    = #{goodsPrice,jdbcType=DECIMAL},
+            goods_add_time = #{goodsAddTime,jdbcType=TIMESTAMP},
+            status         = #{status,jdbcType=INTEGER},
+            channel_id     = #{channelId,jdbcType=BIGINT},
+            member_id      = #{memberId,jdbcType=BIGINT},
+            goods_sort_id  = #{goodsSortId,jdbcType=BIGINT},
+            task_group     = #{taskGroup,jdbcType=INTEGER},
+            hinder         = #{hinder,jdbcType=INTEGER},
+            order_quantity = #{orderQuantity,jdbcType=INTEGER},
+            is_consumed    = #{isConsumed,jdbcType=INTEGER},
+            serial_number  = #{serialNumber,jdbcType=VARCHAR},
+            which_group    = #{whichGroup,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

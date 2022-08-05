@@ -23,7 +23,8 @@ public interface AppAssignGoodsMapper {
 
     AppAssignGoods selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") AppAssignGoods record, @Param("example") AppAssignGoodsExample example);
+    int updateByExampleSelective(@Param("record") AppAssignGoods record,
+        @Param("example") AppAssignGoodsExample example);
 
     int updateByExample(@Param("record") AppAssignGoods record, @Param("example") AppAssignGoodsExample example);
 
@@ -35,5 +36,10 @@ public interface AppAssignGoodsMapper {
      * 获取指派单商品库
      */
     List<AppAssignGoods> assignGoodsList(AppRandomOrderParam appRandomOrderParam);
+
+    /**
+     * 删除修改前生成的商品
+     */
+    int deleteAssignGoods(@Param("flag") Integer flag,@Param("serialNumber") String serialNumber);
 
 }

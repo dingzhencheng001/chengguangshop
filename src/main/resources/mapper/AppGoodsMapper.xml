@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="my.fast.admin.cg.entity.AppGoods">
+    <insert id="insert" parameterType="my.fast.admin.cg.entity.AppGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
