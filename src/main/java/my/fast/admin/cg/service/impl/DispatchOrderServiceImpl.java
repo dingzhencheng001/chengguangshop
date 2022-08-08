@@ -1,6 +1,7 @@
 package my.fast.admin.cg.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +48,8 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
             if (!"".equals(serialNumber)) {
                 //删除之前生成的商品
                 appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
-                //生成商品
             }
+            //生成商品
             makeOrders(dispatchOrderParam);
         }
         return 1;
@@ -100,9 +101,34 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     }
 
     @Override
-    public List<AppDispatchOrder> findGroup(DispatchParam dispatchParam) {
-        return appDispatchOrderMapper.findGroup(dispatchParam);
+    public List<Integer> findGroup(DispatchParam dispatchParam) {
+        List<AppDispatchOrder> group = appDispatchOrderMapper.findGroup(dispatchParam);
+        List<Integer> groupList = new ArrayList<>();
+        for (AppDispatchOrder appDispatchOrder : group) {
+            Integer whichGroup = appDispatchOrder.getWhichGroup();
+            groupList.add(whichGroup);
+        }
+        // 新集合
+        List<Integer> newList = new ArrayList<>(groupList.size());
+        groupList.forEach(i -> {
+            if (!newList.contains(i)) {
+                // 如果新集合中不存在则插入
+                newList.add(i);
+            }
+        });
+        return newList;
+
     }
+/*
+        ArrayList<String> groupList = new ArrayList<>();
+        for (AppDispatchOrder appDispatchOrder : group) {
+            groupList.add(appDispatchOrder.getWhichGroup().toString());
+        }
+        groupList.forEach(i -> {
+            if (!groupList.contains(i)) {
+                groupList.add(i);
+            }
+        });*/
 
     /**
      * 生成订单编号

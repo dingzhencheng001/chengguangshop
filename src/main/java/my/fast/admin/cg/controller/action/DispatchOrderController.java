@@ -136,7 +136,7 @@ public class DispatchOrderController {
         }
         Long channelId = sysChannel.getChannelId();
         dispatchParam.setChannelId(channelId);
-        List<AppDispatchOrder> orderList = dispatchOrderService.findGroup(dispatchParam);
+        List<Integer> orderList = dispatchOrderService.findGroup(dispatchParam);
         if (orderList.size() > 0) {
             commonResult = CommonResult.success(orderList);
         } else {

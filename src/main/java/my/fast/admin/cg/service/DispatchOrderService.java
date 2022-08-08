@@ -37,7 +37,7 @@ public interface DispatchOrderService {
     /**
      * 根据时间查询派单组次
      */
-    List<AppDispatchOrder> findGroup(DispatchParam dispatchParam);
+    List<Integer> findGroup(DispatchParam dispatchParam);
 
 
 }
