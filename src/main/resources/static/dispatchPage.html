@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--    <script src="https://unpkg.com/underscore@1.13.2/underscore-umd-min.js"></script>-->
     <!--    <link rel="stylesheet" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">-->
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@2.2.8/dist/antd.min.css">-->
     <link rel="stylesheet" href="css/app.css"/>
@@ -66,7 +67,7 @@
                         placeholder="选择日期">
                 </el-date-picker>
 
-                <el-select v-model="whichGroup" placeholder="请选择">
+                <el-select v-model="whichGroup" placeholder="请选择分组" @change="onSelectChange">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -74,9 +75,13 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
+
+
+                <el-button type="primary" @click="onAdd">新增分组</el-button>
+
             </div>
         </div>
-        <div>
+        <div style="width: 800px; margin: 24px auto">
             <el-form :model="formData" ref="form" inline class="demo-dynamic"
                      label-width="70px" >
                 <div v-for="(item, index) in formData.list" :key="index" class="form-item" >
@@ -99,7 +104,7 @@
                         >
                             <el-input
                                     v-model="item.maxPrice" size="small" type="number" min="0"
-                                    placeholder="请输入maxPrice"
+                                    placeholder="请输入max"
                                     :disabled="item.orderStatus === 1"></el-input>
                         </el-form-item>
                         <el-form-item
@@ -125,8 +130,8 @@
             </el-form>
 
             <div style="display: flex; justify-content: center">
-                <el-button type="primary" @click="onSubmit">提交</el-button>
-<!--                <el-button @click="onAdd">新增</el-button>-->
+                <el-button type="primary" @click="onSubmit" :loading="submitLoading">提交</el-button>
+                <el-button @click="onCancel">取消</el-button>
             </div>
         </div>
     </div>
@@ -159,31 +164,32 @@
                 minPriceRules: [
                     {
                         required: true, message: 'min不能为空',
-                        // type: 'number',
-                        // validator: this.onValidator.bind(this),
-                        // validator: $.debounce(this.onValidator, 800),
-                        // validator: function (rule, value, callback) {
-                        //     console.log('minPrice', value)
-                        //     this.onValidator(rule, value, callback);
-                        // }.bind(this),
+                        trigger: 'change',
+                        validator: function (rule, value, callback) {
+                            if (this.submitValidate) {
+                                return callback();
+                            }
+                            this.onValidator(rule, value, callback);
+                        }.bind(this),
                     },
                 ],
                 maxPriceRules: [
                     {
-                        required: true, message: 'maxPrice不能为空',
+                        required: true, message: 'max不能为空',
                         // type: 'number',
+                        trigger: 'change',
                         // validator: this.onValidator.bind(this),
-                        // validator: $.debounce(this.onValidator, 800),
-                        // validator: function (rule, value, callback) {
-                        //     return this.onValidator(rule, value, callback);
-                        // }.bind(this),
-                        // asyncValidator: function (rule, value, callback) {
-                        //     console.log('asyncValidator', value)
-                        //     callback()
-                        // }
+                        validator: function (rule, value, callback) {
+                            if (this.submitValidate) {
+                                return callback();
+                            }
+                            this.onValidator(rule, value, callback);
+                        }.bind(this),
                     },
                 ],
-                hinderRules: []
+                hinderRules: [],
+                submitLoading: false,
+                submitValidate: false,
             }
         },
         mounted: function () {
@@ -198,20 +204,28 @@
                 this.onQiang();
             },
             onAdd() {
-                this.formData.list.push({
-                    orderQuantity: '',
-                    minPrice: '',
-                    maxPrice: '',
-                    hinder: 2,
-                });
+                this.onGetGroup(function () {
+                    var i = Math.max.apply(null, this.options.map(function (item) {
+                        return item.value;
+                    })) + 1;
+                    this.options.push({
+                        name: '分组' + i,
+                        value: i,
+                    });
+                    this.whichGroup = i;
+                    this.onSelectChange();
+                }.bind(this))
             },
             validate: function (cb) {
 
             },
             // 提交
             onSubmit: function () {
+                console.log('onSubmit')
+                this.submitValidate = true;
                 this.$refs['form'].validate(function (valid, err) {
                     console.log('submit', valid);
+                    this.submitValidate = false;
                     if (valid) {
                         var q = this.onGetQuery();
                         var fd = this.formData.list.filter(function (item) {
@@ -230,6 +244,7 @@
                             layer.msg('请输入价格', {icon: 2});
                             return;
                         }
+                        this.submitLoading = true;
                         $.request({
                             url: '/action/dispatch/assign',
                             type: 'post',
@@ -238,7 +253,10 @@
                             success: function (result) {
                                 layer.msg('派单成功', {icon: 1});
                                 this.onCancel();
-                            }.bind(this)
+                            }.bind(this),
+                            complete: function () {
+                                this.submitLoading = false;
+                            }
                         })
                     } else {
                         console.log('error submit!!', valid, err);
@@ -287,7 +305,7 @@
                             return;
                         }
                         var options = (result.data || []).map((item) => {
-                            return { name: '分组' + item.whichGroup, value: item.whichGroup}
+                            return { name: '分组' + item, value: item}
                         });
                         if (options.length) {
                             this.whichGroup = options[0].value;
@@ -317,6 +335,7 @@
                     } else {
                         newArr.push({
                             orderQuantity: i,
+                            serialNumber: '',
                             minPrice: '',
                             maxPrice: '',
                             hinder: 2,
@@ -359,30 +378,39 @@
                 });
             },
 
-            onValidator: function (rule, value, callback, source) {
-                console.log('validator', value);
+            onValidator: $.debounce(function (rule, value, callback) {
                 if (!value) return callback(new Error(rule.message));
-                // if (!value) return callback(new Error('xxx'));
                 var fieldSplit = rule.field.split('.');
                 var index = Number(fieldSplit[1]);
                 var field = fieldSplit[2];
                 var item = this.formData.list[index];
                 if (item.minPrice && item.maxPrice) {
-                    console.warn('validator2', item);
-                    if (item.validPrice === 1) {
-                        callback();
-                    }
-                    this.onValidateItem(item, index, callback);
+                    console.warn('validator2', item, value);
+                    // if (item.validPrice === 1) {
+                    //     callback();
+                    //     return;
+                    // }
+                    this.onValidateItem.call(this, item, index, callback);
+                } else {
+                    callback();
                 }
-                callback();
-            },
+            }, 800, false),
 
             onSetFormDataItem: function (i, o) {
                 var newList = this.formData.list.slice();
                 newList[i] = Object.assign({}, newList[i], o);
                 this.formData.list = newList;
-            }
+            },
+            onSelectChange: function () {
+                this.onGetDetails();
+                this.onQiang();
+            },
 
+        },
+        watch: {
+            selectTime: function () {
+                this.onInit();
+            }
         },
     })
 </script>

@@ -222,7 +222,8 @@ $.financial = function (x) {
 /**
  *
  * @param func
- * @param wait
+ * @param {Number} wait
+ * @param {Boolean} [immediate]
  * @returns {function(...[*]): *}
  */
 $.debounce = function (func, wait, immediate) {
