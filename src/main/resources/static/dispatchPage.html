@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+        <script src="plugins/layui-v2.7.5/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!--    <script src="https://momentjs.com/downloads/moment.js"></script>-->
+    <!--    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>-->
+    <!--    <script src="https://unpkg.com/view-ui-plus@1.3.1/dist/viewuiplus.min.js"></script>-->
+
+    <!--    <script src="https://cdn.jsdelivr.net/npm/ant-design-vue@2.2.8/dist/antd.js"></script>-->
+    <script src="js/common/app.js"></script>
+    <!--    <script src="https://momentjs.com/downloads/moment.js"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/ant-design-vue@3.2.10/dist/antd.js"></script>-->
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    <link rel="stylesheet" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">-->
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@2.2.8/dist/antd.min.css">-->
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/console.css"/>
+    <style>
+        /**{*/
+        /*    margin: 0;*/
+        /*    padding: 0;*/
+        /*}*/
+        .dispatch-wrap {
+            background-color: #fafafa !important;
+            color: #5f5f5f !important;
+            margin-bottom: 15px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+            position: relative;
+            padding: 10px 15px;
+            line-height: 24px;
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-item{
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #606266;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="dispatch-wrap">
+        <div class="header">
+
+            <div>
+                <h3 style="padding: 10px 0 0 45px; color: red;" id="dispatchText"> 该用户今日已抢单：{{qiangNum}}单 ## 卡单起始单数 {{qiangNum+1}}</h3>
+                <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
+            </div>
+            <div>
+                <el-date-picker
+                        v-model="selectTime"
+                        type="date"
+                        placeholder="选择日期">
+                </el-date-picker>
+
+                <el-select v-model="whichGroup" placeholder="请选择">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.name"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+        </div>
+        <div>
+            <el-form :model="formData" ref="form" inline class="demo-dynamic"
+                     label-width="70px" >
+                <div v-for="(item, index) in formData.list" :key="index" class="form-item" >
+                        <div class="order-quantity el-form-item">第{{item.orderQuantity}}单</div>
+                        <el-form-item
+                                label="min(元)"
+                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? minPriceRules : {}"
+                                :key="index + '_minPrice'"
+                                :prop="'list.' + index + '.minPrice'"
+                        >
+                            <el-input
+                                    v-model="item.minPrice" size="small" type="number" min="0"
+                                    placeholder="请输入min"
+                                    :disabled="item.orderStatus === 1"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                label="max(元)"
+                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? maxPriceRules : {}"
+                                :prop="'list.' + index + '.maxPrice'"
+                        >
+                            <el-input
+                                    v-model="item.maxPrice" size="small" type="number" min="0"
+                                    placeholder="请输入maxPrice"
+                                    :disabled="item.orderStatus === 1"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                :rules="hinderRules"
+                                :prop="'list.' + index + '.hinder'"
+                        >
+                            <el-checkbox v-model="item.hinder"
+                                         :true-label="1"
+                                         :false-label="2"
+                                         :disabled="item.orderStatus === 1" size="medium">卡单</el-checkbox>
+                        </el-form-item>
+                        <div class="el-form-item">
+                            <el-button type="primary" :loading="item.validateLoading" size="small" @click="function() { onValidateItem(item, index) }">校验</el-button>
+                        </div>
+
+                        <div class="el-form-item" v-if="item.validPrice">
+                            <a class="valid-price" :style="{
+                                color: item.validPrice === 1 ? 'green' : 'red'
+                            }" >
+                                {{item.validPrice === 1 ? '价格校验通过' : '请重新输入价格范围'}}</a>
+                        </div>
+                </div>
+            </el-form>
+
+            <div style="display: flex; justify-content: center">
+                <el-button type="primary" @click="onSubmit">提交</el-button>
+<!--                <el-button @click="onAdd">新增</el-button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var params = $.getUrlVars();
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                memberId: params.id || '11', // 开发方便
+                selectTime: new Date(),
+                whichGroup: '',
+                qiangNum: 0,
+                options: [],
+
+                dispatchList: [],
+
+                formData: {
+                    list: []
+                },
+                rules: {
+                    minPrice: [
+                        {
+                            required: true, message: 'minPrice不能为空',
+                        }
+                    ]
+                },
+                minPriceRules: [
+                    {
+                        required: true, message: 'min不能为空',
+                        // type: 'number',
+                        // validator: this.onValidator.bind(this),
+                        // validator: $.debounce(this.onValidator, 800),
+                        // validator: function (rule, value, callback) {
+                        //     console.log('minPrice', value)
+                        //     this.onValidator(rule, value, callback);
+                        // }.bind(this),
+                    },
+                ],
+                maxPriceRules: [
+                    {
+                        required: true, message: 'maxPrice不能为空',
+                        // type: 'number',
+                        // validator: this.onValidator.bind(this),
+                        // validator: $.debounce(this.onValidator, 800),
+                        // validator: function (rule, value, callback) {
+                        //     return this.onValidator(rule, value, callback);
+                        // }.bind(this),
+                        // asyncValidator: function (rule, value, callback) {
+                        //     console.log('asyncValidator', value)
+                        //     callback()
+                        // }
+                    },
+                ],
+                hinderRules: []
+            }
+        },
+        mounted: function () {
+            this.onInit();
+            // this.$nextTick(function () {
+            //     // 仅在整个视图都被渲染之后才会运行的代码
+            // })
+        },
+        methods: {
+            onInit() {
+                this.onGetGroup(this.onGetDetails);
+                this.onQiang();
+            },
+            onAdd() {
+                this.formData.list.push({
+                    orderQuantity: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    hinder: 2,
+                });
+            },
+            validate: function (cb) {
+
+            },
+            // 提交
+            onSubmit: function () {
+                this.$refs['form'].validate(function (valid, err) {
+                    console.log('submit', valid);
+                    if (valid) {
+                        var q = this.onGetQuery();
+                        var fd = this.formData.list.filter(function (item) {
+                            if (item.orderStatus === 1) return false;
+                            if (!item.minPrice) return false;
+                            if (!item.maxPrice) return false;
+                            return true;
+                        }).map(function (item) {
+                            if (!item.memberId) item.memberId = Number(this.memberId);
+                            item.minPrice = Number(item.minPrice);
+                            item.maxPrice = Number(item.maxPrice);
+                            return Object.assign({}, item, q);
+                        })
+                        console.log('submit', this.formData.list, fd);
+                        if (fd.length === 0) {
+                            layer.msg('请输入价格', {icon: 2});
+                            return;
+                        }
+                        $.request({
+                            url: '/action/dispatch/assign',
+                            type: 'post',
+                            data: fd,
+                            showLoading: true,
+                            success: function (result) {
+                                layer.msg('派单成功', {icon: 1});
+                                this.onCancel();
+                            }.bind(this)
+                        })
+                    } else {
+                        console.log('error submit!!', valid, err);
+                        return false;
+                    }
+                }.bind(this));
+            },
+            // 取消
+            onCancel: function () {
+                window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
+            },
+            onGetDetails: function () {
+                $.request({
+                    url: '/action/dispatch/list?memberId=' + this.memberId,
+                    type: 'post',
+                    data: this.onGetQuery(),
+                    success: function (result) {
+                        var newDispatchList = this.onFill(result.data || []);
+
+                        // if (newDispatchList.length === 0) {
+                        //     var l = newDispatchList.length;
+                        //     for (var i = 0; i < 5 - l; i++) {
+                        //         var orderQuantity = i + 1;
+                        //         newDispatchList.push({
+                        //             orderQuantity: orderQuantity,
+                        //             minPrice: '',
+                        //             maxPrice: '',
+                        //             hinder: 2,
+                        //         })
+                        //     }
+                        // }
+                        this.formData.list = newDispatchList;
+                    }.bind(this)
+                })
+            },
+            onGetGroup: function (cb) {
+                $.request({
+                    url: '/action/dispatch/find',
+                    type: 'post',
+                    data: this.onGetQuery(),
+                    success: function (result) {
+                        if (result.data === 1) {
+                            this.whichGroup = 1;
+                            this.options = [ { name: '默认分组', value: 1 }];
+                            cb && cb();
+                            return;
+                        }
+                        var options = (result.data || []).map((item) => {
+                            return { name: '分组' + item.whichGroup, value: item.whichGroup}
+                        });
+                        if (options.length) {
+                            this.whichGroup = options[0].value;
+                        }
+                        this.options = options;
+                        cb && cb();
+                    }.bind(this)
+                })
+            },
+            onGetQuery: function () {
+                var query = {
+                    memberId: Number(this.memberId),
+                    selectTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
+                    whichGroup: this.whichGroup || '',
+                }
+                return query;
+            },
+            onFill: function (arr) {
+                var l = 20;
+                var newArr = [];
+                for (var i = 1; i <= l; i++) {
+                    var find = (arr.slice()).find(function (item) {
+                        return item.orderQuantity === i;
+                    });
+                    if (find) {
+                        newArr.push(find);
+                    } else {
+                        newArr.push({
+                            orderQuantity: i,
+                            minPrice: '',
+                            maxPrice: '',
+                            hinder: 2,
+                        });
+                    }
+                }
+                return newArr;
+            },
+            // 抢单号
+            onQiang: function () {
+                $.request({
+                    url: '/action/convey/qiang?memberId=' + this.memberId,
+                    success: function (result) {
+                        // 该用户今日已抢单
+                        this.qiangNum = result.data || 0;
+                    }
+                });
+            },
+            //
+            onValidateItem: function (item, i, callback) {
+                if (!item.maxPrice || !item.minPrice) {
+                    callback && callback()
+                    return;
+                }
+                this.onSetFormDataItem(i, { validateLoading: true });
+                $.request({
+                    url: '/action/dispatch/check',
+                    type: 'post',
+                    data: item,
+                    success: function () {
+                        this.onSetFormDataItem(i, { validPrice: 1, validateLoading: false });
+                    }.bind(this),
+                    fail: function (fail) {
+                        console.log('fail', fail)
+                        this.onSetFormDataItem(i, { validPrice: 2, validateLoading: false });
+                    }.bind(this),
+                    complete: function () {
+                        callback && callback();
+                    }
+                });
+            },
+
+            onValidator: function (rule, value, callback, source) {
+                console.log('validator', value);
+                if (!value) return callback(new Error(rule.message));
+                // if (!value) return callback(new Error('xxx'));
+                var fieldSplit = rule.field.split('.');
+                var index = Number(fieldSplit[1]);
+                var field = fieldSplit[2];
+                var item = this.formData.list[index];
+                if (item.minPrice && item.maxPrice) {
+                    console.warn('validator2', item);
+                    if (item.validPrice === 1) {
+                        callback();
+                    }
+                    this.onValidateItem(item, index, callback);
+                }
+                callback();
+            },
+
+            onSetFormDataItem: function (i, o) {
+                var newList = this.formData.list.slice();
+                newList[i] = Object.assign({}, newList[i], o);
+                this.formData.list = newList;
+            }
+
+        },
+    })
+</script>
+</body>
+</html>

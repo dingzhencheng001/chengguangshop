@@ -186,16 +186,22 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				}
 			});
 		} else if (layEvent === 'dispatch') { // 派单
-			layer.open({
-				type: 2,
+			// layer.open({
+			//     type: 2,
+			//     title: '派单',
+			//     area: ['800px', '500px'],
+			//     content: '/dispatchForm.html?id=' + data.id,
+			//     // content: 'http://localhost:63342/chengguangshop/fast/static/dispatchForm.html?id=' + data.id,
+			//     end: function () {
+			//         actions.onReloadData();
+			//     }
+			// });
+			window.parent.layui.tab.tabAdd({
+				id: 'dispatch_' + data.id,
 				title: '派单',
-				area: ['800px', '500px'],
-				content: '/dispatchForm.html?id=' + data.id,
-				// content: 'http://localhost:63342/chengguangshop/fast/static/dispatchForm.html?id=' + data.id,
-				end: function () {
-					actions.onReloadData();
-				}
-			});
+				icon: 'fa-file',
+				url: '/dispatchPage.html?id=' + data.id,
+			})
 		} else if (layEvent === 'edit') { // 编辑菜单
 			editIndex = layer.open({
 				type: 1,

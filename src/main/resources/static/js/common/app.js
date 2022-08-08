@@ -217,3 +217,56 @@ $.findName = function (arr, value) {
 $.financial = function (x) {
     return Number.parseFloat(x || '0').toFixed(2);
 }
+
+
+/**
+ *
+ * @param func
+ * @param wait
+ * @returns {function(...[*]): *}
+ */
+$.debounce = function (func, wait, immediate) {
+    var timeout;
+    var result;
+    var parameter;
+    var previous; // 之前的时间
+    var context;
+    var onRun = function () {
+        var passed = Date.now() - previous;
+        if (passed < wait) {
+            timeout = setTimeout(onRun, wait - passed);
+        } else {
+            timeout = null;
+            if (!immediate) result = func.apply(context, parameter);
+            if (!timeout) parameter = null;
+        }
+    };
+    var debouncedFunc = function (...ages) {
+        context = this;
+        previous = Date.now();
+        parameter = ages;
+        if (!timeout) {
+            timeout = setTimeout(onRun, wait);
+            if (immediate) result = func.apply(context, parameter);
+        }
+        return result;
+    };
+    debouncedFunc.cancel = function () {
+        clearTimeout(timeout);
+        timeout = null;
+        parameter = null;
+    };
+    return debouncedFunc;
+};
+
+/**
+ * 日期格式化
+ * @param date
+ * @param format
+ * @returns {*}
+ */
+$.dateFormat = function (date, format) {
+    var _date = date || new Date();
+    var _format = format || 'yyyy-MM-dd';
+    return layui.util.toDateString(_date, _format)
+}
