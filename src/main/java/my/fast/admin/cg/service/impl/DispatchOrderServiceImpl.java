@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppDispatchOrder;
+import my.fast.admin.cg.entity.AppDispatchOrderExample;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.mapper.AppAssignGoodsMapper;
 import my.fast.admin.cg.mapper.AppDispatchOrderMapper;
@@ -46,8 +47,13 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
             Integer flag = orderParam.getIsConsumed();
             String serialNumber = orderParam.getSerialNumber();
             if (!"".equals(serialNumber)) {
-                //删除之前生成的商品
+                //删除的商品
                 appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
+                //删除列表
+                AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
+                appDispatchOrderExample.createCriteria().andSerialNumberEqualTo(orderParam.getSerialNumber());
+                appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
+
             }
             //生成商品
             makeOrders(dispatchOrderParam);
