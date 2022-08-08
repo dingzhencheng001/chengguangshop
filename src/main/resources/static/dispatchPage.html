@@ -39,15 +39,18 @@
             padding: 10px 15px;
             line-height: 24px;
         }
-        .header{
+        .dispatch-wrap .header{
             display: flex;
             justify-content: space-between;
         }
-        .form-item{
+        .dispatch-wrap .form-item{
             display: flex;
             align-items: center;
             font-size: 14px;
             color: #606266;
+        }
+        .dispatch-wrap .valid-price{
+            font-size: 12px;
         }
     </style>
 </head>
@@ -176,9 +179,7 @@
                 maxPriceRules: [
                     {
                         required: true, message: 'max不能为空',
-                        // type: 'number',
                         trigger: 'change',
-                        // validator: this.onValidator.bind(this),
                         validator: function (rule, value, callback) {
                             if (this.submitValidate) {
                                 return callback();
@@ -256,10 +257,11 @@
                             }.bind(this),
                             complete: function () {
                                 this.submitLoading = false;
-                            }
+                            }.bind(this)
                         })
                     } else {
                         console.log('error submit!!', valid, err);
+                        layer.msg('校验未通过', {icon: 2});
                         return false;
                     }
                 }.bind(this));
