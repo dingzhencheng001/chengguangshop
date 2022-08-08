@@ -57,8 +57,8 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
             }
         }
         //生成商品
-        makeOrders(dispatchOrderParam);
-        return 1;
+       return makeOrders(dispatchOrderParam);
+
     }
 
     public int makeOrders(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
@@ -125,16 +125,6 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         return newList;
 
     }
-/*
-        ArrayList<String> groupList = new ArrayList<>();
-        for (AppDispatchOrder appDispatchOrder : group) {
-            groupList.add(appDispatchOrder.getWhichGroup().toString());
-        }
-        groupList.forEach(i -> {
-            if (!groupList.contains(i)) {
-                groupList.add(i);
-            }
-        });*/
 
     /**
      * 生成订单编号

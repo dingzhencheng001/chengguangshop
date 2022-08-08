@@ -427,10 +427,6 @@
             and
             create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
         </if>
-        <if test="whichGroup != null">
-            and
-            which_group = #{whichGroup,jdbcType=INTEGER}
-        </if>
 
     </select>
 
