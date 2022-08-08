@@ -2,6 +2,9 @@ package my.fast.admin.cg.model;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +29,7 @@ public class DispatchOrderParam {
     @ApiModelProperty(value = "是否卡单1.卡单2.不卡单")
     private Integer hinder;
 
+    @NotEmpty
     @ApiModelProperty(value = "第几单")
     private Integer orderQuantity;
 
@@ -41,7 +45,8 @@ public class DispatchOrderParam {
     @ApiModelProperty(value = "是否被消费0.未消费1.已经消费")
     private Integer isConsumed;
 
-    @ApiModelProperty(value = "第几组")
+    @NotEmpty
+    @ApiModelProperty(value = "第几组",required = true)
     private Integer whichGroup;
 
     @ApiModelProperty(value = "操作时间")

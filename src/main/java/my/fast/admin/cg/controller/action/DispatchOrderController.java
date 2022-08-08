@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,7 @@ public class DispatchOrderController {
     @ApiOperation(value = "派单")
     @RequestMapping(value = "/assign", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult assignGoods(@RequestBody List<DispatchOrderParam> DispatchOrderParam,
+    public CommonResult assignGoods(@Validated @RequestBody List<DispatchOrderParam> DispatchOrderParam,
         HttpServletRequest request) throws Exception {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
