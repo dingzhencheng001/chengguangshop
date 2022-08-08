@@ -121,7 +121,7 @@
         delete from app_assign_goods
             where
             serial_number = #{serialNumber,jdbcType=VARCHAR}
-            and  is_consumed = #{flag,jdbcType=INTEGER},
+            and  is_consumed = #{flag,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
