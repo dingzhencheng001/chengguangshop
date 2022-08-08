@@ -86,13 +86,13 @@
         </div>
         <div style="width: 800px; margin: 24px auto">
             <el-form :model="formData" ref="form" inline class="demo-dynamic"
-                     label-width="70px" >
+                     label-width="70px">
                 <div v-for="(item, index) in formData.list" :key="index" class="form-item" >
                         <div class="order-quantity el-form-item">第{{item.orderQuantity}}单</div>
                         <el-form-item
                                 label="min(元)"
                                 :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? minPriceRules : {}"
-                                :key="index + '_minPrice'"
+                                :key="whichGroup + index + '_minPrice'"
                                 :prop="'list.' + index + '.minPrice'"
                         >
                             <el-input
@@ -103,6 +103,7 @@
                         <el-form-item
                                 label="max(元)"
                                 :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? maxPriceRules : {}"
+                                :key="whichGroup + index + '_maxPrice'"
                                 :prop="'list.' + index + '.maxPrice'"
                         >
                             <el-input
@@ -172,7 +173,6 @@
                             if (this.submitValidate) {
                                 return callback();
                             }
-                            console.log('validator min');
                             this.onValidator(rule, value, callback);
                         }.bind(this),
                     },
@@ -185,7 +185,6 @@
                             if (this.submitValidate) {
                                 return callback();
                             }
-                            console.log('validator max');
                             this.onValidator(rule, value, callback);
                         }.bind(this),
                     },
@@ -219,15 +218,10 @@
                     this.onSelectChange();
                 }.bind(this))
             },
-            validate: function (cb) {
-
-            },
             // 提交
             onSubmit: function () {
-                console.log('onSubmit')
                 this.submitValidate = true;
                 this.$refs['form'].validate(function (valid, err) {
-                    console.log('submit', valid);
                     this.submitValidate = false;
                     if (valid) {
                         var q = this.onGetQuery();
@@ -242,7 +236,6 @@
                             item.maxPrice = Number(item.maxPrice);
                             return Object.assign({}, item, q);
                         })
-                        console.log('submit', this.formData.list, fd);
                         if (fd.length === 0) {
                             layer.msg('请输入价格', {icon: 2});
                             return;
@@ -280,7 +273,7 @@
                     data: this.onGetQuery(),
                     success: function (result) {
                         var newDispatchList = this.onFill(result.data || []);
-                        this.formData.list = newDispatchList;
+                        this.formData = { list: newDispatchList};
                     }.bind(this)
                 })
             },
@@ -396,8 +389,19 @@
                 this.formData.list = newList;
             },
             onSelectChange: function () {
-                this.onGetDetails();
                 this.onQiang();
+                // this.onGetDetails();
+                this.formData = { list: [] };
+                $.request({
+                    url: '/action/dispatch/list?memberId=' + this.memberId,
+                    type: 'post',
+                    data: this.onGetQuery(),
+                    success: function (result) {
+                        var newDispatchList = this.onFill(result.data || []);
+                        this.formData = { list: newDispatchList};
+                    }.bind(this)
+                })
+                // this.$refs['form'].clearValidate();
             },
 
         },
