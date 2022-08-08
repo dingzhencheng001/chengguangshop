@@ -55,9 +55,9 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
 
             }
-            //生成商品
-            makeOrders(dispatchOrderParam);
         }
+        //生成商品
+        makeOrders(dispatchOrderParam);
         return 1;
     }
 
