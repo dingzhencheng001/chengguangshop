@@ -172,6 +172,7 @@
                             if (this.submitValidate) {
                                 return callback();
                             }
+                            console.log('validator min');
                             this.onValidator(rule, value, callback);
                         }.bind(this),
                     },
@@ -184,6 +185,7 @@
                             if (this.submitValidate) {
                                 return callback();
                             }
+                            console.log('validator max');
                             this.onValidator(rule, value, callback);
                         }.bind(this),
                     },
@@ -269,6 +271,7 @@
             // 取消
             onCancel: function () {
                 window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
+                window.parent.layui.tab.close('dispatch_' + this.memberId);
             },
             onGetDetails: function () {
                 $.request({
@@ -277,28 +280,17 @@
                     data: this.onGetQuery(),
                     success: function (result) {
                         var newDispatchList = this.onFill(result.data || []);
-
-                        // if (newDispatchList.length === 0) {
-                        //     var l = newDispatchList.length;
-                        //     for (var i = 0; i < 5 - l; i++) {
-                        //         var orderQuantity = i + 1;
-                        //         newDispatchList.push({
-                        //             orderQuantity: orderQuantity,
-                        //             minPrice: '',
-                        //             maxPrice: '',
-                        //             hinder: 2,
-                        //         })
-                        //     }
-                        // }
                         this.formData.list = newDispatchList;
                     }.bind(this)
                 })
             },
             onGetGroup: function (cb) {
+                var fd = this.onGetQuery();
+                delete fd.whichGroup;
                 $.request({
                     url: '/action/dispatch/find',
                     type: 'post',
-                    data: this.onGetQuery(),
+                    data: fd,
                     success: function (result) {
                         if (result.data === 1) {
                             this.whichGroup = 1;
