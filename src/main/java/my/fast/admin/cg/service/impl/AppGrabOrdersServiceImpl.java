@@ -1,19 +1,18 @@
 package my.fast.admin.cg.service.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppConvey;
@@ -66,7 +65,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     private AppAssignGoodsMapper appAssignGoodsMapper;
 
     @Override
-    public Map<String, Object> randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception {
+    public Object randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception {
         Long memberId = appRandomOrderParam.getMemberId();
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         if (StringUtils.isEmpty(appMember)) {
@@ -89,41 +88,25 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         return getObject(appRandomOrderParam, appMember);
     }
 
-    public Map<String, Object> getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) {
-        Map<String, Object> remap = new HashMap<>();
-        //先查出派单商品列表
+    public Object getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) throws ParseException {
         List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.assignGoodsList(appRandomOrderParam);
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
-            //排序
-            Collections.sort(assignGoodsList, new Comparator<AppAssignGoods>() {
-                @Override
-                public int compare(AppAssignGoods o1, AppAssignGoods o2) {
-                    //升序
-                    return o1.getOrderQuantity()
-                        .compareTo(o2.getOrderQuantity());
-                }
-            });
-            //先获取派单商品表数据
-            LinkedList<AppAssignGoods> appAssignGoodsLinkedList = new LinkedList<>();
-            LinkedList<AppAssignGoods> appAssignGoods = assignGoodsList.stream()
-                .collect(Collectors.toCollection(LinkedList::new));
-            AppAssignGoods first = appAssignGoods.getFirst();
-            appAssignGoodsLinkedList.add(first);
-            AppAssignGoods distributionGoods = appAssignGoodsLinkedList.getFirst();
-            remap.put("distributionGoods", distributionGoods);
+            //派单商品中随机获取一个商品返回用户
+            Random rand = new Random();
+            AppAssignGoods appAssignGoods = assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
             //更新订单状态
-            distributionGoods.setIsConsumed(1);
-            appAssignGoodsMapper.updateByPrimaryKeySelective(distributionGoods);
-        } else { //派单为空,随机生成订单
-            Object traditionGoods = randomGoods(appMember);
-            remap.put("traditionGoods", traditionGoods);
+            appAssignGoods.setIsConsumed(1);
+            appAssignGoodsMapper.updateByPrimaryKeySelective(appAssignGoods);
+            return appAssignGoods;
+        } else {
+            //商品表直接随机生成返回用户
+            return randomGoods(appMember);
         }
-        return remap;
     }
 
     //随机生成订单
     public Object randomGoods(AppMember appMember) {
-        Object appGoods = new AppGoods();
+        AppGoods appGoods = new AppGoods();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
             //先写死,后续从规则里面获取
@@ -135,16 +118,16 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     @Override
-    public int submitOrders(Map<String, Object> goods, Long memberId, Long channelId) throws Exception {
+    public int submitOrders(Object goods, Long memberId, Long channelId) throws Exception {
         //传统订单
-        AppGoods appGoods = (AppGoods) goods.get("traditionGoods");
+        AppGoods appGoods = JSON.parseObject(JSON.toJSONString(goods), AppGoods.class);
         if (!StringUtils.isEmpty(appGoods)) {
             return submitTraditionOrders(appGoods, memberId, channelId);
         }
         //指派订单
-        AppAssignGoods distributionGoods = (AppAssignGoods) goods.get("distributionGoods");
-        if (!StringUtils.isEmpty(distributionGoods)) {
-            return submitDistributionGoods(distributionGoods, memberId, channelId);
+        AppAssignGoods appAssignGoods = JSON.parseObject(JSON.toJSONString(goods), AppAssignGoods.class);
+        if (!StringUtils.isEmpty(appAssignGoods)) {
+            return submitDistributionGoods(appAssignGoods, memberId, channelId);
         }
         return 1;
     }
@@ -237,7 +220,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (appGoods.getHinder() == 1) {
             return stuck(appGoods, memberId, channelId);
         }
-      return 1;
+        return 1;
     }
 
     private int smooth(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {

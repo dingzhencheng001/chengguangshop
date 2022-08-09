@@ -39,5 +39,8 @@ public interface DispatchOrderService {
      */
     List<Integer> findGroup(DispatchParam dispatchParam);
 
-
+    /**
+     * 解冻资金
+     */
+    List<Integer> unfreezeFunds(DispatchParam dispatchParam);
 }

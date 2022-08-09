@@ -18,10 +18,11 @@ public interface AppGrabOrdersService {
     /**
      * 随机生成商品订单
      */
-    Map<String, Object> randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
+    @Transactional
+    Object randomOrders(AppRandomOrderParam appRandomOrderParam) throws Exception;
     /**
      * 提交随机生成的商品订单
      */
     @Transactional
-    int submitOrders(Map<String, Object> appGoods, Long memberId, Long channelId ) throws Exception;
+    int submitOrders(Object appGoods, Long memberId, Long channelId ) throws Exception;
 }

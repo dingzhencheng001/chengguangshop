@@ -147,4 +147,34 @@ public class DispatchOrderController {
         }
         return commonResult;
     }
+
+    @ApiOperation(value = "派单金额解冻")
+    @RequestMapping(value = "/thaw", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult unfreezeFunds(HttpServletRequest request, @RequestBody DispatchParam dispatchParam) {
+        CommonResult commonResult;
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        dispatchParam.setChannelId(channelId);
+        List<Integer> orderList = dispatchOrderService.unfreezeFunds(dispatchParam);
+        if (orderList.size() > 0) {
+            commonResult = CommonResult.success(orderList);
+        } else {
+            commonResult = CommonResult.success(1);
+        }
+        return commonResult;
+    }
+
+
 }

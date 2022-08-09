@@ -131,6 +131,11 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     }
 
+    @Override
+    public List<Integer> unfreezeFunds(DispatchParam dispatchParam) {
+        return null;
+    }
+
     /**
      * 生成订单编号
      */

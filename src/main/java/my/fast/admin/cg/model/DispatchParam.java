@@ -35,4 +35,6 @@ public class DispatchParam {
     @ApiModelProperty(value = "分页数")
     private Integer pageSize;
 
+
+
 }
