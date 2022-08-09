@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppDispatchOrder;
+import my.fast.admin.cg.entity.CustomerCare;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.DispatchOrderParam;
 import my.fast.admin.cg.model.DispatchParam;
@@ -71,7 +73,7 @@ public class DispatchOrderController {
     @ApiOperation(value = "根据条件获取派单列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<List<AppDispatchOrder>> getOrderList(HttpServletRequest request,
+    public  CommonResult<CommonPage<AppDispatchOrder>> getOrderList(HttpServletRequest request,
         @RequestBody DispatchParam dispatchParam) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -88,7 +90,7 @@ public class DispatchOrderController {
         Long channelId = sysChannel.getChannelId();
         dispatchParam.setChannelId(channelId);
         List<AppDispatchOrder> orderList = dispatchOrderService.getOrderList(dispatchParam);
-        return CommonResult.success(orderList);
+        return CommonResult.success(CommonPage.restPage(orderList));
     }
 
     @ApiOperation(value = "派单商品价格校验")

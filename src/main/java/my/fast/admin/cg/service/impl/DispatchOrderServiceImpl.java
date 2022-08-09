@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.github.pagehelper.PageHelper;
+
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppDispatchOrderExample;
@@ -94,6 +96,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public List<AppDispatchOrder> getOrderList(DispatchParam dispatchParam) {
+        PageHelper.startPage(dispatchParam.getPageNum(), dispatchParam.getPageSize());
         return appDispatchOrderMapper.selectOrderList(dispatchParam);
     }
 

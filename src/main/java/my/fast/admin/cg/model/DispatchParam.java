@@ -29,5 +29,10 @@ public class DispatchParam {
     @ApiModelProperty(value = "第几组")
     private Integer whichGroup;
 
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum;
+
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
 
 }

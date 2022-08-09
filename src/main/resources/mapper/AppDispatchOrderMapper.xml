@@ -408,6 +408,7 @@
             and
             create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
         </if>
+        order by  which_group ASC
 
     </select>
     <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
