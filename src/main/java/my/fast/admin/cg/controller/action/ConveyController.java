@@ -21,6 +21,7 @@ import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.AppConveyParam;
+import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.ConveyService;
 import my.fast.admin.cg.vo.AppConveyDto;
@@ -126,10 +127,10 @@ public class ConveyController {
         return commonResult;
     }
 
-    @ApiOperation(value = "根据会员id查询今日抢单数")
-    @RequestMapping(value = "/qiang", method = RequestMethod.GET)
+    @ApiOperation(value = "根据日期和会员id查询当日抢单数")
+    @RequestMapping(value = "/qiang", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult selectFinishOrder(@RequestParam("memberId") Long memberId, HttpServletRequest request) {
+    public CommonResult selectFinishOrder(@RequestBody QiangNumParam qiangNumParam, HttpServletRequest request) {
         CommonResult commonResult;
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -144,7 +145,8 @@ public class ConveyController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        Long order = ConveyService.selectFinishOrder(memberId, channelId);
+        qiangNumParam.setChannelId(channelId);
+        Long order = ConveyService.selectFinishOrder(qiangNumParam);
         return CommonResult.success(order);
     }
 }

@@ -42,5 +42,6 @@ public interface DispatchOrderService {
     /**
      * 解冻资金
      */
+    @Transactional
     List<Integer> unfreezeFunds(DispatchParam dispatchParam);
 }

@@ -12,6 +12,7 @@ import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.mapper.AppConveyMapper;
 import my.fast.admin.cg.model.AppConveyParam;
+import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.service.ConveyService;
 import my.fast.admin.cg.vo.AppConveyDto;
 
@@ -40,8 +41,8 @@ public class ConveyServiceImpl implements ConveyService {
     }
 
     @Override
-    public Long selectFinishOrder(Long memberId, Long channelId) {
-        List<AppConvey> appConveys = appConveyMapper.selectFinishOrder(memberId, channelId);
+    public Long selectFinishOrder(QiangNumParam qiangNumParam) {
+        List<AppConvey> appConveys = appConveyMapper.selectFinishOrder(qiangNumParam);
         if (appConveys != null && appConveys.size() > 0) {
             Long qiang = appConveys.stream()
                 .map(e -> e.getQiang())

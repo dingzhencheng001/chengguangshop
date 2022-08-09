@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.model.AppConveyParam;
+import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 
 /**
@@ -46,5 +47,5 @@ public interface ConveyService {
     /**
      * 根据id查询当日抢单数据
      */
-    Long selectFinishOrder(Long memberId, Long channelId);
+    Long selectFinishOrder(QiangNumParam qiangNumParam);
 }

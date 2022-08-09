@@ -292,7 +292,7 @@
     <select id="selectFinishOrder" resultType="my.fast.admin.cg.entity.AppConvey">
         select *
         from app_convey
-        where TO_DAYS(endtime) = TO_DAYS(now())
+        where endtime like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
         and member_id = #{memberId,jdbcType=BIGINT}
         and channel_id = #{channelId,jdbcType=BIGINT}
     </select>

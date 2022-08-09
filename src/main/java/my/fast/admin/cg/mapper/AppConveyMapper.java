@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.model.AppConveyParam;
+import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 
 public interface AppConveyMapper {
@@ -38,5 +39,5 @@ public interface AppConveyMapper {
 
     List<AppConveyDto> selectUserConvey(AppConveyParam appConveyParam);
 
-    List<AppConvey> selectFinishOrder(@Param("memberId")Long memberId,@Param("channelId")Long channelId);
+    List<AppConvey> selectFinishOrder(QiangNumParam qiangNumParam);
 }
