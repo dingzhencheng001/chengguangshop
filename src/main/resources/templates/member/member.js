@@ -200,7 +200,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				id: 'dispatch_' + data.id,
 				title: '派单',
 				icon: 'fa-file',
-				url: '/dispatchPage.html?id=' + data.id,
+				url: '/dispatch.html?id=' + data.id,
 			})
 		} else if (layEvent === 'edit') { // 编辑菜单
 			editIndex = layer.open({

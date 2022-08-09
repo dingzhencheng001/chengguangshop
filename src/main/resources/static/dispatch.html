@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新派单</title>
+    <script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+    <script src="plugins/layui-v2.7.5/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="js/common/app.js"></script>
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/console.css"/>
+    <style>
+        .dispatch-page{
+            background-color: #fafafa !important;
+            color: #5f5f5f !important;
+            margin-bottom: 15px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+            position: relative;
+            padding: 10px 15px;
+            line-height: 24px;
+        }
+        .dispatch-page .dispatch-header{
+            display: flex;
+            justify-content: space-between;
+        }
+        .dispatch-main{
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+            min-height: 300px;
+        }
+        .create-form{
+            height: 450px;
+            overflow: auto;
+            /*width: 800px;*/
+        }
+        .create-form .form-item{
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+        }
+        .create-form .form-item .el-form-item{
+            /*margin-bottom: 0;*/
+            margin-right: 18px;
+        }
+        .create-form .form-item .form-item-index{
+            height: 28px;
+            line-height: 28px;
+            text-decoration: none;
+            width: 2em;
+            text-align: right;
+            margin-right: 0;
+        }
+
+        .dispatch-list{
+            padding: 24px 0;
+        }
+        .dispatch-list .pagination{
+            padding-left: 120px;
+        }
+        .dispatch-list .groups{
+        }
+        .dispatch-list .group-item{
+            display: flex;
+            margin-bottom: 24px;
+        }
+        .dispatch-list .group-name{
+            box-sizing: border-box;
+            width: 120px;
+            padding-right: 24px;
+            text-align: right;
+            font-size: 18px;
+            line-height: 38px;
+            color: #666;
+        }
+        .dispatch-list .group-list{
+            display: flex;
+            flex-direction: column;
+        }
+        .dispatch-list .group-list li{
+            display: flex;
+            font-size: 14px;
+            color: #333;
+        }
+        .dispatch-page .valid-price{
+            font-size: 12px;
+        }
+        .dispatch-page .create-btn-wrap{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .dialog-header{
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="dispatch-page" id="app">
+    <div class="dispatch-header">
+        <div>
+            <h3 style="padding: 10px 0 0 45px; color: red;" > 该用户今日已抢单：{{qiangNum}}单 ## 卡单起始单数 {{qiangNum+1}}</h3>
+            <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
+        </div>
+        <div>
+            <el-button size="medium" type="primary" @click="onCreate" style="margin-right: 24px">创建订单</el-button>
+
+            <el-date-picker
+                    v-model="selectTime"
+                    type="date"
+                    placeholder="选择日期">
+            </el-date-picker>
+
+            <el-select v-model="whichGroup" placeholder="请选择分组">
+                <el-option label="全部分组" value=""></el-option>
+                <el-option
+                        v-for="item in groupOptions"
+                        :key="item.value"
+                        :label="item.name"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+    </div>
+
+    <div class="dispatch-main">
+        <div class="dispatch-list" v-if="dispatchList.length">
+            <div class="groups">
+                <div class="group-item" v-for="group in dispatchList" :key="group.key">
+                    <div class="group-name">{{group.name}}</div>
+                    <el-table
+                            size="mini"
+                            :data="group.list"
+                            style="width: 100%">
+                        <el-table-column
+                                label="#"
+                                type="index"
+                                width="50">
+                        </el-table-column>
+                        <el-table-column
+                                prop="orderQuantity"
+                                label="单号">
+                        </el-table-column>
+                        <el-table-column
+                                prop="minPrice"
+                                label="价格(元)">
+                            <template slot-scope="scope">
+                                <span>{{scope.row.minPrice}} - {{scope.row.maxPrice}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="hinder"
+                                label="卡单">
+                            <template slot-scope="scope">
+                                <el-tag
+                                        :type="scope.row.hinder === 1 ? 'primary' : 'success'" size="mini"
+                                        disable-transitions>{{scope.row.hinder === 1 ? '卡单' : '未卡单'}}</el-tag>
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column
+                                prop="cz"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <div>
+                                    <el-button v-if="scope.row.hinder === 1" type="primary" size="mini" :disabled="!scope.row.isThaw">解冻</el-button>
+                                </div>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </div>
+            <div class="pagination">
+                <el-pagination
+                        :page-sizes="[20, 50, 100]"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total"
+                        :page-size.sync="pageSize"
+                        :current-page.sync="pageNum"
+                >
+                </el-pagination>
+            </div>
+        </div>
+        <div class="create-btn-wrap" v-else>
+            <el-button size="medium" type="primary" @click="onCreate">创建订单</el-button>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin: 24px auto">
+        <el-button @click="onCancel">取消</el-button>
+    </div>
+
+    <el-dialog title="创建订单" :visible.sync="dialogVisible" width="1020px">
+        <div class="dialog-header" slot="title">
+            <div class="el-dialog__title">创建订单</div>
+
+            <div style="margin-left: 24px">
+                所在分组：
+                <el-select v-model="formData.whichGroup" size="small" placeholder="请选择分组" @change="onCreateSelectChange">
+                    <el-option
+                            v-for="item in createGroupOptions"
+                            :key="item.value"
+                            :label="item.name"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+        </div>
+        <div>
+            <div class="create-form">
+                <el-form :model="formData" ref="form" inline  size="mini" label-width="70px">
+                    <div v-for="(item, index) in formData.list" :key="index" class="form-item" >
+                        <i class="el-form-item el-form-item--mini form-item-index">{{index + 1 }}.</i>
+                        <el-form-item
+                                label="单号"
+                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? orderQuantityRules : {}"
+                                :key="whichGroup + index + '_orderQuantity'"
+                                :prop="'list.' + index + '.orderQuantity'"
+                        >
+                            <el-input
+                                    style="width: 120px"
+                                    v-model="item.orderQuantity" size="small" type="number" min="0"
+                                    placeholder="请输入单号"
+                                    :disabled="item.orderStatus === 1"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                label="min(元)"
+                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? minPriceRules : {}"
+                                :key="whichGroup + index + '_minPrice'"
+                                :prop="'list.' + index + '.minPrice'"
+                        >
+                            <el-input
+                                    style="width: 140px"
+                                    v-model="item.minPrice" size="small" type="number" min="0"
+                                    placeholder="请输入min"
+                                    :disabled="item.orderStatus === 1"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                label="max(元)"
+                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? maxPriceRules : {}"
+                                :key="whichGroup + index + '_maxPrice'"
+                                :prop="'list.' + index + '.maxPrice'"
+                        >
+                            <el-input
+                                    style="width: 140px"
+                                    v-model="item.maxPrice" size="small" type="number" min="0"
+                                    placeholder="请输入max"
+                                    :disabled="item.orderStatus === 1"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                :rules="hinderRules"
+                                :prop="'list.' + index + '.hinder'"
+                        >
+                            <el-checkbox v-model="item.hinder"
+                                         :true-label="1"
+                                         :false-label="2"
+                                         :disabled="item.orderStatus === 1" size="medium">卡单</el-checkbox>
+                        </el-form-item>
+                        <div class="el-form-item el-form-item--mini">
+                            <el-button type="primary" :loading="item.validateLoading" size="mini" @click="function() { onValidateItem(item, index) }">校验</el-button>
+                        </div>
+                        <div class="el-form-item el-form-item--mini" v-if="item.validPrice" style="margin-right: 0">
+                            <a class="valid-price" :style="{
+                                color: item.validPrice === 1 ? 'green' : 'red'
+                            }" >
+                                {{item.validPrice === 1 ? '价格校验通过' : '请重新输入价格范围'}}</a>
+                        </div>
+                    </div>
+                </el-form>
+            </div>
+        </div>
+        <div slot="footer">
+            <div style="display: flex; justify-content: center">
+                <el-button type="primary" @click="onCreateSubmit" :loading="submitLoading">提交</el-button>
+                <el-button @click="onCreateCancel">取消</el-button>
+            </div>
+        </div>
+    </el-dialog>
+
+</div>
+
+<script>
+    var params = $.getUrlVars();
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                memberId: params.id || '15', // 开发方便
+                selectTime: new Date(),
+                whichGroup: '',
+                qiangNum: 0,
+                total: 0,
+                pageSize: 20,
+                pageNum: 1,
+                dialogVisible: false,
+                submitLoading: false,
+                banValidate: false,
+
+                dispatchList: [],
+                formData: {
+                    whichGroup: '',
+                    list: []
+                },
+                orderQuantityRules: [
+                    {
+                        required: true, message: '单号不能为空',
+                        // validator: function (rule, value, callback) {
+                        //     if (this.banValidate) {
+                        //         return callback();
+                        //     }
+                        //     callback()
+                        // }.bind(this),
+                    },
+                ],
+                minPriceRules: [
+                    {
+                        required: true, message: 'min不能为空', trigger: 'change',
+                        validator: function (rule, value, callback) {
+                            if (this.banValidate) {
+                                return callback();
+                            }
+                            this.onValidator(rule, value, callback);
+                        }.bind(this),
+                    },
+                ],
+                maxPriceRules: [
+                    {
+                        required: true, message: 'max不能为空', trigger: 'change',
+                        validator: function (rule, value, callback) {
+                            if (this.banValidate) {
+                                return callback();
+                            }
+                            this.onValidator(rule, value, callback);
+                        }.bind(this),
+                    },
+                ],
+                hinderRules: [],
+                groupOptions: [],
+            }
+        },
+        mounted: function () {
+            this.onInit();
+        },
+        methods: {
+            onInit: function () {
+                this.onQiang();
+                this.onGetGroup(this.onQueryList);
+            },
+            onQueryList: function () {
+                $.request({
+                    url: '/action/dispatch/list?memberId=' + this.memberId,
+                    type: 'post',
+                    data: this.queryParams,
+                    success: function (result) {
+                        var list = result.data.list || [];
+                        this.pageNum = result.data.pageNum;
+                        this.pageSize = result.data.pageSize;
+                        this.total = result.data.total;
+                        var data = this.onGroupingData(list, function (item) {
+                            return item.whichGroup;
+                        })
+                        console.log(list, data);
+                        this.dispatchList = data;
+                        this.onThawMark();
+                    }.bind(this)
+                })
+            },
+            // 对数据进行分组
+            onGroupingData: function (arr = [], fun) {
+                var data = [];
+                for (var i = 0; i < arr.length; i++) {
+                    var item = arr[i];
+                    var key = fun(item, i, arr);
+                    var findItem = data.find(function (item) {
+                        return item.key === key;
+                    }.bind(this));
+                    if (!findItem) {
+                        data.push({
+                            key: key,
+                            name: '分组' + key,
+                            list: [item],
+                        })
+                    } else {
+                        findItem.list.push(item)
+                    }
+                }
+                return data;
+                // grouping
+            },
+            // 解冻标记
+            onThawMark: function () {
+                var arr = this.dispatchList.slice();
+                arr.forEach(function (g) {
+                    g.list.forEach(function (item) {
+                        item.isThaw = false;
+                    })
+                })
+
+            },
+            onThaw: function () {
+
+            },
+            onCreate: function () {
+                var i = Math.max.apply(null, this.groupOptions.map(function (item) {
+                    return item.value;
+                })) + 1;
+                // this.formData.whichGroup = i;
+                this.formData = {
+                    whichGroup: i,
+                    list: this.onFill([]),
+                };
+
+                this.dialogVisible = true;
+            },
+            onCreateValidate: function (cb) {
+                this.banValidate = true;
+                this.$refs['form'].validate(function (valid) {
+                    this.banValidate = false;
+                    cb(valid);
+                }.bind(this));
+            },
+            onCreateSubmit: function () {
+                this.onCreateValidate(function (valid) {
+                    console.log('valid', valid);
+                    if (valid) {
+                        var fd = this.onGetCreateformData()
+                        console.log('fd', fd);
+                        this.submitLoading = true;
+                        $.request({
+                            url: '/action/dispatch/assign',
+                            type: 'post',
+                            data: fd,
+                            showLoading: true,
+                            success: function (result) {
+                                layer.msg('创建派单成功', {icon: 1});
+                                this.onCreateCancel();
+                                this.onInit();
+                            }.bind(this),
+                            complete: function () {
+                                this.submitLoading = false;
+                            }.bind(this)
+                        });
+                    } else {
+                    }
+                }.bind(this));
+            },
+            onCreateCancel: function () {
+                this.formData.list = [];
+                this.dialogVisible = false;
+            },
+            onGetCreateformData: function () {
+                var q = {
+                    memberId: Number(this.memberId),
+                    selectTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
+                    whichGroup: this.formData.whichGroup,
+                };
+                var fd = this.formData.list.filter(function (item) {
+                    if (item.orderStatus === 1) return false;
+                    if (!item.minPrice) return false;
+                    if (!item.maxPrice) return false;
+                    return true;
+                }).map(function (item) {
+                    var o = Object.assign({}, item, q);
+                    if (!o.memberId) o.memberId = Number(this.memberId);
+                    o.minPrice = Number(o.minPrice);
+                    o.maxPrice = Number(o.maxPrice);
+                    delete o.validPrice;
+                    delete o.validateLoading;
+                    return o;
+                }.bind(this));
+                return fd;
+            },
+            // 抢单号
+            onQiang: function () {
+                $.request({
+                    url: '/action/convey/qiang?memberId=' + this.memberId,
+                    success: function (result) {
+                        // 该用户今日已抢单
+                        this.qiangNum = result.data || 0;
+                    }
+                });
+            },
+            onFill: function (arr) {
+                var l = 20;
+                var newArr = [];
+                for (var i = 1; i <= l; i++) {
+                    // var find = (arr.slice()).find(function (item) {
+                    //     return item.orderQuantity === i;
+                    // });
+                    // if (find) {
+                    //     newArr.push(find);
+                    // } else {
+                        newArr.push({
+                            orderQuantity: '',
+                            serialNumber: '',
+                            minPrice: '',
+                            maxPrice: '',
+                            hinder: 2,
+                        });
+                    // }
+                }
+                return newArr;
+            },
+            onValidateItem: function (item, i, callback) {
+                if (!item.maxPrice || !item.minPrice) {
+                    callback && callback()
+                    return;
+                }
+                this.onSetFormDataItem(i, { validateLoading: true });
+                $.request({
+                    url: '/action/dispatch/check',
+                    type: 'post',
+                    data: item,
+                    success: function () {
+                        this.onSetFormDataItem(i, { validPrice: 1, validateLoading: false });
+                    }.bind(this),
+                    fail: function (fail) {
+                        console.log('fail', fail)
+                        this.onSetFormDataItem(i, { validPrice: 2, validateLoading: false });
+                    }.bind(this),
+                    complete: function () {
+                        callback && callback();
+                    }
+                });
+            },
+
+            onValidator: $.debounce(function (rule, value, callback) {
+                if (!value) return callback(new Error(rule.message));
+                var fieldSplit = rule.field.split('.');
+                var index = Number(fieldSplit[1]);
+                var field = fieldSplit[2];
+                var item = this.formData.list[index];
+                if (item.minPrice && item.maxPrice) {
+                    console.warn('validator2', item, value);
+                    // if (item.validPrice === 1) {
+                    //     callback();
+                    //     return;
+                    // }
+                    this.onValidateItem.call(this, item, index, callback);
+                } else {
+                    callback();
+                }
+            }, 800, false),
+
+            onSetFormDataItem: function (i, o) {
+                var newList = this.formData.list.slice();
+                newList[i] = Object.assign({}, newList[i], o);
+                this.formData.list = newList;
+            },
+
+            onGetGroup: function (cb) {
+                var fd = Object.assign({}, this.queryParams);
+                delete fd.whichGroup;
+                $.request({
+                    url: '/action/dispatch/find',
+                    type: 'post',
+                    data: fd,
+                    success: function (result) {
+                        if (result.data === 1) {
+                            // 没有分组，那么应该没数据
+                            this.groupOptions = [];
+                            this.dispatchList = [];
+                            return;
+                        }
+                        var options = (result.data || []).map((item) => {
+                            return { name: '分组' + item, value: item}
+                        });
+                        // if (options.length) {
+                        //     this.whichGroup = options[0].value;
+                        // }
+                        this.groupOptions = options;
+                        cb && cb();
+                    }.bind(this)
+                })
+            },
+
+            onCreateSelectChange: function (v) {
+                console.log('v', v);
+
+            },
+
+            // 取消
+            onCancel: function () {
+                window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
+                window.parent.layui.tab.close('dispatch_' + this.memberId);
+            },
+
+        },
+
+        computed: {
+            queryParams: function () {
+                var params = {
+                    memberId: Number(this.memberId),
+                    selectTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
+                    whichGroup: this.whichGroup || '',
+                    pageSize: this.pageSize,
+                    pageNum: this.pageNum,
+                };
+                return params;
+            },
+            // 新的分组id
+            newGroupId: function () {
+                var i = Math.max.apply(null, this.groupOptions.map(function (item) {
+                    return item.value;
+                })) + 1;
+                return i;
+            },
+            // 创建表单的分组选项
+            createGroupOptions: function () {
+                var options = this.groupOptions.slice();
+                options.unshift({
+                    name: '创建新分组',
+                    value: this.newGroupId,
+                })
+                return options;
+            }
+        },
+        watch: {
+            // selectTime: function () {
+            //     this.onInit();
+            // },
+            queryParams: function () {
+                this.onQueryList();
+            }
+        },
+    });
+</script>
+</body>
+</html>
