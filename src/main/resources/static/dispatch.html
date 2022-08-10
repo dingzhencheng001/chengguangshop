@@ -89,6 +89,7 @@
         }
         .dispatch-page .valid-price{
             font-size: 12px;
+            line-height: 1.2em;
         }
         .dispatch-page .create-btn-wrap{
             width: 100%;
@@ -171,7 +172,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <div>
-                                    <el-button v-if="scope.row.hinder === 1" type="primary" size="mini" :disabled="!scope.row.isThaw">解冻</el-button>
+                                    <el-button v-if="scope.row.orderStatus === 0" type="primary" size="mini" @click="function() { onHandleModify(scope.row) }">修改价格</el-button>
                                 </div>
                             </template>
                         </el-table-column>
@@ -198,13 +199,13 @@
         <el-button @click="onCancel">取消</el-button>
     </div>
 
-    <el-dialog title="创建订单" :visible.sync="dialogVisible" width="1020px">
+    <el-dialog title="创建订单" :visible.sync="dialogVisible" width="1050px">
         <div class="dialog-header" slot="title">
             <div class="el-dialog__title">创建订单</div>
 
             <div style="margin-left: 24px">
                 所在分组：
-                <el-select v-model="formData.whichGroup" size="small" placeholder="请选择分组" @change="onCreateSelectChange">
+                <el-select v-model="formData.whichGroup" size="small" placeholder="请选择分组" >
                     <el-option
                             v-for="item in createGroupOptions"
                             :key="item.value"
@@ -221,7 +222,8 @@
                         <i class="el-form-item el-form-item--mini form-item-index">{{index + 1 }}.</i>
                         <el-form-item
                                 label="单号"
-                                :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? orderQuantityRules : {}"
+                                :required="Boolean(item.serialNumber || item.minPrice || item.maxPrice)"
+                                :rules="orderQuantityRules"
                                 :key="whichGroup + index + '_orderQuantity'"
                                 :prop="'list.' + index + '.orderQuantity'"
                         >
@@ -265,13 +267,14 @@
                                          :disabled="item.orderStatus === 1" size="medium">卡单</el-checkbox>
                         </el-form-item>
                         <div class="el-form-item el-form-item--mini">
-                            <el-button type="primary" :loading="item.validateLoading" size="mini" @click="function() { onValidateItem(item, index) }">校验</el-button>
+                            <el-button type="primary" :loading="item.validPriceLoading" size="mini" @click="function() { onValidateAll(item, index) }">校验</el-button>
                         </div>
-                        <div class="el-form-item el-form-item--mini" v-if="item.validPrice" style="margin-right: 0">
-                            <a class="valid-price" :style="{
-                                color: item.validPrice === 1 ? 'green' : 'red'
-                            }" >
-                                {{item.validPrice === 1 ? '价格校验通过' : '请重新输入价格范围'}}</a>
+                        <div class="el-form-item el-form-item--mini" v-if="item.validPrice || item.validOrder" style="margin-right: 0">
+                            <div class="valid-price" v-if="item.validPrice" :style="{ color: item.validPrice === 1 ? 'green' : 'red' }" >
+                                {{item.validPrice === 1 ? '价格校验通过' : '请重新输入价格范围'}}</div>
+                            <div class="valid-price" v-if="item.validOrder" :style="{ color: item.validOrder === 1 ? 'green' : 'red'}" >
+                                {{item.validOrder === 1 ? '单号校验通过' : '单号已存在！请重新输入'}}
+                            </div>
                         </div>
                     </div>
                 </el-form>
@@ -282,6 +285,31 @@
                 <el-button type="primary" @click="onCreateSubmit" :loading="submitLoading">提交</el-button>
                 <el-button @click="onCreateCancel">取消</el-button>
             </div>
+        </div>
+    </el-dialog>
+
+    <el-dialog title="修改价格" :visible.sync="modifyVisible">
+        <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm">
+            <el-form-item
+                    label="min(元)"
+                    prop="minPrice"
+            >
+                <el-input
+                        v-model="modifyForm.minPrice" size="small" type="number" min="0"
+                        placeholder="请输入min" ></el-input>
+            </el-form-item>
+            <el-form-item
+                    label="max(元)"
+                    prop="maxPrice"
+            >
+                <el-input
+                        v-model="modifyForm.maxPrice" size="small" type="number" min="0"
+                        placeholder="请输入max" ></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="onModifyCancel">取 消</el-button>
+            <el-button type="primary" @click="onModifyConfirm" :disabled="modifyConfirmLoading">确 定</el-button>
         </div>
     </el-dialog>
 
@@ -303,6 +331,7 @@
                 dialogVisible: false,
                 submitLoading: false,
                 banValidate: false,
+                validOrderLoading: false,
 
                 dispatchList: [],
                 formData: {
@@ -311,13 +340,24 @@
                 },
                 orderQuantityRules: [
                     {
-                        required: true, message: '单号不能为空',
-                        // validator: function (rule, value, callback) {
-                        //     if (this.banValidate) {
-                        //         return callback();
-                        //     }
-                        //     callback()
-                        // }.bind(this),
+                        // required: true, message: '单号不能为空',
+                        trigger: 'change',
+                        validator: function (rule, value, callback) {
+                            if (this.banValidate) {
+                                return callback();
+                            }
+                            var fieldSplit = rule.field.split('.');
+                            var index = Number(fieldSplit[1]);
+                            var field = fieldSplit[2];
+                            var item = this.formData.list[index];
+                            var v = item[field];
+                            if (item.validOrderLoading) return;
+                            if (!v) {
+                                return callback(new Error('请输入单号'))
+                            }
+                            this.onValidatorNum.call(this, item, index, callback);
+                            // callback()
+                        }.bind(this),
                     },
                 ],
                 minPriceRules: [
@@ -327,7 +367,11 @@
                             if (this.banValidate) {
                                 return callback();
                             }
-                            this.onValidator(rule, value, callback);
+                            if (!value) return callback(new Error(rule.message));
+                            var fieldSplit = rule.field.split('.');
+                            var index = Number(fieldSplit[1]);
+                            var item = this.formData.list[index];
+                            this.onValidatePrice(item, index, callback);
                         }.bind(this),
                     },
                 ],
@@ -338,12 +382,31 @@
                             if (this.banValidate) {
                                 return callback();
                             }
-                            this.onValidator(rule, value, callback);
+                            if (!value) return callback(new Error(rule.message));
+                            var fieldSplit = rule.field.split('.');
+                            var index = Number(fieldSplit[1]);
+                            var item = this.formData.list[index];
+                            this.onValidatePrice(item, index, callback);
                         }.bind(this),
                     },
                 ],
                 hinderRules: [],
                 groupOptions: [],
+                modifyRules: {
+                    minPrice: [
+                        {
+                            required: true, message: 'min不能为空', trigger: 'change',
+                        }
+                    ],
+                    maxPrice: [
+                        {
+                            required: true, message: 'min不能为空', trigger: 'change',
+                        }
+                    ],
+                },
+                modifyForm: {},
+                modifyVisible: false,
+                modifyConfirmLoading: false,
             }
         },
         mounted: function () {
@@ -369,7 +432,6 @@
                         })
                         console.log(list, data);
                         this.dispatchList = data;
-                        this.onThawMark();
                     }.bind(this)
                 })
             },
@@ -394,19 +456,6 @@
                 }
                 return data;
                 // grouping
-            },
-            // 解冻标记
-            onThawMark: function () {
-                var arr = this.dispatchList.slice();
-                arr.forEach(function (g) {
-                    g.list.forEach(function (item) {
-                        item.isThaw = false;
-                    })
-                })
-
-            },
-            onThaw: function () {
-
             },
             onCreate: function () {
                 var i = Math.max.apply(null, this.groupOptions.map(function (item) {
@@ -433,6 +482,10 @@
                     if (valid) {
                         var fd = this.onGetCreateformData()
                         console.log('fd', fd);
+                        if (fd.length === 0) {
+                            layer.msg('请输入单号和价格', {icon: 2});
+                            return;
+                        }
                         this.submitLoading = true;
                         $.request({
                             url: '/action/dispatch/assign',
@@ -473,7 +526,8 @@
                     o.minPrice = Number(o.minPrice);
                     o.maxPrice = Number(o.maxPrice);
                     delete o.validPrice;
-                    delete o.validateLoading;
+                    delete o.validPriceLoading;
+                    delete o.validOrderLoading;
                     return o;
                 }.bind(this));
                 return fd;
@@ -481,11 +535,13 @@
             // 抢单号
             onQiang: function () {
                 $.request({
-                    url: '/action/convey/qiang?memberId=' + this.memberId,
+                    url: '/action/convey/qiang',
+                    type: 'post',
+                    data: this.queryParams,
                     success: function (result) {
                         // 该用户今日已抢单
                         this.qiangNum = result.data || 0;
-                    }
+                    }.bind(this)
                 });
             },
             onFill: function (arr) {
@@ -509,46 +565,60 @@
                 }
                 return newArr;
             },
-            onValidateItem: function (item, i, callback) {
+            // 校验价格
+            onValidatePrice: $.debounce(function (item, i, callback) {
                 if (!item.maxPrice || !item.minPrice) {
                     callback && callback()
                     return;
                 }
-                this.onSetFormDataItem(i, { validateLoading: true });
+                this.onSetFormDataItem(i, { validPriceLoading: true });
                 $.request({
                     url: '/action/dispatch/check',
                     type: 'post',
                     data: item,
                     success: function () {
-                        this.onSetFormDataItem(i, { validPrice: 1, validateLoading: false });
+                        this.onSetFormDataItem(i, { validPrice: 1, validPriceLoading: false });
                     }.bind(this),
                     fail: function (fail) {
-                        console.log('fail', fail)
-                        this.onSetFormDataItem(i, { validPrice: 2, validateLoading: false });
+                        this.onSetFormDataItem(i, { validPrice: 2, validPriceLoading: false });
                     }.bind(this),
                     complete: function () {
                         callback && callback();
                     }
                 });
+            }, 800, false),
+
+            // 校验单号和价格
+            onValidateAll: function (item, i, callback) {
+                this.onValidatorNum(item, i);
+                this.onValidatePrice(item, i);
             },
 
-            onValidator: $.debounce(function (rule, value, callback) {
-                if (!value) return callback(new Error(rule.message));
-                var fieldSplit = rule.field.split('.');
-                var index = Number(fieldSplit[1]);
-                var field = fieldSplit[2];
-                var item = this.formData.list[index];
-                if (item.minPrice && item.maxPrice) {
-                    console.warn('validator2', item, value);
-                    // if (item.validPrice === 1) {
-                    //     callback();
-                    //     return;
-                    // }
-                    this.onValidateItem.call(this, item, index, callback);
-                } else {
-                    callback();
-                }
-            }, 800, false),
+            // 校验单号
+            onValidatorNum: $.debounce(function (item, i, callback) {
+                this.onSetFormDataItem(i, { validOrderLoading: true });
+                var fd = Object.assign({}, item, this.queryParams);
+                $.request({
+                    url: '/action/dispatch/verification',
+                    type: 'post',
+                    data: fd,
+                    success: function (result) {
+                        this.onSetFormDataItem(i, { validOrder: 1, validOrderLoading: false });
+                    }.bind(this),
+                    fail: function (result) {
+                        this.onSetFormDataItem(i, { validOrder: 2, validOrderLoading: false });
+                    }.bind(this),
+                    complete: function () {
+                        callback && callback();
+                    }.bind(this),
+                })
+            }, 500, false),
+
+            // 校验价格
+            // onValidator: $.debounce(function (item, i, callback) {
+            //     if (!value) return callback(new Error(rule.message));
+            //     this.onValidatePrice.call(this, item, index, callback);
+            // }, 800, false),
 
             onSetFormDataItem: function (i, o) {
                 var newList = this.formData.list.slice();
@@ -582,15 +652,77 @@
                 })
             },
 
-            onCreateSelectChange: function (v) {
-                console.log('v', v);
-
+            onHandleModify: function (item) {
+                this.modifyForm = Object.assign({}, item);
+                this.modifyVisible = true;
+                console.log('v', item);
             },
 
             // 取消
             onCancel: function () {
                 window.parent.layui.tab.tabAdd({id: '859a3314b98b427d98f69f3574e953a6'})
                 window.parent.layui.tab.close('dispatch_' + this.memberId);
+            },
+
+            // 修改价格校验
+            onModifyValidator: function (callback) {
+
+                this.$refs['modifyForm'].validate(function (valid) {
+                    if (!valid) {
+                        layer.msg('请输入价格范围', {icon: 2});
+                        callback(false);
+                        return;
+                    }
+                    var item = Object.assign({}, this.modifyForm);
+                    $.request({
+                        url: '/action/dispatch/check',
+                        type: 'post',
+                        data: item,
+                        success: function () {
+                            callback(true);
+                        },
+                        fail: function (fail) {
+                            layer.msg('请重新输入价格范围', {icon: 2});
+                            callback(false);
+                        }.bind(this),
+                        error: function () {
+                            layer.msg('请重新输入价格范围', {icon: 2});
+                            callback(false);
+                        }.bind(this)
+                    });
+
+                }.bind(this))
+
+            },
+
+            onModifyConfirm: function () {
+                this.modifyConfirmLoading = true;
+                this.onModifyValidator(function (valid) {
+                    if (!valid) {
+                        this.modifyConfirmLoading = false;
+                        return;
+                    }
+                    var fd = [this.modifyForm];
+                    $.request({
+                        url: '/action/dispatch/assign',
+                        type: 'post',
+                        data: fd,
+                        showLoading: true,
+                        success: function (result) {
+                            layer.msg('修改价格成功', {icon: 1});
+                            this.onModifyCancel();
+                            this.onInit();
+                        }.bind(this),
+                        complete: function () {
+                            this.modifyConfirmLoading = false;
+                        }.bind(this)
+                    });
+                }.bind(this));
+            },
+
+            onModifyCancel: function () {
+                this.modifyForm = {};
+                this.modifyVisible = false;
             },
 
         },
@@ -610,8 +742,8 @@
             newGroupId: function () {
                 var i = Math.max.apply(null, this.groupOptions.map(function (item) {
                     return item.value;
-                })) + 1;
-                return i;
+                }))  || 0;
+                return i + 1;
             },
             // 创建表单的分组选项
             createGroupOptions: function () {
@@ -629,6 +761,7 @@
             // },
             queryParams: function () {
                 this.onQueryList();
+                this.onQiang();
             }
         },
     });
