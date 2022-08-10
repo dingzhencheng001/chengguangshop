@@ -19,6 +19,7 @@
         <result column="is_consumed" jdbcType="INTEGER" property="isConsumed"/>
         <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
         <result column="which_group" jdbcType="INTEGER" property="whichGroup"/>
+        <result column="goods_flag" jdbcType="INTEGER" property="goodsFlag" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -83,7 +84,7 @@
     <sql id="Base_Column_List">
         id
         , shop_name, goods_name, goods_info, goods_pic, goods_price, goods_add_time, status,
-    channel_id, member_id, goods_sort_id, last_order, hinder, order_quantity, is_consumed,serial_number, which_group
+    channel_id, member_id, goods_sort_id, last_order, hinder, order_quantity, is_consumed,serial_number, which_group, goods_flag
     </sql>
     <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppAssignGoodsExample"
             resultMap="BaseResultMap">
@@ -131,13 +132,13 @@
         goods_pic, goods_price, goods_add_time,
         status, channel_id, member_id,
         goods_sort_id, last_order, hinder,
-        order_quantity, is_consumed,serial_number, which_group)
+        order_quantity, is_consumed,serial_number, which_group,goods_flag)
         values (#{shopName,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsInfo,jdbcType=VARCHAR},
         #{goodsPic,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsAddTime,jdbcType=TIMESTAMP},
         #{status,jdbcType=INTEGER}, #{channelId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT},
         #{goodsSortId,jdbcType=BIGINT}, #{lastOrder,jdbcType=INTEGER}, #{hinder,jdbcType=INTEGER},
         #{orderQuantity,jdbcType=INTEGER}, #{isConsumed,jdbcType=INTEGER},
-        #{serialNumber,jdbcType=VARCHAR},#{whichGroup,jdbcType=INTEGER})
+        #{serialNumber,jdbcType=VARCHAR},#{whichGroup,jdbcType=INTEGER}, #{goodsFlag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppAssignGoods">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -193,7 +194,9 @@
             <if test="whichGroup != null">
                 which_group,
             </if>
-
+            <if test="goodsFlag != null">
+                goods_flag,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="shopName != null">
@@ -318,7 +321,9 @@
             <if test="record.whichGroup != null">
                 which_group = #{record.whichGroup,jdbcType=INTEGER},
             </if>
-
+            <if test="record.goodsFlag != null">
+                goods_flag = #{record.goodsFlag,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -342,7 +347,8 @@
         order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
         is_consumed = #{record.isConsumed,jdbcType=INTEGER},
         serial_number = #{record.serialNumber,jdbcType=VARCHAR},
-        which_group = #{record.whichGroup,jdbcType=INTEGER}
+        which_group = #{record.whichGroup,jdbcType=INTEGER},
+        goods_flag = #{record.goodsFlag,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -398,6 +404,9 @@
             <if test="whichGroup != null">
                 which_group = #{whichGroup,jdbcType=INTEGER},
             </if>
+            <if test="goodsFlag != null">
+                goods_flag = #{goodsFlag,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -418,7 +427,8 @@
             order_quantity = #{orderQuantity,jdbcType=INTEGER},
             is_consumed    = #{isConsumed,jdbcType=INTEGER},
             serial_number  = #{serialNumber,jdbcType=VARCHAR},
-            which_group    = #{whichGroup,jdbcType=INTEGER}
+            which_group    = #{whichGroup,jdbcType=INTEGER},
+            goods_flag = #{goodsFlag,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

@@ -82,6 +82,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appAssignGoods.setIsConsumed(0);
                 appAssignGoods.setOrderQuantity(orderParam.getOrderQuantity());
                 appAssignGoods.setWhichGroup(orderParam.getWhichGroup());
+                appAssignGoods.setGoodsFlag(1);
                 //先插入派单商品库
                 appAssignGoodsMapper.insert(appAssignGoods);
                 //后插入派单业务表库
