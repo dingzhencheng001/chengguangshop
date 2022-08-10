@@ -95,7 +95,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             Random rand = new Random();
             AppAssignGoods appAssignGoods = assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
             //更新订单状态
-            appAssignGoods.setIsConsumed(1);
             appAssignGoods.setGoodsFlag(1);
             appAssignGoodsMapper.updateByPrimaryKeySelective(appAssignGoods);
             return appAssignGoods;
@@ -120,18 +119,20 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
 
     @Override
     public int submitOrders(Object goods, Long memberId, Long channelId) throws Exception {
-        //生成订单号
-        String orderSn = generateOrderSn();
         //判断商品类型
         JSONObject json = (JSONObject) JSON.toJSON(goods);
         boolean goodsFlag = json.containsKey("goodsFlag");
         if (goodsFlag) {
             //指派订单
             AppAssignGoods appAssignGoods = JSON.parseObject(JSON.toJSONString(goods), AppAssignGoods.class);
-            return submitDistributionGoods(appAssignGoods, memberId, channelId);
+            //生成订单号
+            String orderSn = appAssignGoods.getSerialNumber();
+            return submitDistributionGoods(appAssignGoods, memberId, channelId, orderSn);
         } else {
             //传统订单
             AppGoods appGoods = JSON.parseObject(JSON.toJSONString(goods), AppGoods.class);
+            //生成订单号
+            String orderSn = generateOrderSn();
             return submitTraditionOrders(appGoods, memberId, channelId, orderSn);
         }
     }
@@ -218,19 +219,20 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     //指派订单
-    private int submitDistributionGoods(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
+    private int submitDistributionGoods(AppAssignGoods appGoods, Long memberId, Long channelId, String orderSn)
+    throws Exception {
         //如果不是是卡单
         if (appGoods.getHinder() == 0) {
-            return smooth(appGoods, memberId, channelId);
+            return smooth(appGoods, memberId, channelId, orderSn);
         }
         //如果是卡单
         if (appGoods.getHinder() == 1) {
-            return stuck(appGoods, memberId, channelId);
+            return stuck(appGoods, memberId, channelId, orderSn);
         }
         return 1;
     }
 
-    private int smooth(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
+    private int smooth(AppAssignGoods appGoods, Long memberId, Long channelId, String orderSn) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -248,7 +250,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //设置会员id
         appConvey.setMemberId(appMember.getId());
         //生成订单号
-        appConvey.setLno(generateOrderSn());
+        appConvey.setLno(orderSn);
         //设置本单金额
         appConvey.setAmount(appGoods.getGoodsPrice());
         //设置下单时间
@@ -304,12 +306,15 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
-        appMemberAccountChange.setOrderNo(generateOrderSn());
+        appMemberAccountChange.setOrderNo(orderSn);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+        //更新派单商品状态
+        appGoods.setIsConsumed(1);
+        appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
         return appConveyMapper.insertSelective(appConvey);
     }
 
-    private int stuck(AppAssignGoods appGoods, Long memberId, Long channelId) throws Exception {
+    private int stuck(AppAssignGoods appGoods, Long memberId, Long channelId, String orderSn) throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -327,7 +332,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //设置会员id
         appConvey.setMemberId(appMember.getId());
         //生成订单号
-        appConvey.setLno(generateOrderSn());
+        appConvey.setLno(orderSn);
         //设置本单金额
         appConvey.setAmount(appGoods.getGoodsPrice());
         //设置下单时间
@@ -383,8 +388,11 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
-        appMemberAccountChange.setOrderNo(generateOrderSn());
+        appMemberAccountChange.setOrderNo(orderSn);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+        //更新派单商品状态
+        appGoods.setIsConsumed(1);
+        appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
         return appConveyMapper.insertSelective(appConvey);
     }
 
