@@ -40,8 +40,7 @@ public interface DispatchOrderService {
     List<Integer> findGroup(DispatchParam dispatchParam);
 
     /**
-     * 解冻资金
+     * 根据时间查询派单组次
      */
-    @Transactional
-    List<Integer> unfreezeFunds(DispatchParam dispatchParam);
+    int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
 }

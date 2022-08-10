@@ -148,11 +148,11 @@ public class DispatchOrderController {
         return commonResult;
     }
 
-    @ApiOperation(value = "派单金额解冻")
-    @RequestMapping(value = "/thaw", method = RequestMethod.POST)
+    @ApiOperation(value = "校验是否有重复单")
+    @RequestMapping(value = "/verification", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult unfreezeFunds(HttpServletRequest request, @RequestBody DispatchParam dispatchParam) {
-        CommonResult commonResult;
+    public CommonResult checkOrderQuantity(@RequestBody DispatchOrderParam dispatchOrderParam, HttpServletRequest request)
+    throws Exception {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -166,15 +166,16 @@ public class DispatchOrderController {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        dispatchParam.setChannelId(channelId);
-        List<Integer> orderList = dispatchOrderService.unfreezeFunds(dispatchParam);
-        if (orderList.size() > 0) {
-            commonResult = CommonResult.success(orderList);
+        dispatchOrderParam.setChannelId(channelId);
+        int count = dispatchOrderService.checkOrderQuantity(dispatchOrderParam);
+        if (count == 1) {
+            return CommonResult.failed("单号重复,请重新输入!");
         } else {
-            commonResult = CommonResult.success(1);
+            return CommonResult.success(null);
         }
-        return commonResult;
     }
+
+
 
 
 }

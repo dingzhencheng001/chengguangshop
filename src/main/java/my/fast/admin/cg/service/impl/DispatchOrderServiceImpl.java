@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
+import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppDispatchOrderExample;
@@ -53,13 +54,14 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
                 //删除列表
                 AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
-                appDispatchOrderExample.createCriteria().andSerialNumberEqualTo(orderParam.getSerialNumber());
+                appDispatchOrderExample.createCriteria()
+                    .andSerialNumberEqualTo(orderParam.getSerialNumber());
                 appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
 
             }
         }
         //生成商品
-       return makeOrders(dispatchOrderParam);
+        return makeOrders(dispatchOrderParam);
 
     }
 
@@ -132,8 +134,9 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     }
 
     @Override
-    public List<Integer> unfreezeFunds(DispatchParam dispatchParam) {
-        return null;
+    public int checkOrderQuantity(DispatchOrderParam dispatchOrderParam) {
+        return appDispatchOrderMapper.checkOrderQuantity(dispatchOrderParam);
+
     }
 
     /**

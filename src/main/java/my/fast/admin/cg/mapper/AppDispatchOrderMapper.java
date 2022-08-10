@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppDispatchOrderExample;
+import my.fast.admin.cg.model.DispatchOrderParam;
 import my.fast.admin.cg.model.DispatchParam;
 
 public interface AppDispatchOrderMapper {
@@ -40,4 +41,10 @@ public interface AppDispatchOrderMapper {
      * 获取时间获取列表
      */
     List<AppDispatchOrder> findGroup(DispatchParam dispatchParam);
+
+    /**
+     * 校验单数是否重复
+     */
+    int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
+
 }
