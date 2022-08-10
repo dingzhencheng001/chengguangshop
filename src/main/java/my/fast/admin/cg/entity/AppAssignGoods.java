@@ -39,8 +39,8 @@ public class AppAssignGoods implements Serializable {
     @ApiModelProperty(value = "商品分类id")
     private Long goodsSortId;
 
-    @ApiModelProperty(value = "任务组")
-    private Integer taskGroup;
+    @ApiModelProperty(value = "是否是最后一单1.是2.不是")
+    private Integer lastOrder;
 
     @ApiModelProperty(value = "是否卡单1.卡单2.不卡单")
     private Integer hinder;
@@ -56,6 +56,9 @@ public class AppAssignGoods implements Serializable {
 
     @ApiModelProperty(value = "第几组")
     private Integer whichGroup;
+
+    @ApiModelProperty(value = "派单标识1.派单商品2.传统商品")
+    private Integer goodsFlag;
 
     private static final long serialVersionUID = 1L;
 
@@ -147,12 +150,12 @@ public class AppAssignGoods implements Serializable {
         this.goodsSortId = goodsSortId;
     }
 
-    public Integer getTaskGroup() {
-        return taskGroup;
+    public Integer getLastOrder() {
+        return lastOrder;
     }
 
-    public void setTaskGroup(Integer taskGroup) {
-        this.taskGroup = taskGroup;
+    public void setLastOrder(Integer lastOrder) {
+        this.lastOrder = lastOrder;
     }
 
     public Integer getHinder() {
@@ -195,6 +198,14 @@ public class AppAssignGoods implements Serializable {
         this.whichGroup = whichGroup;
     }
 
+    public Integer getGoodsFlag() {
+        return goodsFlag;
+    }
+
+    public void setGoodsFlag(Integer goodsFlag) {
+        this.goodsFlag = goodsFlag;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -212,12 +223,13 @@ public class AppAssignGoods implements Serializable {
         sb.append(", channelId=").append(channelId);
         sb.append(", memberId=").append(memberId);
         sb.append(", goodsSortId=").append(goodsSortId);
-        sb.append(", taskGroup=").append(taskGroup);
+        sb.append(", lastOrder=").append(lastOrder);
         sb.append(", hinder=").append(hinder);
         sb.append(", orderQuantity=").append(orderQuantity);
         sb.append(", isConsumed=").append(isConsumed);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", whichGroup=").append(whichGroup);
+        sb.append(", goodsFlag=").append(goodsFlag);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

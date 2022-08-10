@@ -1,7 +1,5 @@
 package my.fast.admin.cg.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonResult;
-import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.AppRandomOrderParam;
@@ -56,20 +53,25 @@ public class AppGrabOrdersController {
         }
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
         //判断该账户提现状态是否正常
-        if (CommonUtils.moneyComp(appUserVO.getBalance(),appUserVO.getLimitAmount())) {
+        if (CommonUtils.moneyComp(appUserVO.getBalance(), appUserVO.getLimitAmount())) {
             AppRandomOrderParam appRandomOrderParam = new AppRandomOrderParam();
             appRandomOrderParam.setMemberId(appUserVO.getId());
             appRandomOrderParam.setChannelId(channelId);
             Object appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
             return CommonResult.success(appGoods);
-        }else {
+        } else {
             return CommonResult.failed("账户余额无法支付抢单商品,请充值后抢单!");
         }
     }
@@ -86,13 +88,18 @@ public class AppGrabOrdersController {
         Long memberId = appUserVO.getId();
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
-        if (sysChannel == null || sysChannel.getChannelId()==null ) {
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
             return CommonResult.failed("渠道查询错误，渠道ID不存在");
         }
         Long channelId = sysChannel.getChannelId();
-        int count = appGrabOrdersService.submitOrders(appGoods, memberId,channelId);
+        int count = appGrabOrdersService.submitOrders(appGoods, memberId, channelId);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

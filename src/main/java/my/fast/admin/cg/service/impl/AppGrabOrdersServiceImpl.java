@@ -96,6 +96,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             AppAssignGoods appAssignGoods = assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
             //更新订单状态
             appAssignGoods.setIsConsumed(1);
+            appAssignGoods.setGoodsFlag(1);
             appAssignGoodsMapper.updateByPrimaryKeySelective(appAssignGoods);
             return appAssignGoods;
         } else {
@@ -119,21 +120,25 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
 
     @Override
     public int submitOrders(Object goods, Long memberId, Long channelId) throws Exception {
-        //传统订单
-        AppGoods appGoods = JSON.parseObject(JSON.toJSONString(goods), AppGoods.class);
-        if (!StringUtils.isEmpty(appGoods)) {
-            return submitTraditionOrders(appGoods, memberId, channelId);
-        }
-        //指派订单
-        AppAssignGoods appAssignGoods = JSON.parseObject(JSON.toJSONString(goods), AppAssignGoods.class);
-        if (!StringUtils.isEmpty(appAssignGoods)) {
+        //生成订单号
+        String orderSn = generateOrderSn();
+        //判断商品类型
+        JSONObject json = (JSONObject) JSON.toJSON(goods);
+        boolean goodsFlag = json.containsKey("goodsFlag");
+        if (goodsFlag) {
+            //指派订单
+            AppAssignGoods appAssignGoods = JSON.parseObject(JSON.toJSONString(goods), AppAssignGoods.class);
             return submitDistributionGoods(appAssignGoods, memberId, channelId);
+        } else {
+            //传统订单
+            AppGoods appGoods = JSON.parseObject(JSON.toJSONString(goods), AppGoods.class);
+            return submitTraditionOrders(appGoods, memberId, channelId, orderSn);
         }
-        return 1;
     }
 
     //传统订单
-    private int submitTraditionOrders(AppGoods appGoods, Long memberId, Long channelId) throws Exception {
+    private int submitTraditionOrders(AppGoods appGoods, Long memberId, Long channelId, String orderSn)
+    throws Exception {
         AppConvey appConvey = new AppConvey();
         //获取会员信息
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
@@ -151,7 +156,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //设置会员id
         appConvey.setMemberId(appMember.getId());
         //生成订单号
-        appConvey.setLno(generateOrderSn());
+        appConvey.setLno(orderSn);
         //设置本单金额
         appConvey.setAmount(appGoods.getGoodsPrice());
         //设置下单时间
@@ -162,6 +167,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setStatus("1");
         //设置佣金发放状态
         appConvey.setcStatus("1");
+        //设置卡不卡单
+        appConvey.setSign("0");
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -203,9 +210,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
         appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
-        Date date = new Date(System.currentTimeMillis());
-        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChange.setOrderNo(orderSn);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
@@ -252,6 +259,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setStatus("1");
         //设置佣金发放状态
         appConvey.setcStatus("1");
+        //设置卡不卡单
+        appConvey.setSign("0");
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -293,9 +302,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
         appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
-        Date date = new Date(System.currentTimeMillis());
-        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChange.setOrderNo(generateOrderSn());
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
@@ -329,6 +338,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setStatus("5");
         //设置佣金发放状态
         appConvey.setcStatus("2");
+        //设置卡不卡单
+        appConvey.setSign("1");
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -370,9 +381,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
         appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
-        Date date = new Date(System.currentTimeMillis());
-        appMemberAccountChange.setCreateTime(date);
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChange.setOrderNo(generateOrderSn());
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
@@ -433,7 +444,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
      */
     public String generateOrderSn() {
         StringBuilder sb = new StringBuilder();
-        sb.append("UB");
+        sb.append("QD");
         String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
         sb.append(date);
         int num = 0;

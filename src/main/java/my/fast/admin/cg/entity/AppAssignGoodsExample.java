@@ -806,63 +806,63 @@ public class AppAssignGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupIsNull() {
-            addCriterion("task_group is null");
+        public Criteria andLastOrderIsNull() {
+            addCriterion("last_order is null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupIsNotNull() {
-            addCriterion("task_group is not null");
+        public Criteria andLastOrderIsNotNull() {
+            addCriterion("last_order is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupEqualTo(Integer value) {
-            addCriterion("task_group =", value, "taskGroup");
+        public Criteria andLastOrderEqualTo(Integer value) {
+            addCriterion("last_order =", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupNotEqualTo(Integer value) {
-            addCriterion("task_group <>", value, "taskGroup");
+        public Criteria andLastOrderNotEqualTo(Integer value) {
+            addCriterion("last_order <>", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupGreaterThan(Integer value) {
-            addCriterion("task_group >", value, "taskGroup");
+        public Criteria andLastOrderGreaterThan(Integer value) {
+            addCriterion("last_order >", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupGreaterThanOrEqualTo(Integer value) {
-            addCriterion("task_group >=", value, "taskGroup");
+        public Criteria andLastOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("last_order >=", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupLessThan(Integer value) {
-            addCriterion("task_group <", value, "taskGroup");
+        public Criteria andLastOrderLessThan(Integer value) {
+            addCriterion("last_order <", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupLessThanOrEqualTo(Integer value) {
-            addCriterion("task_group <=", value, "taskGroup");
+        public Criteria andLastOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("last_order <=", value, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupIn(List<Integer> values) {
-            addCriterion("task_group in", values, "taskGroup");
+        public Criteria andLastOrderIn(List<Integer> values) {
+            addCriterion("last_order in", values, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupNotIn(List<Integer> values) {
-            addCriterion("task_group not in", values, "taskGroup");
+        public Criteria andLastOrderNotIn(List<Integer> values) {
+            addCriterion("last_order not in", values, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupBetween(Integer value1, Integer value2) {
-            addCriterion("task_group between", value1, value2, "taskGroup");
+        public Criteria andLastOrderBetween(Integer value1, Integer value2) {
+            addCriterion("last_order between", value1, value2, "lastOrder");
             return (Criteria) this;
         }
 
-        public Criteria andTaskGroupNotBetween(Integer value1, Integer value2) {
-            addCriterion("task_group not between", value1, value2, "taskGroup");
+        public Criteria andLastOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("last_order not between", value1, value2, "lastOrder");
             return (Criteria) this;
         }
 
@@ -1173,6 +1173,66 @@ public class AppAssignGoodsExample {
 
         public Criteria andWhichGroupNotBetween(Integer value1, Integer value2) {
             addCriterion("which_group not between", value1, value2, "whichGroup");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagIsNull() {
+            addCriterion("goods_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagIsNotNull() {
+            addCriterion("goods_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagEqualTo(Integer value) {
+            addCriterion("goods_flag =", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagNotEqualTo(Integer value) {
+            addCriterion("goods_flag <>", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagGreaterThan(Integer value) {
+            addCriterion("goods_flag >", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagGreaterThanOrEqualTo(Integer value) {
+            addCriterion("goods_flag >=", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagLessThan(Integer value) {
+            addCriterion("goods_flag <", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagLessThanOrEqualTo(Integer value) {
+            addCriterion("goods_flag <=", value, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagIn(List<Integer> values) {
+            addCriterion("goods_flag in", values, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagNotIn(List<Integer> values) {
+            addCriterion("goods_flag not in", values, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagBetween(Integer value1, Integer value2) {
+            addCriterion("goods_flag between", value1, value2, "goodsFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsFlagNotBetween(Integer value1, Integer value2) {
+            addCriterion("goods_flag not between", value1, value2, "goodsFlag");
             return (Criteria) this;
         }
     }

@@ -168,7 +168,7 @@ public class DispatchOrderController {
         Long channelId = sysChannel.getChannelId();
         dispatchOrderParam.setChannelId(channelId);
         int count = dispatchOrderService.checkOrderQuantity(dispatchOrderParam);
-        if (count == 1) {
+        if (count >= 1) {
             return CommonResult.failed("单号重复,请重新输入!");
         } else {
             return CommonResult.success(null);
