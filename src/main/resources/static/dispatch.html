@@ -549,6 +549,7 @@
                 }).map(function (item) {
                     var o = Object.assign({}, item, q);
                     if (!o.memberId) o.memberId = Number(this.memberId);
+                    if (!o.createTime) o.createTime = new Date();
                     o.minPrice = Number(o.minPrice);
                     o.maxPrice = Number(o.maxPrice);
                     delete o.validPrice;
