@@ -465,18 +465,37 @@
                 // grouping
             },
             onCreate: function () {
-                var i = Math.max.apply(null, this.groupOptions.map(function (item) {
-                    return item.value;
-                })) + 1;
                 // this.formData.whichGroup = i;
                 this.formData = {
-                    whichGroup: i,
+                    whichGroup: this.newGroupId,
                     list: this.onFill([]),
                 };
 
                 this.dialogVisible = true;
             },
             onCreateValidate: function (cb) {
+                var orders = this.formData.list.map(function (item) {
+                    return item.orderQuantity;
+                }).filter(function (item) {
+                    return item
+                });
+                var isRepeat = function (arr) {
+                    var o = {};
+                    for (var i = 0; i < arr.length; i++) {
+                        var k = arr[i];
+                        if (o[k]) {
+                            return true;
+                        }
+                        o[k] = k;
+                    }
+                    return false;
+                }
+                if (isRepeat(orders)) {
+                    layer.msg('单号不能重复！', {icon: 2});
+                    cb(false);
+                    return;
+                }
+
                 this.banValidate = true;
                 this.$refs['form'].validate(function (valid) {
                     this.banValidate = false;
@@ -747,6 +766,7 @@
             },
             // 新的分组id
             newGroupId: function () {
+                if (this.groupOptions.length === 0) return 1;
                 var i = Math.max.apply(null, this.groupOptions.map(function (item) {
                     return item.value;
                 }))  || 0;
