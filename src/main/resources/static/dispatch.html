@@ -203,17 +203,17 @@
         <div class="dialog-header" slot="title">
             <div class="el-dialog__title">创建订单</div>
 
-            <div style="margin-left: 24px">
-                所在分组：
-                <el-select v-model="formData.whichGroup" size="small" placeholder="请选择分组" >
-                    <el-option
-                            v-for="item in createGroupOptions"
-                            :key="item.value"
-                            :label="item.name"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-            </div>
+<!--            <div style="margin-left: 24px">-->
+<!--                所在分组：-->
+<!--                <el-select v-model="formData.whichGroup" size="small" placeholder="请选择分组" >-->
+<!--                    <el-option-->
+<!--                            v-for="item in createGroupOptions"-->
+<!--                            :key="item.value"-->
+<!--                            :label="item.name"-->
+<!--                            :value="item.value">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
+<!--            </div>-->
         </div>
         <div>
             <div class="create-form">
@@ -430,7 +430,7 @@
                         var data = this.onGroupingData(list, function (item) {
                             return item.whichGroup;
                         })
-                        console.log(list, data);
+                        // console.log(list, data);
                         this.dispatchList = data;
                     }.bind(this)
                 })
@@ -454,7 +454,14 @@
                         findItem.list.push(item)
                     }
                 }
-                return data;
+                var sortData = data.map(function (o) {
+                    var item = Object.assign({}, o)
+                    item.list = item.list.sort(function (a, b) {
+                        return a.orderQuantity - b.orderQuantity;
+                    })
+                    return item;
+                });
+                return sortData;
                 // grouping
             },
             onCreate: function () {
