@@ -1175,66 +1175,6 @@ public class AppAssignGoodsExample {
             addCriterion("which_group not between", value1, value2, "whichGroup");
             return (Criteria) this;
         }
-
-        public Criteria andGoodsFlagIsNull() {
-            addCriterion("goods_flag is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagIsNotNull() {
-            addCriterion("goods_flag is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagEqualTo(Integer value) {
-            addCriterion("goods_flag =", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagNotEqualTo(Integer value) {
-            addCriterion("goods_flag <>", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagGreaterThan(Integer value) {
-            addCriterion("goods_flag >", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagGreaterThanOrEqualTo(Integer value) {
-            addCriterion("goods_flag >=", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagLessThan(Integer value) {
-            addCriterion("goods_flag <", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagLessThanOrEqualTo(Integer value) {
-            addCriterion("goods_flag <=", value, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagIn(List<Integer> values) {
-            addCriterion("goods_flag in", values, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagNotIn(List<Integer> values) {
-            addCriterion("goods_flag not in", values, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagBetween(Integer value1, Integer value2) {
-            addCriterion("goods_flag between", value1, value2, "goodsFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsFlagNotBetween(Integer value1, Integer value2) {
-            addCriterion("goods_flag not between", value1, value2, "goodsFlag");
-            return (Criteria) this;
-        }
     }
 
     public static class Criteria extends GeneratedCriteria {

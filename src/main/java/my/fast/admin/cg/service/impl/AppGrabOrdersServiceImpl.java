@@ -93,11 +93,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
             //派单商品中随机获取一个商品返回用户
             Random rand = new Random();
-            AppAssignGoods appAssignGoods = assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
-            //更新订单状态
-            appAssignGoods.setGoodsFlag(1);
-            appAssignGoodsMapper.updateByPrimaryKeySelective(appAssignGoods);
-            return appAssignGoods;
+            return assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
         } else {
             //商品表直接随机生成返回用户
             return randomGoods(appMember);
