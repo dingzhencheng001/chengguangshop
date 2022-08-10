@@ -1,6 +1,7 @@
 package my.fast.admin.cg.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -52,6 +53,8 @@ public class DispatchOrderParam {
     @ApiModelProperty(value = "操作时间")
     private String selectTime;
 
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 
 
 }
