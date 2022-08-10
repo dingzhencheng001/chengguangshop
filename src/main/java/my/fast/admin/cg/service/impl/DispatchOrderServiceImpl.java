@@ -76,7 +76,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 String orderSn = generateOrderSn();
                 BeanUtils.copyProperties(appGoods, appAssignGoods);
                 appAssignGoods.setHinder(orderParam.getHinder());
-                appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
+                appAssignGoods.setGoodsAddTime(orderParam.getCreateTime());
                 appAssignGoods.setMemberId(orderParam.getMemberId());
                 appAssignGoods.setSerialNumber(orderSn);
                 appAssignGoods.setIsConsumed(0);
@@ -87,7 +87,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appAssignGoodsMapper.insert(appAssignGoods);
                 //后插入派单业务表库
                 BeanUtils.copyProperties(orderParam, appDispatchOrder);
-                appDispatchOrder.setCreateTime(DateFormat.getNowDate());
+                appDispatchOrder.setCreateTime(orderParam.getCreateTime());
                 appDispatchOrder.setSerialNumber(orderSn);
                 appDispatchOrder.setOrderStatus(0);
                 appDispatchOrderMapper.insert(appDispatchOrder);
