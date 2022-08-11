@@ -112,7 +112,8 @@
             <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
         </div>
         <div>
-            <el-button size="medium" type="primary" @click="onCreate" style="margin-right: 24px">创建订单</el-button>
+            <el-button v-if="canCreate" size="medium" type="primary"
+                       @click="onCreate" style="margin-right: 24px">创建订单</el-button>
 
             <el-date-picker
                     v-model="selectTime"
@@ -781,7 +782,15 @@
                     value: this.newGroupId,
                 })
                 return options;
-            }
+            },
+            canCreate: function () {
+                var d = new Date();
+                d.setHours(0);
+                d.setMinutes(0);
+                d.setSeconds(0);
+                d.setMilliseconds(0);
+                return this.selectTime.getTime() >= d.getTime()
+            },
         },
         watch: {
             // selectTime: function () {
