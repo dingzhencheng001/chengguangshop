@@ -407,10 +407,9 @@
         </if>
         <if test="createTime != null">
             and
-            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP})
         </if>
         order by which_group ASC
-
     </select>
     <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
         SELECT
@@ -427,7 +426,7 @@
         </if>
         <if test="createTime != null">
             and
-            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP})
         </if>
 
     </select>
@@ -450,7 +449,7 @@
         </if>
         <if test="createTime != null">
             and
-            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP})
         </if>
 
     </select>
