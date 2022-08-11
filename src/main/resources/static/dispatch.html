@@ -539,7 +539,7 @@
             onGetCreateformData: function () {
                 var q = {
                     memberId: Number(this.memberId),
-                    selectTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
+                    createTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
                     whichGroup: this.formData.whichGroup,
                 };
                 var fd = this.formData.list.filter(function (item) {
@@ -759,7 +759,7 @@
             queryParams: function () {
                 var params = {
                     memberId: Number(this.memberId),
-                    selectTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
+                    createTime: this.selectTime ? $.dateFormat(this.selectTime) : '',
                     whichGroup: this.whichGroup || '',
                     pageSize: this.pageSize,
                     pageNum: this.pageNum,
@@ -793,9 +793,6 @@
             },
         },
         watch: {
-            // selectTime: function () {
-            //     this.onInit();
-            // },
             queryParams: function () {
                 this.onQueryList();
                 this.onQiang();
