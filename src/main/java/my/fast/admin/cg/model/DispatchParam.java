@@ -23,8 +23,8 @@ public class DispatchParam {
     @ApiModelProperty(value = "会员id")
     private Long memberId;
 
-    @ApiModelProperty(value = "查询时间")
-    private String selectTime;
+    @ApiModelProperty(value = "创建时间")
+    private String createTime;
 
     @ApiModelProperty(value = "第几组")
     private Integer whichGroup;

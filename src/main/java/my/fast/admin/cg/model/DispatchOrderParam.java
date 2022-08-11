@@ -50,9 +50,6 @@ public class DispatchOrderParam {
     @ApiModelProperty(value = "第几组",required = true)
     private Integer whichGroup;
 
-    @ApiModelProperty(value = "操作时间")
-    private String selectTime;
-
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 

@@ -405,9 +405,9 @@
             and
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
-        <if test="selectTime != null">
+        <if test="createTime != null">
             and
-            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
         </if>
         order by which_group ASC
 
@@ -425,9 +425,9 @@
             and
             channel_id = #{channelId,jdbcType=BIGINT}
         </if>
-        <if test="selectTime != null">
+        <if test="createTime != null">
             and
-            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
         </if>
 
     </select>
@@ -448,9 +448,9 @@
             and
             channel_id = #{channelId,jdbcType=BIGINT}
         </if>
-        <if test="selectTime != null">
+        <if test="createTime != null">
             and
-            create_time like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
+            TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
         </if>
 
     </select>

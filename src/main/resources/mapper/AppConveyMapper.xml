@@ -292,9 +292,19 @@
     <select id="selectFinishOrder" resultType="my.fast.admin.cg.entity.AppConvey">
         select *
         from app_convey
-        where endtime like concat(#{selectTime,jdbcType=TIMESTAMP},'%')
-        and member_id = #{memberId,jdbcType=BIGINT}
-        and channel_id = #{channelId,jdbcType=BIGINT}
+        where 1=1
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="createTime != null">
+            and
+            TO_DAYS(endtime) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP});
+        </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_convey

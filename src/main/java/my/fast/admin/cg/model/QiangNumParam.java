@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class QiangNumParam {
 
-    @ApiModelProperty(value = "查询时间")
-    private String selectTime;
+    @ApiModelProperty(value = "创建时间")
+    private String createTime;
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;

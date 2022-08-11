@@ -40,7 +40,7 @@ public interface DispatchOrderService {
     List<Integer> findGroup(DispatchParam dispatchParam);
 
     /**
-     * 根据时间查询派单组次
+     * 校验是否有重复单据
      */
     int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
 }
