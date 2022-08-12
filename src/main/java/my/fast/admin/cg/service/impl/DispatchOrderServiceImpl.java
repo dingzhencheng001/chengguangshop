@@ -44,29 +44,23 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
-        synchronized (this){
+        synchronized (this) {
             for (DispatchOrderParam orderParam : dispatchOrderParam) {
-                //先判断是否有重复的单号
-                int count = appDispatchOrderMapper.checkOrderQuantity(orderParam);
-                if (count < 1) {
-                    Integer flag = orderParam.getIsConsumed();
-                    String serialNumber = orderParam.getSerialNumber();
-                    if (!"".equals(serialNumber)) {
-                        //删除的商品
-                        appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
-                        //删除列表
-                        AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
-                        appDispatchOrderExample.createCriteria()
-                            .andSerialNumberEqualTo(orderParam.getSerialNumber());
-                        appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
-                        //修改商品
-                        return updateOrders(dispatchOrderParam);
-                    } else {
-                        //生成商品
-                        return makeOrders(dispatchOrderParam);
-                    }
+                Integer flag = orderParam.getIsConsumed();
+                String serialNumber = orderParam.getSerialNumber();
+                if (!"".equals(serialNumber)) {
+                    //删除的商品
+                    appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
+                    //删除列表
+                    AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
+                    appDispatchOrderExample.createCriteria()
+                        .andSerialNumberEqualTo(orderParam.getSerialNumber());
+                    appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
+                    //修改商品
+                    return updateOrders(dispatchOrderParam);
                 } else {
-                    throw new Exception("提交失败单号重复!");
+                    //生成商品
+                    return makeOrders(dispatchOrderParam);
                 }
             }
         }
@@ -77,29 +71,35 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         AppAssignGoods appAssignGoods = new AppAssignGoods();
         AppDispatchOrder appDispatchOrder = new AppDispatchOrder();
         for (DispatchOrderParam orderParam : dispatchOrderParam) {
-            //根据价格范围随机生成商品
-            AppGoods appGoods = appGoodsMapper.randomGoodsByExample(orderParam);
-            if (!StringUtils.isEmpty(appGoods)) {
-                String orderSn = generateOrderSn();
-                BeanUtils.copyProperties(appGoods, appAssignGoods);
-                appAssignGoods.setHinder(orderParam.getHinder());
-                appAssignGoods.setGoodsAddTime(orderParam.getCreateTime());
-                appAssignGoods.setMemberId(orderParam.getMemberId());
-                appAssignGoods.setSerialNumber(orderSn);
-                appAssignGoods.setIsConsumed(0);
-                appAssignGoods.setOrderQuantity(orderParam.getOrderQuantity());
-                appAssignGoods.setWhichGroup(orderParam.getWhichGroup());
-                appAssignGoods.setGoodsFlag(1);
-                //先插入派单商品库
-                appAssignGoodsMapper.insert(appAssignGoods);
-                //后插入派单业务表库
-                BeanUtils.copyProperties(orderParam, appDispatchOrder);
-                appDispatchOrder.setCreateTime(orderParam.getCreateTime());
-                appDispatchOrder.setSerialNumber(orderSn);
-                appDispatchOrder.setOrderStatus(0);
-                appDispatchOrderMapper.insert(appDispatchOrder);
+            //先判断是否有重复的单号
+            int count = appDispatchOrderMapper.checkOrderQuantity(orderParam);
+            if (count < 1) {
+                //根据价格范围随机生成商品
+                AppGoods appGoods = appGoodsMapper.randomGoodsByExample(orderParam);
+                if (!StringUtils.isEmpty(appGoods)) {
+                    String orderSn = generateOrderSn();
+                    BeanUtils.copyProperties(appGoods, appAssignGoods);
+                    appAssignGoods.setHinder(orderParam.getHinder());
+                    appAssignGoods.setGoodsAddTime(orderParam.getCreateTime());
+                    appAssignGoods.setMemberId(orderParam.getMemberId());
+                    appAssignGoods.setSerialNumber(orderSn);
+                    appAssignGoods.setIsConsumed(0);
+                    appAssignGoods.setOrderQuantity(orderParam.getOrderQuantity());
+                    appAssignGoods.setWhichGroup(orderParam.getWhichGroup());
+                    appAssignGoods.setGoodsFlag(1);
+                    //先插入派单商品库
+                    appAssignGoodsMapper.insert(appAssignGoods);
+                    //后插入派单业务表库
+                    BeanUtils.copyProperties(orderParam, appDispatchOrder);
+                    appDispatchOrder.setCreateTime(orderParam.getCreateTime());
+                    appDispatchOrder.setSerialNumber(orderSn);
+                    appDispatchOrder.setOrderStatus(0);
+                    appDispatchOrderMapper.insert(appDispatchOrder);
+                } else {
+                    throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+                }
             } else {
-                throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+                throw new Exception("提交失败,单号重复!");
             }
         }
         return 1;
