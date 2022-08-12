@@ -12,7 +12,6 @@ import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
-import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppAssignGoods;
 import my.fast.admin.cg.entity.AppDispatchOrder;
 import my.fast.admin.cg.entity.AppDispatchOrderExample;
@@ -23,7 +22,6 @@ import my.fast.admin.cg.mapper.AppGoodsMapper;
 import my.fast.admin.cg.model.DispatchOrderParam;
 import my.fast.admin.cg.model.DispatchParam;
 import my.fast.admin.cg.service.DispatchOrderService;
-import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -46,24 +44,33 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
-        for (DispatchOrderParam orderParam : dispatchOrderParam) {
-            Integer flag = orderParam.getIsConsumed();
-            String serialNumber = orderParam.getSerialNumber();
-            if (!"".equals(serialNumber)) {
-                //删除的商品
-                appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
-                //删除列表
-                AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
-                appDispatchOrderExample.createCriteria()
-                    .andSerialNumberEqualTo(orderParam.getSerialNumber());
-                appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
-                //修改商品
-                return updateOrders(dispatchOrderParam);
+        synchronized (this){
+            for (DispatchOrderParam orderParam : dispatchOrderParam) {
+                //先判断是否有重复的单号
+                int count = appDispatchOrderMapper.checkOrderQuantity(orderParam);
+                if (count < 1) {
+                    Integer flag = orderParam.getIsConsumed();
+                    String serialNumber = orderParam.getSerialNumber();
+                    if (!"".equals(serialNumber)) {
+                        //删除的商品
+                        appAssignGoodsMapper.deleteAssignGoods(flag, serialNumber);
+                        //删除列表
+                        AppDispatchOrderExample appDispatchOrderExample = new AppDispatchOrderExample();
+                        appDispatchOrderExample.createCriteria()
+                            .andSerialNumberEqualTo(orderParam.getSerialNumber());
+                        appDispatchOrderMapper.deleteByExample(appDispatchOrderExample);
+                        //修改商品
+                        return updateOrders(dispatchOrderParam);
+                    } else {
+                        //生成商品
+                        return makeOrders(dispatchOrderParam);
+                    }
+                } else {
+                    throw new Exception("提交失败单号重复!");
+                }
             }
         }
-        //生成商品
-        return makeOrders(dispatchOrderParam);
-
+        return 1;
     }
 
     public int makeOrders(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
@@ -97,7 +104,6 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         }
         return 1;
     }
-
 
     public int updateOrders(List<DispatchOrderParam> dispatchOrderParam) throws Exception {
         AppAssignGoods appAssignGoods = new AppAssignGoods();
