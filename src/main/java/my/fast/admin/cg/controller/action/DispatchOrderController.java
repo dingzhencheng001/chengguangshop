@@ -174,7 +174,7 @@ public class DispatchOrderController {
         }
     }
 
-    @ApiOperation(value = "查询派单列表组的最大单号")
+    @ApiOperation(value = "查询派单列表最大单号")
     @RequestMapping(value = "/big/order", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult selectBigOrderNo(@RequestBody DispatchOrderParam dispatchOrderParam, HttpServletRequest request) {

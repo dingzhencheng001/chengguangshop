@@ -180,7 +180,11 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
 
     @Override
     public int selectBigOrderNo(DispatchOrderParam dispatchOrderParam) {
-        return appDispatchOrderMapper.selectBigOrderNo(dispatchOrderParam);
+        Object count = appDispatchOrderMapper.selectBigOrderNo(dispatchOrderParam);
+        if (count == null) {
+            return 0;
+        }
+        return (Integer) count;
     }
 
     /**

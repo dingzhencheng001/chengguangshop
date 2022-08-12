@@ -49,5 +49,5 @@ public interface AppDispatchOrderMapper {
     /**
      * 查询列表最大值
      */
-    int selectBigOrderNo(DispatchOrderParam dispatchOrderParam);
+    Object selectBigOrderNo(DispatchOrderParam dispatchOrderParam);
 }

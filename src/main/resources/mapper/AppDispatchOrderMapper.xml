@@ -453,7 +453,7 @@
         </if>
 
     </select>
-    <select id="selectBigOrderNo" resultType="java.lang.Integer">
+    <select id="selectBigOrderNo" resultType="java.lang.Object">
         SELECT
             MAX(order_quantity)
         FROM
