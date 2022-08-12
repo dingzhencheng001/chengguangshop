@@ -274,9 +274,9 @@
                         <div class="el-form-item el-form-item--mini" v-if="item.validPrice || item.validOrder" style="margin-right: 0">
                             <div class="valid-price" v-if="item.validPrice" :style="{ color: item.validPrice === 1 ? 'green' : 'red' }" >
                                 {{item.validPrice === 1 ? '价格校验通过' : '无此价格范围内的商品'}}</div>
-                            <div class="valid-price" v-if="item.validOrder" :style="{ color: item.validOrder === 1 ? 'green' : 'red'}" >
-                                {{item.validOrder === 1 ? '单号校验通过' : '单号已存在！请重新输入'}}
-                            </div>
+<!--                            <div class="valid-price" v-if="item.validOrder" :style="{ color: item.validOrder === 1 ? 'green' : 'red'}" >-->
+<!--                                {{item.validOrder === 1 ? '单号校验通过' : '单号已存在！请重新输入'}}-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </el-form>
@@ -357,8 +357,8 @@
                             if (!v) {
                                 return callback(new Error('请输入单号'))
                             }
-                            this.onValidatorNum.call(this, item, index, callback);
-                            // callback()
+                            // this.onValidatorNum.call(this, item, index, callback);
+                            callback()
                         }.bind(this),
                     },
                 ],
@@ -619,7 +619,7 @@
 
             // 校验单号和价格
             onValidateAll: function (item, i, callback) {
-                this.onValidatorNum(item, i);
+                // this.onValidatorNum(item, i);
                 this.onValidatePrice(item, i);
             },
 
