@@ -414,7 +414,12 @@
 
 <!--操作-->
 <script type="text/html" id="operation">
-    <div class="layui-btn-container">
+    <div class="layui-btn-container my-btn-container">
+        <style>
+            .my-btn-container .layui-btn{
+                margin-right: 4px;
+            }
+        </style>
         <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
         <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
         <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
@@ -425,6 +430,7 @@
         <!--    </span>-->
         <!--    <span style="display: inline-block">-->
         <a class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</a>
+        <a class="layui-btn layui-btn-xs" lay-event="viewPassword">查看密码</a>
         <a class="layui-btn layui-btn-xs" lay-event="viewTeam" style="margin-bottom: 0">查看团队</a>
         <a class="layui-btn layui-btn-xs" lay-event="accountChange" style="margin-bottom: 0">帐变</a>
         <a class="layui-btn layui-btn-xs" lay-event="realPerson" style="margin-bottom: 0">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>

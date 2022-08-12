@@ -1,4 +1,3 @@
-
 layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var table = layui.table, $ = layui.$, form = layui.form;
 	var laydate = layui.laydate;
@@ -200,7 +199,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				id: 'dispatch_' + data.id,
 				title: '派单',
 				icon: 'fa-file',
-				url: '/dispatch.html?id=' + data.id,
+				url: '/dispatchPage.html?id=' + data.id,
 			})
 		} else if (layEvent === 'edit') { // 编辑菜单
 			editIndex = layer.open({
@@ -283,6 +282,14 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				},
 			})
 
+		} else if (layEvent === 'viewPassword') {
+			var text = data.password;
+			layer.open({
+				title: '查看密码',
+				type: 1,
+				content: '<h6 style="padding: 20px 0; font-size: 18px; width: 400px; text-align: center">'+ text +'</h6>',
+			})
+			console.log('viewPassword', data.password, data);
 		} else if (layEvent === 'viewTeam') { // 查看团队
 			window.parent.layui.tab.tabAdd({
 				id: new Date().getTime(),
