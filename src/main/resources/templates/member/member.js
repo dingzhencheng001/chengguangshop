@@ -31,11 +31,13 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		$('#memberLevelSelect').append(option);
 	});
 
+	// 渲染日期
 	laydate.render({
 		elem: '#registrationTime',
 		range: true //或 range: '~' 来自定义分割字符
 	});
 
+	// 表单校验
 	form.verify({
 		limitAmount: function(value, item) {
 			if (!value) {
@@ -48,9 +50,9 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		}
 	});
 
-
 	var where = {};
 
+	// 渲染表格
 	var memberListTableId = 'memberListTable';
 	table.render(Object.assign({}, $.tableRenderConfing, {
 		elem: '#member-list',
@@ -367,9 +369,6 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				onDeductionCancel();
 				layer.msg('扣款成功', {icon: 1});
 				actions.onReloadData();
-			},
-			complete: function () {
-				layer.close(deductionLoading);
 			}
 		});
 		return false;
