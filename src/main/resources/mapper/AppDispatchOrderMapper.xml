@@ -409,7 +409,7 @@
             and
             TO_DAYS(create_time) = TO_DAYS(#{createTime,jdbcType=TIMESTAMP})
         </if>
-        order by which_group ASC
+        order by order_quantity ASC
     </select>
     <select id="findGroup" resultType="my.fast.admin.cg.entity.AppDispatchOrder">
         SELECT

@@ -133,7 +133,6 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     @Override
     public List<AppDispatchOrder> getOrderList(DispatchParam dispatchParam) {
         PageHelper.startPage(dispatchParam.getPageNum(), dispatchParam.getPageSize());
-
         return appDispatchOrderMapper.selectOrderList(dispatchParam);
     }
 
