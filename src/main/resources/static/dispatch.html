@@ -225,13 +225,13 @@
                         <el-form-item
                                 label="单号"
                                 :required="Boolean(item.serialNumber || item.minPrice || item.maxPrice)"
-                                :rules="orderQuantityRules"
+                                :rules="item.orderQuantity ? orderQuantityRules : {}"
                                 :key="whichGroup + index + '_orderQuantity'"
                                 :prop="'list.' + index + '.orderQuantity'"
                         >
                             <el-input
                                     style="width: 120px"
-                                    v-model="item.orderQuantity" size="small" type="number" min="0"
+                                    v-model="item.orderQuantity" size="small" type="number" :min="bigOrder + 1"
                                     placeholder="请输入单号"
                                     :disabled="item.orderStatus === 1"></el-input>
                         </el-form-item>
@@ -326,6 +326,7 @@
                 memberId: params.id || '15', // 开发方便
                 selectTime: new Date(),
                 whichGroup: '',
+                bigOrder: 0,
                 qiangNum: 0,
                 total: 0,
                 pageSize: 20,
@@ -343,19 +344,23 @@
                 orderQuantityRules: [
                     {
                         // required: true, message: '单号不能为空',
-                        trigger: 'change',
+                        // trigger: 'change',
                         validator: function (rule, value, callback) {
-                            if (this.banValidate) {
-                                return callback();
-                            }
+                            // if (this.banValidate) {
+                            //     return callback();
+                            // }
                             var fieldSplit = rule.field.split('.');
                             var index = Number(fieldSplit[1]);
                             var field = fieldSplit[2];
                             var item = this.formData.list[index];
-                            var v = item[field];
-                            if (item.validOrderLoading) return;
+                            var v = Number(item[field]);
+                            // if (item.validOrderLoading) return;
+                            // console.log('v', v);
                             if (!v) {
                                 return callback(new Error('请输入单号'))
+                            }
+                            if (v <= this.bigOrder) {
+                                return callback(new Error('单号不能小于' + (this.bigOrder + 1)))
                             }
                             // this.onValidatorNum.call(this, item, index, callback);
                             callback()
@@ -468,6 +473,18 @@
             },
             onCreate: function () {
                 // this.formData.whichGroup = i;
+                var fd = Object.assign({}, this.queryParams);
+                delete fd.whichGroup;
+                delete fd.pageNum;
+                delete fd.pageSize;
+                $.request({
+                    url: '/action/dispatch/big/order',
+                    type: 'post',
+                    data: fd,
+                    success: function (result) {
+                        this.bigOrder = Number(result.data);
+                    }.bind(this),
+                })
                 this.formData = {
                     whichGroup: this.newGroupId,
                     list: this.onFill([]),
