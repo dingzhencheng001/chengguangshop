@@ -525,6 +525,10 @@
                                 this.onCreateCancel();
                                 this.onInit();
                             }.bind(this),
+                            fail: function (result) {
+                                var msg = result.data;
+                                layer.msg(msg, {icon: 2});
+                            },
                             complete: function () {
                                 this.submitLoading = false;
                             }.bind(this)
