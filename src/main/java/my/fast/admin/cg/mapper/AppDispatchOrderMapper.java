@@ -46,7 +46,8 @@ public interface AppDispatchOrderMapper {
      * 校验单数是否重复
      */
     int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
-
-
-
+    /**
+     * 查询列表最大值
+     */
+    int selectBigOrderNo(DispatchOrderParam dispatchOrderParam);
 }

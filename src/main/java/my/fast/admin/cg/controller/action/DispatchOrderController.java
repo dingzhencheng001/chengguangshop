@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppDispatchOrder;
-import my.fast.admin.cg.entity.CustomerCare;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.DispatchOrderParam;
 import my.fast.admin.cg.model.DispatchParam;
@@ -73,7 +72,7 @@ public class DispatchOrderController {
     @ApiOperation(value = "根据条件获取派单列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public  CommonResult<CommonPage<AppDispatchOrder>> getOrderList(HttpServletRequest request,
+    public CommonResult<CommonPage<AppDispatchOrder>> getOrderList(HttpServletRequest request,
         @RequestBody DispatchParam dispatchParam) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -151,8 +150,8 @@ public class DispatchOrderController {
     @ApiOperation(value = "校验是否有重复单")
     @RequestMapping(value = "/verification", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult checkOrderQuantity(@RequestBody DispatchOrderParam dispatchOrderParam, HttpServletRequest request)
-    throws Exception {
+    public CommonResult checkOrderQuantity(@RequestBody DispatchOrderParam dispatchOrderParam,
+        HttpServletRequest request) throws Exception {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -174,4 +173,28 @@ public class DispatchOrderController {
             return CommonResult.success(null);
         }
     }
+
+    @ApiOperation(value = "查询派单列表组的最大单号")
+    @RequestMapping(value = "/big/order", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult selectBigOrderNo(@RequestBody DispatchOrderParam dispatchOrderParam, HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+            .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
+            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+        }
+        Long channelId = sysChannel.getChannelId();
+        dispatchOrderParam.setChannelId(channelId);
+        int num = dispatchOrderService.selectBigOrderNo(dispatchOrderParam);
+        return CommonResult.success(num);
+
+    }
+
 }

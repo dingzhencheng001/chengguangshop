@@ -176,7 +176,11 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
     @Override
     public int checkOrderQuantity(DispatchOrderParam dispatchOrderParam) {
         return appDispatchOrderMapper.checkOrderQuantity(dispatchOrderParam);
+    }
 
+    @Override
+    public int selectBigOrderNo(DispatchOrderParam dispatchOrderParam) {
+        return appDispatchOrderMapper.selectBigOrderNo(dispatchOrderParam);
     }
 
     /**

@@ -43,4 +43,9 @@ public interface DispatchOrderService {
      * 校验是否有重复单据
      */
     int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
+
+    /**
+     * 查询列表最大值
+     */
+    int selectBigOrderNo(DispatchOrderParam dispatchOrderParam);
 }
