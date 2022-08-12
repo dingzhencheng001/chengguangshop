@@ -32,43 +32,45 @@
 								<input name="usdt" required="" placeholder="请输入USDT" class="layui-input" />
 							</label>
 							<hr />
-							<label class="layui-form-item block relative label-required-prev"><span
-									class="color-green margin-right-10">交易所需余额</span>
-								<input name="dealAmount" required="" value="" class="layui-input" />
-								<p class="help-block">交易所需余额</p>
-							</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
+<#--							<label class="layui-form-item block relative label-required-prev"><span-->
+<#--									class="color-green margin-right-10">交易所需余额</span>-->
+<#--								<input name="dealAmount" required="" value="" class="layui-input" />-->
+<#--								<p class="help-block">交易所需余额</p>-->
+<#--							</label>-->
+							<label class="layui-form-item margin-top-20 block relative label-required-prev"><span
 									class="color-green margin-right-10">未订单的支付等待时长（秒）</span>
 								<input name="wait" required="" placeholder="请输入订单支付等待时长" value="" class="layui-input" />
 								<p class="help-block">订单支付等待时长，新下订单未在此时间内容完成支付将会被自动取消</p>
 							</label>
-							<label class="layui-form-item margin-top-20 block relative"><span
-									class="color-green margin-right-10">匹配范围</span>
-								<!-- <span class="nowrap color-desc">OrderClearTime</span> -->
-								<div id="deal_rule" style="position:relative; margin: 10px 0px;" class="demo-slider">
-									<div class="layui-slider ">
-										<div class="layui-slider-tips"></div>
-										<div class="layui-slider-bar" style="background:#009688; width:82%;left:0%;"></div>
-										<div class="layui-slider-wrap" style="left:0%;">
-											<div class="layui-slider-wrap-btn" style="border: 2px solid #009688;"></div>
-										</div>
-										<div class="layui-slider-wrap" style="left:82%;">
-											<div class="layui-slider-wrap-btn" style="border: 2px solid #009688;"></div>
-										</div>
-									</div>
-								</div>
-								<div id="test-slider-tips2" style="position:relative; margin: 10px 0px;" class="help-block">匹配范围：0% ~
-									100%</div><input type="hidden" name="startRang" id="min" value=""><input type="hidden" name="endRang"
-									id="max" value="">
-							</label>
-							<label class="layui-form-item margin-top-20 block relative label-required-prev"><span
-									class="color-green margin-right-10">当日交易次数限制</span><input name="tradeNum" required="" value=""
-									class="layui-input" />
-								<p class="help-block">当日交易次数限制</p>
-							</label><label class="layui-form-item margin-top-20 block relative label-required-prev"><span
-									class="color-green margin-right-10">奖励交易次数</span><input name="rewardNum" required="" value=""
-									class="layui-input" />
-								<p class="help-block">奖励交易次数</p>
-							</label>
+<#--							<label class="layui-form-item margin-top-20 block relative"><span-->
+<#--									class="color-green margin-right-10">匹配范围</span>-->
+<#--								<!-- <span class="nowrap color-desc">OrderClearTime</span> &ndash;&gt;-->
+<#--								<div id="deal_rule" style="position:relative; margin: 10px 0px;" class="demo-slider">-->
+<#--									<div class="layui-slider ">-->
+<#--										<div class="layui-slider-tips"></div>-->
+<#--										<div class="layui-slider-bar" style="background:#009688; width:82%;left:0%;"></div>-->
+<#--										<div class="layui-slider-wrap" style="left:0%;">-->
+<#--											<div class="layui-slider-wrap-btn" style="border: 2px solid #009688;"></div>-->
+<#--										</div>-->
+<#--										<div class="layui-slider-wrap" style="left:82%;">-->
+<#--											<div class="layui-slider-wrap-btn" style="border: 2px solid #009688;"></div>-->
+<#--										</div>-->
+<#--									</div>-->
+<#--								</div>-->
+<#--								<div id="test-slider-tips2" style="position:relative; margin: 10px 0px;" class="help-block">匹配范围：0% ~-->
+<#--									100%</div><input type="hidden" name="startRang" id="min" value=""><input type="hidden" name="endRang"-->
+<#--									id="max" value="">-->
+<#--							</label>-->
+<#--							<label class="layui-form-item margin-top-20 block relative label-required-prev"><span-->
+<#--									class="color-green margin-right-10">当日交易次数限制</span><input name="tradeNum" required="" value=""-->
+<#--									class="layui-input" />-->
+<#--								<p class="help-block">当日交易次数限制</p>-->
+<#--							</label>-->
+<#--							<label class="layui-form-item margin-top-20 block relative label-required-prev"><span-->
+<#--									class="color-green margin-right-10">奖励交易次数</span><input name="rewardNum" required="" value=""-->
+<#--									class="layui-input" />-->
+<#--								<p class="help-block">奖励交易次数</p>-->
+<#--							</label>-->
 							<label class="layui-form-item margin-top-20 block relative label-required-prev"><span
 									class="color-green margin-right-10">普通会员交易佣金</span>
 								<input name="generalCommission" max="1" min="0" step="0.01" required="" value="0." type="number"
@@ -238,19 +240,19 @@
 					url: '/action/control/select',
 					type: 'POST',
 					success: function (res) {
-						startRang = res.data.startRang, endRang = res.data.endRang
-						slider.render({
-							elem: '#deal_rule'
-							, value: [startRang, endRang] //初始值
-							, range: true //范围选择
-							, change: function (vals) {
-								$('#test-slider-tips2').html('匹配范围：' + vals[0] + '% ~ ' + vals[1] + '%');
-								$('#min').val(vals[0]);
-								$('#max').val(vals[1]);
-							}
-						});
+						// startRang = res.data.startRang, endRang = res.data.endRang
+						// slider.render({
+						// 	elem: '#deal_rule'
+						// 	, value: [startRang, endRang] //初始值
+						// 	, range: true //范围选择
+						// 	, change: function (vals) {
+						// 		$('#test-slider-tips2').html('匹配范围：' + vals[0] + '% ~ ' + vals[1] + '%');
+						// 		$('#min').val(vals[0]);
+						// 		$('#max').val(vals[1]);
+						// 	}
+						// });
 						form.val('editForm', res.data)
-						$('#test-slider-tips2').html('匹配范围：' + startRang + '% ~ ' + endRang + '%');
+						// $('#test-slider-tips2').html('匹配范围：' + startRang + '% ~ ' + endRang + '%');
 					},
 					error: function () {
 						alert('出错啦...')
