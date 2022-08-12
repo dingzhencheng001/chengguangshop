@@ -47,4 +47,6 @@ public interface AppDispatchOrderMapper {
      */
     int checkOrderQuantity(DispatchOrderParam dispatchOrderParam);
 
+
+
 }
