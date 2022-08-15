@@ -79,7 +79,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean sysRole2Save(SysRole sysRole) {
         // 插入sys_role
         sysRoleMapper.insert(sysRole);
@@ -91,7 +91,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean sysRole2Update(SysRole sysRole) {
         // 更新sys_role
         sysRoleMapper.updateById(sysRole);
@@ -110,7 +110,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean sysRole2Delete(List<SysRole> sysRoles) {
         List<String> ids = new ArrayList<>();
         for (SysRole sysRole : sysRoles) {
@@ -125,7 +125,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean sysRole2UserGrant(Map map) {
         String roleId = map.get("roleId").toString();
         EntityWrapper ew = new EntityWrapper();
@@ -148,7 +148,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean sysRole2MenuGrant(Map map) {
         String roleId = map.get("roleId").toString();
         EntityWrapper ew = new EntityWrapper();

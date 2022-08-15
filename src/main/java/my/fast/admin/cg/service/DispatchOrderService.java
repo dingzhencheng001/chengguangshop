@@ -21,7 +21,7 @@ public interface DispatchOrderService {
      * 派单
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int assignGoods(List<DispatchOrderParam> dispatchOrderParam) throws Exception;
 
     /**

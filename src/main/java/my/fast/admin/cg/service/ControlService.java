@@ -27,7 +27,7 @@ public interface ControlService {
     /**
      * 更新交易控制信息
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateControl(AppControl control, Long channelId);
 
     /**

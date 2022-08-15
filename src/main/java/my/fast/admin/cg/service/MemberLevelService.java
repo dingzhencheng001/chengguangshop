@@ -28,7 +28,7 @@ public interface MemberLevelService {
     /**
      * 更新会员等级
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateLevels(Long id, AppMemberLevel appMemberLevel);
 
     /**

@@ -29,7 +29,7 @@ public interface MemberAccountChangeService {
     /**
      * 更新用户账变信息
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateAccountChange(Long id, AppMemberAccountChange appMemberAccountChange, Long channelId);
 
     /**

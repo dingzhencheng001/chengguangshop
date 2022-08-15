@@ -33,7 +33,7 @@ public interface AppChannelService {
     /**
      * 更新
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateChannel(Long id, SysChannel sysChannel);
 
     /**

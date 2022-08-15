@@ -20,13 +20,13 @@ public interface MemberWithdrawalService {
     /**
      * 批量审核
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int approval(List<Long> ids, Integer type, Long channelId);
 
     /**
      * 驳回
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int rejectById(Long id, String remark, Long channelId);
 
     /**

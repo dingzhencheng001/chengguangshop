@@ -22,7 +22,7 @@ public interface AppMemberWithdrawalService {
      * @param memberId
      * @param withdrawalNum
      */
-   @Transactional
+   @Transactional(rollbackFor = Exception.class)
    int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum) throws Exception;
 
 }

@@ -41,7 +41,7 @@ public interface AppMemberService {
     /**
      * 修改会员
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateMember(Long id,AppMember appMember);
     
     /**

@@ -31,7 +31,7 @@ public interface GoodsService {
     /**
      * 修改品牌
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateGoods(Long id, AppGoods appGoods);
 
     /**

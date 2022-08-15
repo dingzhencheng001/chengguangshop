@@ -43,7 +43,7 @@ public interface AppMemberAccountChangeService {
     /**
      * 修改用户账变
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateAccountChange(Long id,AppMemberAccountChange appMemberAccountChange);
 
 

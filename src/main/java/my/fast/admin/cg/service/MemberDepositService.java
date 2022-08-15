@@ -30,7 +30,7 @@ public interface MemberDepositService {
     /**
      * 会员充值
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int createDeposit(MemberDepositParam depositParam);
 
 

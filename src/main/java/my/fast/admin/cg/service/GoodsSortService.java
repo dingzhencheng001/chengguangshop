@@ -34,7 +34,7 @@ public interface GoodsSortService {
     /**
      * 修改商品分类
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateGoodsSort(Long id, AppGoodsSort appGoodsSort);
 
     /**

@@ -33,7 +33,7 @@ public interface AppAgentListService {
     /**
      * 更新
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateAgentList(Long id, SysAgentList sysAgentList);
 
     /**

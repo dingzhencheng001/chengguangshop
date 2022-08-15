@@ -25,7 +25,7 @@ public interface MemberAddressService {
     /**
      * 更新会员地址
      */
-   @Transactional
+   @Transactional(rollbackFor = Exception.class)
     int updateAddress(AppMemberAddress appMemberAddress);
    
    /**

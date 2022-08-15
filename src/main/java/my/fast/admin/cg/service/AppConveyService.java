@@ -41,7 +41,7 @@ public interface AppConveyService {
     /**
      * 修改订单
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateConvey(Long id,AppConvey appConvey);
     
     

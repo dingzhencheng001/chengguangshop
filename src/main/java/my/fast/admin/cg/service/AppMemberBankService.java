@@ -33,7 +33,7 @@ public interface AppMemberBankService {
     /**
      * 更新会员银行卡信息
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     int updateBanks(AppMemberBank appMemberBank);
 
 
