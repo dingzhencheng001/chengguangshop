@@ -1,11 +1,54 @@
-layui.use(['form', 'layer'], function () {
+layui.use(['form', 'layer', 'dropdown'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
+    var dropdown = layui.dropdown;
+    var localKey = 'admin_lang';
 
-    //登录按钮事件
-    form.on("submit(login)", function (data) {
+    var onLang = function () {
+        var lang = window.localStorage.getItem(localKey);
+        return lang || 'en';
+    }
+
+    var i18n = new I18n({
+        // 默认语言
+        locale: onLang(),
+        // 渲染时改变title
+        onRender: function (othis) {
+            document.title = othis.$t('userLogin');
+        },
+        // 切换语言时
+        onChange: function (locale) {
+            window.localStorage.setItem(localKey, locale);
+        }
+    });
+    window.i18n = i18n;
+    // var title = i18n.$t('userLogin');
+    // document.title = title;
+
+    dropdown.render({
+        elem: '#language' //可绑定在任意元素中，此处以上述按钮为例
+        ,data: [
+            {
+                title: 'english',
+                value: 'en',
+            },
+            {
+                title: '简体中文',
+                value: 'cn',
+            },
+        ]
+        ,id: 'language'
+        //菜单被点击的事件
+        ,click: function(obj) {
+            i18n.onChangeLanguage(obj.value);
+        }
+    });
+
+    var onSubmit = $.debounce(function (data) {
         var params = "username=" + data.field.username + "&password=" + data.field.password + "&captcha=" + data.field.captcha;
+        $('#loginBtn').addClass('layui-btn-disabled');
+        $('#loginBtn').attr('disabled', true);
         $.ajax({
             type: "POST",
             url: "/sys/login",
@@ -23,8 +66,17 @@ layui.use(['form', 'layer'], function () {
                     layer.msg(result.msg, {icon: 5});
                     refreshCode();
                 }
-            }
+            },
+            complete: function () {
+                $('#loginBtn').removeClass('layui-btn-disabled');
+                $('#loginBtn').attr('disabled', false);
+            },
         });
+    }, 300, true);
+
+    //登录按钮事件
+    form.on("submit(login)", function (data) {
+        onSubmit(data);
         return false;
     });
 });

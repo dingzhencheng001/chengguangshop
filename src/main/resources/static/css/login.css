@@ -173,3 +173,10 @@
         padding: 10px
     }
 }
+
+.login-language-btn{
+    position: fixed;
+    right: 12px;
+    top: 12px;
+    z-index: 999;
+}

@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>用户登录</title>
-    <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/css/login.css" media="all">
+    <link rel="stylesheet" href="plugins/layui-v2.7.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/login.css" media="all">
+<!--    <script src="lang/en.js"></script>-->
+    <script src="lang/index.js"></script>
 </head>
 <body>
 <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
-    <form class="layadmin-user-login-main layui-form">
+    <form class="layadmin-user-login-main layui-form" action="">
         <div class="layadmin-user-login-box layadmin-user-login-header">
             <h2 data-locale="backgroundLogin">后台登录</h2>
         </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
-                <input name="username" lay-verify="required" placeholder="用户名" class="layui-input"
+                <input name="username" lay-verify="required" data-placeholder="userName" placeholder="用户名" class="layui-input"
                        id="LAY-user-login-username" type="text" value="admin">
             </div>
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-password"
                        for="LAY-user-login-password"></label>
-                <input name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码"
+                <input name="password" id="LAY-user-login-password" lay-verify="required" data-placeholder="password" placeholder="密码"
                        class="layui-input" type="password" value="123456">
             </div>
             <div class="layui-form-item">
@@ -29,7 +31,7 @@
                     <div class="layui-col-xs7">
                         <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
                                for="LAY-user-login-vercode"></label>
-                        <input name="captcha" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码"
+                        <input name="captcha" id="LAY-user-login-vercode" lay-verify="required" data-placeholder="verificationCode" placeholder="验证码"
                                class="layui-input" type="text" autocomplete="off">
                     </div>
                     <div class="layui-col-xs5">
@@ -41,13 +43,19 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="login">登录</button>
+                <button class="layui-btn layui-btn-fluid" type="submit" lay-submit="" id="loginBtn" lay-filter="login" data-locale="login">登录</button>
             </div>
         </div>
     </form>
 </div>
-<script src="/plugins/layui/layui.js"></script>
-<script src="/plugins/jquery/jquery-3.2.0.min.js"></script>
-<script src="/login/login.js"></script>
+
+<button class="layui-btn login-language-btn" id="language" data-locale="language">
+    语言
+    <i class="layui-icon layui-icon-down layui-font-12"></i>
+</button>
+<script src="plugins/layui-v2.7.5/layui.js"></script>
+<script src="plugins/jquery/jquery-3.2.0.min.js"></script>
+<script src="js/common/app.js"></script>
+<script src="login/login.js"></script>
 </body>
 </html>
