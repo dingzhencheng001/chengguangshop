@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
@@ -56,7 +55,7 @@ public class AppMemberWithdrawalController {
             return CommonResult.failed("用户未登录");
         }
         //判断该账户提现状态是否正常
-        if (!"0".equals(appUserVO.getDrawalStatus())) {
+        if (appUserVO.getDrawalStatus() != 0) {
             return CommonResult.failed("该用户账号被禁止提现，请联系管理员");
         }
         Long memberId = appUserVO.getId();
