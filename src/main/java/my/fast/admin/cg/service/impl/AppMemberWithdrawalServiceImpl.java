@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import my.fast.admin.cg.entity.AppControl;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberBank;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
+import my.fast.admin.cg.mapper.AppControlMapper;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberBankMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
@@ -37,50 +39,59 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
     @Autowired
     private AppMemberWithdrawalMapper appMemberWithdrawalMapper;
-
+    @Autowired
+    private AppControlMapper controlMapper;
 
     @Override
     public int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum) throws Exception {
         AppMemberBank appMemberBank = appMemberBankMapper.selectByMemberId(memberId);
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
+        String orderSn = generateOrderSn();
         BigDecimal balance = appMember.getBalance();
+        AppControl appControl = controlMapper.selectByChannelId(channelId);
+        String startWithdraw = appControl.getStartWithdraw();
+        String endWithdraw = appControl.getEndWithdraw();
+        String stringDate = DateFormat.getStringDate();
         if (StringUtils.isEmpty(appMemberBank)) {
             throw new Exception("没有绑定银行卡");
         }
-        //修改账户余额并且冻结金额
-        appMemberMapper.updateBalance(channelId, memberId, withdrawalNum);
-        BigDecimal nowBalance = appMemberMapper.selectByPrimaryKey(memberId)
-            .getBalance();
-        //插入提现表
-        AppMemberWithdrawal appMemberWithdrawal = new AppMemberWithdrawal();
-        appMemberWithdrawal.setOrderNo(generateOrderSn());
-        appMemberWithdrawal.setMemberId(memberId);
-        appMemberWithdrawal.setUserAccount(appMember.getUserAccount());
-        appMemberWithdrawal.setRealName(appMemberBank.getAccountName());
-        appMemberWithdrawal.setPhoneNumber(appMember.getPhoneNumber());
-        appMemberWithdrawal.setOperaType(4);
-        appMemberWithdrawal.setStatus(1);
-        appMemberWithdrawal.setOperaMount(withdrawalNum);
-        appMemberWithdrawal.setCreateBy(appMember.getUserAccount());
-        appMemberWithdrawal.setCreateTime(DateFormat.getNowDate());
-        appMemberWithdrawal.setChannelId(channelId);
-        appMemberWithdrawal.setMemberBankId(appMemberBank.getId());
-        //插入账变
-        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
-        appMemberAccountChange.setMemberId(
-            memberId);
-        appMemberAccountChange.setOperaType(3);
-        appMemberAccountChange.setOperaMount(withdrawalNum);
-        appMemberAccountChange.setCreateBy(appMember.getUserAccount());
-        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
-        appMemberAccountChange.setChannelId(channelId);
-        appMemberAccountChange.setPreOperaMount(balance);
-        appMemberAccountChange.setTotalMount(nowBalance);
-        appMemberAccountChange.setStatus(1);
-        appMemberAccountChange.setOrderNo(appMemberWithdrawal.getOrderNo());
-        appMemberAccountChange.setUserAccount(appMember.getUserAccount());
-        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
-        return appMemberWithdrawalMapper.insertSelective(appMemberWithdrawal);
+        if (startWithdraw.compareTo(stringDate) < 0 && endWithdraw.compareTo(stringDate) > 0) {
+            //修改账户余额并且冻结金额
+            appMemberMapper.updateBalance(channelId, memberId, withdrawalNum);
+            BigDecimal nowBalance = appMemberMapper.selectByPrimaryKey(memberId)
+                .getBalance();
+            //插入提现表
+            AppMemberWithdrawal appMemberWithdrawal = new AppMemberWithdrawal();
+            appMemberWithdrawal.setOrderNo(orderSn);
+            appMemberWithdrawal.setMemberId(memberId);
+            appMemberWithdrawal.setUserAccount(appMember.getUserAccount());
+            appMemberWithdrawal.setRealName(appMemberBank.getAccountName());
+            appMemberWithdrawal.setPhoneNumber(appMember.getPhoneNumber());
+            appMemberWithdrawal.setOperaType(4);
+            appMemberWithdrawal.setStatus(1);
+            appMemberWithdrawal.setOperaMount(withdrawalNum);
+            appMemberWithdrawal.setCreateBy(appMember.getUserAccount());
+            appMemberWithdrawal.setCreateTime(DateFormat.getNowDate());
+            appMemberWithdrawal.setChannelId(channelId);
+            appMemberWithdrawal.setMemberBankId(appMemberBank.getId());
+            //插入账变
+            AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+            appMemberAccountChange.setMemberId(memberId);
+            appMemberAccountChange.setOperaType(3);
+            appMemberAccountChange.setOperaMount(withdrawalNum);
+            appMemberAccountChange.setCreateBy(appMember.getUserAccount());
+            appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+            appMemberAccountChange.setChannelId(channelId);
+            appMemberAccountChange.setPreOperaMount(balance);
+            appMemberAccountChange.setTotalMount(nowBalance);
+            appMemberAccountChange.setStatus(1);
+            appMemberAccountChange.setOrderNo(orderSn);
+            appMemberAccountChange.setUserAccount(appMember.getUserAccount());
+            appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+            return appMemberWithdrawalMapper.insertSelective(appMemberWithdrawal);
+        }else {
+            throw new Exception("系统维护中,请在规定时间内提现!");
+        }
     }
 
     /**
