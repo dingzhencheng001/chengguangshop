@@ -51,7 +51,7 @@ public class MemberLevelController {
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         List<AppMemberLevel> appMemberLevels = memberLevelService.listLevels(pageNum, pageSize,channelId);
@@ -93,7 +93,7 @@ public class MemberLevelController {
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         CommonResult commonResult;

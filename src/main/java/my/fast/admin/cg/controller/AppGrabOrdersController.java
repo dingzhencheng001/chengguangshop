@@ -61,7 +61,7 @@ public class AppGrabOrdersController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         //判断该账户提现状态是否正常
@@ -72,7 +72,7 @@ public class AppGrabOrdersController {
             Object appGoods = appGrabOrdersService.randomOrders(appRandomOrderParam);
             return CommonResult.success(appGoods);
         } else {
-            return CommonResult.failed("账户余额无法支付抢单商品,请充值后抢单!");
+            return CommonResult.failed("814");
         }
     }
 
@@ -96,7 +96,7 @@ public class AppGrabOrdersController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         int count = appGrabOrdersService.submitOrders(appGoods, memberId, channelId);

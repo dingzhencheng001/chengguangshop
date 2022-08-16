@@ -53,7 +53,7 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         String endWithdraw = appControl.getEndWithdraw();
         String stringDate = DateFormat.getStringDate();
         if (StringUtils.isEmpty(appMemberBank)) {
-            throw new Exception("没有绑定银行卡");
+            throw new Exception("827");
         }
         if (startWithdraw.compareTo(stringDate) < 0 && endWithdraw.compareTo(stringDate) > 0) {
             //修改账户余额并且冻结金额
@@ -90,7 +90,7 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
             appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
             return appMemberWithdrawalMapper.insertSelective(appMemberWithdrawal);
         }else {
-            throw new Exception("系统维护中,请在规定时间内提现!");
+            throw new Exception("828");
         }
     }
 

@@ -57,7 +57,7 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         DispatchOrderParam.forEach(item -> item.setChannelId(channelId));
@@ -84,7 +84,7 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         dispatchParam.setChannelId(channelId);
@@ -107,7 +107,7 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         dispatchOrderParam.setChannelId(channelId);
@@ -134,7 +134,7 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         dispatchParam.setChannelId(channelId);
@@ -162,13 +162,13 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         dispatchOrderParam.setChannelId(channelId);
         int count = dispatchOrderService.checkOrderQuantity(dispatchOrderParam);
         if (count >= 1) {
-            return CommonResult.failed("单号重复,请重新输入!");
+            return CommonResult.failed("819!");
         } else {
             return CommonResult.success(null);
         }
@@ -188,7 +188,7 @@ public class DispatchOrderController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         dispatchOrderParam.setChannelId(channelId);

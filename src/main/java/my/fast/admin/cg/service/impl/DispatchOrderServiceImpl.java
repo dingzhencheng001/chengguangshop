@@ -96,10 +96,10 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                     appDispatchOrder.setOrderStatus(0);
                     appDispatchOrderMapper.insert(appDispatchOrder);
                 } else {
-                    throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+                    throw new Exception("829");
                 }
             } else {
-                throw new Exception("提交失败,单号重复!");
+                throw new Exception("830");
             }
         }
         return 1;
@@ -130,7 +130,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
                 appDispatchOrder.setOrderStatus(0);
                 appDispatchOrderMapper.insert(appDispatchOrder);
             } else {
-                throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+                throw new Exception("829");
             }
         }
         return 1;
@@ -148,7 +148,7 @@ public class DispatchOrderServiceImpl implements DispatchOrderService {
         AppGoods appGoods = appGoodsMapper.randomGoodsByExample(dispatchOrderParam);
         //如果为空则报错
         if (StringUtils.isEmpty(appGoods)) {
-            throw new Exception("指派商品价格在商品库不存在,请重新输入价格范围!");
+            throw new Exception("829");
         }
         return 1;
     }

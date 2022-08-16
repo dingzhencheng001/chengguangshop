@@ -44,7 +44,7 @@ public class AppTeamReportController {
 
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         Long id = appUserVO.getId();
         return CommonResult.success(appTeamReportService.getTeamList(id));

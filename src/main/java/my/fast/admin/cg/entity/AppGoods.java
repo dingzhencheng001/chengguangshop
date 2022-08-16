@@ -4,38 +4,65 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class AppGoods implements Serializable {
+    @ExcelIgnore
     private Long id;
 
+    @ExcelProperty("商店名称")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "商店名称")
     private String shopName;
 
+    @ExcelProperty("商品名称")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
 
+    @ExcelProperty("商品描述")
+    @ColumnWidth(50)
     @ApiModelProperty(value = "商品描述")
     private String goodsInfo;
 
+    @ExcelProperty("商品价格")
+    @ColumnWidth(10)
     @ApiModelProperty(value = "商品价格")
     private BigDecimal goodsPrice;
 
+    @ExcelProperty("商品展示图片")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "商品展示图片")
     private String goodsPic;
 
+    @ColumnWidth(20)
+    @ExcelProperty("商品添加时间")
+    @DateTimeFormat("yyyy-MM-dd")
     @ApiModelProperty(value = "商品添加时间")
     private Date goodsAddTime;
 
+    @ExcelProperty("上架状态")
+    @ColumnWidth(10)
     @ApiModelProperty(value = "上架状态 0不上架 1上架")
     private Integer status;
 
+    @ExcelProperty("商品分类id")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "商品分类id")
     private Long goodsSortId;
 
+    @ExcelProperty("渠道id")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
+    @ExcelProperty("任务组")
+    @ColumnWidth(20)
     @ApiModelProperty(value = "任务组")
     private Integer taskGroup;
 

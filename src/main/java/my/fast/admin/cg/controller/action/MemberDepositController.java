@@ -56,7 +56,7 @@ public class MemberDepositController {
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         deposit.setChannelId(channelId);
@@ -83,14 +83,14 @@ public class MemberDepositController {
     @ResponseBody
     public CommonResult deposit(@RequestBody MemberDepositParam deposit,HttpServletRequest request) {
     	if (deposit.getMemberId() == null ) {
-            return CommonResult.failed("会员ID不允许为空");
+            return CommonResult.failed("815");
         }
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         deposit.setChannelId(channelId);

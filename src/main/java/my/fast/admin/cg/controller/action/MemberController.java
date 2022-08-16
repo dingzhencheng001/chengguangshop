@@ -87,7 +87,7 @@ public class MemberController {
         
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
         Long channelId = sysChannel.getChannelId();
@@ -119,19 +119,19 @@ public class MemberController {
         
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         appMember.setChannelId(sysChannel.getChannelId());
         log.info("ChannelId : "+  sysChannel.getChannelId());
         AppMember oldUser =  appMemberService.selectAppMemberByUserId(id);
         if (oldUser == null || oldUser.getChannelId()==null ) {
-            return CommonResult.failed("查询错误，会员ID不存在");
+            return CommonResult.failed("820");
         }
         if(appMember.getUserAccount()!=null && !appMember.getUserAccount().equals(oldUser.getUserAccount())){//原用户名与上送用户名不一致
         	//修改会员账号渠道唯一判断
         	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(appMember)))
             {
-                return CommonResult.failed("修改会员" + appMember.getUserAccount() + "失败，该渠道下此账号已存在");
+                return CommonResult.failed("821");
             }
         }
         if(appMember.getPhoneNumber()!=null && !appMember.getPhoneNumber().equals(oldUser.getPhoneNumber())){//原手机号与上送手机号不一致
@@ -139,7 +139,7 @@ public class MemberController {
         	if (StringUtils.isNotEmpty(appMember.getPhoneNumber())
                     && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(appMember)))
             {
-                return CommonResult.failed("修改会员" + appMember.getUserAccount() + "失败，该渠道下手机号码已存在");
+                return CommonResult.failed("822");
             }
         }
         int count = appMemberService.updateMember(id, appMember);
@@ -163,7 +163,7 @@ public class MemberController {
         {
     		AppMember parentUser =  appMemberService.selectAppMemberByUserId(appMember.getParentUserId());
     		if(parentUser==null){
-        		return CommonResult.failed("添加会员" + appMember.getUserAccount() + "失败，上级会员不存在");
+        		return CommonResult.failed("824");
         	}
         	tbAppUser.setChannelId(parentUser.getChannelId()); //设置渠道id
         	tbAppUser.setParentUserId(parentUser.getId());//上级会员ID
@@ -178,7 +178,7 @@ public class MemberController {
             
             SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
             if (sysChannel == null || sysChannel.getChannelId()==null ) {
-                return CommonResult.failed("渠道查询错误，渠道ID不存在");
+                return CommonResult.failed("801");
             }
             log.info("ChannelId : "+  sysChannel.getChannelId());
             tbAppUser.setChannelId(sysChannel.getChannelId()); //对应渠道Id
@@ -186,12 +186,12 @@ public class MemberController {
     	
     	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(tbAppUser)))
         {
-            return CommonResult.failed("添加会员" + appMember.getUserAccount() + "失败，该机构下此账号已存在,请直接登陆");
+            return CommonResult.failed("810");
         }
         else if (StringUtils.isNotEmpty(appMember.getPhoneNumber())
                 && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(tbAppUser)))
         {
-            return CommonResult.failed("注册用户'" + appMember.getUserAccount() + "'失败，手机号码已存在,请直接登陆");
+            return CommonResult.failed("810");
         }
     	
         //检验完成补充设置信息进行insert注册
@@ -242,7 +242,7 @@ public class MemberController {
         
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         log.info("ChannelId : "+  sysChannel.getChannelId());//对应渠道Id
         param.setChannelId(sysChannel.getChannelId());
@@ -262,11 +262,11 @@ public class MemberController {
         
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
     	AppMember memberInfo = appMemberService.selectAppMemberByUserId(id);//根据主键获取会员信息
         if (memberInfo == null) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         return CommonResult.success(memberInfo);
     }

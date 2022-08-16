@@ -21,7 +21,7 @@ public class TokenUtils {
      */
     public static Long getUserId(HttpServletRequest request) {
         String token = request.getHeader("token");
-        Assert.isTrue(StringUtils.isNotBlank(token), "用户未登录");
+        Assert.isTrue(StringUtils.isNotBlank(token), "812");
         String[] split = token.split("-");
         Assert.isTrue(split.length == 3, "请重新登录");
         String userId = split[0];
@@ -37,7 +37,7 @@ public class TokenUtils {
      */
     /*public static Long getUserIdByJWT(HttpServletRequest request) {
         String token = request.getHeader("token");
-        Assert.isTrue(StringUtils.isNotBlank(token), "用户未登录");
+        Assert.isTrue(StringUtils.isNotBlank(token), "812");
         Claims claims = JWTUtils.parseJWT(token);
         Object object = claims.get("id");
         Assert.notNull(object, "用户信息为空");

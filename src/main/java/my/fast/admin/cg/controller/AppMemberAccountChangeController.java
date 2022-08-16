@@ -57,7 +57,7 @@ public class AppMemberAccountChangeController {
         HttpServletRequest request) {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         //查询账户交易账变记录
         Long memberId = appUserVO.getId();

@@ -37,4 +37,8 @@ public interface AppGoodsMapper {
     AppGoods selectByGoodsId(@Param("id")Long id, @Param("channelId")Long channelId);
 
     AppGoods randomGoodsByExample(DispatchOrderParam dispatchOrderParam);
+
+    int insertGoodsList(@Param("list") List<AppGoods> list);
+
+
 }

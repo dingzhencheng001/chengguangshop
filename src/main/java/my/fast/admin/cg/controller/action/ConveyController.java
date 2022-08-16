@@ -66,7 +66,7 @@ public class ConveyController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         List<AppConveyDto> conveyList = ConveyService.listConvey(appConveyParam, channelId);
@@ -113,7 +113,7 @@ public class ConveyController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         appConvey.setChannelId(channelId);
@@ -142,7 +142,7 @@ public class ConveyController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         qiangNumParam.setChannelId(channelId);

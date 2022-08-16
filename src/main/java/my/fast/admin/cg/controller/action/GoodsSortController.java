@@ -63,7 +63,7 @@ public class GoodsSortController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         List<AppGoodsSort> goodsList = goodsSortService.listGoodsSort(goodsSortParam,channelId);
@@ -111,7 +111,7 @@ public class GoodsSortController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         int count = goodsSortService.createGoodsSort(appGoodsSort,channelId);

@@ -64,7 +64,7 @@ public class AppLoginController {
         log.info("[0xCUC47130]登陆请求内容：{}", loginVO == null ? null : loginVO.toString());
         CommonResult commonResult;
         if (loginVO == null || StringUtils.isEmpty(loginVO.getPhoneNumber()) || StringUtils.isEmpty(loginVO.getPassword())) {
-            return CommonResult.failed("手机号密码不能为空");
+            return CommonResult.failed("800");
         }
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();  
@@ -72,27 +72,27 @@ public class AppLoginController {
         log.info("域名 ：tempContextUrl: "+  tempContextUrl);
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId()==null ) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         log.info(sysChannel.getChannelId() + sysChannel.getAppDns());
         loginVO.setChannelId(sysChannel.getChannelId());
         AppMember appUserVO = appMemberService.selectAppMemberByUserPhone(loginVO);
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount()) ) {
-            return CommonResult.failed("账号不存在");
+            return CommonResult.failed("802");
         }
         if (appUserVO.getStatus() != 0 ) {
-            return CommonResult.failed("账号已停用");
+            return CommonResult.failed("803");
         }
         if (appUserVO.getMemberStatus() != 1  ) {
-            return CommonResult.failed("账号状态为假人，请联系管理员");
+            return CommonResult.failed("804");
         }
         //后续加上密码加密串字段salt
 //        SimpleHash password = new SimpleHash("MD5", appUserVO.getPassword(), appUserVO.get);
 //        if (!password.toString().equals(loginVO.getPassword())) {
-//        	return CommonResult.failed( "密码错误");
+//        	return CommonResult.failed( "805");
 //        }
         if (!loginVO.getPassword().equals(appUserVO.getPassword())) {
-            return CommonResult.failed( "密码错误");
+            return CommonResult.failed( "805");
         }
         Map<String, Object> resultMap  = loginAction(appUserVO,request);
         commonResult = CommonResult.success(resultMap);
@@ -143,7 +143,7 @@ public class AppLoginController {
     public CommonResult registry(@RequestBody AppMember userLoginVO,HttpServletRequest request) {
         log.info("[0xCUC50130]请求内容：{}", userLoginVO == null ? null : userLoginVO.toString());
         if (userLoginVO == null || StringUtils.isEmpty(userLoginVO.getUserAccount()) || StringUtils.isEmpty(userLoginVO.getPassword())) {
-            return CommonResult.failed("注册的帐号密码不能为空");
+            return CommonResult.failed("806");
         }
         //设置处理对象
         AppMember  tbAppUser = new  AppMember();
@@ -152,21 +152,21 @@ public class AppLoginController {
         tbAppUser.setEmail(userLoginVO.getEmail());
     	if (StringUtils.isEmpty(userLoginVO.getInviteCode()))
         {
-            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码失效或不存在");
+            return CommonResult.failed("807");
         }
     	AppMember  parentUser =  appMemberService.selectAppMemberByCode(userLoginVO.getInviteCode());
     	if(parentUser==null){
-    		return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，邀请码用户已注销或不存在");
+    		return CommonResult.failed("808");
     	}
     	tbAppUser.setChannelId(parentUser.getChannelId()); //设置渠道id
     	if (UserConstants.NOT_UNIQUE.equals(appMemberService.checkUserNameUnique(tbAppUser)))
         {
-            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，该机构下此账号已存在,请直接登陆");
+            return CommonResult.failed("809");
         }
         else if (StringUtils.isNotEmpty(userLoginVO.getPhoneNumber())
                 && UserConstants.NOT_UNIQUE.equals(appMemberService.checkPhoneUnique(tbAppUser)))
         {
-            return CommonResult.failed("注册用户'" + userLoginVO.getUserAccount() + "'失败，手机号码已存在,请直接登陆");
+            return CommonResult.failed("810");
         }
         //检验完成补充设置信息进行insert注册
     	tbAppUser.setMemberLevelId(1L);
@@ -233,10 +233,10 @@ public class AppLoginController {
         Assert.isTrue(newPwd.length() >= 6 && newPwd.length() <= 32, "请输入6-32位密码");
         Assert.isTrue(newPwd.length() >= 6, "密码不能少于6位，请重新输入");
 //        if (!CommonUtils.matchesPassword(oldPwd, appUserVO.getPassword())) {
-//            return CommonResult.failed("旧密码输入错误");
+//            return CommonResult.failed("811");
 //        }
         if (!oldPwd.equals(appUserVO.getPassword())) {
-          return CommonResult.failed("旧密码输入错误");
+          return CommonResult.failed("811");
         }
         appUserVO.setPassword(newPwd);
         int  row =  appMemberService.updateMember(appUserVO.getId(), appUserVO);

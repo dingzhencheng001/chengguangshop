@@ -42,7 +42,7 @@ public class AppMemberBankController {
     public CommonResult update(@RequestBody AppMemberBank appMemberBank,HttpServletRequest request) {
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         CommonResult commonResult;
         //先根据ID查询无则新增有则更新
@@ -72,11 +72,11 @@ public class AppMemberBankController {
     @ResponseBody
     public CommonResult getMemberBank(@PathVariable("id") Long id,HttpServletRequest request) {
     	if (id==null) {
-            return CommonResult.failed("会员id不为空");
+            return CommonResult.failed("815");
         }
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
     	AppMemberBank appMemberBank = appMemberBankService.getMemberBank(id);
     	return CommonResult.success(appMemberBank);

@@ -43,4 +43,15 @@ public interface GoodsService {
      * 分页查询
      */
     List<AppGoods> listGoods(GoodsParam goodsParam, Long channelId);
+
+    /**
+     * 获取所有商品信息
+     */
+    List<AppGoods> getGoods(Long channelId);
+
+    /**
+     * 导入商品列表
+     */
+    int importGoodsList(List<AppGoods> goodsList);
+
 }

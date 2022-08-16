@@ -53,7 +53,7 @@ public class AppMemberController {
 
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         AppMemberVo reVo = new AppMemberVo();
         AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
@@ -71,14 +71,14 @@ public class AppMemberController {
         //会员等级List
         List<AppMemberLevel> levelList = appMemberLevelService.listAll();
         if (levelList == null) {
-            return CommonResult.failed("会员等级数据异常");
+            return CommonResult.failed("816");
         }
         reVo.setLevelList(levelList);
 
         //代理收益列表获取 ? 查找逻辑是 我的上级代理还是下级代理 ？ --暂查询随机展示
         List<SysAgentList> agentList = agentListService.listAll();
         if (agentList == null) {
-            return CommonResult.failed("会员佣金数据异常");
+            return CommonResult.failed("817");
         }
         reVo.setAgentList(agentList);
 
@@ -113,11 +113,11 @@ public class AppMemberController {
 
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         AppMemberDto memberInfo = appMemberService.selectAppMemberCountByPrimary(appUserVO.getId());
         if (memberInfo == null) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         return CommonResult.success(memberInfo);
     }

@@ -83,7 +83,7 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         AppMember appMember = appMemberMapper.selectByPrimaryKey(depositParam.getMemberId());
         if (StringUtils.isEmpty(appMember)) {
             try {
-				throw new Exception("会员不存在");
+				throw new Exception("824");
 			} catch (Exception e) {
 				e.printStackTrace();
 				return 0;
@@ -95,7 +95,7 @@ public class MemberDepositServiceImpl implements MemberDepositService {
     		//余额判断
     		if(CommonUtils.moneyComp(depositParam.getOperaMount(),appMember.getBalance())){
     			try {
-					throw new Exception("余额不足，无法扣减");
+					throw new Exception("831");
 				} catch (Exception e) {
 					e.printStackTrace();
 					return 0;

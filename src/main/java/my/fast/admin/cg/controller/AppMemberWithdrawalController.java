@@ -52,11 +52,11 @@ public class AppMemberWithdrawalController {
         CommonResult commonResult;
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户未登录");
+            return CommonResult.failed("812");
         }
         //判断该账户提现状态是否正常
         if (appUserVO.getDrawalStatus() != 0) {
-            return CommonResult.failed("该用户账号被禁止提现，请联系管理员");
+            return CommonResult.failed("818");
         }
         Long memberId = appUserVO.getId();
         //根据域名获取渠道号
@@ -69,7 +69,7 @@ public class AppMemberWithdrawalController {
             .toString();
         SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
         if (sysChannel == null || sysChannel.getChannelId() == null) {
-            return CommonResult.failed("渠道查询错误，渠道ID不存在");
+            return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
         BigDecimal withdrawalNum = memberWithdrawalParam.getOperaMount();

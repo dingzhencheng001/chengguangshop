@@ -69,7 +69,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         Long memberId = appRandomOrderParam.getMemberId();
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         if (StringUtils.isEmpty(appMember)) {
-            throw new Exception("会员不存在");
+            throw new Exception("824");
         }
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appMember.getMemberLevelId());
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
@@ -82,7 +82,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             String num = String.valueOf(qiang);
             int userOderNum = Integer.parseInt(num);
             if (userOderNum == orderLimitNum) {
-                throw new Exception("抢单数超过会员等级限制");
+                throw new Exception("825");
             }
         }
         return getObject(appRandomOrderParam, appMember);
@@ -171,7 +171,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (!StringUtils.isEmpty(appMemberAddress)) {
             appConvey.setAddId(appMemberAddress.getId());
         } else {
-            throw new Exception("会员收货地址不存在");
+            throw new Exception("826");
         }
         //设置抢单数
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
@@ -264,7 +264,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (!StringUtils.isEmpty(appMemberAddress)) {
             appConvey.setAddId(appMemberAddress.getId());
         } else {
-            throw new Exception("会员收货地址不存在");
+            throw new Exception("826");
         }
         //设置抢单数
         List<AppConvey> appConveys = appConveyMapper.selectConvey();
@@ -346,7 +346,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (!StringUtils.isEmpty(appMemberAddress)) {
             appConvey.setAddId(appMemberAddress.getId());
         } else {
-            throw new Exception("会员收货地址不存在");
+            throw new Exception("826");
         }
         //设置抢单数
         List<AppConvey> appConveys = appConveyMapper.selectConvey();

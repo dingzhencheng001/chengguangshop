@@ -130,7 +130,7 @@ public class SysUserController {
     public R updatePwd(String opwd, String npwd) {
         SimpleHash password = new SimpleHash("MD5", opwd, ShiroUtils.getUserEntity().getSalt());
         if (!password.toString().equals(ShiroUtils.getUserEntity().getPassword())) {
-            throw new MyException("原密码错误,请输入正确密码!");
+            throw new MyException("805");
         }
         String salt = SysUtils.createSalt(16);
         SimpleHash newPwd = new SimpleHash("MD5", npwd, salt);

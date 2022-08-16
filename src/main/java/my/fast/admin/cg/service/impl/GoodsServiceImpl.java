@@ -2,6 +2,7 @@ package my.fast.admin.cg.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
+import com.google.protobuf.ServiceException;
 
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppGoodsExample;
@@ -51,6 +53,18 @@ public class GoodsServiceImpl implements GoodsService {
         }
         criteria.andChannelIdEqualTo(channelId);
         return appGoodsMapper.selectByExample(appGoodsExample);
+    }
+
+    @Override
+    public List<AppGoods> getGoods(Long channelId) {
+        AppGoodsExample appGoodsExample = new AppGoodsExample();
+        appGoodsExample.createCriteria().andChannelIdEqualTo(channelId);
+        return appGoodsMapper.selectByExample(appGoodsExample);
+    }
+
+    @Override
+    public int importGoodsList(List<AppGoods> goodsList) {
+         return appGoodsMapper.insertGoodsList(goodsList);
     }
 
     @Override
