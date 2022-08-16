@@ -136,7 +136,7 @@ layui.define(['layer', 'laytpl', 'element'], function(exports) {
           '{{# } else { }}',
           '<i class="layui-icon">{{item.icon}}</i>',
           '{{# } }}',
-          '<span> {{item.title}}</span>',
+          '<span> {{item.i18nText}}</span>',
           '</a>',
           '{{# var children = item.children; }}',
           '<dl class="layui-nav-child">',
@@ -148,7 +148,7 @@ layui.define(['layer', 'laytpl', 'element'], function(exports) {
           '{{# } else { }}',
           '<i class="layui-icon">{{child.icon}}</i>',
           '{{# } }}',
-          '<span> {{child.title}}</span>',
+          '<span> {{child.i18nText}}</span>',
           '</a>',
           '</dd>',
           '{{# }); }}',
@@ -174,6 +174,7 @@ layui.define(['layer', 'laytpl', 'element'], function(exports) {
       //本地数据优先
       if (_config.data !== undefined && _config.data.length > 0) {
         _data = _config.data;
+          console.log('本地数据优先', _data, window.i18n);
       } else {
         var dataType = _remote.jsonp ? 'jsonp' : 'json';
         var options = {
@@ -184,6 +185,19 @@ layui.define(['layer', 'laytpl', 'element'], function(exports) {
             navbarLoadIndex && layer.close(navbarLoadIndex);
           },
           success: function(res) {
+              // var data = [];
+              var $t = window.i18n.$t;
+              var f = function (arr) {
+                  (arr || []).forEach(function (item) {
+                      // item.key = item.title;
+                      item.i18nText = $t('menu.' + item.title, item.title);
+                      if (item.children && item.children.length) {
+                          f(item.children);
+                      }
+                  })
+              }
+              f(res);
+              console.log('res', res, window.i18n);
             _data = res;
           }
         };

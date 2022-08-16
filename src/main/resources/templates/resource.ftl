@@ -15,6 +15,7 @@
 <!-- 全局属性 -->
 <script src="/js/common/setting.js"></script>
 <script src="/js/common/app.js"></script>
+<script src="/lang/index.js"></script>
 <!-- css -->
 <link rel="stylesheet" href="/css/console.css" />
 <link rel="stylesheet" href="/css/app.css" />

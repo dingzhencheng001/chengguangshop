@@ -86,21 +86,28 @@ layui.define(['jquery', 'element', 'nprogress', 'utils'], function(exports) {
             that._parentElem = _config.elem;
             if (that.tabDomExists())
                 return;
+            var $t = window.i18n.$t;
+            var operation = $t('operation');
+            var home = $t('home');
+            var refreshCurrentTab = $t('refreshCurrentTab');
+            var closeCurrentTab = $t('closeCurrentTab');
+            var closeOtherTab = $t('closeOtherTab');
+            var closeAllTab = $t('closeAllTab');
             //模板
             var tpl = [
                     '<div class="layui-tab layui-tab-card kit-tab" lay-filter="' + that._filter + '">',
                     '<ul class="layui-tab-title">',
-                    '<li class="layui-this" lay-id="-1" data-url="' + _config.mainUrl + '"><i class="layui-icon">&#xe68e;</i> 主页</li>',
+                    '<li class="layui-this" lay-id="-1" data-url="' + _config.mainUrl + '"><i class="layui-icon">&#xe68e;</i> '+ home +'</li>',
                     '</ul>',
-                    '<div class="kit-tab-tool">操作&nbsp;<i class="fa fa-caret-down"></i></div>',
+                    '<div class="kit-tab-tool" data-locale="operation">'+ operation + '&nbsp;<i class="fa fa-caret-down"></i></div>',
                     '<div class="kit-tab-tool-body layui-anim layui-anim-upbit">',
                     '<ul>',
-                    '<li class="kit-item" data-target="refresh">刷新当前选项卡</li>',
+                    '<li class="kit-item" data-target="refresh">'+ refreshCurrentTab + '</li>',
                     '<li class="kit-line"></li>',
-                    '<li class="kit-item" data-target="closeCurrent">关闭当前选项卡</li>',
-                    '<li class="kit-item" data-target="closeOther">关闭其他选项卡</li>',
+                    '<li class="kit-item" data-target="closeCurrent">'+ closeCurrentTab +'</li>',
+                    '<li class="kit-item" data-target="closeOther">'+ closeOtherTab +'</li>',
                     '<li class="kit-line"></li>',
-                    '<li class="kit-item" data-target="closeAll">关闭所有选项卡</li>',
+                    '<li class="kit-item" data-target="closeAll">'+ closeAllTab +'</li>',
                     '</ul>',
                     '</div>',
                     '<div class="layui-tab-content">',

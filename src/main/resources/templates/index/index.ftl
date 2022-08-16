@@ -19,39 +19,46 @@
                     <i class="layui-icon layui-icon-shrink-right"></i>
                 </a>
             </li>
-            <li class="layui-nav-item"><a href="javascript:;">控制台</a></li>
-            <li class="layui-nav-item"><a href="javascript:;">商品管理</a></li>
+            <li class="layui-nav-item"><a href="javascript:;" data-locale="console">控制台</a></li>
+            <li class="layui-nav-item"><a href="javascript:;" data-locale="commodityAdmin">商品管理</a></li>
             <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
+                <a href="javascript:;" data-locale="otherSystems">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">邮件管理</a></dd>
-                    <dd><a href="javascript:;">消息管理</a></dd>
-                    <dd><a href="javascript:;">授权管理</a></dd>
+                    <dd><a href="javascript:;" data-locale="mailAdmin">邮件管理</a></dd>
+                    <dd><a href="javascript:;" data-locale="newsAdmin">消息管理</a></dd>
+                    <dd><a href="javascript:;" data-locale="authorizationAdmin">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right kit-nav">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+                <a data-locale="language">语言</a>
+                <dl class="layui-nav-child">
+                    <dd data-value="en" class="lang-item"><a>english</a></dd>
+                    <dd data-value="cn" class="lang-item"><a>简体中文</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" data-locale="theme">
                     <i class="layui-icon">&#xe63f;</i> 皮肤
                 </a>
                 <dl class="layui-nav-child skin">
-                    <dd><a href="javascript:;" data-skin="default" style="color:#393D49;"><i class="layui-icon">&#xe658;</i> 默认</a></dd>
-                    <dd><a href="javascript:;" data-skin="orange" style="color:#ff6700;"><i class="layui-icon">&#xe658;</i> 橘子橙</a></dd>
-                    <dd><a href="javascript:;" data-skin="green" style="color:#00a65a;"><i class="layui-icon">&#xe658;</i> 原谅绿</a></dd>
-                    <dd><a href="javascript:;" data-skin="pink" style="color:#FA6086;"><i class="layui-icon">&#xe658;</i> 少女粉</a></dd>
-                    <dd><a href="javascript:;" data-skin="blue.1" style="color:#00c0ef;"><i class="layui-icon">&#xe658;</i> 天空蓝</a></dd>
-                    <dd><a href="javascript:;" data-skin="red" style="color:#dd4b39;"><i class="layui-icon">&#xe658;</i> 枫叶红</a></dd>
+                    <dd><a href="javascript:;" data-locale="default" data-skin="default" style="color:#393D49;"><i class="layui-icon">&#xe658;</i> 默认</a></dd>
+                    <dd><a href="javascript:;" data-locale="orange" data-skin="orange" style="color:#ff6700;"><i class="layui-icon">&#xe658;</i> 橘子橙</a></dd>
+                    <dd><a href="javascript:;" data-locale="green" data-skin="green" style="color:#00a65a;"><i class="layui-icon">&#xe658;</i> 原谅绿</a></dd>
+                    <dd><a href="javascript:;" data-locale="pink" data-skin="pink" style="color:#FA6086;"><i class="layui-icon">&#xe658;</i> 少女粉</a></dd>
+                    <dd><a href="javascript:;" data-locale="blue" data-skin="blue.1" style="color:#00c0ef;"><i class="layui-icon">&#xe658;</i> 天空蓝</a></dd>
+                    <dd><a href="javascript:;" data-locale="red" data-skin="red" style="color:#dd4b39;"><i class="layui-icon">&#xe658;</i> 枫叶红</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;"><i class="fa fa-user"></i>&nbsp;<span class="username"></span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" id="baseUser">基本资料</a></dd>
-                    <dd><a href="javascript:;" id="updatePwd">密码修改</a></dd>
+                    <dd><a href="javascript:;" data-locale="basicInfo" id="baseUser">基本资料</a></dd>
+                    <dd><a href="javascript:;" data-locale="modifyPassword" id="updatePwd">密码修改</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
+            <li class="layui-nav-item"><a href="/logout" data-locale="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
         </ul>
     </div>
 

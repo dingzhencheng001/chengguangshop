@@ -7,6 +7,19 @@ layui.config({
         navbar = layui.navbar,
         tab = layui.tab;
 
+    var i18n = new I18n({
+        // 渲染时改变title
+        onRender: function (othis) {
+            document.title = othis.$t('appName');
+        },
+        onChange: function () {
+            navbar.render(function () {
+                
+            });
+        }
+    });
+    window.i18n = i18n;
+
     //  tab初始化
     tab.set({
         renderType: 'iframe', // page iframe
@@ -26,8 +39,14 @@ layui.config({
             url: '/sys/menu/user?t=' + new Date().getTime()
         }
     }).render(function (data) {
-        tab.tabAdd(data);
+        console.log('data', data)
+        tab.tabAdd(Object.assign({}, data, { title: i18n.$t('menu.' + data.title, data.title) }));
     });
+
+    $('.lang-item').click(function () {
+        var v = $(this).data('value');
+        i18n.onChangeLanguage(v);
+    })
 
     $('#baseUser').click(function () {
         layer.open({

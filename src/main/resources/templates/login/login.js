@@ -3,28 +3,15 @@ layui.use(['form', 'layer', 'dropdown'], function () {
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
     var dropdown = layui.dropdown;
-    var localKey = 'admin_lang';
-
-    var onLang = function () {
-        var lang = window.localStorage.getItem(localKey);
-        return lang || 'en';
-    }
 
     var i18n = new I18n({
-        // 默认语言
-        locale: onLang(),
         // 渲染时改变title
         onRender: function (othis) {
             document.title = othis.$t('userLogin');
         },
-        // 切换语言时
-        onChange: function (locale) {
-            window.localStorage.setItem(localKey, locale);
-        }
     });
     window.i18n = i18n;
-    // var title = i18n.$t('userLogin');
-    // document.title = title;
+    var loginSucceeded = i18n.$t('loginSucceeded');
 
     dropdown.render({
         elem: '#language' //可绑定在任意元素中，此处以上述按钮为例
@@ -56,7 +43,7 @@ layui.use(['form', 'layer', 'dropdown'], function () {
             dataType: "json",
             success: function (result) {
                 if (result.code === 0) {
-                    layer.msg(result.msg, {
+                    layer.msg(loginSucceeded, {
                         icon: 1
                         , time: 1000
                     }, function () {
