@@ -1,7 +1,6 @@
 package my.fast.admin.cg.service.impl;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -88,12 +87,20 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         return getObject(appRandomOrderParam, appMember);
     }
 
-    public Object getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) throws ParseException {
+    public Object getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember) throws Exception {
         List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.assignGoodsList(appRandomOrderParam);
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
             //派单商品中随机获取一个商品返回用户
             Random rand = new Random();
-            return assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
+            AppAssignGoods appAssignGoods = assignGoodsList.get(rand.nextInt(assignGoodsList.size()));
+            BigDecimal goodsPrice = appAssignGoods.getGoodsPrice();
+            BigDecimal balance = appMember.getBalance();
+            BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+            int flag = goodsPrice.compareTo(disposalAmount);
+            if (flag >= 0) {
+                throw new Exception("832");
+            }
+            return appAssignGoods;
         } else {
             //商品表直接随机生成返回用户
             return randomGoods(appMember);
@@ -101,7 +108,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     }
 
     //随机生成订单
-    public Object randomGoods(AppMember appMember) {
+    public Object randomGoods(AppMember appMember) throws Exception {
         AppGoods appGoods = new AppGoods();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
@@ -109,6 +116,12 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             BigDecimal rate = new BigDecimal("0.5");
             BigDecimal useBalance = balance.multiply(rate);
             appGoods = appGoodsMapper.randomOrders(useBalance);
+            BigDecimal goodsPrice = appGoods.getGoodsPrice();
+            BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+            int flag = goodsPrice.compareTo(disposalAmount);
+            if (flag >= 0) {
+                throw new Exception("832");
+            }
         }
         return appGoods;
     }
