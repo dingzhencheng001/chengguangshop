@@ -52,6 +52,11 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         String startWithdraw = appControl.getStartWithdraw();
         String endWithdraw = appControl.getEndWithdraw();
         String stringDate = DateFormat.getStringDate();
+        BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+        int flag = withdrawalNum.compareTo(disposalAmount);
+        if (flag >= 0) {
+            throw new Exception("832");
+        }
         if (StringUtils.isEmpty(appMemberBank)) {
             throw new Exception("827");
         }
@@ -89,7 +94,7 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
             appMemberAccountChange.setUserAccount(appMember.getUserAccount());
             appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
             return appMemberWithdrawalMapper.insertSelective(appMemberWithdrawal);
-        }else {
+        } else {
             throw new Exception("828");
         }
     }
