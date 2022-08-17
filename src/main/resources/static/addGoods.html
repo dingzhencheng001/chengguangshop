@@ -18,6 +18,7 @@
     <!-- 全局属性 -->
     <script src="js/common/setting.js"></script>
     <script src="js/common/app.js"></script>
+    <script src="lang/index.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/app.css"/>
     <!-- 加载formSelects -->
@@ -49,44 +50,44 @@
 
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required label-required-prev">
-                    <span class="color-green">商品名称</span>
-                    <input name="goodsName" lay-verify="required" class="layui-input" placeholder="请输入商品名称">
+                    <span class="color-green" data-locale="addGoods.goodsName">商品名称</span>
+                    <input name="goodsName" lay-verify="required" class="layui-input" data-placeholder="addGoods.petGoodsName" placeholder="请输入商品名称">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">店铺名称</span>
-                    <input name="shopName" lay-verify="required" class="layui-input" placeholder="请输入店铺名称">
+                    <span class="color-green" data-locale="addGoods.shopName">店铺名称</span>
+                    <input name="shopName" lay-verify="required" class="layui-input" data-placeholder="addGoods.petShopName">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">商品单价</span>
-                    <input name="goodsPrice" lay-verify="required" class="layui-input" placeholder="请输入商品单价">
+                    <span class="color-green" data-locale="addGoods.goodsPrice">商品单价</span>
+                    <input name="goodsPrice" lay-verify="required" class="layui-input" data-placeholder="addGoods.petGoodsPrice">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">商品分类</span>
+                    <span class="color-green" data-locale="addGoods.goodsSort">商品分类</span>
                     <select name="goodsSortId" lay-verify="required" id="goodsSortId"></select>
                 </label>
             </div>
             <div class="layui-form-item">
-                <span class="color-green label-required-prev">商品LOGO及轮播展示图片</span>
+                <span class="color-green label-required-prev" data-locale="addGoods.goodsPicText">商品LOGO及轮播展示图片</span>
                 <div>
-                    <button type="button" class="layui-btn" id="test1">
+                    <button type="button" class="layui-btn" id="test1"  data-locale="addGoods.uploadPictures">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
                     <img name="goodsPic" id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
                 </div>
             </div>
             <div class="layui-form-item block">
-                <span class="label-required-prev color-green">商品详细内容</span>
+                <span class="label-required-prev color-green" data-locale="addGoods.goodsInfo">商品详细内容</span>
                 <textarea name="goodsInfo" placeholder="请输入" class="layui-textarea"></textarea>
             </div>
             <div class="layui-form-item text-center">
-                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn" >保存商品</button>
-                <button class="layui-btn layui-btn-danger" id="cancelId" type="button">取消</button>
+                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn">保存商品</button>
+                <button class="layui-btn layui-btn-danger" id="cancelId" type="button" data-locale="cancel">取消</button>
             </div>
         </div>
     </form>
@@ -99,7 +100,10 @@
         var form = layui.form;
         var params = $.getUrlVars();
         var type = params.id ? 'edit' : 'add';
-        $('#submitBtn').text(type === 'add' ? '创建商品' : '保存商品');
+        var i18n = new I18n();
+        window.i18n = i18n;
+        var $t = i18n.$t;
+        $('#submitBtn').text(type === 'add' ? $t('addGoods.createItem') : $t('addGoods.saveItem'));
         var goodsInfo = {};
         
         var onGetGoods = function () {
@@ -158,7 +162,7 @@
                 var path = data[0].path;
                 var fileFullPath = $.getFileFullPath(path);
                 $('#upload-img').attr('src', fileFullPath).show();
-                layer.msg('上传成功', {icon: 1});
+                layer.msg($t('uploadSucceeded'), {icon: 1});
                 //上传完毕回调
             }
             ,error: function(err){
@@ -182,7 +186,7 @@
                 type: 'post',
                 data: fd,
                 success: function (result) {
-                    layer.msg('创建成功', {icon: 1});
+                    layer.msg($t('createSucceeded'), {icon: 1});
                     onCancel();
                 },
                 complete: function () {
@@ -202,7 +206,7 @@
                 type: 'post',
                 data: fd,
                 success: function (result) {
-                    layer.msg('保存成功', {icon: 1});
+                    layer.msg($t('saveSucceeded'), {icon: 1});
                     onCancel();
                 },
                 complete: function () {

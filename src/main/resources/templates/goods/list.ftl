@@ -60,15 +60,23 @@
 </script>
 
 <script>
-    layui.use(['table', 'form'], function () {
+    layui.use(['table', 'form', 'layer'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
+        var layer = layui.layer;
         var where = {};
 
-        var i18n = parent.i18n ? parent.i18n : new I18n({
+        console.warn('layer', layer);
+        // layer.config({
+        //     resize: false,
+        //     // btn: ['1', '2'],
+        // });
+
+        var i18n = new I18n({
             onRender: function () {
                 console.warn('onRender')
             }
         });
+        window.i18n = i18n;
         var $t = i18n.$t;
         var editText = $t('edit');
         var deleteText = $t('delete');
@@ -131,6 +139,7 @@
                 layer.open({
                     type: 2,
                     area: ['800px', '500px'],
+                    title: $t('edit'),
                     content: '/addGoods.html?id=' + data.id,
                     end: function () {
                         console.warn('end');
@@ -138,16 +147,21 @@
                     }
                 });
             } else if (layEvent === 'del') {
-                layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
-                    $.request({
-                        url: '/action/goods/delete/' + data.id,
-                        success: function () {
-                            layer.close(index);
-                            layer.msg('删除成功', {icon: 1});
-                            actions.onReloadData();
-                        }
-                    })
-                });
+                layer.confirm($t('deleteConfirmation'),
+                    {
+                        title: $t('operationConfirmation'),
+                        btn: [$t('confirm'), $t('cancel')],
+                    },
+                    function (index) {
+                        $.request({
+                            url: '/action/goods/delete/' + data.id,
+                            success: function () {
+                                layer.close(index);
+                                layer.msg('删除成功', {icon: 1});
+                                actions.onReloadData();
+                            }
+                        })
+                    });
             }
 
         });

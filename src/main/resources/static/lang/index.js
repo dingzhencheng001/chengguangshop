@@ -96,7 +96,10 @@ function I18n (options) {
         // productName: 'Product Name',
         pleaseEnterThe: 'Please Enter The',
         pleaseSelectThe: 'Please Select The',
-        // addItem: 'Add Item',
+        operationConfirmation: 'Operation confirmation',
+        deleteConfirmation: 'Are you sure you want to delete?',
+        confirm: 'confirm',
+        cancel: 'cancel',
         // 商品列表
         goodsList: {
             form: {
@@ -121,6 +124,24 @@ function I18n (options) {
                 operation: 'Operation',
             },
         },
+        // 添加商品
+        addGoods: {
+            createItem: 'Create item',
+            saveItem: 'Save item',
+            uploadSucceeded: 'Upload succeeded',
+            createSucceeded: 'Created successfully',
+            saveSucceeded: 'Saved successfully',
+            goodsName: 'Goods Name',
+            petGoodsName: 'Please enter the goods name',
+            shopName: 'Shop Name',
+            petShopName: 'Please enter the shop name',
+            goodsPrice: 'Goods Price',
+            petGoodsPrice: 'Please enter the goods price',
+            goodsSort: 'Goods classification',
+            goodsPicText: 'Product logo and rotation display pictures',
+            uploadPictures: 'Upload pictures',
+            goodsInfo: 'Product details',
+        }
     };
 
     // 中文
@@ -197,6 +218,11 @@ function I18n (options) {
         conditionalSearch: '条件搜索',
         pleaseEnterThe: '请输入',
         pleaseSelectThe: '请选择',
+        operationConfirmation: '操作确认',
+        deleteConfirmation: '确定要删除吗?',
+        confirm: '确定',
+        cancel: '取消',
+
         // 商品列表
         goodsList: {
             form: {
@@ -221,6 +247,25 @@ function I18n (options) {
                 operation: '操作',
             },
         },
+
+        // 添加商品
+        addGoods: {
+            createItem: '创建商品',
+            saveItem: '保存商品',
+            uploadSucceeded: '上传成功',
+            createSucceeded: '创建成功',
+            saveSucceeded: '保存成功',
+            goodsName: '商品名称',
+            petGoodsName: '请输入商品名称',
+            shopName: '店铺名称',
+            petShopName: '请输入店铺名称',
+            goodsPrice: '商品单价',
+            petGoodsPrice: '请输入商品单价',
+            goodsSort: '商品分类',
+            goodsPicText: '商品LOGO及轮播展示图片',
+            uploadPictures: '上传图片',
+            goodsInfo: '商品详细内容',
+        }
 
     };
 
@@ -251,7 +296,7 @@ function I18n (options) {
     }.bind(this)
 
     this.onRender = function () {
-        var data = this.getDataMap();
+        // var data = this.getDataMap();
         var d = document.querySelectorAll('[data-locale]');
         var p = document.querySelectorAll('[data-placeholder]');
         var $t = this.$t;
@@ -259,7 +304,7 @@ function I18n (options) {
             var key = d.dataset['locale'];
             var value = $t(key);
             d.innerText = value;
-            console.log('key', key, value);
+            // console.log('key', key, value);
         });
         p.forEach(function (d) {
             var key = d.dataset['placeholder'];
