@@ -5,13 +5,14 @@
 
 /**
  *
- * @param options
+ * @param {Object} [options]
  * @param {String} [options.locale=en] // 默认语言
  * @param {Function} [options.onChange] // 改变语言时执行
  * @param {Function} [options.onRender]
  * @constructor
  */
 function I18n (options) {
+    if (!options) options = {};
 
     this.localKey = 'admin_lang';
 
@@ -85,6 +86,41 @@ function I18n (options) {
         closeCurrentTab: 'Close Current Tab',
         closeOtherTab: 'Close Other Tab',
         closeAllTab: 'Close All Tab',
+
+        //
+        edit: 'edit',
+        delete: 'delete',
+        search: 'search',
+        conditionalSearch: 'conditional search',
+        // goodsId: 'Goods ID',
+        // productName: 'Product Name',
+        pleaseEnterThe: 'Please Enter The',
+        pleaseSelectThe: 'Please Select The',
+        // addItem: 'Add Item',
+        // 商品列表
+        goodsList: {
+            form: {
+                goodsName: 'Goods name',
+                petGoodsName: 'Please enter the goods name',
+                priceRange: 'Price range',
+                maximum: 'Maximum',
+                minimum: 'Minimum',
+                classify: 'Classify',
+            },
+            addItem: 'Add Item',
+            table: {
+                goodsId: 'Goods ID',
+                goodsName: 'Goods Name',
+                goodsPrice: 'Goods Price',
+                shopName: 'Shop Name',
+                classify: 'Classify',
+                goodsAddTime: 'Goods Add Time',
+                status: 'Status',
+                status0: 'Not on the shelf',
+                status1: 'Already on the shelf',
+                operation: 'Operation',
+            },
+        },
     };
 
     // 中文
@@ -153,6 +189,39 @@ function I18n (options) {
         closeCurrentTab: '关闭当前选项卡',
         closeOtherTab: '关闭其它选项卡',
         closeAllTab: '关闭所有选项卡',
+
+        //
+        edit: '编辑',
+        delete: '删除',
+        search: '搜索',
+        conditionalSearch: '条件搜索',
+        pleaseEnterThe: '请输入',
+        pleaseSelectThe: '请选择',
+        // 商品列表
+        goodsList: {
+            form: {
+                productName: '商品名称',
+                petProductName: '请输入商品名称',
+                priceRange: '价格区间',
+                maximum: '最大',
+                minimum: '最小',
+                classify: '分类',
+            },
+            addItem: '添加商品',
+            table: {
+                goodsId: '商品ID',
+                goodsName: '商品名称',
+                goodsPrice: '商品价格',
+                shopName: '店铺名称',
+                classify: '商品分类',
+                goodsAddTime: '添加时间',
+                status: '状态',
+                status0: '未上架',
+                status1: '上架',
+                operation: '操作',
+            },
+        },
+
     };
 
     this.getDataMap = function () {
@@ -183,19 +252,20 @@ function I18n (options) {
 
     this.onRender = function () {
         var data = this.getDataMap();
-        var d = document.querySelectorAll('[data-locale]')
-        var p = document.querySelectorAll('[data-placeholder]')
+        var d = document.querySelectorAll('[data-locale]');
+        var p = document.querySelectorAll('[data-placeholder]');
+        var $t = this.$t;
         d.forEach(function (d) {
             var key = d.dataset['locale'];
-            var value = data[key];
+            var value = $t(key);
             d.innerText = value;
-            // console.log('key', key, value);
+            console.log('key', key, value);
         });
         p.forEach(function (d) {
             var key = d.dataset['placeholder'];
-            var value = data[key];
+            var value = $t(key);
             d.setAttribute('placeholder', value);
-            console.log('key', key, value);
+            // console.log('key', key, value);
         });
         // console.log('onRender', data);
         options.onRender && options.onRender(this);

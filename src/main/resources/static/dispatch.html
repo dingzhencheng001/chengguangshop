@@ -575,11 +575,26 @@
                     if (!o.createTime) o.createTime = new Date();
                     o.minPrice = Number(o.minPrice);
                     o.maxPrice = Number(o.maxPrice);
+                    o.orderQuantity = Number(o.orderQuantity);
                     delete o.validPrice;
                     delete o.validPriceLoading;
                     delete o.validOrderLoading;
                     return o;
                 }.bind(this));
+
+                var findMax = function (arr) {
+                    var a = (arr || []).filter(function (item) {
+                        return item.hinder === 1;
+                    }).map(function (item) {
+                        return item.orderQuantity
+                    });
+                    return Math.max.apply(null, a);
+                }
+                var max = findMax(fd);
+                var item = fd.find(function (o) {
+                    return o.orderQuantity === max
+                })
+                if (item) item.lastOrder = 1;
                 return fd;
             },
             // 抢单号

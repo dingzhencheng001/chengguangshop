@@ -18,6 +18,7 @@
     <!-- 全局属性 -->
     <script src="js/common/setting.js"></script>
     <script src="js/common/app.js"></script>
+    <script src="lang/index.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/app.css"/>
     <!-- 加载formSelects -->
@@ -36,39 +37,37 @@
     <div class="layui-card-body layui-anim layui-anim-upbit">
         <div class="think-box-shadow">
             <fieldset>
-                <legend>条件搜索</legend>
+                <legend data-locale="conditionalSearch">条件搜索</legend>
                 <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" >
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">商品名称</label>
+                        <label class="layui-form-label" data-locale="goodsList.form.goodsName">商品名称</label>
                         <div class="layui-input-inline">
-                            <input name="goodsName" value="" placeholder="请输入商品名称" class="layui-input">
+                            <input name="goodsName" value="" data-placeholder="goodsList.form.petGoodsName" placeholder="请输入商品名称" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">价格区间</label>
+                        <label class="layui-form-label" data-locale="goodsList.form.priceRange">价格区间</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="minPrice" placeholder="最小" value="" autocomplete="off" class="layui-input">
+                            <input type="text" name="minPrice" data-placeholder="goodsList.form.minimum" placeholder="最小" value="" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-form-mid">-</div>
                         <div class="layui-input-inline">
-                            <input type="text" name="maxPrice" placeholder="最大" value="" autocomplete="off" class="layui-input"></div>
+                            <input type="text" name="maxPrice" data-placeholder="goodsList.form.maximum" placeholder="最大" value="" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">分类</label>
+                        <label class="layui-form-label" data-locale="goodsList.form.classify">分类</label>
                         <div class="layui-input-inline">
-                            <select name="goodsSortId" id="classify">
-<!--                                <option value="">所有分类</option>-->
-                            </select>
+                            <select name="goodsSortId" id="classify"></select>
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="submit"><i class="layui-icon"></i> 搜 索</button>
+                        <button class="layui-btn layui-btn-primary" data-locale="search" lay-submit lay-filter="search" type="submit"><i class="layui-icon"></i> 搜 索</button>
                     </div>
                 </form>
             </fieldset>
 
             <div class="layui-btn-container" style="margin-top: 20px;">
-                <button class="layui-btn" id="createBtn">添加商品</button>
+                <button class="layui-btn" id="createBtn" data-locale="goodsList.addItem">添加商品</button>
             </div>
 
             <table id="tableId" lay-filter="tableId" style="margin-top: 5px"></table>
@@ -78,13 +77,7 @@
 
 <!--添加时间-->
 <script type="text/html" id="goodsAddTime">
-    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
-</script>
-
-<!--操作-->
-<script type="text/html" id="operation">
-    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">删除</a>
+    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy-MM-dd HH:mm:ss')}}</div>
 </script>
 
 <script>
@@ -92,28 +85,42 @@
         var table = layui.table, $ = layui.$, form = layui.form;
         var where = {};
 
+        var i18n = parent.i18n ? parent.i18n : new I18n({
+            onRender: function () {
+                console.warn('onRender')
+            }
+        });
+        var $t = i18n.$t;
+        var editText = $t('edit');
+        var deleteText = $t('delete');
+
         var tableId = 'tableId';
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#tableId',
-            url: '/action/goods/list', //数据接口
+            // url: '/action/goods/list', //数据接口
+            url: 'http://localhost:8080' +'/action/goods/list', // 开发环境使用
             where: where,
             method: 'post',
             contentType: 'application/json',
             // 商品名称	商品价格	店铺名称	添加时间	状态
             cols: [[ //表头
-                {field: 'id', title: '商品ID', sort: true}
-                , {field: 'goodsName', title: '商品名称'}
-                , {field: 'goodsPrice', title: '商品价格'}
-                , {field: 'shopName', title: '店铺名称'}
-                , {field: 'classify', title: '商品分类', templet: function (d) {
+                {field: 'id', title: $t('goodsList.table.goodsId'), sort: true}
+                , {field: 'goodsName', title: $t('goodsList.table.goodsName')}
+                , {field: 'goodsPrice', title: $t('goodsList.table.goodsPrice')}
+                , {field: 'shopName', title: $t('goodsList.table.shopName')}
+                , {field: 'classify', title: $t('goodsList.table.classify'), templet: function (d) {
                         return $.findName(goodsClassifyList, d.goodsSortId);
                     }}
-                , {field: 'goodsAddTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
-                , {field: 'status', title: '状态', width: 120, templet: function (d) {
+                , {field: 'goodsAddTime', title: $t('goodsList.table.goodsAddTime'), width: 180, templet: '#goodsAddTime'}
+                , {field: 'status', title: $t('goodsList.table.status'), width: 120, templet: function (d) {
                         // 上架状态 0不上架 1上架
-                        return d.status === 0 ? '不上架' : '上架'
+                        var text = $t('goodsList.table.status' + d.status, '');
+                        return text
                     }}
-                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120}
+                , {field: 'operation', title: $t('goodsList.table.operation'), templet: function (d) {
+                        return '<a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">' + editText +'</a>\n' +
+                            '<a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">'+ deleteText + '</a>'
+                    }, fixed: 'right', width: 120}
             ]],
             id: tableId, // 容器唯一ID
         } ));
