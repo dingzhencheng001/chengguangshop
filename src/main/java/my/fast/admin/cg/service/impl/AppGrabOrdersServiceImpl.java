@@ -217,7 +217,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     //指派订单
     private int submitDistributionGoods(AppAssignGoods appGoods, Long memberId, Long channelId, String orderSn)
     throws Exception {
-        //如果不是是卡单
+        //如果不是卡单
         if (appGoods.getHinder() == 0) {
             return smooth(appGoods, memberId, channelId, orderSn);
         }

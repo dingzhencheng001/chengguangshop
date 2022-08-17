@@ -1085,6 +1085,66 @@ public class AppDispatchOrderExample {
             addCriterion("which_group not between", value1, value2, "whichGroup");
             return (Criteria) this;
         }
+
+        public Criteria andLastOrderIsNull() {
+            addCriterion("last_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderIsNotNull() {
+            addCriterion("last_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderEqualTo(Integer value) {
+            addCriterion("last_order =", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderNotEqualTo(Integer value) {
+            addCriterion("last_order <>", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderGreaterThan(Integer value) {
+            addCriterion("last_order >", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("last_order >=", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderLessThan(Integer value) {
+            addCriterion("last_order <", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("last_order <=", value, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderIn(List<Integer> values) {
+            addCriterion("last_order in", values, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderNotIn(List<Integer> values) {
+            addCriterion("last_order not in", values, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderBetween(Integer value1, Integer value2) {
+            addCriterion("last_order between", value1, value2, "lastOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("last_order not between", value1, value2, "lastOrder");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

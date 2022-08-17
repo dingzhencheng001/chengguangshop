@@ -53,5 +53,8 @@ public class DispatchOrderParam {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
+    @ApiModelProperty(value = "派单标识1.最后一单")
+    private Integer lastOrder;
+
 
 }

@@ -39,7 +39,7 @@ public class AppDispatchOrder implements Serializable {
     @ApiModelProperty(value = "操作人")
     private String createBy;
 
-    @ApiModelProperty(value = "订单状态0.未完成1.完成")
+    @ApiModelProperty(value = "订单状态0.未抢单1.已抢单")
     private Integer orderStatus;
 
     @ApiModelProperty(value = "商品id")
@@ -53,6 +53,9 @@ public class AppDispatchOrder implements Serializable {
 
     @ApiModelProperty(value = "第几组")
     private Integer whichGroup;
+
+    @ApiModelProperty(value = "派单标识1.最后一单")
+    private Integer lastOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -184,6 +187,14 @@ public class AppDispatchOrder implements Serializable {
         this.whichGroup = whichGroup;
     }
 
+    public Integer getLastOrder() {
+        return lastOrder;
+    }
+
+    public void setLastOrder(Integer lastOrder) {
+        this.lastOrder = lastOrder;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -206,6 +217,7 @@ public class AppDispatchOrder implements Serializable {
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", finishTime=").append(finishTime);
         sb.append(", whichGroup=").append(whichGroup);
+        sb.append(", lastOrder=").append(lastOrder);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
