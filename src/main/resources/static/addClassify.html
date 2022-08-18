@@ -18,6 +18,7 @@
     <!-- 全局属性 -->
     <script src="js/common/setting.js"></script>
     <script src="js/common/app.js"></script>
+    <script src="lang/index.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/app.css"/>
     <!-- 加载formSelects -->
@@ -37,41 +38,42 @@
         <div class="layui-card-body think-box-shadow padding-left-40">
             <div class="layui-form-item layui-row layui-col-space15" id="sortNameItem">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">分类名称</span>
-                    <input name="sortName" lay-verify="required" class="layui-input" placeholder="请输入分类名称">
+                    <span class="color-green" data-locale="addClassify.sortName">分类名称</span>
+                    <input name="sortName" lay-verify="required" class="layui-input" data-placeholder="addClassify.petSortName">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">佣金比例(不要设置百分比直接写0.01) </span>
-                    <input name="commissionRate" lay-verify="required" class="layui-input" placeholder="请输入佣金比例">
+                    <span class="color-green" data-locale="addClassify.commissionRate">佣金比例(不要设置百分比直接写0.01) </span>
+                    <input name="commissionRate" lay-verify="required" class="layui-input" data-placeholder="addClassify.petCommissionRate">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">分类简介</span>
-                    <input name="explainSimple" lay-verify="required" class="layui-input" placeholder="请输入分类简介">
+                    <span class="color-green" data-locale="addClassify.explainSimple">分类简介</span>
+                    <input name="explainSimple" lay-verify="required" class="layui-input" data-placeholder="addClassify.petExplainSimple">
                 </label>
             </div>
             <div class="layui-form-item layui-row layui-col-space15">
                 <label class="layui-col-xs9 relative label-required-prev">
-                    <span class="color-green">最低金额限制</span>
-                    <input name="minAmount" lay-verify="number" class="layui-input" placeholder="请输入金额">
+                    <span class="color-green" data-locale="addClassify.minAmount">最低金额限制</span>
+                    <input name="minAmount" lay-verify="number" class="layui-input" data-placeholder="addClassify.petMinAmount">
                 </label>
             </div>
             <div class="layui-form-item">
-                <span class="color-green label-required-prev">分类LOGO(不用修改)</span>
+                <span class="color-green label-required-prev" data-locale="addClassify.sortLogo">分类LOGO(不用修改)</span>
                 <div>
-                    <button type="button" class="layui-btn" id="test1">
+                    <button type="button" class="layui-btn" id="test1" data-locale="uploadPictures">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
                     <img  id="upload-img" style="display: none; width: 150px;margin-left: 12px;" src="">
                 </div>
             </div>
 
+
             <div class="layui-form-item text-center">
-                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn">保存商品</button>
-                <button class="layui-btn layui-btn-danger" id="cancelId" type="button">取消</button>
+                <button class="layui-btn" type="submit" lay-submit lay-filter="submit" id="submitBtn"></button>
+                <button class="layui-btn layui-btn-danger" id="cancelId" type="button" data-locale="cancel">取消</button>
             </div>
         </div>
     </form>
@@ -83,8 +85,11 @@
         var layer = layui.layer;
         var form = layui.form;
         var params = $.getUrlVars();
+        var i18n = new I18n();
+        window.i18n = i18n;
+        var $t = i18n.$t;
         var type = params.id ? 'edit' : 'add';
-        $('#submitBtn').text(type === 'add' ? '创建分类' : '保存分类');
+        $('#submitBtn').text(type === 'add' ? $t('addClassify.createClassify') : $t('addClassify.saveClassify'));
         var detailsData = {};
 
         var onGetDetails = function () {
@@ -100,8 +105,8 @@
             $('#sortNameItem').after('\n' +
                 '            <div class="layui-form-item layui-row layui-col-space15" id="bindLevelItem">\n' +
                 '                <label class="layui-col-xs9 relative">\n' +
-                '                    <span class="color-green">绑定会员等级</span>\n' +
-                '                    <input name="bindLevel" disabled class="layui-input" placeholder="请输入会员等级">\n' +
+                '                    <span class="color-green">' + $t('addClassify.bindLevel') +'</span>\n' +
+                '                    <input name="bindLevel" disabled class="layui-input" placeholder="'+ $t('addClassify.petBindLevel')+'">\n' +
                 '                </label>\n' +
                 '            </div>')
             onGetDetails();
@@ -124,7 +129,7 @@
                 var path = data[0].path;
                 var fileFullPath = $.getFileFullPath(path);
                 $('#upload-img').attr('src', fileFullPath).show();
-                layer.msg('上传成功', {icon: 1});
+                layer.msg($t('addClassify.uploadSucceeded'), {icon: 1});
                 //上传完毕回调
             }
             , error: function (err) {
@@ -148,7 +153,7 @@
                 type: 'post',
                 data: fd,
                 success: function (result) {
-                    layer.msg('创建成功', {icon: 1});
+                    layer.msg($t('addClassify.createdSuccessfully'), {icon: 1});
                     onCancel();
                 },
                 complete: function () {
@@ -168,7 +173,7 @@
                 type: 'post',
                 data: fd,
                 success: function (result) {
-                    layer.msg('保存成功', {icon: 1});
+                    layer.msg($t('addClassify.savedSuccessfully'), {icon: 1});
                     onCancel();
                 },
                 complete: function () {

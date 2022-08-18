@@ -88,19 +88,20 @@ function I18n (options) {
         closeAllTab: 'Close All Tab',
 
         //
-        edit: 'edit',
-        delete: 'delete',
-        search: 'search',
-        conditionalSearch: 'conditional search',
+        edit: 'Edit',
+        delete: 'Delete',
+        search: 'Search',
+        conditionalSearch: 'Conditional Search',
         // goodsId: 'Goods ID',
         // productName: 'Product Name',
         pleaseEnterThe: 'Please Enter The',
         pleaseSelectThe: 'Please Select The',
         operationConfirmation: 'Operation confirmation',
         deleteConfirmation: 'Are you sure you want to delete?',
-        confirm: 'confirm',
-        cancel: 'cancel',
+        confirm: 'Confirm',
+        cancel: 'Cancel',
         deleteSucceeded: 'Delete succeeded',
+        uploadPictures: 'Upload pictures',
 
         // 商品列表
         goodsList: {
@@ -157,6 +158,27 @@ function I18n (options) {
                 operation: 'Operation',
             },
         },
+
+        addClassify: {
+            createClassify: 'Create classify',
+            saveClassify: 'Save classify',
+            bindLevel: 'Bind member level',
+            petBindLevel: 'Please enter the membership level',
+            createdSuccessfully: 'Created successfully',
+            savedSuccessfully: 'Saved successfully',
+            uploadSucceeded: 'Upload succeeded',
+
+            sortName: 'Classify Name',
+            petSortName: 'Please enter the Classify name',
+            commissionRate: 'Commission proportion (don\'t set percentage, write 0.01 directly)',
+            petCommissionRate: 'Please enter the Commission proportion',
+            explainSimple: 'Introduction to classification',
+            petExplainSimple: 'Please enter the classification introduction',
+            minAmount: 'Minimum amount limit',
+            petMinAmount: 'Please enter the minimum amount limit',
+            sortLogo: 'Classification logo (no modification)',
+        },
+
     };
 
     // 中文
@@ -238,6 +260,7 @@ function I18n (options) {
         confirm: '确定',
         cancel: '取消',
         deleteSucceeded: '删除成功',
+        uploadPictures: '上传图片',
 
         // 商品列表
         goodsList: {
@@ -295,6 +318,27 @@ function I18n (options) {
                 goodsAddTime: '添加时间',
                 operation: '操作',
             },
+        },
+
+        // 创建分类
+        addClassify: {
+            createClassify: '创建分类',
+            saveClassify: '保存分类',
+            bindLevel: '绑定会员等级',
+            petBindLevel: '请输入会员等级',
+            createdSuccessfully: '创建成功',
+            savedSuccessfully: '保存成功',
+            uploadSucceeded: '上传成功',
+
+            sortName: '分类名称',
+            petSortName: '请输入分类名称',
+            commissionRate: '佣金比例(不要设置百分比直接写0.01)',
+            petCommissionRate: '请输入佣金比例',
+            explainSimple: '分类简介',
+            petExplainSimple: '请输入分类简介',
+            minAmount: '最低金额限制',
+            petMinAmount: '请输入最低金额限制',
+            sortLogo: '分类LOGO(不用修改)',
         },
 
     };
