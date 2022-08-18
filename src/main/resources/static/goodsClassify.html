@@ -18,6 +18,7 @@
     <!-- 全局属性 -->
     <script src="js/common/setting.js"></script>
     <script src="js/common/app.js"></script>
+    <script src="lang/index.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/app.css"/>
     <!-- 加载formSelects -->
@@ -30,7 +31,7 @@
     <div class="layui-card-body layui-anim layui-anim-upbit">
         <div class="think-box-shadow">
             <div class="layui-btn-container" style="margin-top: 20px;">
-                <button class="layui-btn" id="createBtn">添加分类</button>
+                <button class="layui-btn" id="createBtn" data-locale="goodsClassify.add">添加分类</button>
             </div>
 
             <table id="tableId" lay-filter="tableId" style="margin-top: 5px"></table>
@@ -40,36 +41,47 @@
 
 <!--添加时间-->
 <script type="text/html" id="goodsAddTime">
-    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
+    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy-MM-dd HH:mm:ss')}}</div>
 </script>
 
 <!--操作-->
 <script type="text/html" id="operation">
-    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit" data-locale="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">删除</a>
 </script>
 
 <script>
     layui.use(['table', 'form'], function () {
         var table = layui.table, $ = layui.$, form = layui.form;
+
+        var i18n = new I18n();
+        window.i18n = i18n;
+        var $t = i18n.$t;
+        var editText = $t('edit');
+        var deleteText = $t('delete');
+
         var where = {};
 
         var tableId = 'tableId';
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#tableId',
-            url: '/action/goods/sort/list', //数据接口
+            // url: '/action/goods/sort/list', //数据接口
+            url: 'http://localhost:8080' +'/action/goods/sort/list', // 开发环境使用
             where: where,
             method: 'post',
             contentType: 'application/json',
             // 分类ID	分类名称	比例	简介	添加时间
             cols: [[ //表头
-                {field: 'id', title: '分类ID', sort: true}
-                , {field: 'sortName', title: '分类名称'}
-                , {field: 'commissionRate', title: '比例', sort: true}
-                , {field: 'explainSimple', title: '简介'}
-                , {field: 'minAmount', title: '最低金额', sort: true}
-                , {field: 'goodsAddTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
-                , {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120}
+                {field: 'id', title: $t('goodsClassify.table.id'), sort: true}
+                , {field: 'sortName', title: $t('goodsClassify.table.sortName')}
+                , {field: 'commissionRate', title: $t('goodsClassify.table.commissionRate'), sort: true}
+                , {field: 'explainSimple', title: $t('goodsClassify.table.explainSimple')}
+                , {field: 'minAmount', title: $t('goodsClassify.table.minAmount'), sort: true}
+                , {field: 'goodsAddTime', title: $t('goodsClassify.table.goodsAddTime'), width: 180, templet: '#goodsAddTime'}
+                , {field: 'operation', title: $t('goodsClassify.table.operation'), templet: function () {
+                        return '<a class="layui-btn layui-btn-xs" style="background:green;" lay-event="edit">'+ editText +'</a>\n' +
+                            '<a class="layui-btn layui-btn-xs" style="background:red;" lay-event="del">' + deleteText +'</a>'
+                    }, fixed: 'right', width: 120}
             ]],
             id: tableId, // 容器唯一ID
         } ));
@@ -92,21 +104,20 @@
             if (layEvent === 'edit') {
                 layer.open({
                     type: 2,
-                    title: '编辑分类',
+                    title: $t('edit'),
                     area: ['800px', '500px'],
                     content: '/addClassify.html?id=' + data.id,
                     end: function () {
-                        console.warn('end');
                         actions.onReloadData();
                     }
                 });
             } else if (layEvent === 'del') {
-                layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
+                layer.confirm($t('deleteConfirmation'), {title: $t('operationConfirmation')}, function (index) {
                     $.request({
                         url: '/action/goods/sort/delete/' + data.id,
                         success: function () {
                             layer.close(index);
-                            layer.msg('删除成功', {icon: 1});
+                            layer.msg($t('deleteSucceeded'), {icon: 1});
                             actions.onReloadData();
                         }
                     })
@@ -119,7 +130,7 @@
         $('#createBtn').click(function () {
             layer.open({
                 type: 2,
-                title: '添加分类',
+                title: $t('add'),
                 area: ['800px', '500px'],
                 content: '/addClassify.html',
                 end: function () {

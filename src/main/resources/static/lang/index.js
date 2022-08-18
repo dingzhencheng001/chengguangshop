@@ -100,6 +100,8 @@ function I18n (options) {
         deleteConfirmation: 'Are you sure you want to delete?',
         confirm: 'confirm',
         cancel: 'cancel',
+        deleteSucceeded: 'Delete succeeded',
+
         // 商品列表
         goodsList: {
             form: {
@@ -141,7 +143,20 @@ function I18n (options) {
             goodsPicText: 'Product logo and rotation display pictures',
             uploadPictures: 'Upload pictures',
             goodsInfo: 'Product details',
-        }
+        },
+
+        goodsClassify: {
+            add: 'Add',
+            table: {
+                id: 'Classify ID',
+                sortName: 'Sort Name',
+                commissionRate: 'Commission Rate',
+                explainSimple: 'Explain Simple',
+                minAmount: 'Min Amount',
+                goodsAddTime: 'Goods Add Time',
+                operation: 'Operation',
+            },
+        },
     };
 
     // 中文
@@ -222,6 +237,7 @@ function I18n (options) {
         deleteConfirmation: '确定要删除吗?',
         confirm: '确定',
         cancel: '取消',
+        deleteSucceeded: '删除成功',
 
         // 商品列表
         goodsList: {
@@ -265,7 +281,21 @@ function I18n (options) {
             goodsPicText: '商品LOGO及轮播展示图片',
             uploadPictures: '上传图片',
             goodsInfo: '商品详细内容',
-        }
+        },
+
+        // 商品分类
+        goodsClassify: {
+            add: '添加分类',
+            table: {
+                id: '分类ID',
+                sortName: '分类名称',
+                commissionRate: '比例',
+                explainSimple: '简介',
+                minAmount: '最低金额',
+                goodsAddTime: '添加时间',
+                operation: '操作',
+            },
+        },
 
     };
 
