@@ -17,12 +17,16 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var bankCardInfoIndex;
 	var sendMessageIndex;
 
+	var i18n = new I18n();
+	window.i18n = i18n;
+	var $t = i18n.$t;
+
 	var memberLevelOptions = [
-		{ name: '普通会员', value: 1 },
-		{ name: '黄金会员', value: 2 },
-		{ name: '铂金会员', value: 3 },
-		{ name: '钻石会员', value: 4 },
-		{ name: '至尊会员', value: 5 },
+		{name: '普通会员', value: 1},
+		{name: '黄金会员', value: 2},
+		{name: '铂金会员', value: 3},
+		{name: '钻石会员', value: 4},
+		{name: '至尊会员', value: 5},
 	];
 	memberLevelOptions.forEach(function (item) {
 		var option = document.createElement('option');
@@ -39,7 +43,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 
 	// 表单校验
 	form.verify({
-		limitAmount: function(value, item) {
+		limitAmount: function (value, item) {
 			if (!value) {
 				return '设定金额不能为空'
 			}
@@ -68,25 +72,58 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		cols: [[ //表头
 			{type: 'checkbox', fixed: 'left'}
 			, {field: 'id', title: 'ID', sort: true}
-			, {field: 'userAccount', title: '账号', templet: '#userAccount', width: 180}
-			, {field: 'memberLevelId', title: '会员等级', templet: function (d) {
+			, {field: 'userAccount', title: $t('member.userAccount'), templet: '#userAccount', width: 180}
+			, {
+				field: 'memberLevelId', title: $t('member.memberLevelId'), templet: function (d) {
 					var name = $.findName(memberLevelOptions, d.memberLevelId);
-					// matchMin  matchMax
 					var min = d.matchMin || 0;
 					var max = d.matchMax || 0;
 					return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
-				}, sort: true, width: 110}
-			, {field: 'balance', title: '账户余额', templet: '#balance', sort: true, width: 180}
-			, {field: 'depositNum', title: '提现', templet: function (d) {
+				}, sort: true, width: 120
+			}
+			, {field: 'balance', title: $t('member.balance'), templet: '#balance', sort: true, width: 180}
+			, {
+				field: 'depositNum', title: $t('member.depositNum'), templet: function (d) {
 					return $.financial(d.depositNum)
-				}, sort: true, minWidth: 120}
-			, {field: 'freezeBalance', title: '冻结金额', templet: function (d) {
+				}, sort: true, minWidth: 120
+			}
+			, {
+				field: 'freezeBalance', title: $t('member.freezeBalance'), templet: function (d) {
 					return $.financial(d.freezeBalance)
-				}, sort: true, minWidth: 120}
-			, {field: 'parentUserName', title: '上级用户', sort: true, minWidth: 120}
-			, {field: 'inviteCode', title: '邀请码', templet: '#inviteCode', sort: true, minWidth: 160}
-			, {field: 'registerId', title: '注册信息', templet: '#register', sort: true, minWidth: 160}
-			, {field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 300 }
+				}, sort: true, minWidth: 120
+			}
+			, {field: 'parentUserName', title: $t('member.parentUserName'), sort: true, minWidth: 120}
+			, {
+				field: 'inviteCode',
+				title: $t('member.inviteCode'),
+				templet: '#inviteCode',
+				sort: true,
+				minWidth: 160
+			}
+			, { field: 'registerId', title: $t('member.registerInfo'), templet: '#register', sort: true, minWidth: 160 }
+			, {
+				field: 'operation', title: $t('member.operation'), templet: function (d) {
+					var statusText = d.status === 1 ? $t('enable') : $t('disable');
+					var drawalStatusText = d.drawalStatus === 1 ? $t('member.normalWithdrawal') : $t('member.noWithdrawal');
+					var memberStatusText = d.memberStatus === 1 ? $t('member.setAsDummy') : $t('member.setAsRealPerson');
+					return '' +
+						'<div class="layui-btn-container member-btn-container">\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="deduction">' + $t('member.deduction') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="dispatch">' + $t('member.dispatch') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">' + $t('member.bankCardInfo') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="edit">' + $t('edit') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="toggleState">' + statusText + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">' + drawalStatusText + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">' + $t('member.sendMessage') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="addressInfo">' + $t('member.addressInfo') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="viewPassword">' + $t('member.viewPassword') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="viewTeam" style="margin-bottom: 0">' + $t('member.viewTeam') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="accountChange" style="margin-bottom: 0">' + $t('member.accountChange') + '</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="realPerson" style="margin-bottom: 0">' + memberStatusText +'</a>\n' +
+						'        <a class="layui-btn layui-btn-xs" lay-event="delete" style="margin-bottom: 0">' + $t('delete') + '</a>\n' +
+						'</div>'
+				}, fixed: 'right', width: 300
+			}
 		]],
 		id: memberListTableId, // 容器唯一ID
 	}));
@@ -256,7 +293,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			actions.onUpdateItem(tableCurrentItem.id, {status: data.status === 0 ? 1 : 0})
 		} else if (layEvent === 'drawalStatus') { //提现状态切换
 			// 帐号状态（0正常 1停用）
-			actions.onUpdateItem(tableCurrentItem.id, { drawalStatus: data.drawalStatus === 0 ? 1 : 0})
+			actions.onUpdateItem(tableCurrentItem.id, {drawalStatus: data.drawalStatus === 0 ? 1 : 0})
 		} else if (layEvent === 'addressInfo') { // 地址信息
 			$.request({
 				url: '/action/address/select/' + tableCurrentItem.id,
@@ -289,7 +326,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			layer.open({
 				title: '查看密码',
 				type: 1,
-				content: '<h6 style="padding: 20px 0; font-size: 18px; width: 400px; text-align: center">'+ text +'</h6>',
+				content: '<h6 style="padding: 20px 0; font-size: 18px; width: 400px; text-align: center">' + text + '</h6>',
 			})
 			console.log('viewPassword', data.password, data);
 		} else if (layEvent === 'viewTeam') { // 查看团队

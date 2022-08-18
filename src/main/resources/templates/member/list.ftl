@@ -11,64 +11,44 @@
 
     <div class="think-box-shadow">
         <fieldset>
-            <legend>条件搜索</legend>
+            <legend data-locale="conditionalSearch">条件搜索</legend>
             <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" action="">
                 <div class="layui-form-item layui-inline">
-                    <label class="layui-form-label">关键词</label>
+                    <label class="layui-form-label" data-locale="keyword">关键词</label>
                     <div class="layui-input-inline">
-                        <input name="keyword" value="" placeholder="请输入用户名称,手机号码,IP" class="layui-input"/>
+                        <input name="keyword" value="" data-placeholder="member.petKeyword" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
-                    <label class="layui-form-label">注册时间</label>
+                    <label class="layui-form-label" data-locale="member.registrationTime">注册时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="time" class="layui-input" id="registrationTime" placeholder="请选择注册时间">
+                        <input type="text" name="time" class="layui-input" id="registrationTime"
+                               data-placeholder="member.petRegistrationTime">
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
-                    <label class="layui-form-label">状态</label>
+                    <label class="layui-form-label" data-locale="member.status">状态</label>
                     <div class="layui-input-inline">
                         <select name="memberStatus">
                             <option value="">所有状态</option>
-                            <option value="1">真人</option>
-                            <option value="2">假人</option>
+                            <option value="1" data-locale="member.status1">真人</option>
+                            <option value="2" data-locale="member.status2">假人</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
-                    <button type="submit" class="layui-btn layui-btn-danger" lay-submit lay-filter="search"><i
+                    <button type="submit" class="layui-btn layui-btn-danger" lay-submit lay-filter="search"
+                            data-locale="search"><i
                                 class="layui-icon"></i> 搜 索
                     </button>
-                    <!--                    <a href="#" class="layui-btn layui-btn-danger"><i class="layui-icon"></i> 导 出</a>-->
                 </div>
             </form>
-
-            <!--            <div class="layui-form-item">-->
-            <!--                <div class="layui-input-inline">-->
-            <!--                    <input id="dazhen_per" name="dazhen_per" value="" placeholder="请输入打针幅度"-->
-            <!--                           class="layui-input"/>-->
-            <!--                </div>-->
-            <!--                <div class="layui-input-inline" style="margin-left: 8px;">-->
-            <!--                    <input id="dazhen_ci" name="dazhen_per" value=""-->
-            <!--                           placeholder="打针单数(不填代表每次)"-->
-            <!--                           class="layui-input"/>-->
-            <!--                </div>-->
-            <!--                <button style="margin-left: 8px;" id="dazhen" class="layui-btn layui-btn-danger">-->
-            <!--                    <i class="layui-icon"></i>-->
-            <!--                    批量打针-->
-            <!--                </button>-->
-            <!--            </div>-->
         </fieldset>
-        <!--        <script>-->
-        <!--            var test = "0";-->
-        <!--            $("#selectList").find("option[value=" + test + "]").prop("selected", true);-->
-        <!--            form.render()-->
-        <!--        </script>-->
 
     </div>
 
     <div class="layui-btn-container" style="margin-top: 20px;">
-        <button class="layui-btn" id="createBtn">添加会员</button>
+        <button class="layui-btn" id="createBtn" data-locale="member.addMember">添加会员</button>
     </div>
 
     <table id="member-list" lay-filter="member-list" style="margin-top: 5px"></table>
@@ -156,8 +136,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required">设定金额</label>
                     <div class="layui-input-block">
-                        <input name="limitAmount" type="number" lay-verify="limitAmount" min="100" placeholder="请输入设定金额，不能小于100" value=""
-                               class="layui-input" />
+                        <input name="limitAmount" type="number" lay-verify="limitAmount" min="100"
+                               placeholder="请输入设定金额，不能小于100" value=""
+                               class="layui-input"/>
                     </div>
                 </div>
                 <!--                <div class="layui-form-item">-->
@@ -412,31 +393,12 @@
     </div>
 </script>
 
-<!--操作-->
-<script type="text/html" id="operation">
-    <div class="layui-btn-container my-btn-container">
-        <style>
-            .my-btn-container .layui-btn{
-                margin-right: 4px;
-            }
-        </style>
-        <a class="layui-btn layui-btn-xs" lay-event="deduction">扣款</a>
-        <a class="layui-btn layui-btn-xs" lay-event="dispatch">派单</a>
-        <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">银行卡信息</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs" lay-event="toggleState">{{=d.status === 1 ? '启用' : '禁用'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">{{=d.drawalStatus === 1 ? '正常提现' : '禁止提现'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">发送消息</a>
-        <!--    </span>-->
-        <!--    <span style="display: inline-block">-->
-        <a class="layui-btn layui-btn-xs" lay-event="addressInfo">地址信息</a>
-        <a class="layui-btn layui-btn-xs" lay-event="viewPassword">查看密码</a>
-        <a class="layui-btn layui-btn-xs" lay-event="viewTeam" style="margin-bottom: 0">查看团队</a>
-        <a class="layui-btn layui-btn-xs" lay-event="accountChange" style="margin-bottom: 0">帐变</a>
-        <a class="layui-btn layui-btn-xs" lay-event="realPerson" style="margin-bottom: 0">设为{{=d.memberStatus === 1 ? '假人' : '真人'}}</a>
-        <a class="layui-btn layui-btn-xs" lay-event="delete" style="margin-bottom: 0">删除</a>
-    </div>
-</script>
+
+<style>
+    .member-btn-container .layui-btn {
+        margin-right: 4px;
+    }
+</style>
 
 <script src="/member/member.js"></script>
 

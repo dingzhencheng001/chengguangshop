@@ -25,7 +25,7 @@ function I18n (options) {
 
     // 英文
     this.lang_en = {
-        language: 'language',
+        language: 'Language',
         login: 'Login',
         userLogin: 'User login',
         backgroundLogin: 'Background login',
@@ -70,7 +70,7 @@ function I18n (options) {
         mailAdmin: 'Mail admin',
         newsAdmin: 'News admin',
         authorizationAdmin: 'Authorization admin',
-        theme: 'theme',
+        theme: 'Theme',
         default: 'default',
         orange: 'orange',
         green: 'green',
@@ -79,9 +79,9 @@ function I18n (options) {
         red: 'red',
         basicInfo: 'Basic info',
         modifyPassword: 'Modify Password',
-        logout: 'logout',
-        home: 'home',
-        operation: 'operation',
+        logout: 'Logout',
+        home: 'Home',
+        operation: 'Operation',
         refreshCurrentTab: 'Refresh Current Tab',
         closeCurrentTab: 'Close Current Tab',
         closeOtherTab: 'Close Other Tab',
@@ -92,8 +92,7 @@ function I18n (options) {
         delete: 'Delete',
         search: 'Search',
         conditionalSearch: 'Conditional Search',
-        // goodsId: 'Goods ID',
-        // productName: 'Product Name',
+        keyword: 'key word',
         pleaseEnterThe: 'Please Enter The',
         pleaseSelectThe: 'Please Select The',
         operationConfirmation: 'Operation confirmation',
@@ -102,6 +101,9 @@ function I18n (options) {
         cancel: 'Cancel',
         deleteSucceeded: 'Delete succeeded',
         uploadPictures: 'Upload pictures',
+        enable: 'Enable',
+        disable: 'Disable',
+        modify: 'Modify',
 
         // 商品列表
         goodsList: {
@@ -179,6 +181,40 @@ function I18n (options) {
             sortLogo: 'Classification logo (no modification)',
         },
 
+        member: {
+            petKeyword: 'Please enter the user name, mobile phone number and IP',
+            registrationTime: 'Registration time',
+            petRegistrationTime: 'Please select the registration time',
+            status: 'Status',
+            status1: 'Real person',
+            status2: 'Dummy',
+            addMember: 'Add member',
+
+            userAccount: 'account number',
+            memberLevelId: 'Membership level',
+            balance: 'Account balance',
+            depositNum: 'Withdrawal',
+            freezeBalance: 'Frozen amount',
+            parentUserName: 'Superior user',
+            inviteCode: 'Invitation code',
+            registerInfo: 'Registration info',
+            operation: 'Operation',
+
+            deduction: 'Deduction',
+            dispatch: 'Dispatch',
+            bankCardInfo: 'Bank card info',
+            sendMessage: 'Send message',
+            normalWithdrawal: 'Normal withdrawal',
+            noWithdrawal: 'No withdrawal',
+            setAsRealPerson: 'Set as real person',
+            setAsDummy: 'Set as dummy',
+            addressInfo: 'Address info',
+            viewPassword: 'View password',
+            viewTeam: 'View team',
+            accountChange: 'Account change',
+
+        },
+
     };
 
     // 中文
@@ -251,8 +287,9 @@ function I18n (options) {
         //
         edit: '编辑',
         delete: '删除',
-        search: '搜索',
+        search: '搜 索',
         conditionalSearch: '条件搜索',
+        keyword: '关键字',
         pleaseEnterThe: '请输入',
         pleaseSelectThe: '请选择',
         operationConfirmation: '操作确认',
@@ -261,6 +298,9 @@ function I18n (options) {
         cancel: '取消',
         deleteSucceeded: '删除成功',
         uploadPictures: '上传图片',
+        enable: '启用',
+        disable: '禁用',
+        modify: '修改',
 
         // 商品列表
         goodsList: {
@@ -339,6 +379,40 @@ function I18n (options) {
             minAmount: '最低金额限制',
             petMinAmount: '请输入最低金额限制',
             sortLogo: '分类LOGO(不用修改)',
+        },
+
+        member: {
+            petKeyword: '请输入用户名称,手机号码,IP',
+            registrationTime: '注册时间',
+            petRegistrationTime: '请选择注册时间',
+            status: '状态',
+            status1: '真人',
+            status2: '假人',
+            addMember: '添加会员',
+
+            userAccount: '账号',
+            memberLevelId: '会员等级',
+            balance: '账户余额',
+            depositNum: '提现',
+            freezeBalance: '冻结金额',
+            parentUserName: '上级用户',
+            inviteCode: '邀请码',
+            registerInfo: '注册信息',
+            operation: '操作',
+
+            deduction: '扣款',
+            dispatch: '派单',
+            bankCardInfo: '银行卡信息',
+            sendMessage: '发送消息',
+            normalWithdrawal: '正常提现',
+            noWithdrawal: '禁止提现',
+            setAsRealPerson: '设为真人',
+            setAsDummy: '设为假人',
+            addressInfo: '地址信息',
+            viewPassword: '查看密码',
+            viewTeam: '查看团队',
+            accountChange: '帐变',
+
         },
 
     };
