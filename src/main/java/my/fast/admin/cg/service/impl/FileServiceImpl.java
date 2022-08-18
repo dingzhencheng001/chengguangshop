@@ -59,6 +59,7 @@ public class FileServiceImpl implements FileService {
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentLength(file.getSize());
                 objectMetadata.setContentType(file.getContentType());
+                objectMetadata.setHeader("x-amz-acl", "public-read");
                 try {
                     amazonS3.putObject(awsProperties.getBucketName(),getKey(fileInfo),file.getInputStream(),objectMetadata);
                     //存储数据库
