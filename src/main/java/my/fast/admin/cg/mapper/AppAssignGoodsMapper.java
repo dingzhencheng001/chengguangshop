@@ -1,5 +1,6 @@
 package my.fast.admin.cg.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -42,4 +43,8 @@ public interface AppAssignGoodsMapper {
      */
     int deleteAssignGoods(@Param("flag") Integer flag,@Param("serialNumber") String serialNumber);
 
+    /**
+     * 找出当前组的商品
+     */
+    List<AppAssignGoods> selectGroupAssignGoods(@Param("whichGroup")Integer whichGroup, @Param("date") String date, @Param("memberId")Long memberId,@Param("channelId") Long channelId);
 }

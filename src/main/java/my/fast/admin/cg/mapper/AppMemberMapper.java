@@ -156,4 +156,21 @@ public interface AppMemberMapper {
      */
     int rollbackBalance(@Param("channelId") Long channelId, @Param("memberId") Long memberId,
         @Param("withdrawalNum") BigDecimal withdrawalNum);
+
+    /**
+     * 冻结用户佣金
+     */
+    int freezeBalance(AppMemberBalanceParam appMemberBalanceParam);
+
+    /**
+     * 冻结代理佣金
+     * @param appMemberBalanceParam
+     */
+    void updateAgentGrabCommission(AppMemberBalanceParam appMemberBalanceParam);
+
+    /**
+     * 佣金解冻
+     */
+    int updateBalanceByCommission(@Param("memberId")Long memberId, @Param("channelId")Long channelId, @Param("total")BigDecimal total);
+
 }

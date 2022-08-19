@@ -77,11 +77,11 @@ public class IPUtils {
             Postal postal = response.getPostal();
             Location location = response.getLocation();
  
-            msg.setCountryName(country.getNames().get("zh-CN"));
+            msg.setCountryName(country.getName());
             msg.setCountryCode(country.getIsoCode());
-            msg.setProvinceName(subdivision.getNames().get("zh-CN"));
+            msg.setProvinceName(subdivision.getName());
             msg.setProvinceCode(subdivision.getIsoCode());
-            msg.setCityName(city.getNames().get("zh-CN"));
+            msg.setCityName(city.getName());
             msg.setPostalCode(postal.getCode());
             //经度
             msg.setLongitude(location.getLongitude());

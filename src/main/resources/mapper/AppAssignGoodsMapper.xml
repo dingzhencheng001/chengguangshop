@@ -266,6 +266,15 @@
           and channel_id = #{channelId,jdbcType=BIGINT}
           and is_consumed = 0
           and status = 1
+          ORDER BY goods_add_time , order_quantity
+    </select>
+    <select id="selectGroupAssignGoods" resultType="my.fast.admin.cg.entity.AppAssignGoods">
+        select *
+        from app_assign_goods
+        where member_id = #{memberId,jdbcType=BIGINT}
+          and channel_id = #{channelId,jdbcType=BIGINT}
+          and which_group = #{whichGroup,jdbcType=INTEGER}
+          and goods_add_time like concat('%',#{date,jdbcType=VARCHAR},'%')
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_assign_goods

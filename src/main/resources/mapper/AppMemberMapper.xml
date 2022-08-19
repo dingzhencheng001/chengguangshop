@@ -705,6 +705,22 @@
             freeze_balance = freeze_balance+ #{withdrawalNum,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
+    <update id="freezeBalance">
+        update app_member
+        set freeze_balance = freeze_balance + #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
+    <update id="updateAgentGrabCommission">
+        update app_member
+        set freeze_balance = freeze_balance + #{grabCommission,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
+    <update id="updateBalanceByCommission">
+        update app_member
+        set balance = balance + #{total,jdbcType=DECIMAL},
+            freeze_balance = freeze_balance - #{total,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
     <insert id="changeBalance">
         update app_member
         set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
