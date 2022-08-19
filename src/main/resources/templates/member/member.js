@@ -18,8 +18,9 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	var sendMessageIndex;
 
 	var i18n = new I18n();
-	window.i18n = i18n;
 	var $t = i18n.$t;
+	window.i18n = i18n;
+	window.$t = $t;
 
 	var memberLevelOptions = [
 		{name: '普通会员', value: 1},
@@ -44,12 +45,14 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	// 表单校验
 	form.verify({
 		limitAmount: function (value, item) {
+			// 设定金额不能为空
 			if (!value) {
-				return '设定金额不能为空'
+				return $t('member.verify.text1')
 			}
 			var v = Number(value);
+			// 设定金额不能小于100
 			if (v < 100) {
-				return '设定金额不能小于100'
+				return $t('member.verify.text2')
 			}
 		}
 	});
@@ -70,8 +73,8 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		lineStyle: 'height: 100px; padding-bottom: 0;',
 		// ID	账号	会员等级	账户余额	提现	冻结金额	上级用户	邀请码	注册信息	操作
 		cols: [[ //表头
-			{type: 'checkbox', fixed: 'left'}
-			, {field: 'id', title: 'ID', sort: true}
+			// {type: 'checkbox', fixed: 'left'}
+			{field: 'id', title: 'ID', width: 60, sort: true}
 			, {field: 'userAccount', title: $t('member.userAccount'), templet: '#userAccount', width: 180}
 			, {
 				field: 'memberLevelId', title: $t('member.memberLevelId'), templet: function (d) {
@@ -81,7 +84,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 					return "<div><div>" + name + "</div><div style='color: red'>" + min + "% - " + max + "%</div></div>"
 				}, sort: true, width: 120
 			}
-			, {field: 'balance', title: $t('member.balance'), templet: '#balance', sort: true, width: 180}
+			, {field: 'balance', title: $t('member.balance'), templet: '#balance', sort: true, minWidth: 180}
 			, {
 				field: 'depositNum', title: $t('member.depositNum'), templet: function (d) {
 					return $.financial(d.depositNum)
@@ -102,27 +105,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			}
 			, { field: 'registerId', title: $t('member.registerInfo'), templet: '#register', sort: true, minWidth: 160 }
 			, {
-				field: 'operation', title: $t('member.operation'), templet: function (d) {
-					var statusText = d.status === 1 ? $t('enable') : $t('disable');
-					var drawalStatusText = d.drawalStatus === 1 ? $t('member.normalWithdrawal') : $t('member.noWithdrawal');
-					var memberStatusText = d.memberStatus === 1 ? $t('member.setAsDummy') : $t('member.setAsRealPerson');
-					return '' +
-						'<div class="layui-btn-container member-btn-container">\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="deduction">' + $t('member.deduction') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="dispatch">' + $t('member.dispatch') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="bankCardInfo">' + $t('member.bankCardInfo') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="edit">' + $t('edit') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="toggleState">' + statusText + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="drawalStatus">' + drawalStatusText + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="sendMessage">' + $t('member.sendMessage') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="addressInfo">' + $t('member.addressInfo') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="viewPassword">' + $t('member.viewPassword') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="viewTeam" style="margin-bottom: 0">' + $t('member.viewTeam') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="accountChange" style="margin-bottom: 0">' + $t('member.accountChange') + '</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="realPerson" style="margin-bottom: 0">' + memberStatusText +'</a>\n' +
-						'        <a class="layui-btn layui-btn-xs" lay-event="delete" style="margin-bottom: 0">' + $t('delete') + '</a>\n' +
-						'</div>'
-				}, fixed: 'right', width: 300
+				field: 'operation', title: $t('member.operation'), templet: '#operation', fixed: 'right', width: 300
 			}
 		]],
 		id: memberListTableId, // 容器唯一ID
@@ -147,7 +130,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				showLoading: true,
 				success: function () {
 					actions.onReloadData();
-					layer.msg('操作成功', {icon: 1});
+					layer.msg($t('operationSucceeded'), {icon: 1});
 					cb && cb();
 				}
 			})
@@ -159,7 +142,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 				showLoading: true,
 				success: function () {
 					actions.onReloadData();
-					layer.msg('删除会员成功', {icon: 1});
+					layer.msg($t('operationSucceeded'), {icon: 1});
 					cb && cb();
 				},
 			});
@@ -191,7 +174,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			upInviteCodeIndex = layer.open({
 				type: 1,
 				// value: data.inviteCode,
-				title: '修改邀请码',
+				title: $t('member.modifyInvitationCode'),
 				area: '800px',
 				content: $('#upInviteCodeId'),
 				success: function () {
@@ -213,7 +196,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'deduction') { // 扣款
 			deductionIndex = layer.open({
 				type: 1,
-				title: '扣款',
+				title: $t('member.deduction'),
 				area: '800px',
 				content: $('#deductionId'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
 				success: function () {
@@ -236,14 +219,14 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			// });
 			window.parent.layui.tab.tabAdd({
 				id: 'dispatch_' + data.id,
-				title: '派单',
+				title: $t('member.dispatch'),
 				icon: 'fa-file',
 				url: '/dispatch.html?id=' + data.id,
 			})
 		} else if (layEvent === 'edit') { // 编辑菜单
 			editIndex = layer.open({
 				type: 1,
-				title: '编辑菜单',
+				title: $t('edit'),
 				area: '800px',
 				content: $('#editId'),
 				success: function () {
@@ -274,7 +257,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 					form.val('bankCardInfoForm', currentBankCardInfoItem);
 					bankCardInfoIndex = layer.open({
 						type: 1,
-						title: '银行卡信息',
+						title: $t('member.bankCardInfo'),
 						area: '800px',
 						content: $('#bankCardInfoId'),
 						success: function () {
@@ -308,7 +291,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 					form.val('addressInfoForm', currentAddressInfoItem);
 					addressInfoIndex = layer.open({
 						type: 1,
-						title: '地址信息',
+						title: $t('member.addressInfo'),
 						area: '800px',
 						content: $('#addressInfoId'),
 						success: function () {
@@ -324,7 +307,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'viewPassword') {
 			var text = data.password;
 			layer.open({
-				title: '查看密码',
+				title: $t('member.viewPassword'),
 				type: 1,
 				content: '<h6 style="padding: 20px 0; font-size: 18px; width: 400px; text-align: center">' + text + '</h6>',
 			})
@@ -332,7 +315,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'viewTeam') { // 查看团队
 			window.parent.layui.tab.tabAdd({
 				id: new Date().getTime(),
-				title: '查看团队',
+				title: $t('member.viewTeam'),
 				icon: 'fa-file',
 				url: '/viewTeam.html?id=' + data.id
 			})
@@ -340,7 +323,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'accountChange') { // 帐变
 			window.parent.layui.tab.tabAdd({
 				id: 'caiwu_' + data.id,
-				title: '帐变',
+				title: $t('member.accountChange'),
 				icon: 'fa-file',
 				url: '/caiwu.html?id=' + data.id,
 			})
@@ -350,7 +333,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 		} else if (layEvent === 'sendMessage') { // 发送消息
 			sendMessageIndex = layer.open({
 				type: 1,
-				title: '发送消息',
+				title: $t('member.sendMessage'),
 				area: '800px',
 				content: $('#sendMessageId'),
 				success: function () {
@@ -362,7 +345,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			});
 
 		} else if (layEvent === 'delete') { // 删除
-			layer.confirm('确定要删除吗?', {title: '操作确认'}, function (index) {
+			layer.confirm($t('deleteConfirmation'), {title: $t('operationConfirmation')}, function (index) {
 				actions.onDelete(data.id, function () {
 					layer.close(index);
 				});
@@ -404,7 +387,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			showLoading: true,
 			success: function () {
 				onDeductionCancel();
-				layer.msg('扣款成功', {icon: 1});
+				layer.msg($t('operationSucceeded'), {icon: 1});
 				actions.onReloadData();
 			}
 		});
@@ -445,7 +428,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			success: function () {
 				onAddressInfoCancel();
 				actions.onReloadData();
-				layer.msg('地址信息修改成功', {icon: 1});
+				layer.msg($t('operationSucceeded'), {icon: 1});
 			}
 		})
 		return false;
@@ -471,7 +454,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			success: function () {
 				layer.close(bankCardInfoIndex);
 				actions.onReloadData();
-				layer.msg('银行卡信息修改成功', {icon: 1});
+				layer.msg($t('operationSucceeded'), {icon: 1});
 			}
 		})
 		return false;
@@ -498,7 +481,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			showLoading: true,
 			success: function () {
 				actions.onReloadData();
-				layer.msg('创建会员成功', {icon: 1});
+				layer.msg($t('operationSucceeded'), {icon: 1});
 				onCreateCancel();
 			},
 		});
@@ -519,7 +502,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	$('#createBtn').click(function () {
 		createIndex = layer.open({
 			type: 1,
-			title: '创建会员',
+			title: $t('member.createMember'),
 			area: '800px',
 			content: $('#createId'),
 			success: function () {
@@ -545,7 +528,7 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 			success: function () {
 				layer.close(sendMessageIndex);
 				onSendMessageCancel();
-				layer.msg('发送消息成功', {icon: 1});
+				layer.msg($t('operationSucceeded'), {icon: 1});
 			},
 		})
 	});
