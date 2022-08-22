@@ -18,6 +18,7 @@
     <!-- 全局属性 -->
     <script src="js/common/setting.js"></script>
     <script src="js/common/app.js"></script>
+    <script src="lang/index.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/app.css"/>
     <!-- 加载formSelects -->
@@ -30,31 +31,32 @@
     <div class="layui-card-body layui-anim layui-anim-upbit">
         <div class="think-box-shadow">
             <fieldset>
-                <legend>条件搜索</legend>
+                <legend data-locale="conditionalSearch">条件搜索</legend>
                 <form class="layui-form layui-form-pane form-search" lay-filter="searchForm" autocomplete="off">
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">订单号</label>
+                        <label class="layui-form-label" data-locale="deposit.orderNo">订单号</label>
                         <div class="layui-input-inline">
-                            <input name="orderNo" value="" placeholder="请输入订单号" class="layui-input"></div>
+                            <input name="orderNo" value="" data-placeholder="deposit.petOrderNo" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">用户名称</label>
+                        <label class="layui-form-label" data-locale="deposit.userAccount">用户名称</label>
                         <div class="layui-input-inline">
-                            <input name="userAccount" value="" placeholder="请输入用户名称" class="layui-input"></div>
+                            <input name="userAccount" value="" data-placeholder="deposit.petUserAccount" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">手机号码</label>
+                        <label class="layui-form-label" data-locale="deposit.phoneNumber">手机号码</label>
                         <div class="layui-input-inline">
-                            <input name="phoneNumber" value="" placeholder="请输入手机号码" class="layui-input"></div>
+                            <input name="phoneNumber" value="" data-placeholder="deposit.petPhoneNumber" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">添加时间</label>
+                        <label class="layui-form-label" data-locale="deposit.addTime">添加时间</label>
                         <div class="layui-input-inline">
-                            <input id="time" name="time" value="" placeholder="请选择添加时间" class="layui-input">
+                            <input id="time" name="time" value="" data-placeholder="deposit.petAddTime" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item layui-inline">
-                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="submit"><i class="layui-icon"></i> 搜 索</button>
+                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="search" type="submit" data-locale="search">
+                            <i class="layui-icon"></i> 搜 索</button>
                     </div>
                 </form>
             </fieldset>
@@ -66,7 +68,7 @@
 
 <!--添加时间-->
 <script type="text/html" id="goodsAddTime">
-    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy年MM月dd日 HH:mm:ss')}}</div>
+    <div>{{ layui.util.toDateString(d.goodsAddTime, 'yyyy-MM-dd HH:mm:ss')}}</div>
 </script>
 
 <script>
@@ -74,9 +76,15 @@
         var table = layui.table, $ = layui.$, form = layui.form;
         var laydate = layui.laydate;
 
+        var i18n = new I18n();
+        var $t = i18n.$t;
+        window.i18n = i18n;
+        window.$t = $t;
+
         laydate.render({
             elem: '#time',
             range: true,
+            lang: i18n.locale === 'cn' ? 'cn' : 'en',
         });
 
         var where = {};
@@ -84,33 +92,34 @@
         var tableId = 'tableId';
         table.render(Object.assign({}, $.tableRenderConfing, {
             elem: '#tableId',
-            url: '/action/deposit/list', //数据接口
+            // url: '/action/deposit/list', //数据接口
+            url: 'http://localhost:8080/action/deposit/list', //数据接口
             where: where,
             method: 'post',
             contentType: 'application/json',
             // 订单号	用户名	上级用户	手机号	真实姓名	交易数额	添加时间	支付方式	类型	处理时间	操作
             cols: [[ //表头
-                {field: 'orderNo', title: '订单号', sort: true}
-                , {field: 'userAccount', title: '用户名'}
-                , {field: 'updateBy', title: '上级用户'}
-                , {field: 'phoneNumber', title: '手机号'}
-                , {field: 'realName', title: '真实姓名'}
-                , {field: 'operaMount', title: '交易数额', sort: true}
-                , {field: 'createTime', title: '添加时间', width: 180, templet: '#goodsAddTime'}
-                , {field: 'xxx', title: '支付方式'}
+                {field: 'orderNo', title: $t('deposit.orderNo'), sort: true}
+                , {field: 'userAccount', title: $t('deposit.userAccount')}
+                , {field: 'updateBy', title: $t('deposit.updateBy')}
+                , {field: 'phoneNumber', title: $t('deposit.phoneNumber')}
+                , {field: 'realName', title: $t('deposit.realName')}
+                , {field: 'operaMount', title: $t('deposit.operaMount'), sort: true}
+                , {field: 'createTime', title: $t('deposit.createTime'), width: 180, templet: '#goodsAddTime'}
+                , {field: 'xxx', title: $t('deposit.paymentMethod')} // 支付方式
                 , {
-                    field: 'operaType', title: '类型', width: 120, templet: function (d) {
+                    field: 'operaType', title: $t('deposit.operaType'), width: 120, templet: function (d) {
                         var map = {
-                            1: '充值',
-                            2: '减少',
-                            3: '冻结',
-                            4: '提取',
+                            1: $t('deposit.operaType1'),
+                            2: $t('deposit.operaType2'),
+                            3: $t('deposit.operaType3'),
+                            4: $t('deposit.operaType4'),
                         }
                         return map[d.operaType] || ''
                     }
                 }
-                , {
-                    field: 'createTime', title: '处理时间', width: 180, templet: function (d) {
+                , { // 处理时间
+                    field: 'createTime', title: $t('deposit.processingTime'), width: 180, templet: function (d) {
                         return layui.util.toDateString(d.goodsAddTime, 'yyyy-MM-dd')
                     }
                 }

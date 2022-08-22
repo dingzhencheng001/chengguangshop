@@ -340,6 +340,29 @@ function I18n (options) {
             cStatus2: 'Account number freeze',
         },
 
+        // 充值管理
+        deposit: {
+            orderNo: 'Order number',
+            petOrderNo: 'Please enter the order number',
+            userAccount: 'User name',
+            petUserAccount: 'Please enter the user name',
+            phoneNumber: 'Phone number',
+            petPhoneNumber: 'Please enter your mobile phone number',
+            addTime: 'Add time',
+            petAddTime: 'Please select the time to add',
+            updateBy: 'Superior user',
+            realName: 'Real name',
+            operaMount: 'Transaction amount',
+            createTime: 'Add time',
+            paymentMethod: 'Payment method',
+            operaType: 'Type',
+            operaType1: 'recharge',
+            operaType2: 'reduce',
+            operaType3: 'frozen',
+            operaType4: 'extract',
+            processingTime: 'Processing time',
+        },
+
     };
 
     // 中文
@@ -661,6 +684,29 @@ function I18n (options) {
             cStatus0: '未发放',
             cStatus1: '已发放',
             cStatus2: '账号冻结',
+        },
+
+        // 充值管理
+        deposit: {
+            orderNo: '订单号',
+            petOrderNo: '请输入订单号',
+            userAccount: '用户名称',
+            petUserAccount: '请输入用户名称',
+            phoneNumber: '手机号码',
+            petPhoneNumber: '请输入手机号码',
+            addTime: '添加时间',
+            petAddTime: '请选择添加时间',
+            updateBy: '上级用户',
+            realName: '真实姓名',
+            operaMount: '交易数额',
+            createTime: '添加时间',
+            paymentMethod: '支付方式',
+            operaType: '类型',
+            operaType1: '充值',
+            operaType2: '减少',
+            operaType3: '冻结',
+            operaType4: '提取',
+            processingTime: '处理时间',
         },
 
     };
