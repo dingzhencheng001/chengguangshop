@@ -111,6 +111,7 @@ function I18n (options) {
         deleteFailed: 'Delete failed',
         createSucceeded: 'Created successfully',
         createFailed: 'Creation failed',
+        pleaseSelectItem: 'Please select a data item',
 
         // 商品列表
         goodsList: {
@@ -363,6 +364,40 @@ function I18n (options) {
             processingTime: 'Processing time',
         },
 
+        withdrawal: {
+            batchPass: 'Batch pass',
+            batchPassSuccess: 'Batch passed successfully',
+            batchRejection: 'Batch rejection',
+            batchRejectionSuccess: 'Batch rejection succeeded',
+            orderNo: 'Order number',
+            petOrderNo: 'Please enter the order number',
+            userAccount: 'User name',
+            petUserAccount: 'Please enter the user name',
+            startTime: 'Start time',
+            petStartTime: 'Please select the initiation time',
+            status1: 'To be reviewed',
+            status2: 'Rejected',
+            status3: 'Paid',
+            adopt: 'Adopt',
+            reject: 'Reject',
+            withdrawalUser: 'Withdrawal user',
+            superiorUser: 'Superior user',
+            operaMount: 'Withdrawal amount',
+            withdrawalTimes: 'Withdrawal times of the day',
+            serviceCharge: 'Service Charge',
+            actualArrival: 'Actual arrival',
+            collectionInfo: 'Collection information',
+            phoneNumber: 'Phone number',
+            dealTime: 'Deal time',
+            status: 'Status',
+            orderStatus: 'Order status',
+            remark: 'Remark',
+            adoptConfirmation: 'Are you sure you want to pass?',
+            passed: 'Passed',
+            reasonForRejection: 'Reason for rejection',
+            rejected: 'Rejected',
+        }
+
     };
 
     // 中文
@@ -455,6 +490,7 @@ function I18n (options) {
         deleteFailed: '删除失败',
         createSucceeded: '创建成功',
         createFailed: '创建失败',
+        pleaseSelectItem: '请选择数据项',
 
         // 商品列表
         goodsList: {
@@ -708,6 +744,41 @@ function I18n (options) {
             operaType4: '提取',
             processingTime: '处理时间',
         },
+
+        // 提现管理
+        withdrawal: {
+            batchPass: '批量通过',
+            batchPassSuccess: '批量通过成功',
+            batchRejection: '批量拒绝',
+            batchRejectionSuccess: '批量拒绝成功',
+            orderNo: '订单号',
+            petOrderNo: '请输入订单号',
+            userAccount: '用户名称',
+            petUserAccount: '请输入用户名称',
+            startTime: '发起时间',
+            petStartTime: '请选择发起时间',
+            status1: '待审核',
+            status2: '已驳回',
+            status3: '已打款',
+            adopt: '通过',
+            reject: '驳回',
+            withdrawalUser: '提现用户',
+            superiorUser: '上级用户',
+            operaMount: '提现金额',
+            withdrawalTimes: '当日提现次数',
+            serviceCharge: '手续费',
+            actualArrival: '实际到账',
+            collectionInfo: '收款信息',
+            phoneNumber: '联系电话',
+            dealTime: '处理时间',
+            status: '状态',
+            orderStatus: '订单状态',
+            remark: '备注',
+            adoptConfirmation: '确定要通过吗?',
+            passed: '已通过',
+            reasonForRejection: '驳回原因',
+            rejected: '已驳回',
+        }
 
     };
 
