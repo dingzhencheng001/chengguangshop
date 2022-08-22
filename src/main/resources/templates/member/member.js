@@ -39,7 +39,8 @@ layui.use(['table', 'form', 'laydate', 'laytpl'], function () {
 	// 渲染日期
 	laydate.render({
 		elem: '#registrationTime',
-		range: true //或 range: '~' 来自定义分割字符
+		range: true, //或 range: '~' 来自定义分割字符
+		lang: i18n.locale === 'cn' ? 'cn' : 'en'
 	});
 
 	// 表单校验

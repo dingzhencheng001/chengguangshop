@@ -301,7 +301,44 @@ function I18n (options) {
             uploadSucceeded: 'Upload succeeded',
             registerTime: 'Registration time',
             addTitle: 'New member level',
-        }
+        },
+
+        orderList: {
+            lno: 'Order number',
+            petLno: 'Please enter the order number',
+            memberId: 'Member ID',
+            petMemberId: 'Please enter the member ID',
+            phoneNumber: 'Phone number',
+            petPhoneNumber: 'Please enter your mobile phone number',
+            time: 'Order time',
+            petTime: 'Please select the time to add',
+            goodsName: 'Goods name',
+            goodsCount: 'Goods count',
+            shopName: 'Shop name',
+            balance: 'Balance',
+            amount: 'Transaction amount',
+            commission: 'Commission',
+            amountAfterTransaction: 'Amount after transaction',
+            addtime: 'Order time',
+            endtime: 'Completion time',
+            status: 'Status',
+            // 订单状态 0待付款 1交易完成 2用户取消 3强制完成 4强制取消 5交易冻结
+            status0: 'To be paid',
+            status1: 'Transaction completion',
+            status2: 'User cancel',
+            status3: 'Forced completion',
+            status4: 'Forced cancellation',
+            status5: 'Transaction freeze',
+            qiang: 'Scramble for orders',
+            sign: 'Card slip',
+            sign0: 'Yes',
+            sign1: 'No',
+            cStatus: 'Commission payment status',
+            // 佣金发放状态 0未发放 1已发放 2账号冻结
+            cStatus0: 'Unissued',
+            cStatus1: 'Issued',
+            cStatus2: 'Account number freeze',
+        },
 
     };
 
@@ -391,7 +428,6 @@ function I18n (options) {
         modify: '修改',
         submit: '提交',
         operationSucceeded: '操作成功',
-        //
         operationFailed: '操作失败',
         deleteFailed: '删除失败',
         createSucceeded: '创建成功',
@@ -588,7 +624,44 @@ function I18n (options) {
             uploadSucceeded: '上传成功',
             registerTime: '注册时间',
             addTitle: '新建会员等级',
-        }
+        },
+
+        orderList: {
+            lno: '订单号',
+            petLno: '请输入订单号',
+            memberId: '会员ID',
+            petMemberId: '请输入会员ID',
+            phoneNumber: '手机号',
+            petPhoneNumber: '请输入手机号',
+            time: '下单时间',
+            petTime: '请选择添加时间',
+            goodsName: '商品名称',
+            goodsCount: '商品数量',
+            shopName: '商店名称',
+            balance: '余额',
+            amount: '交易金额',
+            commission: '佣金',
+            amountAfterTransaction: '交易后金额',
+            addtime: '下单时间',
+            endtime: '完成交易时间',
+            status: '状态',
+            // 订单状态 0待付款 1交易完成 2用户取消 3强制完成 4强制取消 5交易冻结
+            status0: '待付款',
+            status1: '交易完成',
+            status2: '用户取消',
+            status3: '强制完成',
+            status4: '强制取消',
+            status5: '交易冻结',
+            qiang: '抢单数',
+            sign: '是否卡单',
+            sign0: '不卡单',
+            sign1: '卡单',
+            cStatus: '佣金发放状态',
+            // 佣金发放状态 0未发放 1已发放 2账号冻结
+            cStatus0: '未发放',
+            cStatus1: '已发放',
+            cStatus2: '账号冻结',
+        },
 
     };
 
