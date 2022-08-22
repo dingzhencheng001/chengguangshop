@@ -6,7 +6,12 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 		util = layui.util,
 		upload = layui.upload
 
-	var editIndex
+	var editIndex;
+
+	var i18n = new I18n();
+	var $t = i18n.$t;
+	window.i18n = i18n;
+	window.$t = $t;
 
 	// 表格当前选择项
 	var tableCurrentItem = {}
@@ -31,7 +36,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			var path = data[0].path
 			var fileFullPath = $.getFileFullPath(path)
 			$('#upload-img').attr('src', fileFullPath).show()
-			layer.msg('上传成功', { icon: 1 })
+			layer.msg($t('level.uploadSucceeded'), { icon: 1 })
 			//上传完毕回调
 		},
 		error: function (err) {
@@ -58,7 +63,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			var path = data[0].path
 			var fileFullPath = $.getFileFullPath(path)
 			$('#update-img').attr('src', fileFullPath).show()
-			layer.msg('上传成功', { icon: 1 })
+			layer.msg($t('level.uploadSucceeded'), { icon: 1 })
 			//上传完毕回调
 		},
 		error: function (err) {
@@ -114,7 +119,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 				success: function (result, status, xhr) {
 					if (result.code === 200) {
 						actions.onReloadData()
-						layer.msg('操作成功', { icon: 1 })
+						layer.msg($t('operationSucceeded'), { icon: 1 })
 						_options.success && _options.success(result, status, xhr)
 					} else {
 						layer.msg(result.msg, { icon: 2 })
@@ -123,7 +128,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 					_options.complete && _options.complete(status, xhr)
 				},
 				error: function (xhr, status, error) {
-					layer.msg('操作失败', { icon: 2 })
+					layer.msg($t('operationFailed'), { icon: 2 })
 					_options.error && _options.error(xhr, status, error)
 				}
 			})
@@ -136,7 +141,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 				success: function (result, status, xhr) {
 					if (result.code === 200) {
 						actions.onReloadData()
-						layer.msg('删除会员等级成功', { icon: 1 })
+						layer.msg($t('deleteSucceeded'), { icon: 1 })
 						_options.success && _options.success(result, status, xhr)
 					} else {
 						layer.msg(result.msg, { icon: 2 })
@@ -145,7 +150,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 					_options.complete && _options.complete(status, xhr)
 				},
 				error: function (xhr, status, error) {
-					layer.msg('删除会员等级失败', { icon: 2 })
+					layer.msg($t('deleteFailed'), { icon: 2 })
 					_options.error && _options.error(xhr, status, error)
 				}
 			})
@@ -160,7 +165,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 				success: function (result, status, xhr) {
 					if (result.code === 200) {
 						actions.onReloadData()
-						layer.msg('创建会员成功', { icon: 1 })
+						layer.msg($t('createSucceeded'), { icon: 1 })
 						_options.success && _options.success(result, status, xhr)
 					} else {
 						layer.msg(result.msg, { icon: 2 })
@@ -169,7 +174,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 					_options.complete && _options.complete(status, xhr)
 				},
 				error: function (xhr, status, error) {
-					layer.msg('创建会员失败', { icon: 2 })
+					layer.msg($t('createFailed'), { icon: 2 })
 					_options.error && _options.error(xhr, status, error)
 				}
 			})
@@ -190,7 +195,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			// 编辑菜单
 			editIndex = layer.open({
 				type: 1,
-				title: '编辑菜单',
+				title: $t('edit'),
 				area: '800px',
 				content: $('#editId'),
 				success: function () {
@@ -203,7 +208,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			})
 		} else if (layEvent === 'delete') {
 			// 删除
-			layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
+			layer.confirm($t('deleteConfirmation'), { title: $t('operationConfirmation') }, function (index) {
 				actions.onDelete(data.id, {
 					success: function () {
 						layer.close(index)
@@ -232,17 +237,17 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			[
 				//表头
 				{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-				{ field: 'membersName', title: '名称', width: 120 },
-				{ field: 'pic', title: '图标', templet: '#pic', width: 100 },
-				{ field: 'memberPrice', title: '会员价格', width: 80 },
-				{ field: 'commission', title: '佣金比例', width: 80 },
-				{ field: 'numMin', title: '最小余额', width: 80 },
-				{ field: 'orderNum', title: '接单次数', width: 80 },
-				{ field: 'withdrawalTimes', title: '提现次数', width: 100 },
-				{ field: 'withdrawalMin', title: '提现最小金额', width: 120 },
-				{ field: 'withdrawalMax', title: '提现最大金额', width: 120 },
-				{ field: 'registerTime', title: '注册时间', templet: '#register', minWidth: 160 },
-				{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
+				{ field: 'membersName', title: $t('level.membersName'), width: 120 },
+				{ field: 'pic', title: $t('level.icon'), templet: '#pic', width: 100 },
+				{ field: 'memberPrice', title: $t('level.memberPrice'), width: 80 },
+				{ field: 'commission', title: $t('level.commission'), width: 80 },
+				{ field: 'numMin', title: $t('level.numMin'), width: 80 },
+				{ field: 'orderNum', title: $t('level.orderNum'), width: 80 },
+				{ field: 'withdrawalTimes', title: $t('level.withdrawalTimes'), width: 100 },
+				{ field: 'withdrawalMin', title: $t('level.withdrawalMin'), width: 120 },
+				{ field: 'withdrawalMax', title: $t('level.withdrawalMax'), width: 120 },
+				{ field: 'registerTime', title: $t('level.registerTime'), templet: '#register', minWidth: 160 },
+				{ field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 336 }
 			]
 		],
 		parseData: parseData,
@@ -284,7 +289,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 	$('#createBtn').click(function () {
 		createIndex = layer.open({
 			type: 1,
-			title: '新建会员等级',
+			title: $t('level.addTitle'),
 			area: '800px',
 			content: $('#createId'),
 			success: function () {

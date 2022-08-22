@@ -106,6 +106,11 @@ function I18n (options) {
         modify: 'Modify',
         submit: 'Submit',
         operationSucceeded: 'Operation succeeded',
+        //
+        operationFailed: 'Operation failed',
+        deleteFailed: 'Delete failed',
+        createSucceeded: 'Created successfully',
+        createFailed: 'Creation failed',
 
         // 商品列表
         goodsList: {
@@ -270,6 +275,34 @@ function I18n (options) {
 
         },
 
+        level: {
+            add: 'Add member level',
+            membersName: 'Name',
+            petMembersName: 'Please enter a name',
+            icon: 'Icon',
+            uploadPic: 'Upload Icon',
+            memberPrice: 'Member price',
+            petMemberPrice: 'Please enter the member price',
+            commission: 'commission rate',
+            petCommission: 'Please enter the Commission proportion',
+            numMin: 'Minimum balance',
+            petNumMin: 'Please enter the minimum balance',
+            orderNum: 'Number of orders received',
+            petOrderNum: 'Please enter the number of orders received',
+            withdrawalTimes: 'Withdrawal times',
+            petWithdrawalTimes: 'Please enter the withdrawal times',
+            mate: 'Matching interval',
+            petMateMin: 'Please enter the matching minimum value',
+            petMateMax: 'Please enter the maximum matching value',
+            withdrawalMin: 'Minimum withdrawal amount',
+            petWithdrawalMin: 'Please enter the minimum withdrawal amount',
+            withdrawalMax: 'Maximum withdrawal amount',
+            petWithdrawalMax: 'Please enter the maximum withdrawal amount',
+            uploadSucceeded: 'Upload succeeded',
+            registerTime: 'Registration time',
+            addTitle: 'New member level',
+        }
+
     };
 
     // 中文
@@ -358,6 +391,11 @@ function I18n (options) {
         modify: '修改',
         submit: '提交',
         operationSucceeded: '操作成功',
+        //
+        operationFailed: '操作失败',
+        deleteFailed: '删除失败',
+        createSucceeded: '创建成功',
+        createFailed: '创建失败',
 
         // 商品列表
         goodsList: {
@@ -523,6 +561,34 @@ function I18n (options) {
             }
 
         },
+
+        level: {
+            add: '添加会员等级',
+            membersName: '名称',
+            petMembersName: '请输入名称',
+            icon: '图标',
+            uploadPic: '上传图标',
+            memberPrice: '会员价格',
+            petMemberPrice: '请输入会员价格',
+            commission: '佣金比例',
+            petCommission: '请输入佣金比例',
+            numMin: '最小余额',
+            petNumMin: '请输入最小余额',
+            orderNum: '接单次数',
+            petOrderNum: '请输入接单次数',
+            withdrawalTimes: '提现次数',
+            petWithdrawalTimes: '请输入提现次数',
+            mate: '匹配区间',
+            petMateMin: '请输入匹配最小值',
+            petMateMax: '请输入匹配最大值',
+            withdrawalMin: '提现最小金额',
+            petWithdrawalMin: '请输入提现最小金额',
+            withdrawalMax: '提现最大金额',
+            petWithdrawalMax: '请输入提现最大金额',
+            uploadSucceeded: '上传成功',
+            registerTime: '注册时间',
+            addTitle: '新建会员等级',
+        }
 
     };
 
