@@ -3,8 +3,9 @@ package my.fast.admin.cg.service;
 import java.util.List;
 
 import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.model.AppTeamParam;
 import my.fast.admin.cg.model.MemberParam;
-import my.fast.admin.cg.vo.AppCommissionVo;
+import my.fast.admin.cg.vo.AppTeamReportVo;
 
 /**
  * TODO
@@ -16,15 +17,13 @@ import my.fast.admin.cg.vo.AppCommissionVo;
 public interface AppTeamReportService {
 
     /**
-     * 获取会员团队信息
-     * @param id
+     * 获取下级会员信息
      */
-   AppCommissionVo getTeamList(Long id);
+    AppTeamReportVo getTeamList(AppTeamParam appTeamParam);
    
    
    /**
-    * 获取会员团队信息
-    * @param id ,memberLevel
+    * 获取下级团队信息
     */
   List<AppMember> getTeamLevelList(MemberParam param, Integer pageNum, Integer pageSize);
   

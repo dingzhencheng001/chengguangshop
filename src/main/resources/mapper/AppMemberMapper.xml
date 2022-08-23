@@ -397,7 +397,7 @@
             <if test="channelId != null">
                 #{channelId,jdbcType=BIGINT},
             </if>
-             <if test="limitAmount != null">
+            <if test="limitAmount != null">
                 #{limitAmount,jdbcType=DECIMAL},
             </if>
             <if test="drawalStatus != null">
@@ -691,46 +691,54 @@
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
 
     <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
         set balance = #{balance,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
-    <update id="updateBalance" >
+    <update id="updateBalance">
         update app_member
-        set balance = balance - #{withdrawalNum,jdbcType=DECIMAL},
-            freeze_balance = freeze_balance+ #{withdrawalNum,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        set balance        = balance - #{withdrawalNum,jdbcType=DECIMAL},
+            freeze_balance = freeze_balance + #{withdrawalNum,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
     <update id="freezeBalance">
         update app_member
         set freeze_balance = freeze_balance + #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
     <update id="updateAgentGrabCommission">
         update app_member
         set freeze_balance = freeze_balance + #{grabCommission,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
     <update id="updateBalanceByCommission">
         update app_member
-        set balance = balance + #{total,jdbcType=DECIMAL},
+        set balance        = balance + #{total,jdbcType=DECIMAL},
             freeze_balance = freeze_balance - #{total,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
     <insert id="changeBalance">
         update app_member
         set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </insert>
     <insert id="rollbackBalance">
         update app_member
-        set balance = balance + #{withdrawalNum,jdbcType=DECIMAL},
+        set balance        = balance + #{withdrawalNum,jdbcType=DECIMAL},
             freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </insert>
 
 
@@ -765,86 +773,82 @@
                  LEFT JOIN app_member_level l ON m.member_level_id = l.id
         where m.id = #{memberId,jdbcType=BIGINT}
     </select>
-    <select id="getMemberTeam" resultType="my.fast.admin.cg.entity.AppMember" parameterType="long">
-
-        SELECT
-            t.*
-        FROM
-            app_member t
-                INNER JOIN (
-                SELECT
-                    id,
-                    user_account
-                FROM
-                    (
-                        SELECT
-                            t1.id,
+    <select id="getMemberTeam" resultType="my.fast.admin.cg.entity.AppMember" >
+        SELECT t.*
+        FROM app_member t
+                 INNER JOIN (
+            SELECT id,
+                   user_account
+            FROM (
+                     SELECT t1.id,
                             t1.user_account,
                             IF
-                                ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
-                        FROM
-                            ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
-                            ( SELECT @pids := #{id,jdbcType=BIGINT} ) t2
-                    ) t3
-                WHERE
-                    ischild != 0
-            ) t1 ON t.id = t1.id
-
+                                (FIND_IN_SET(parent_user_id, @pids) > 0, @pids := CONCAT( @pids, ',', id ),
+                                 0) AS ischild
+                     FROM (SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id) t1,
+                          (SELECT @pids := #{memberId,jdbcType=BIGINT}) t2
+                 ) t3
+            WHERE ischild != 0
+        ) t1 ON t.id = t1.id and channel_Id = #{channelId,jdbcType=BIGINT} and registration_time
+            BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
     </select>
 
 
-    <select id="getTeamLevelList" resultType="my.fast.admin.cg.entity.AppMember" >
+    <select id="getTeamLevelList" resultType="my.fast.admin.cg.entity.AppMember">
 
         SELECT
-            t.*
+        t.*
         FROM
-            app_member t
-                INNER JOIN (
-                SELECT
-                    id,
-                    user_account
-                FROM
-                    (
-                        SELECT
-                            t1.id,
-                            t1.user_account,
-                            IF
-                                ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
-                        FROM
-                            ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
-                            ( SELECT @pids := #{memberId,jdbcType=BIGINT} ) t2
-                    ) t3
-                WHERE
-                    ischild != 0
-            ) t1 ON t.id = t1.id 
-            
-            <if test="param.memberLevel != null and param.memberLevel != '' ">
-             and
-            t.member_level_id = #{param.memberLevel,jdbcType=BIGINT}
-       		</if>
- 			and
-            t.channel_id = #{param.channelId,jdbcType=BIGINT}
-            <if test="param.userAccount != null and param.userAccount != '' ">
-             and
-            t.user_account = #{param.userAccount,jdbcType=VARCHAR}
-       		</if>
-            <if test="param.phoneNumber != null and param.phoneNumber != '' ">
-             and
-            t.phone_number = #{param.phoneNumber,jdbcType=VARCHAR}
-       		</if>
-            <if test="param.selectBeginTime != null">
+        app_member t
+        INNER JOIN (
+        SELECT
+        id,
+        user_account
+        FROM
+        (
+        SELECT
+        t1.id,
+        t1.user_account,
+        IF
+        ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
+        FROM
+        ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
+        ( SELECT @pids := #{memberId,jdbcType=BIGINT} ) t2
+        ) t3
+        WHERE
+        ischild != 0
+        ) t1 ON t.id = t1.id
+        <if test="param.memberLevel != null and param.memberLevel != '' ">
             and
-            t.registration_time BETWEEN #{param.selectBeginTime,jdbcType=TIMESTAMP} and #{param.selectEndTime,jdbcType=TIMESTAMP}
-        	</if>
-			
+            t.member_level_id = #{param.memberLevel,jdbcType=BIGINT}
+        </if>
+        <if test="param.channelId, != null and param.channelId != '' ">
+            and
+            t.channel_id = #{param.channelId,jdbcType=BIGINT}
+        </if>
+
+        <if test="param.userAccount != null and param.userAccount != '' ">
+            and
+            t.user_account = #{param.userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="param.phoneNumber != null and param.phoneNumber != '' ">
+            and
+            t.phone_number = #{param.phoneNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="param.selectBeginTime != null">
+            and
+            t.registration_time BETWEEN #{param.selectBeginTime,jdbcType=TIMESTAMP} and
+            #{param.selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+
     </select>
     <select id="selectPage" resultType="my.fast.admin.cg.vo.AppMemberVo">
         SELECT
-            m.*,
-            ml.members_level,ml.mate_min as matchMin ,ml.mate_max as matchMax 
+        m.*,
+        ml.members_level,ml.mate_min as matchMin ,ml.mate_max as matchMax
         FROM
-            app_member m
-                LEFT JOIN app_member_level ml ON m.member_level_id = ml.id
+        app_member m
+        LEFT JOIN app_member_level ml ON m.member_level_id = ml.id
         where m.channel_Id = #{channelId,jdbcType=BIGINT}
         <if test="memberParams.memberStatus != null and memberParams.memberStatus != ''">
             and
@@ -852,7 +856,8 @@
         </if>
         <if test="memberParams.selectBeginTime != null">
             and
-            m.registration_time BETWEEN #{memberParams.selectBeginTime,jdbcType=TIMESTAMP} and #{memberParams.selectEndTime,jdbcType=TIMESTAMP}
+            m.registration_time BETWEEN #{memberParams.selectBeginTime,jdbcType=TIMESTAMP} and
+            #{memberParams.selectEndTime,jdbcType=TIMESTAMP}
         </if>
         <if test="memberParams.keyword != null and memberParams.keyword !=''">
             and
@@ -869,8 +874,84 @@
 
     </select>
     <select id="selectMemberByIdAndChannelId" resultType="my.fast.admin.cg.entity.AppMember">
-        select * from  app_member where
-        where id = #{memberId,jdbcType=BIGINT} and channel_Id = #{channelId,jdbcType=BIGINT}
+        select *
+        from app_member
+        where
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
+
+    </select>
+    <resultMap id="agentListInfo" type="my.fast.admin.cg.model.AppTeamReportInfo">
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="registration_time" property="registrationTime"/>
+        <result column="member_level_id" property="memberLevelId"/>
+        <result column="user_account" property="userAccount"/>
+    </resultMap>
+    <select id="getAgentListInfo" resultMap="agentListInfo">
+        SELECT
+        t.phone_number ,t.member_level_id ,t.user_account ,t.registration_time
+        FROM
+        app_member t
+        INNER JOIN (
+        SELECT
+        id,
+        user_account
+        FROM
+        (
+        SELECT
+        t1.id,
+        t1.user_account,
+        IF
+        ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
+        FROM
+        ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
+        ( SELECT @pids := #{memberId,jdbcType=BIGINT} ) t2
+        ) t3
+        WHERE
+        ischild != 0
+        ) t1 ON t.id = t1.id
+        <if test="channelId != null">
+            and channel_Id = #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="selectBeginTime != null">
+            and
+            registration_time
+            BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+    <select id="getAgentListInfoByLevelId" resultMap="agentListInfo">
+        SELECT
+        t.phone_number ,t.member_level_id ,t.user_account ,t.registration_time
+        FROM
+        app_member t
+        INNER JOIN (
+        SELECT
+        id,
+        user_account
+        FROM
+        (
+        SELECT
+        t1.id,
+        t1.user_account,
+        IF
+        ( FIND_IN_SET( parent_user_id, @pids ) > 0, @pids := CONCAT( @pids, ',', id ), 0 ) AS ischild
+        FROM
+        ( SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id ) t1,
+        ( SELECT @pids := #{memberId,jdbcType=BIGINT} ) t2
+        ) t3
+        WHERE
+        ischild != 0
+        ) t1 ON t.id = t1.id
+        and t.member_level_id = #{memberLevelId,jdbcType=BIGINT}
+        <if test="channelId != null">
+            and channel_Id = #{channelId,jdbcType=BIGINT}
+        </if>
+        <if test="selectBeginTime != null">
+            and
+            registration_time
+            BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
+        </if>
+
 
     </select>
 
