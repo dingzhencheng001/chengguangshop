@@ -112,6 +112,7 @@ function I18n (options) {
         createSucceeded: 'Created successfully',
         createFailed: 'Creation failed',
         pleaseSelectItem: 'Please select a data item',
+        savedSuccessfully: 'Saved successfully',
 
         // 商品列表
         goodsList: {
@@ -396,7 +397,48 @@ function I18n (options) {
             passed: 'Passed',
             reasonForRejection: 'Reason for rejection',
             rejected: 'Rejected',
-        }
+        },
+
+        tc: {
+            basicSettings: 'Basic settings',
+            trc: 'TRC20 address',
+            petTrc: 'Please enter TRC20 address',
+            erc: 'ERC20 address',
+            petErc: 'Please enter ERC20 address',
+            usdt: 'USDT',
+            petUsdt: 'Please enter USDT',
+            wait: 'Waiting time for payment without order (seconds)',
+            petWait: 'Please enter the order payment waiting time',
+            waitHelp: 'The waiting time for order payment is long. If the new order is not completed within this time, the payment will be automatically canceled',
+            generalCommission: 'Trading Commission of ordinary members',
+            generalCommissionHelp: 'Transaction commission',
+            upOneCommission: 'Transaction commission of upper level member',
+            upTwoCommission: 'Transaction commission of upper level 2 members',
+            upThreeCommission: 'Transaction commission of upper three level members',
+            upFourCommission: 'Transaction commission of upper level 4 members',
+            upFiveCommission: 'Trading Commission of upper five members',
+            freeze: 'Freezing time',
+            violate: 'Number of violations allowed',
+            petViolate: 'Please enter the delivery order automatic confirmation receipt time',
+            distributeTime: 'Order submission delay time (unit/s)',
+            distributeTimeText1: ' Remote host allocation time:',
+            distributeTimeText2: ' Waiting for merchant response time',
+            distributeTimeHelp: 'The time is composed of 2 parts, and the default is 5 seconds, a total of 10 seconds',
+            appAdress: 'App download address',
+            petAppAdress: 'Please enter the app download address',
+            version: 'Version number',
+            petVersion: 'Please enter version',
+            withdraw: 'Withdrawal time',
+            petWithdraw: 'Please select the withdrawal time range',
+            deposit: 'Recharge time',
+            petDeposit: 'Please select the recharge time range',
+            convey: 'Order grabbing time',
+            petConvey: 'Please select the time range for order grabbing',
+            shopStatus: 'Mall status',
+            petShopStatus: 'Mall status: 1open 0closed',
+            saveText: 'Save configuration',
+
+        },
 
     };
 
@@ -491,6 +533,7 @@ function I18n (options) {
         createSucceeded: '创建成功',
         createFailed: '创建失败',
         pleaseSelectItem: '请选择数据项',
+        savedSuccessfully: '保存成功',
 
         // 商品列表
         goodsList: {
@@ -778,7 +821,49 @@ function I18n (options) {
             passed: '已通过',
             reasonForRejection: '驳回原因',
             rejected: '已驳回',
-        }
+        },
+
+        //  交易控制
+        tc: {
+            basicSettings: '基础设置',
+            trc: 'TRC20地址',
+            petTrc: '请输入TRC20地址',
+            erc: 'ERC20地址',
+            petErc: '请输入ERC20地址',
+            usdt: 'USDT',
+            petUsdt: '请输入USDT',
+            wait: '未订单的支付等待时长（秒）',
+            petWait: '请输入订单支付等待时长',
+            waitHelp: '订单支付等待时长，新下订单未在此时间内容完成支付将会被自动取消',
+            generalCommission: '普通会员交易佣金',
+            generalCommissionHelp: '交易佣金',
+            upOneCommission: '上一级会员交易佣金',
+            upTwoCommission: '上二级会员交易佣金',
+            upThreeCommission: '上三级会员交易佣金',
+            upFourCommission: '上四级会员交易佣金',
+            upFiveCommission: '上五级会员交易佣金',
+            freeze: '冻结时间',
+            violate: '允许违规次数',
+            petViolate: '请输入已发货订单自动确认收货时长',
+            distributeTime: '提交订单延时时间(单位/秒)',
+            distributeTimeText1: ' 远程主机分配时间:',
+            distributeTimeText2: ' 等待商家响应时间',
+            distributeTimeHelp: '时间由2部分组成,默认都是5秒,总共10秒',
+            appAdress: 'app下载地址',
+            petAppAdress: '请输入app下载地址',
+            version: '版本号',
+            petVersion: '请输入版本',
+            withdraw: '提现时间',
+            petWithdraw: '请选择提现时间范围',
+            deposit: '充值时间',
+            petDeposit: '请选择充值时间范围',
+            convey: '抢单时间',
+            petConvey: '请选择抢单时间范围',
+            shopStatus: '商城状态',
+            petShopStatus: '商城状态: 1开启 0关闭',
+            saveText: '保存配置',
+
+        },
 
     };
 
