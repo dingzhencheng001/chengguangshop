@@ -185,6 +185,11 @@ layui.define(['layer', 'laytpl', 'element'], function(exports) {
             navbarLoadIndex && layer.close(navbarLoadIndex);
           },
           success: function(res) {
+              if (res && res.code === 500) {
+                  layer.close(navbarLoadIndex);
+                  layer.msg('请重新登录！', { icon: 2 })
+                  return;
+              }
               // var data = [];
               var $t = window.i18n.$t;
               var f = function (arr) {

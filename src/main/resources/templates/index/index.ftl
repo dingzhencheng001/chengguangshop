@@ -58,7 +58,7 @@
                     <dd><a href="javascript:;" data-locale="modifyPassword" id="updatePwd">密码修改</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="/logout" data-locale="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
+            <li class="layui-nav-item"><a href="/" data-locale="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
         </ul>
     </div>
 

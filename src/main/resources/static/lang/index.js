@@ -106,13 +106,14 @@ function I18n (options) {
         modify: 'Modify',
         submit: 'Submit',
         operationSucceeded: 'Operation succeeded',
-        //
         operationFailed: 'Operation failed',
         deleteFailed: 'Delete failed',
         createSucceeded: 'Created successfully',
         createFailed: 'Creation failed',
         pleaseSelectItem: 'Please select a data item',
         savedSuccessfully: 'Saved successfully',
+        uploadSucceeded: 'Upload succeeded',
+        title: 'Title',
 
         // 商品列表
         goodsList: {
@@ -447,7 +448,36 @@ function I18n (options) {
             createBtn: 'Add notice',
             createTime: 'Publish time',
             createTitle: 'Create notice',
-        }
+        },
+
+        addSwiper: {
+            title: 'Picture Title',
+            petTitle: 'Please enter the picture title',
+            selectPictureType: 'Select Add type',
+            pictureType: 'Display type',
+            pictureType1: 'Home page display',
+            pictureType2: 'Bottom display',
+            pictureType3: 'LOGO',
+            pictureType4: 'Other',
+            pictureType5: 'Pure text',
+            content: 'Picture Description',
+            petContent: 'Please enter a picture description',
+            picture: 'Picture',
+            textTitle: 'Text title',
+            petTextTitle: 'Please enter the picture title',
+            addTextarea: 'Text description',
+            petAddTextarea: 'Please enter a text description',
+            addPicture: 'Add picture',
+            addText: 'Add plain text',
+            addPictureSuccess: 'Picture added successfully',
+            addTextSuccess: 'Plain text added successfully',
+            addPictureFail: 'Failed to add picture',
+            addTextFail: 'Failed to add plain text',
+            disableConfirmation: 'Are you sure you want to disable it',
+            enableConfirmation: 'Are you sure you want to enable it',
+            describe: 'Describe',
+            updateTime: 'Publish time',
+        },
 
     };
 
@@ -543,6 +573,9 @@ function I18n (options) {
         createFailed: '创建失败',
         pleaseSelectItem: '请选择数据项',
         savedSuccessfully: '保存成功',
+        //
+        uploadSucceeded: '上传成功',
+        title: '标题',
 
         // 商品列表
         goodsList: {
@@ -882,7 +915,36 @@ function I18n (options) {
             createBtn: '添加公告',
             createTime: '发表时间',
             createTitle: '新建公告',
-        }
+        },
+
+        addSwiper: {
+            title: '图片标题',
+            petTitle: '请输入图片标题',
+            selectPictureType: '选择添加类型',
+            pictureType: '展示类型',
+            pictureType1: '首页展示',
+            pictureType2: '底部展示',
+            pictureType3: 'LOGO',
+            pictureType4: '其他',
+            pictureType5: '纯文本',
+            content: '图片描述',
+            petContent: '请输入图片描述',
+            picture: '图片',
+            textTitle: '文本标题',
+            petTextTitle: '请输入图片标题',
+            addTextarea: '文本描述',
+            petAddTextarea: '请输入文本描述',
+            addPicture: '添加图片',
+            addText: '添加纯文本',
+            addPictureSuccess: '添加图片成功',
+            addTextSuccess: '添加纯文本成功',
+            addPictureFail: '添加图片失败',
+            addTextFail: '添加纯文本失败',
+            disableConfirmation: '确定要禁用吗',
+            enableConfirmation: '确定要启用吗',
+            describe: '描述',
+            updateTime: '发表时间',
+        },
 
     };
 
