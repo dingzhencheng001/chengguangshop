@@ -525,7 +525,7 @@ CREATE TABLE `app_picture`  (
   `content` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文字说明',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   `last_edit` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后编辑',
-  `show_type` int(0) DEFAULT NULL COMMENT '展示类型 1.app展示 2.app不展示',
+  `show_type` int(0) DEFAULT NULL COMMENT '展示类型',
   `picture_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片文件id',
   `picture_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片名称',
   `picture_path` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片路径',

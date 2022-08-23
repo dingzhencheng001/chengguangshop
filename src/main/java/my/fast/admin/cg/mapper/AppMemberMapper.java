@@ -9,10 +9,13 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberExample;
 import my.fast.admin.cg.model.AppMemberBalanceParam;
 import my.fast.admin.cg.model.AppMemberParam;
+import my.fast.admin.cg.model.AppTeamParam;
+import my.fast.admin.cg.model.AppTeamReportInfo;
 import my.fast.admin.cg.model.MemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
 import my.fast.admin.cg.vo.AppMemberVo;
+import my.fast.admin.cg.vo.AppTeamReportVo;
 
 public interface AppMemberMapper {
     long countByExample(AppMemberExample example);
@@ -97,11 +100,10 @@ public interface AppMemberMapper {
     AppMemberDto selectAppMemberCountByPrimary(Long id);
 
     /**
-     * 获取会员信息
+     * 获取下级会员信息
      *
-     * @param id
      */
-    List<AppMember> getMemberTeam(Long id);
+    List<AppMember> getMemberTeam(AppTeamParam appTeamParam);
 
     /**
      * 获取下级团队信息
@@ -173,4 +175,13 @@ public interface AppMemberMapper {
      */
     int updateBalanceByCommission(@Param("memberId")Long memberId, @Param("channelId")Long channelId, @Param("total")BigDecimal total);
 
+    /**
+     * 获取下级会员关键信息
+     */
+    List<AppTeamReportInfo> getAgentListInfo(AppTeamParam appTeamParam);
+
+    /**
+     * 按照会员等级获取下级信息
+     */
+    List<AppTeamReportInfo> getAgentListInfoByLevelId(AppTeamParam appTeamParam);
 }
