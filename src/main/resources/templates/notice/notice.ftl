@@ -9,6 +9,7 @@
 
 
 <body>
+<div class="layui-fluid">
 <div id="createId" style="display: none">
 	<form class="layui-form layui-card" lay-filter="addForm">
 		<div class="layui-card-body">
@@ -84,6 +85,9 @@
 	</div>
 </script>
 
+</div>
+
+<script src='/notice/notice.js'></script>
 </body>
 
 </html>
