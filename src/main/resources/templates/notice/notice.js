@@ -1,8 +1,12 @@
-layui.use(['table', 'form', 'element', 'layedit'], function () {
-	var table = layui.table,
-		$ = layui.$,
-		form = layui.form,
-		layedit = layui.layedit
+
+layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function () {
+	var table = layui.table, $ = layui.$, form = layui.form, util = layui.util; layedit = layui.layedit;
+
+
+	var i18n = new I18n();
+	var $t = i18n.$t;
+	window.i18n = i18n;
+	window.$t = $t;
 
 	layedit.set({
 		//暴露layupload参数设置接口 --详细查看layupload参数说明
@@ -12,83 +16,46 @@ layui.use(['table', 'form', 'element', 'layedit'], function () {
 			acceptMime: 'image/*',
 			exts: 'jpg|png|gif|bmp|jpeg',
 			size: '10240'
-		},
-		uploadVideo: {
+		}
+		, uploadVideo: {
 			url: '/Attachment/LayUploadFile',
 			accept: 'video',
 			acceptMime: 'video/*',
 			exts: 'mp4|flv|avi|rm|rmvb',
 			size: '20480'
-		},
+		}
 		//右键删除图片/视频时的回调参数，post到后台删除服务器文件等操作，
 		//传递参数：
 		//图片： imgpath --图片路径
 		//视频： filepath --视频路径 imgpath --封面路径
-		calldel: {
+		, calldel: {
 			url: '/Attachment/DeleteFile'
-		},
-		tool: [
-			'strong',
-			'italic',
-			'underline',
-			'del',
-			'addhr',
-			'|',
-			'fontFomatt',
-			'colorpicker',
-			'face',
-			'|',
-			'left',
-			'center',
-			'right',
-			'|',
-			'link',
-			'unlink',
-			'images',
-			'image_alt',
-			'video',
-			'anchors',
-			'|',
-			'fullScreen'
-		],
-		height: '90%'
-	})
-
-	var editeditor
-	var addeditor
+		}
+		//开发者模式 --默认为false
+		, devmode: true
+		//插入代码设置
+		, codeConfig: {
+			hide: true,  //是否显示编码语言选择框
+			default: 'javascript' //hide为true时的默认语言格式
+		}
+		, tool: [
+			'html', 'code', 'strong', 'italic', 'underline', 'del', 'addhr', '|', 'fontFomatt', 'colorpicker', 'face'
+			, '|', 'left', 'center', 'right', '|', 'link', 'unlink', 'images', 'image_alt', 'video', 'anchors'
+			, '|', 'fullScreen'
+		]
+		, height: '90%'
+	});
+	var editeditor = layedit.build('editTextarea');
+	var addeditor = layedit.build('addTextarea');
 
 	var editIndex
 
 	// 表格当前选择项
-	var tableCurrentItem = {}
+	var tableCurrentItem = {};
 
 	var where = {
-		status: 0
-	}
-
-	var parseData = function (res) {
-		var msg
-		var code
-		var count
-		var data
-		if (res.code === 200) {
-			code = 0
-			msg = res.message
-			count = res.data.total
-			data = res.data.list
-		} else {
-			code = res.code
-			msg = res.msg
-			count = 0
-			data = []
-		}
-		return {
-			code: code, //解析接口状态
-			msg: msg, //解析提示文本
-			count: count, //解析数据长度
-			data: data //解析数据列表
-		}
-	}
+		"status": 0,
+	};
 
 	var actions = {
 		apiUrl: {
@@ -103,76 +70,46 @@ layui.use(['table', 'form', 'element', 'layedit'], function () {
 			console.log('searchData', searchData)
 			table.reloadData(levelListTableId, { where: Object.assign({}, where, searchData) })
 		},
-		onUpdateItem: function (id, fields, options) {
-			var _options = Object.assign({}, requestDefOptions, options)
-			$.ajax({
+		onUpdateItem: function (id, fields, cb) {
+			$.request({
 				url: actions.apiUrl.update + id,
 				type: 'post',
 				contentType: 'application/json',
-				data: JSON.stringify(fields),
+				data: fields,
+				showLoading: true,
 				success: function (result, status, xhr) {
-					if (result.code === 200) {
-						actions.onReloadData()
-						layer.msg('操作成功', { icon: 1 })
-						_options.success && _options.success(result, status, xhr)
-					} else {
-						layer.msg(result.msg, { icon: 2 })
-						_options.fail && _options.fail(result, status, xhr)
-					}
-					_options.complete && _options.complete(status, xhr)
-				},
-				error: function (xhr, status, error) {
-					layer.msg('操作失败', { icon: 2 })
-					_options.error && _options.error(xhr, status, error)
+					actions.onReloadData()
+					layer.msg($t('operationSucceeded'), { icon: 1 })
+					cb && cb(result, status, xhr)
 				}
 			})
 		},
-		onDelete: function (id, options) {
-			var _options = Object.assign({}, requestDefOptions, options)
-			$.ajax({
+		onDelete: function (id, cb) {
+			$.request({
 				url: actions.apiUrl.delete + id,
 				type: 'get',
-				success: function (result, status, xhr) {
-					if (result.code === 200) {
-						actions.onReloadData()
-						layer.msg('删除公告成功', { icon: 1 })
-						_options.success && _options.success(result, status, xhr)
-					} else {
-						layer.msg(result.msg, { icon: 2 })
-						_options.fail && _options.fail(result, status, xhr)
-					}
-					_options.complete && _options.complete(status, xhr)
-				},
-				error: function (xhr, status, error) {
-					layer.msg('删除公告失败', { icon: 2 })
-					_options.error && _options.error(xhr, status, error)
+				showLoading: true,
+				success: function (result) {
+					actions.onReloadData()
+					layer.msg($('deleteSucceeded'), { icon: 1 })
+					cb && cb(result)
 				}
 			})
 		},
-		onCreate: function (fields, options) {
-			var _options = Object.assign({}, requestDefOptions, options)
-			$.ajax({
+		onCreate: function (fields, cb) {
+			$.request({
 				url: actions.apiUrl.create,
 				type: 'post',
 				contentType: 'application/json',
-				data: JSON.stringify(fields),
+				data: fields,
+				showLoading: true,
 				success: function (result, status, xhr) {
-					if (result.code === 200) {
-						actions.onReloadData()
-						layer.msg('添加公告成功', { icon: 1 })
-						_options.success && _options.success(result, status, xhr)
-					} else {
-						layer.msg(result.msg, { icon: 2 })
-						_options.fail && _options.fail(result, status, xhr)
-					}
-					_options.complete && _options.complete(status, xhr)
+					actions.onReloadData();
+					layer.msg($('createSucceeded'), { icon: 1 });
+					cb && cb(result, status, xhr);
 				},
-				error: function (xhr, status, error) {
-					layer.msg('添加公告失败', { icon: 2 })
-					_options.error && _options.error(xhr, status, error)
-				}
-			})
-		}
+			});
+		},
 	}
 
 	//单元格工具事件
@@ -181,6 +118,7 @@ layui.use(['table', 'form', 'element', 'layedit'], function () {
 		var data = obj.data //获得当前行数据
 		var layEvent = obj.event //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 		var tr = obj.tr //获得当前行 tr 的 DOM 对象（如果有的话）
+		console.log('data', data);
 		// 设置当前选择项
 		tableCurrentItem = Object.assign({}, data)
 		// 修改邀请码
@@ -188,14 +126,12 @@ layui.use(['table', 'form', 'element', 'layedit'], function () {
 			// 编辑菜单
 			editIndex = layer.open({
 				type: 1,
-				title: '编辑菜单',
+				title: $t('edit'),
 				area: '800px',
 				content: $('#editId'),
 				success: function () {
-					form.val('editForm', data)
-					editeditor = layedit.build('editTextarea', {})
-					$('#editTextarea').html(data.noticeContent)
-					// layedit.setContent(editeditor, data.noticeContent, false)
+					form.val('editForm', data);
+					layedit.setContent(editeditor, data.noticeContent, false);
 					$('#editId').show()
 				},
 				cancel: function () {
@@ -204,138 +140,87 @@ layui.use(['table', 'form', 'element', 'layedit'], function () {
 			})
 		} else if (layEvent === 'delete') {
 			// 删除
-			layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
-				actions.onDelete(data.noticeId, {
-					success: function () {
-						layer.close(index)
-					}
+			layer.confirm($t('deleteConfirmation'), {
+				title: $t('operationConfirmation'),
+				btn: [$t('confirm'), $t('cancel')],
+			}, function (index) {
+				actions.onDelete(data.noticeId, function () {
+					layer.close(index)
 				})
 			})
-		} else if (layEvent === 'forbidden') {
-			let status = data.status
-			status == 0 ? (status = 1) : (status = 0)
-			if (status !== 1) {
-				layer.confirm('确定要禁用吗', { title: '操作确认' }, function (index) {
-					actions.onUpdateItem(
-						data.noticeId,
-						{ status: status },
-						{
-							success: function () {
-								layer.close(index)
-							}
-						}
-					)
-				})
-			} else {
-				layer.confirm('确定要启用吗', { title: '操作确认' }, function (index) {
-					actions.onUpdateItem(
-						data.noticeId,
-						{ status: status },
-						{
-							success: function () {
-								layer.close(index)
-							}
-						}
-					)
-				})
-			}
 		}
 	})
 
-	var levelListTableId = 'levelListTableId'
+	var levelListTableId = 'levelListTableId';
 	//第一个实例
-	table.render({
+	table.render(Object.assign({}, $.tableRenderConfing, {
 		elem: '#level',
-		height: 400,
+		// height: 312,
 		url: '/action/notice/list', //数据接口
+		// url: 'http://localhost:8080/action/notice/list', //数据接口
 		page: true, //开启分页
 		cellMinWidth: 100, //全局定义常规单元格的最小宽度
 		where: where,
 		loading: true,
 		request: {
 			pageName: 'pageNum', //页码的参数名称，默认：page
-			limitName: 'pageSize' //每页数据量的参数名，默认：limit
+			limitName: 'pageSize', //每页数据量的参数名，默认：limit
 		},
 		cols: [
 			[
 				//表头
 				{ field: 'noticeId', title: 'ID', width: 80, sort: true, fixed: 'left' },
-				{ field: 'noticeType', title: '公告类型', templet: '#noticeType', width: 100 },
-				{ field: 'noticeTitle', title: '标题', width: 200 },
-				{ field: 'createTime', title: '发表时间', templet: '#createTime', minWidth: 160 },
-				{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
+				{ field: 'noticeTitle', title: $t('notice.noticeTitle') },
+				{ field: 'createTime', title: $t('notice.createTime'), templet: '#createTime' },
+				{ field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 120 }
 			]
 		],
-		parseData: parseData,
-		id: levelListTableId // 容器唯一IDs
-	})
-
-	// 请求回调选项
-	var requestDefOptions = {
-		// 请求成功，并且code等于200
-		success: function (result, status, xhr) {},
-		// 请求成功，并且code不等于200
-		fail: function (result, status, xhr) {},
-		// 请求失败
-		error: function (xhr, status, error) {},
-		// 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-		complete: function (xhr, status) {}
-	}
+		id: levelListTableId, // 容器唯一IDs
+	}));
 
 	// 编辑-提交
 	form.on('submit(editSubmit)', function (data) {
-		data.field.noticeContent = layedit.getContent(editeditor)
-		actions.onUpdateItem(tableCurrentItem.noticeId, data.field, {
-			success: function () {
-				console.log('success')
-				layer.close(editIndex)
-				$('#editId').hide()
-			}
+		data.field.noticeContent = layedit.getContent(editeditor);
+		actions.onUpdateItem(tableCurrentItem.noticeId, data.field, function () {
+			console.log('success');
+			layer.close(editIndex);
+			$('#editId').hide();
 		})
-		return false
-	})
+		return false;
+	});
 
 	// 编辑-取消
 	$('#editCancel').click(function () {
 		layer.close(editIndex)
 	})
 
-	var createIndex
+	var createIndex;
 	$('#createBtn').click(function () {
 		createIndex = layer.open({
 			type: 1,
-			title: '添加公告',
+			title: $t('notice.createTitle'),
 			area: '800px',
 			content: $('#createId'),
 			success: function () {
-				$('#createId').show()
-				addeditor = layedit.build('addTextarea', {})
+				$('#createId').show();
 			},
 			cancel: function () {
-				$('#createId').hide()
+				$('#createId').hide();
 			}
-		})
+		});
 	})
 
 	// 新建-取消
 	$('#createCancel').click(function () {
-		layer.close(createIndex)
-		form.val('addForm', {
-			noticeTitle: ''
-		})
-	})
+		layer.close(createIndex);
+	});
 
 	// 新建-提交
 	form.on('submit(createSubmit)', function (data) {
-		data.field.noticeContent = layedit.getContent(addeditor)
-		actions.onCreate(data.field, {
-			success: function () {
-				layer.close(createIndex)
-				form.val('addForm', {
-					noticeTitle: ''
-				})
-			}
-		})
-		return false
-	})
+		data.field.noticeContent = layedit.getContent(addeditor);
+		actions.onCreate(data.field, function () {
+			layer.close(createIndex);
+		});
+	});
+
 })

@@ -440,6 +440,15 @@ function I18n (options) {
 
         },
 
+        notice: {
+            noticeTitle: 'Notice title',
+            petNoticeTitle: 'Please enter the Notice title',
+            noticeContent: 'Notice content',
+            createBtn: 'Add notice',
+            createTime: 'Publish time',
+            createTitle: 'Create notice',
+        }
+
     };
 
     // 中文
@@ -864,6 +873,16 @@ function I18n (options) {
             saveText: '保存配置',
 
         },
+
+        // 公告管理
+        notice: {
+            noticeTitle: '公告标题',
+            petNoticeTitle: '请输入公告标题',
+            noticeContent: '公告内容',
+            createBtn: '添加公告',
+            createTime: '发表时间',
+            createTitle: '新建公告',
+        }
 
     };
 

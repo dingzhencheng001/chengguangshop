@@ -19,6 +19,7 @@
 	<!-- 全局属性 -->
 	<script src="js/common/setting.js"></script>
 	<script src="js/common/app.js"></script>
+	<script src="lang/index.js"></script>
 	<!-- css -->
 	<link rel="stylesheet" href="css/app.css" />
 	<!-- 加载formSelects -->
@@ -28,18 +29,17 @@
 </head>
 
 <body>
-	<!--新建会员等级表单-->
 	<div id="createId" style="display: none">
 		<form class="layui-form layui-card" lay-filter="addForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">公告标题</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="notice.noticeTitle">公告标题</label>
 					<div class="layui-input-block">
-						<input name="noticeTitle" required placeholder="请输入公告标题" value="" class="layui-input" />
+						<input name="noticeTitle" required data-placeholder="notice.petNoticeTitle" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">公告内容</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="notice.noticeContent">公告内容</label>
 					<div class="layui-input-block">
 						<textarea id="addTextarea" name="noticeContent" lay-verify="content"></textarea>
 					</div>
@@ -47,12 +47,11 @@
 
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
-					<button type="button" class="layui-btn layui-btn-danger" id="createCancel">取消</button>
+					<button class="layui-btn" lay-submit lay-filter="createSubmit" data-locale="submit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="createCancel" data-locale="cancel">取消</button>
 				</div>
 			</div>
-	</div>
-	</form>
+		</form>
 	</div>
 
 	<!--编辑表单-->
@@ -60,13 +59,13 @@
 		<form class="layui-form layui-card" lay-filter="editForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">公告标题</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="notice.noticeTitle">公告标题</label>
 					<div class="layui-input-block">
-						<input name="noticeTitle" required placeholder="请输入公告标题" value="" class="layui-input" />
+						<input name="noticeTitle" required data-placeholder="notice.petNoticeTitle" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">公告内容</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="notice.noticeContent">公告内容</label>
 					<div class="layui-input-block">
 						<textarea id="editTextarea" name="noticeContent" lay-verify="content"></textarea>
 					</div>
@@ -74,8 +73,8 @@
 
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="editSubmit">提交</button>
-					<button type="button" class="layui-btn layui-btn-danger" id="editCancel">取消</button>
+					<button class="layui-btn" lay-submit lay-filter="editSubmit" data-locale="submit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="editCancel" data-locale="cancel">取消</button>
 				</div>
 			</div>
 		</form>
@@ -83,17 +82,17 @@
 
 
 	<div class="layui-btn-container" style="margin-top: 20px;">
-		<button class="layui-btn" id="createBtn">添加公告</button>
+		<button class="layui-btn" id="createBtn" data-locale="notice.createBtn">添加公告</button>
 	</div>
 
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
 
 	<script type="text/html" id="operation">
 			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+				<a class="layui-btn layui-btn-xs" lay-event="edit">{{$t('edit')}}</a>
 			</span>
 			<span style="display: inline-block">
-				<a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+				<a class="layui-btn layui-btn-xs" lay-event="delete">{{$t('delete')}}</a>
 			</span>
 		</script>
 
@@ -109,6 +108,11 @@
 		layui.use(['table', 'form', 'util', 'element', 'laydate', 'layedit'], function () {
 			var table = layui.table, $ = layui.$, form = layui.form, util = layui.util; layedit = layui.layedit;
 
+
+			var i18n = new I18n();
+			var $t = i18n.$t;
+			window.i18n = i18n;
+			window.$t = $t;
 
 			layedit.set({
 				//暴露layupload参数设置接口 --详细查看layupload参数说明
@@ -159,30 +163,6 @@
 				"status": 0,
 			};
 
-			var parseData = function (res) {
-				var msg
-				var code
-				var count
-				var data
-				if (res.code === 200) {
-					code = 0
-					msg = res.message
-					count = res.data.total
-					data = res.data.list
-				} else {
-					code = res.code
-					msg = res.msg
-					count = 0
-					data = []
-				}
-				return {
-					code: code, //解析接口状态
-					msg: msg, //解析提示文本
-					count: count, //解析数据长度
-					data: data //解析数据列表
-				}
-			}
-
 			var actions = {
 				apiUrl: {
 					// /action/notice/list: actions.apiUrl.update + id,
@@ -196,75 +176,44 @@
 					console.log('searchData', searchData)
 					table.reloadData(levelListTableId, { where: Object.assign({}, where, searchData) })
 				},
-				onUpdateItem: function (id, fields, options) {
-					console.log('fields', fields);
-					var _options = Object.assign({}, requestDefOptions, options)
-					$.ajax({
+				onUpdateItem: function (id, fields, cb) {
+					$.request({
 						url: actions.apiUrl.update + id,
 						type: 'post',
 						contentType: 'application/json',
-						data: JSON.stringify(fields),
+						data: fields,
+						showLoading: true,
 						success: function (result, status, xhr) {
-							if (result.code === 200) {
-								actions.onReloadData()
-								layer.msg('操作成功', { icon: 1 })
-								_options.success && _options.success(result, status, xhr)
-							} else {
-								layer.msg(result.msg, { icon: 2 })
-								_options.fail && _options.fail(result, status, xhr)
-							}
-							_options.complete && _options.complete(status, xhr)
-						},
-						error: function (xhr, status, error) {
-							layer.msg('操作失败', { icon: 2 })
-							_options.error && _options.error(xhr, status, error)
+							actions.onReloadData()
+							layer.msg($t('operationSucceeded'), { icon: 1 })
+							cb && cb(result, status, xhr)
 						}
 					})
 				},
-				onDelete: function (id, options) {
-					var _options = Object.assign({}, requestDefOptions, options)
-					$.ajax({
+				onDelete: function (id, cb) {
+					$.request({
 						url: actions.apiUrl.delete + id,
 						type: 'get',
-						success: function (result, status, xhr) {
-							if (result.code === 200) {
-								actions.onReloadData()
-								layer.msg('删除会员等级成功', { icon: 1 })
-								_options.success && _options.success(result, status, xhr)
-							} else {
-								layer.msg(result.msg, { icon: 2 })
-								_options.fail && _options.fail(result, status, xhr)
-							}
-							_options.complete && _options.complete(status, xhr)
-						},
-						error: function (xhr, status, error) {
-							layer.msg('删除会员等级失败', { icon: 2 })
-							_options.error && _options.error(xhr, status, error)
+						showLoading: true,
+						success: function (result) {
+							actions.onReloadData()
+							layer.msg($('deleteSucceeded'), { icon: 1 })
+							cb && cb(result)
 						}
 					})
 				},
-				onCreate: function (fields, options) {
-					var _options = Object.assign({}, requestDefOptions, options);
-					$.ajax({
+				onCreate: function (fields, cb) {
+					$.request({
 						url: actions.apiUrl.create,
 						type: 'post',
 						contentType: 'application/json',
-						data: JSON.stringify(fields),
+						data: fields,
+						showLoading: true,
 						success: function (result, status, xhr) {
-							if (result.code === 200) {
-								actions.onReloadData();
-								layer.msg('创建会员成功', { icon: 1 });
-								_options.success && _options.success(result, status, xhr);
-							} else {
-								layer.msg(result.msg, { icon: 2 });
-								_options.fail && _options.fail(result, status, xhr);
-							}
-							_options.complete && _options.complete(status, xhr);
+							actions.onReloadData();
+							layer.msg($('createSucceeded'), { icon: 1 });
+							cb && cb(result, status, xhr);
 						},
-						error: function (xhr, status, error) {
-							layer.msg('创建会员失败', { icon: 2 });
-							_options.error && _options.error(xhr, status, error);
-						}
 					});
 				},
 			}
@@ -283,7 +232,7 @@
 					// 编辑菜单
 					editIndex = layer.open({
 						type: 1,
-						title: '编辑菜单',
+						title: $t('edit'),
 						area: '800px',
 						content: $('#editId'),
 						success: function () {
@@ -297,11 +246,12 @@
 					})
 				} else if (layEvent === 'delete') {
 					// 删除
-					layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
-						actions.onDelete(data.noticeId, {
-							success: function () {
-								layer.close(index)
-							}
+					layer.confirm($t('deleteConfirmation'), {
+						title: $t('operationConfirmation'),
+						btn: [$t('confirm'), $t('cancel')],
+					}, function (index) {
+						actions.onDelete(data.noticeId, function () {
+							layer.close(index)
 						})
 					})
 				}
@@ -309,10 +259,11 @@
 
 			var levelListTableId = 'levelListTableId';
 			//第一个实例
-			table.render({
+			table.render(Object.assign({}, $.tableRenderConfing, {
 				elem: '#level',
-				height: 312,
-				url: '/action/notice/list', //数据接口
+				// height: 312,
+				// url: '/action/notice/list', //数据接口
+				url: 'http://localhost:8080/action/notice/list', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度
 				where: where,
@@ -325,44 +276,21 @@
 					[
 						//表头
 						{ field: 'noticeId', title: 'ID', width: 80, sort: true, fixed: 'left' },
-						{ field: 'noticeTitle', title: '标题', width: 200 },
-						{ field: 'createTime', title: '发表时间', templet: '#createTime', minWidth: 160 },
-						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 336 }
+						{ field: 'noticeTitle', title: $t('notice.noticeTitle') },
+						{ field: 'createTime', title: $t('notice.createTime'), templet: '#createTime' },
+						{ field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 120 }
 					]
 				],
-				parseData: parseData,
 				id: levelListTableId, // 容器唯一IDs
-			})
-
-			// 请求回调选项
-			var requestDefOptions = {
-				// 请求成功，并且code等于200
-				success: function (result, status, xhr) {
-
-				},
-				// 请求成功，并且code不等于200
-				fail: function (result, status, xhr) {
-
-				},
-				// 请求失败
-				error: function (xhr, status, error) {
-
-				},
-				// 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-				complete: function (xhr, status) {
-
-				}
-			};
+			}));
 
 			// 编辑-提交
 			form.on('submit(editSubmit)', function (data) {
 				data.field.noticeContent = layedit.getContent(editeditor);
-				actions.onUpdateItem(tableCurrentItem.noticeId, data.field, {
-					success: function () {
-						console.log('success');
-						layer.close(editIndex);
-						$('#editId').hide();
-					}
+				actions.onUpdateItem(tableCurrentItem.noticeId, data.field, function () {
+					console.log('success');
+					layer.close(editIndex);
+					$('#editId').hide();
 				})
 				return false;
 			});
@@ -376,7 +304,7 @@
 			$('#createBtn').click(function () {
 				createIndex = layer.open({
 					type: 1,
-					title: '新建会员等级',
+					title: $t('notice.createTitle'),
 					area: '800px',
 					content: $('#createId'),
 					success: function () {
@@ -396,10 +324,8 @@
 			// 新建-提交
 			form.on('submit(createSubmit)', function (data) {
 				data.field.noticeContent = layedit.getContent(addeditor);
-				actions.onCreate(data.field, {
-					success: function () {
-						layer.close(createIndex);
-					}
+				actions.onCreate(data.field, function () {
+					layer.close(createIndex);
 				});
 			});
 
