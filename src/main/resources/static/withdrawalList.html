@@ -181,7 +181,10 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
             if (layEvent === 'adopt') { // 单个通过
-                layer.confirm($t('withdrawal.adoptConfirmation'), {title: $('operationConfirmation')}, function (index) {
+                layer.confirm($t('withdrawal.adoptConfirmation'), {
+                    title: $('operationConfirmation'),
+                    btn: [$t('confirm'), $t('cancel')],
+                }, function (index) {
                     $.request({
                         url: '/xxx',
                         type: 'post',

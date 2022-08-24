@@ -73,12 +73,13 @@ jQuery.request = function (options) {
         data: data,
         contentType: options.contentType || 'application/json',
         success: function (result, status, xhr) {
-            if (result.code === 200) {
+            if (result.code === 200 || result.code === 0) {
                 options.success && options.success(result, status, xhr);
             } else {
                 if (options.fail) {
                     options.fail(result, status, xhr);
                 } else {
+                    var errMessage = result.message || result.msg;
                     layer.msg(result.message || result.msg, {icon: 2});
                 }
             }

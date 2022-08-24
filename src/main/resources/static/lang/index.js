@@ -116,6 +116,7 @@ function I18n (options) {
         title: 'Title',
         reset: 'Reset',
         editSucceeded: 'Edit succeeded',
+        save: 'Save',
 
         // 商品列表
         goodsList: {
@@ -518,6 +519,31 @@ function I18n (options) {
             addTime: 'Add time',
         },
 
+        //
+        user: {
+            add: 'Add',
+            edit: 'Edit',
+            del: 'Delete',
+            resetPwd: 'Reset password',
+            username: 'User name',
+            orgname: 'Affiliated unit',
+            petOrgname: 'Please select a unit',
+            loginid: 'Login ID',
+            telphone: 'Contact number',
+            email: 'Contact email',
+            statue: 'Usage status',
+            resetPwdConfirm: 'Are you sure to reset the password?',
+            resetPwdText: 'The operation is successful. The new password is 123456',
+            addText: 'Add user',
+            editText: 'Modify user',
+            petUserName: 'Please enter user name',
+            petTelphone: 'Please enter the contact number',
+            petEmail: 'Please enter the contact email',
+            addr: 'Address',
+            petAddr: 'Please enter the address',
+            memo: 'Remarks',
+        }
+
     };
 
     // 中文
@@ -615,8 +641,9 @@ function I18n (options) {
         uploadSucceeded: '上传成功',
         title: '标题',
         reset: '重置',
-        //
         editSucceeded: '编辑成功',
+        //
+        save: '保存',
 
         // 商品列表
         goodsList: {
@@ -1023,6 +1050,31 @@ function I18n (options) {
             passVerify: '密码必须6到12位，且不能出现空格',
             addTime: '添加时间',
         },
+
+        // 用户列表
+        user: {
+            add: '增加',
+            edit: '修改',
+            del: '删除',
+            resetPwd: '重置密码',
+            username: '用户名',
+            petUserName: '请输入用户名',
+            orgname: '所属单位',
+            petOrgname: '请选择单位',
+            loginid: '登录ID',
+            telphone: '联系电话',
+            petTelphone: '请输入联系电话',
+            email: '联系邮箱',
+            petEmail: '请输入联系邮箱',
+            statue: '使用状态',
+            resetPwdConfirm: '确定重置密码?',
+            resetPwdText: '操作成功,新密码为:123456',
+            addText: '添加用户',
+            editText: '修改用户',
+            addr: '地址',
+            petAddr: '请输入地址',
+            memo: '备注',
+        }
 
     };
 
