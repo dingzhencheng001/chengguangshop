@@ -68,7 +68,7 @@ public class SysLoginController {
         // 从shiro中获取验证码进行比对
         String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
         if(!parMap.get("captcha").toString().equalsIgnoreCase(kaptcha)){
-            return R.error("验证码不正确!");
+            return R.error("Incorrect verification code!");
         }
         try{
             Subject subject = ShiroUtils.getSubject();
@@ -77,13 +77,13 @@ public class SysLoginController {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             subject.login(token);
         }catch (UnknownAccountException e){
-            return R.error("用户名或密码不正确!");
+            return R.error("Incorrect user name or password!");
         }catch (IncorrectCredentialsException e){
-            return R.error("用户名或密码不正确!");
+            return R.error("Incorrect user name or password!");
         }catch (Exception e){
-            return R.error("登录认证失败!");
+            return R.error("Login authentication failed!");
         }
-        return R.success("登录成功!");
+        return R.success("Login succeeded!");
     }
 
 
