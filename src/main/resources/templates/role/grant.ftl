@@ -13,7 +13,7 @@
     <div class="layui-form-item" id="item1">
         <div class="layui-inline">
             <select name="roleUser" id="roleUser" xm-select="roleUser" xm-select-show-count="3">
-                <option value="">请选择用户</option>
+                <option value="" data-locale="role.petUser">请选择用户</option>
             </select>
         </div>
     </div>
@@ -26,6 +26,11 @@
         var form = layui.form
                 , $ = layui.$
                 , formSelects = layui.formSelects;
+
+        var i18n = new I18n();
+        var $t = i18n.$t;
+        window.i18n = i18n;
+        window.$t = $t;
 
         // 显示表单切换
         if ($('#roleType').val() === '1') {

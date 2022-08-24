@@ -572,6 +572,24 @@ function I18n (options) {
             saveVerification: 'Parent menu cannot be empty'
         },
 
+        role: {
+            role_name: 'Role name',
+            userGrant: 'User authorization',
+            menuGrant: 'Menu authorization',
+            roleName: 'Role name',
+            petRoleName: 'Please enter the role name',
+            roleCode: 'Role code',
+            petRoleCode: 'Please enter the role code',
+            roleStatus: 'status',
+            createTime: 'Creation time',
+            createUser: 'Created by',
+            addText: 'Add role',
+            editText: 'Edit role',
+            roleUser: 'User authorization',
+            petUser: 'Please select a user',
+            petMenu: 'Please select menu',
+        }
+
     };
 
     // 中文
@@ -1079,7 +1097,7 @@ function I18n (options) {
             addTime: '添加时间',
         },
 
-        // 用户列表
+        // 用户管理
         user: {
             add: '增加',
             edit: '修改',
@@ -1104,7 +1122,7 @@ function I18n (options) {
             memo: '备注',
         },
 
-        // 菜单列表
+        // 菜单管理
         menuList: {
             menu_name: '菜单名',
             menu_type: '菜单类型',
@@ -1130,6 +1148,27 @@ function I18n (options) {
             addText: '添加菜单',
             editText: '修改菜单',
             saveVerification: '父级菜单不能为空'
+        },
+
+        // 角色管理
+        role: {
+            role_name: '角色名称',
+            userGrant: '用户授权',
+            menuGrant: '菜单授权',
+
+            roleName: '角色名称',
+            petRoleName: '请输入角色名称',
+            roleCode: '角色编码',
+            petRoleCode: '请输入角色编码',
+            roleStatus: '状态',
+            createTime: '创建时间',
+            createUser: '创建人',
+
+            addText: '添加角色',
+            editText: '编辑角色',
+            roleUser: '用户授权',
+            petUser: '请选择用户',
+            petMenu: '请选择菜单',
         }
 
     };

@@ -9,36 +9,36 @@
 <form class="layui-form" lay-filter="role-add" style="padding: 20px 0">
     <input name="roleId" hidden>
     <div class="layui-form-item">
-        <label class="layui-form-label">角色名称：</label>
+        <label class="layui-form-label" data-locale="role.roleName">角色名称：</label>
         <div class="layui-input-inline">
-            <input name="roleName" lay-verify="required" autocomplete="off" placeholder="请输入角色名称" class="layui-input" type="text">
+            <input name="roleName" lay-verify="required" autocomplete="off" data-placeholder="role.petRoleName" class="layui-input" type="text">
         </div>
-        <label class="layui-form-label">角色编码：</label>
+        <label class="layui-form-label" data-locale="role.roleCode">角色编码：</label>
         <div class="layui-input-inline">
-            <input name="roleCode" lay-verify="required" autocomplete="off" placeholder="请输入角色编码" class="layui-input" type="text">
+            <input name="roleCode" lay-verify="required" autocomplete="off" data-placeholder="role.petRoleCode" class="layui-input" type="text">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">使用状态：</label>
+        <label class="layui-form-label" data-locale="role.roleStatus">使用状态：</label>
         <div class="layui-input-inline" combobox = "dicDefine:'isuse'" name="roleStatus" value="1">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">用户授权：</label>
+        <label class="layui-form-label" data-locale="role.roleUser">用户授权：</label>
             <div class="layui-input-inline">
                 <select name="roleUser" xm-select="roleUser" xm-select-show-count="1">
-                    <option value="">请选择用户</option>
+                    <option value="" data-locale="role.petUser">请选择用户</option>
                 </select>
             </div>
-        <label class="layui-form-label">菜单授权：</label>
+        <label class="layui-form-label" data-locale="role.menuGrant">菜单授权：</label>
         <div class="layui-input-inline">
-            <input class="layui-input" id="roleMenuName" name="roleMenuName" placeholder="请选择菜单" inputTree="url:'/sys/role/menu',name:'roleMenu',check:'true'" type="text"/>
+            <input class="layui-input" id="roleMenuName" name="roleMenuName" data-placeholder="role.petMenu" inputTree="url:'/sys/role/menu',name:'roleMenu',check:'true'" type="text"/>
         </div>
         </div>
     </div>
     <div class="layui-form-item" align="center">
-        <button class="layui-btn" lay-submit lay-filter="save">保存</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button class="layui-btn" lay-submit lay-filter="save" data-locale="save">保存</button>
+        <button type="reset" class="layui-btn layui-btn-primary" data-locale="reset">重置</button>
     </div>
 </form>
 <script>
@@ -46,6 +46,12 @@ layui.use('form', function() {
     var form = layui.form
         , $ = layui.$
         , formSelects = layui.formSelects;
+
+    var i18n = new I18n();
+    var $t = i18n.$t;
+    window.i18n = i18n;
+    window.$t = $t;
+
     // 保存
     form.on('submit(save)', function(data){
         var url = data.field.roleId === '' ? '/sys/role/save' : '/sys/role/update';
@@ -57,7 +63,7 @@ layui.use('form', function() {
             contentType: "application/json",
             success: function (result) {
                 if (result.code === 0) {
-                    layer.msg("操作成功!", {icon: 1}
+                    layer.msg($t('operationSucceeded'), {icon: 1}
                     , function(){
                         // 关闭窗口并刷新列表
                         var  frameindex= parent.layer.getFrameIndex(window.name);
