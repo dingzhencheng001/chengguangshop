@@ -1204,6 +1204,22 @@ function I18n (options) {
             editText: '修改单位',
         },
 
+        // 字典管理
+        dic: {
+            dicdesc: '字典描述',
+            petDicdesc: '请输入字典描述',
+            dicname: '字典名称',
+            petDicname: '请输入字典名称',
+            dicdefine: '字典定义',
+            petDicdefine: '请输入字典定义名',
+            diccode: '字典编码',
+            petDiccode: '请输入字典编码',
+            isuse: '使用状态',
+
+            addText: '添加字典',
+            editText: '修改字典',
+        },
+
     };
 
     this.getDataMap = function () {
