@@ -117,6 +117,7 @@ function I18n (options) {
         reset: 'Reset',
         editSucceeded: 'Edit succeeded',
         save: 'Save',
+        add: 'Add',
 
         // 商品列表
         goodsList: {
@@ -542,7 +543,34 @@ function I18n (options) {
             addr: 'Address',
             petAddr: 'Please enter the address',
             memo: 'Remarks',
-        }
+        },
+
+        menuList: {
+            menu_name: 'Menu name',
+            menu_type: 'Menu type',
+            catalogue: 'Catalogue',
+            menu: 'Menu',
+            button: 'Button',
+
+            menuId: 'Menu ID',
+            menuName: 'Menu name',
+            petMenuName: 'Please enter the menu name',
+            menuPname: 'Parent menu name',
+            petMenuPname: 'Please select a parent menu name',
+            menuParm: 'permission',
+            petMenuParm: 'Please enter permission',
+            typeName: 'Menu type',
+            menuIcon: 'Menu icon',
+            petMenuIcon: 'Please enter an icon',
+            menuSort: 'Menu sorting',
+            petMenuSort: 'Please enter menu sort',
+            menuUrl: 'Menu URL',
+            petMenuUrl: 'Please enter menu URL',
+
+            addText: 'Add menu',
+            editText: 'Modify menu',
+            saveVerification: 'Parent menu cannot be empty'
+        },
 
     };
 
@@ -642,8 +670,8 @@ function I18n (options) {
         title: '标题',
         reset: '重置',
         editSucceeded: '编辑成功',
-        //
         save: '保存',
+        add: '添加',
 
         // 商品列表
         goodsList: {
@@ -1074,6 +1102,34 @@ function I18n (options) {
             addr: '地址',
             petAddr: '请输入地址',
             memo: '备注',
+        },
+
+        // 菜单列表
+        menuList: {
+            menu_name: '菜单名',
+            menu_type: '菜单类型',
+            catalogue: '目录',
+            menu: '菜单',
+            button: '按钮',
+
+            menuId: '菜单ID',
+            menuName: '菜单名称',
+            petMenuName: '请输入菜单名称',
+            menuPname: '父菜单名称',
+            petMenuPname: '请选择父菜单名称',
+            menuParm: '权限',
+            petMenuParm: '请输入权限',
+            typeName: '菜单类型',
+            menuIcon: '菜单图标',
+            petMenuIcon: '请输入图标',
+            menuSort: '菜单排序',
+            petMenuSort: '请输入菜单排序',
+            menuUrl: '菜单Url',
+            petMenuUrl: '请输入菜单Url',
+
+            addText: '添加菜单',
+            editText: '修改菜单',
+            saveVerification: '父级菜单不能为空'
         }
 
     };

@@ -3,6 +3,11 @@ layui.use(['table','form'], function () {
         , $ = layui.$
         , form = layui.form;
 
+    var i18n = new I18n();
+    var $t = i18n.$t;
+    window.i18n = i18n;
+    window.$t = $t;
+
     table.render({
         elem: '#menu-list'
         , type: 'post'
@@ -11,14 +16,14 @@ layui.use(['table','form'], function () {
         , cellMinWidth: 100 //全局定义常规单元格的最小宽度
         , cols: [[ //表头
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'menuId', title: '菜单ID', sort: true}
-            , {field: 'menuName', title: '菜单名称', sort: true}
-            , {field: 'menuPname', title: '父菜单名称', sort: true}
+            , {field: 'menuId', title: $t('menuList.menuId'), sort: true}
+            , {field: 'menuName', title: $t('menuList.menuName'), sort: true}
+            , {field: 'menuPname', title: $t('menuList.menuPname'), sort: true}
             , {field: 'menuUrl', title: 'Url'}
-            , {field: 'menuParm', title: '权限'}
-            , {field: 'typeName', title: '菜单类型', templet: '#typeTpl'}
-            , {field: 'menuIcon', title: '菜单图标', templet: '#iconTpl'}
-            , {field: 'menuSort', title: '菜单排序', sort: true}
+            , {field: 'menuParm', title: $t('menuList.menuParm')}
+            , {field: 'typeName', title: $t('menuList.typeName'), templet: '#typeTpl'}
+            , {field: 'menuIcon', title: $t('menuList.menuIcon'), templet: '#iconTpl'}
+            , {field: 'menuSort', title: $t('menuList.menuSort'), sort: true}
         ]]
         , id: 'menuTable' // 容器唯一ID
     });
@@ -52,7 +57,7 @@ layui.use(['table','form'], function () {
         , add: function () {
             layer.open({
                 type: 2 //type：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                , title: '添加菜单'
+                , title: $t('menuList.addText')
                 , content: '/sys/menu/add'
                 , area: ['700px', '500px']
                 , maxmin: true  //开启最大化最小化按钮
@@ -66,7 +71,7 @@ layui.use(['table','form'], function () {
             if (data) {
                 layer.open({
                     type: 2
-                    , title: '修改菜单'
+                    , title: $t('menuList.editText')
                     , content: '/sys/menu/add'
                     , area: ['700px', '500px']
                     , maxmin: true
@@ -87,7 +92,10 @@ layui.use(['table','form'], function () {
             var checkStatus = table.checkStatus('menuTable');
             var data = getTableRows(checkStatus);
             if (data) {
-                layer.confirm('确定删除记录?', function (index) {
+                layer.confirm($t('deleteConfirmation'), {
+                    title: $t('operationConfirmation'),
+                    btn: [$t('confirm'), $t('cancel')],
+                }, function (index) {
                     $.ajax({
                         type: "POST",
                         url: "/sys/menu/del",
@@ -97,7 +105,7 @@ layui.use(['table','form'], function () {
                         success: function (result) {
                             if (result.code === 0) {
                                 layui.table.reload('menuTable',{page: {curr: 1}});
-                                layer.msg("操作成功!", {icon: 1});
+                                layer.msg($t('operationSucceeded'), {icon: 1});
                             } else {
                                 layer.msg(result.msg, {icon: 5});
                             }
