@@ -80,7 +80,12 @@ jQuery.request = function (options) {
                     options.fail(result, status, xhr);
                 } else {
                     var errMessage = result.message || result.msg;
-                    layer.msg(result.message || result.msg, {icon: 2});
+                    var msg = errMessage;
+                    var k = result.data
+                    if (window.i18n && typeof k === 'string') {
+                        msg = window.i18n.$t(k, errMessage)
+                    }
+                    layer.msg(msg, {icon: 2});
                 }
             }
         },
