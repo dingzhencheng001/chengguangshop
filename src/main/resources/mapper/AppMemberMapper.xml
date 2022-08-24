@@ -773,24 +773,29 @@
                  LEFT JOIN app_member_level l ON m.member_level_id = l.id
         where m.id = #{memberId,jdbcType=BIGINT}
     </select>
-    <select id="getMemberTeam" resultType="my.fast.admin.cg.entity.AppMember" >
+    <select id="getMemberTeam" resultType="my.fast.admin.cg.entity.AppMember">
         SELECT t.*
         FROM app_member t
-                 INNER JOIN (
-            SELECT id,
-                   user_account
-            FROM (
-                     SELECT t1.id,
-                            t1.user_account,
-                            IF
-                                (FIND_IN_SET(parent_user_id, @pids) > 0, @pids := CONCAT( @pids, ',', id ),
-                                 0) AS ischild
-                     FROM (SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id) t1,
-                          (SELECT @pids := #{memberId,jdbcType=BIGINT}) t2
-                 ) t3
-            WHERE ischild != 0
-        ) t1 ON t.id = t1.id and channel_Id = #{channelId,jdbcType=BIGINT} and registration_time
+        INNER JOIN (
+        SELECT id,
+        user_account
+        FROM (
+        SELECT t1.id,
+        t1.user_account,
+        IF
+        (FIND_IN_SET(parent_user_id, @pids) > 0, @pids := CONCAT( @pids, ',', id ),
+        0) AS ischild
+        FROM (SELECT id, parent_user_id, user_account FROM app_member t ORDER BY parent_user_id, id) t1,
+        (SELECT @pids := #{memberId,jdbcType=BIGINT}) t2
+        ) t3
+        WHERE ischild != 0
+        ) t1 ON t.id = t1.id
+        and t.channel_Id = #{channelId,jdbcType=BIGINT}
+        <if test="selectBeginTime != null">
+            and
+            registration_time
             BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
+        </if>
     </select>
 
 
@@ -878,7 +883,7 @@
         from app_member
         where
         where id = #{memberId,jdbcType=BIGINT}
-          and channel_Id = #{channelId,jdbcType=BIGINT}
+        and channel_Id = #{channelId,jdbcType=BIGINT}
 
     </select>
     <resultMap id="agentListInfo" type="my.fast.admin.cg.model.AppTeamReportInfo">
@@ -943,12 +948,10 @@
         ischild != 0
         ) t1 ON t.id = t1.id
         and t.member_level_id = #{memberLevelId,jdbcType=BIGINT}
-        <if test="channelId != null">
-            and channel_Id = #{channelId,jdbcType=BIGINT}
-        </if>
+        and t.channel_Id = #{channelId,jdbcType=BIGINT}
         <if test="selectBeginTime != null">
             and
-            registration_time
+            t.registration_time
             BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
         </if>
 
