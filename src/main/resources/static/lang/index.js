@@ -114,6 +114,7 @@ function I18n (options) {
         savedSuccessfully: 'Saved successfully',
         uploadSucceeded: 'Upload succeeded',
         title: 'Title',
+        reset: 'Reset',
 
         // 商品列表
         goodsList: {
@@ -479,6 +480,18 @@ function I18n (options) {
             updateTime: 'Publish time',
         },
 
+        log: {
+            petTitle: 'Please enter the log title',
+            operateContent: 'Content keywords',
+            petOperateContent: 'Please enter the keyword of log content',
+            time: 'Query time',
+            petTime: 'Please select the query time',
+            content: 'Content',
+            createBy: 'Created by',
+            createTime: 'Creation time',
+            remark: 'Remark',
+        },
+
     };
 
     // 中文
@@ -573,9 +586,10 @@ function I18n (options) {
         createFailed: '创建失败',
         pleaseSelectItem: '请选择数据项',
         savedSuccessfully: '保存成功',
-        //
         uploadSucceeded: '上传成功',
         title: '标题',
+        //
+        reset: '重置',
 
         // 商品列表
         goodsList: {
@@ -944,6 +958,18 @@ function I18n (options) {
             enableConfirmation: '确定要启用吗',
             describe: '描述',
             updateTime: '发表时间',
+        },
+
+        log: {
+            petTitle: '请输入日志标题',
+            operateContent: '内容关键词',
+            petOperateContent: '请输入日志内容关键字',
+            time: '查询时间',
+            petTime: '请选择查询时间',
+            content: '内容',
+            createBy: '创建人',
+            createTime: '创建时间',
+            remark: '备注',
         },
 
     };
