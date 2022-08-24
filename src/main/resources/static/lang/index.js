@@ -588,7 +588,23 @@ function I18n (options) {
             roleUser: 'User authorization',
             petUser: 'Please select a user',
             petMenu: 'Please select menu',
-        }
+        },
+
+        org: {
+            org_name: 'Org name',
+            superiorUnit: 'Superior org',
+            petSuperiorUnit: 'Please select org',
+            orgCode: 'Org code',
+            petOrgCode: 'Please enter the org code',
+            orgName: 'Org name',
+            petOrgName: 'Please enter the org name',
+            orgPname: 'Superior org',
+            petOrgPname: 'Please select org',
+            statue: 'Usage status',
+            memo: 'Remarks',
+            addText: 'Add org',
+            editText: 'Edit org',
+        },
 
     };
 
@@ -1169,7 +1185,24 @@ function I18n (options) {
             roleUser: '用户授权',
             petUser: '请选择用户',
             petMenu: '请选择菜单',
-        }
+        },
+
+        // 单位管理
+        org: {
+            org_name: '单位名称',
+            superiorUnit: '上级单位',
+            petSuperiorUnit: '请选择单位',
+            orgCode: '单位编码',
+            petOrgCode: '请输入单位编码',
+            orgName: '单位名称',
+            petOrgName: '请输入单位名称',
+            orgPname: '上级单位',
+            petOrgPname: '请选择单位',
+            statue: '使用状态',
+            memo: '备注',
+            addText: '添加单位',
+            editText: '修改单位',
+        },
 
     };
 
