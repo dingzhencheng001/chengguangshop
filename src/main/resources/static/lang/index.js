@@ -115,6 +115,7 @@ function I18n (options) {
         uploadSucceeded: 'Upload succeeded',
         title: 'Title',
         reset: 'Reset',
+        editSucceeded: 'Edit succeeded',
 
         // 商品列表
         goodsList: {
@@ -492,6 +493,31 @@ function I18n (options) {
             remark: 'Remark',
         },
 
+        // 客服列表
+        cs: {
+            userName: 'User name',
+            petUserName: 'Please enter the user name',
+            phoneNumber: 'Phone number',
+            petPhoneNumber: 'Please enter your mobile phone number',
+            registrationTime: 'Registration time',
+            petRegistrationTime: 'Please select the registration time',
+            addText: 'Add customer service',
+            editText: 'Edit customer service',
+            password: 'Login password',
+            petPassword: 'Please enter a 6-12 digit password',
+            petPassword2: 'If left blank, the password will not be changed',
+            petQQ: 'Please enter QQ number',
+            url: 'Link',
+            petUrl: 'Please enter a link',
+            wechat: 'WeChat',
+            petWechat: 'Please enter wechat',
+            qrCode: 'QR code',
+            timeFrame: 'Time frame',
+            petTimeFrame: 'Please select a time range',
+            passVerify: 'The password must be 6 to 12 digits and no spaces are allowed',
+            addTime: 'Add time',
+        },
+
     };
 
     // 中文
@@ -588,8 +614,9 @@ function I18n (options) {
         savedSuccessfully: '保存成功',
         uploadSucceeded: '上传成功',
         title: '标题',
-        //
         reset: '重置',
+        //
+        editSucceeded: '编辑成功',
 
         // 商品列表
         goodsList: {
@@ -970,6 +997,31 @@ function I18n (options) {
             createBy: '创建人',
             createTime: '创建时间',
             remark: '备注',
+        },
+
+        // 客服列表
+        cs: {
+            userName: '用户名称',
+            petUserName: '请输入用户名称',
+            phoneNumber: '手机号码',
+            petPhoneNumber: '请输入手机号码',
+            registrationTime: '注册时间',
+            petRegistrationTime: '请选择注册时间',
+            addText: '添加客服',
+            editText: '编辑客服',
+            password: '登录密码',
+            petPassword: '请输入6-12位密码',
+            petPassword2: '留空则不更改密码',
+            petQQ: '请输入QQ号',
+            url: '链接',
+            petUrl: '请输入链接',
+            wechat: '微信',
+            petWechat: '请输入微信',
+            qrCode: '二维码',
+            timeFrame: '时间范围',
+            petTimeFrame: '请选择时间范围',
+            passVerify: '密码必须6到12位，且不能出现空格',
+            addTime: '添加时间',
         },
 
     };
