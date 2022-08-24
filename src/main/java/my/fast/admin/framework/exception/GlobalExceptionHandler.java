@@ -23,36 +23,36 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R handleMyException(HttpServletRequest req, Exception me) {
         log.error("###Exception###,Url:{}, Msg:{}" ,req.getRequestURI(), me.getMessage());
-        String msg = "操作失败，程序内部错误!";
+        String msg = "Operation failed, program internal error!";
         if(me instanceof MyException){
             msg = me.getMessage();
             return R.error(500, msg);
         }else if(me instanceof DataAccessException){
-            msg = "数据库操作失败!";
+            msg = "Database operation failed!";
         }else if(me instanceof NullPointerException){
-            msg = "调用了未经初始化的对象或者是不存在的对象!";
+            msg = "Uninitialized object called or nonexistent object!";
         }else if(me instanceof IOException){
-            msg = "IO异常!";
+            msg = "IO exception!";
         }else if(me instanceof ClassNotFoundException){
-            msg = "指定的类不存在!";
+            msg = "The specified class does not exist!";
         }else if(me instanceof ArithmeticException){
-            msg = "数学运算异常!";
+            msg = "Mathematical operation exception!";
         }else if(me instanceof ArrayIndexOutOfBoundsException){
-            msg = "数组下标越界!";
+            msg = "subscript out of bounds!";
         }else if(me instanceof NoSuchMethodException){
-            msg = "未找到方法!";
+            msg = "Method not found!";
         }else if(me instanceof IllegalArgumentException){
-            msg = "方法的参数错误!";
+            msg = "Wrong parameter for method!";
         }else if(me instanceof IllegalAccessException){
-            msg = "非法访问错误!";
+            msg = "Illegal access error!";
         }else if(me instanceof InvocationTargetException){
-            msg = "目标调用出现异常!";
+            msg = "Exception in target call!";
         }else if(me instanceof ClassCastException){
-            msg = "类型强制转换错误!";
+            msg = "Type cast error!";
         }else if(me instanceof SecurityException){
-            msg = "违背安全原则异常!";
+            msg = "Abnormal violation of safety principle!";
         }else if(me instanceof SQLException){
-            msg = "操作数据库异常!";
+            msg = "Operation database exception!";
         }
         return R.error(500, msg, me.getMessage());
     }

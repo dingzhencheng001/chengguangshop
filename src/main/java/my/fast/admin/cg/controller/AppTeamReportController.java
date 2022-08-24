@@ -1,7 +1,5 @@
 package my.fast.admin.cg.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +48,7 @@ public class AppTeamReportController {
         }
         appTeamParam.setChannelId(appUserVO.getChannelId());
         appTeamParam.setMemberId(appUserVO.getId());
-       AppTeamReportVo teamList= appTeamReportService.getTeamList(appTeamParam);
+        AppTeamReportVo teamList = appTeamReportService.getTeamList(appTeamParam);
         return CommonResult.success(teamList);
     }
 

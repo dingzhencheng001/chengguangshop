@@ -73,7 +73,7 @@ public class SysUserController {
         ew.eq("loginid",user.getLoginid());
         SysUser selectOne = sysUserService.selectOne(ew);
         if (selectOne != null) {
-            return R.error("用户已存在!");
+            return R.error("User already exists!");
         }
         // 创建16位的盐
         String salt = SysUtils.createSalt(16);
