@@ -192,7 +192,7 @@
 	<!--注册信息-->
 	<script type="text/html" id="picturePath">
 		<div>
-			<img src='https://sgp1.digitaloceanspaces.com{{d.picturePath}}' alt="">
+			<img src='{{d.picturePath}}' alt="">
 		</div>
 	</script>
 
