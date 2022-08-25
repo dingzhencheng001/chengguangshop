@@ -11,6 +11,7 @@ import my.fast.admin.cg.entity.AppPicture;
 import my.fast.admin.cg.entity.AppPictureExample;
 import my.fast.admin.cg.mapper.AppPictureMapper;
 import my.fast.admin.cg.service.PictureService;
+import my.fast.admin.framework.utils.DateFormat;
 
 /**
  * TODO
@@ -42,12 +43,14 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public int createPicture(AppPicture appPicture, Long channelId) {
         appPicture.setChannelId(channelId);
+        appPicture.setUpdateTime(DateFormat.getNowDate());
         return appPictureMapper.insertSelective(appPicture);
     }
 
     @Override
     public int updatePicture(Long id, AppPicture appPicture) {
         appPicture.setId(id);
+        appPicture.setUpdateTime(DateFormat.getNowDate());
         return appPictureMapper.updateByPrimaryKeySelective(appPicture);
     }
 
