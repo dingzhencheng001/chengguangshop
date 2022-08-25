@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/umd/locale/en.js"></script>
+    <script src="lang/index.js"></script>
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="css/console.css"/>
     <style>
@@ -108,21 +110,26 @@
 <div class="dispatch-page" id="app">
     <div class="dispatch-header">
         <div>
-            <h3 style="padding: 10px 0 0 45px; color: red;" > 该用户今日已抢单：{{qiangNum}}单 ## 卡单起始单数 {{qiangNum+1}}</h3>
-            <h3 style="padding: 10px 0 0 45px; color: red;"> 说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
+            <h3 style="padding: 10px 0 0 45px; color: red;" >
+                <span data-locale="dispatch.head.text1">该用户今日已抢单：</span>
+                {{qiangNum}}
+                <span data-locale="dispatch.head.text2">单 ## 卡单起始单数 </span>
+                {{qiangNum+1}}
+            </h3>
+            <h3 style="padding: 10px 0 0 45px; color: red;" data-locale="dispatch.head.text3">说明：卡单 设置完毕后 大于卡单起始单数的 卡单 将被一起推送给用户</h3>
         </div>
-        <div>
+        <div style="display: flex; align-self: flex-start">
             <el-button v-if="canCreate" size="medium" type="primary"
-                       @click="onCreate" style="margin-right: 24px">创建订单</el-button>
+                       @click="onCreate" style="margin-right: 24px" data-locale="dispatch.addText">创建订单</el-button>
 
             <el-date-picker
                     v-model="selectTime"
-                    type="date"
-                    placeholder="选择日期">
+                    type="date" style="margin-right: 24px"
+                    :placeholder="t('dispatch.psDate')">
             </el-date-picker>
 
-            <el-select v-model="whichGroup" placeholder="请选择分组">
-                <el-option label="全部分组" value=""></el-option>
+            <el-select v-model="whichGroup" :placeholder="t('dispatch.psGroup')">
+                <el-option :label="t('dispatch.groupAll')" value=""></el-option>
                 <el-option
                         v-for="item in groupOptions"
                         :key="item.value"
@@ -149,31 +156,32 @@
                         </el-table-column>
                         <el-table-column
                                 prop="orderQuantity"
-                                label="单号">
+                                :label="t('dispatch.orderQuantity')">
                         </el-table-column>
                         <el-table-column
                                 prop="minPrice"
-                                label="价格(元)">
+                                :label="t('dispatch.price')">
                             <template slot-scope="scope">
                                 <span>{{scope.row.minPrice}} - {{scope.row.maxPrice}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="hinder"
-                                label="卡单">
+                                :label="t('dispatch.hinder')">
                             <template slot-scope="scope">
                                 <el-tag
                                         :type="scope.row.hinder === 1 ? 'primary' : 'success'" size="mini"
-                                        disable-transitions>{{scope.row.hinder === 1 ? '卡单' : '未卡单'}}</el-tag>
+                                        disable-transitions>{{scope.row.hinder === 1 ? t('dispatch.hinder1') : t('dispatch.hinder0')}}</el-tag>
                             </template>
                         </el-table-column>
 
                         <el-table-column
                                 prop="cz"
-                                label="操作">
+                                :label="t('operation')">
                             <template slot-scope="scope">
                                 <div>
-                                    <el-button v-if="scope.row.orderStatus === 0" type="primary" size="mini" @click="function() { onHandleModify(scope.row) }">修改价格</el-button>
+                                    <el-button v-if="scope.row.orderStatus === 0" type="primary" size="mini" @click="function() { onHandleModify(scope.row) }">
+                                        {{t('dispatch.modifyPrice')}}</el-button>
                                 </div>
                             </template>
                         </el-table-column>
@@ -192,18 +200,18 @@
             </div>
         </div>
         <div class="create-btn-wrap" v-else>
-            <p style="font-size: 16px">没有订单</p>
+            <p style="font-size: 16px">{{t('dispatch.noOrder')}}</p>
 <!--            <el-button size="medium" type="primary" @click="onCreate">创建订单</el-button>-->
         </div>
     </div>
 
     <div style="display: flex; justify-content: center; margin: 24px auto">
-        <el-button @click="onCancel">取消</el-button>
+        <el-button @click="onCancel">{{t('cancel')}}</el-button>
     </div>
 
-    <el-dialog title="创建订单" :visible.sync="dialogVisible" width="1050px" :close-on-click-modal="false">
+    <el-dialog :visible.sync="dialogVisible" width="1050px" :close-on-click-modal="false">
         <div class="dialog-header" slot="title">
-            <div class="el-dialog__title">创建订单</div>
+            <div class="el-dialog__title">{{t('dispatch.addText')}}</div>
 
 <!--            <div style="margin-left: 24px">-->
 <!--                所在分组：-->
@@ -223,7 +231,7 @@
                     <div v-for="(item, index) in formData.list" :key="index" class="form-item" >
                         <i class="el-form-item el-form-item--mini form-item-index">{{index + 1 }}.</i>
                         <el-form-item
-                                label="单号"
+                                :label="t('dispatch.orderQuantity')"
                                 :required="Boolean(item.serialNumber || item.minPrice || item.maxPrice)"
                                 :rules="item.orderQuantity ? orderQuantityRules : {}"
                                 :key="whichGroup + index + '_orderQuantity'"
@@ -232,11 +240,11 @@
                             <el-input
                                     style="width: 120px"
                                     v-model="item.orderQuantity" size="small" type="number" :min="bigOrder + 1"
-                                    placeholder="请输入单号"
+                                    :placeholder="t('dispatch.petOrderQuantity')"
                                     :disabled="item.orderStatus === 1"></el-input>
                         </el-form-item>
                         <el-form-item
-                                label="min(元)"
+                                :label="t('dispatch.minPrice')"
                                 :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? minPriceRules : {}"
                                 :key="whichGroup + index + '_minPrice'"
                                 :prop="'list.' + index + '.minPrice'"
@@ -244,11 +252,11 @@
                             <el-input
                                     style="width: 140px"
                                     v-model="item.minPrice" size="small" type="number" min="0"
-                                    placeholder="请输入min"
+                                    :placeholder="t('dispatch.petMinPrice')"
                                     :disabled="item.orderStatus === 1"></el-input>
                         </el-form-item>
                         <el-form-item
-                                label="max(元)"
+                                :label="t('dispatch.maxPrice')"
                                 :rules="(item.serialNumber || item.minPrice || item.maxPrice) ? maxPriceRules : {}"
                                 :key="whichGroup + index + '_maxPrice'"
                                 :prop="'list.' + index + '.maxPrice'"
@@ -256,7 +264,7 @@
                             <el-input
                                     style="width: 140px"
                                     v-model="item.maxPrice" size="small" type="number" min="0"
-                                    placeholder="请输入max"
+                                    :placeholder="t('dispatch.petMaxPrice')"
                                     :disabled="item.orderStatus === 1"></el-input>
                         </el-form-item>
                         <el-form-item
@@ -266,17 +274,14 @@
                             <el-checkbox v-model="item.hinder"
                                          :true-label="1"
                                          :false-label="2"
-                                         :disabled="item.orderStatus === 1" size="medium">卡单</el-checkbox>
+                                         :disabled="item.orderStatus === 1" size="medium">{{t('dispatch.hinder')}}</el-checkbox>
                         </el-form-item>
                         <div class="el-form-item el-form-item--mini">
                             <el-button type="primary" :loading="item.validPriceLoading" size="mini" @click="function() { onValidateAll(item, index) }">校验</el-button>
                         </div>
                         <div class="el-form-item el-form-item--mini" v-if="item.validPrice || item.validOrder" style="margin-right: 0">
                             <div class="valid-price" v-if="item.validPrice" :style="{ color: item.validPrice === 1 ? 'green' : 'red' }" >
-                                {{item.validPrice === 1 ? '价格校验通过' : '无此价格范围内的商品'}}</div>
-<!--                            <div class="valid-price" v-if="item.validOrder" :style="{ color: item.validOrder === 1 ? 'green' : 'red'}" >-->
-<!--                                {{item.validOrder === 1 ? '单号校验通过' : '单号已存在！请重新输入'}}-->
-<!--                            </div>-->
+                                {{item.validPrice === 1 ? t('dispatch.validPrice1') : t('dispatch.validPrice0')}}</div>
                         </div>
                     </div>
                 </el-form>
@@ -284,34 +289,34 @@
         </div>
         <div slot="footer">
             <div style="display: flex; justify-content: center">
-                <el-button type="primary" @click="onCreateSubmit" :loading="submitLoading">提交</el-button>
-                <el-button @click="onCreateCancel">取消</el-button>
+                <el-button type="primary" @click="onCreateSubmit" :loading="submitLoading" >{{t('submit')}}</el-button>
+                <el-button @click="onCreateCancel" >{{t('cancel')}}</el-button>
             </div>
         </div>
     </el-dialog>
 
-    <el-dialog title="修改价格" :visible.sync="modifyVisible" :close-on-click-modal="false">
+    <el-dialog :title="t('dispatch.modifyPrice')" :visible.sync="modifyVisible" :close-on-click-modal="false">
         <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm">
             <el-form-item
-                    label="min(元)"
+                    :label="t('dispatch.minPrice')"
                     prop="minPrice"
             >
                 <el-input
                         v-model="modifyForm.minPrice" size="small" type="number" min="0"
-                        placeholder="请输入min" ></el-input>
+                        :placeholder="t('dispatch.petMinPrice')" ></el-input>
             </el-form-item>
             <el-form-item
-                    label="max(元)"
+                    :label="t('dispatch.maxPrice')"
                     prop="maxPrice"
             >
                 <el-input
                         v-model="modifyForm.maxPrice" size="small" type="number" min="0"
-                        placeholder="请输入max" ></el-input>
+                        :placeholder="t('dispatch.petMaxPrice')" ></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="onModifyCancel">取 消</el-button>
-            <el-button type="primary" @click="onModifyConfirm" :disabled="modifyConfirmLoading">确 定</el-button>
+            <el-button @click="onModifyCancel">{{t('cancel')}}</el-button>
+            <el-button type="primary" @click="onModifyConfirm" :disabled="modifyConfirmLoading" data-locale="confirm">{{t('confirm')}}</el-button>
         </div>
     </el-dialog>
 
@@ -319,6 +324,12 @@
 
 <script>
     var params = $.getUrlVars();
+    var i18n = new I18n({});
+    window.i18n = i18n;
+    var $t = i18n.$t;
+
+    if (i18n.locale === 'en')  ELEMENT.locale(ELEMENT.lang.en);
+
     new Vue({
         el: '#app',
         data: function () {
@@ -357,10 +368,10 @@
                             // if (item.validOrderLoading) return;
                             // console.log('v', v);
                             if (!v) {
-                                return callback(new Error('请输入单号'))
+                                return callback(new Error($t('dispatch.petOrderQuantity')))
                             }
                             if (v <= this.bigOrder) {
-                                return callback(new Error('单号不能小于' + (this.bigOrder + 1)))
+                                return callback(new Error($t('dispatch.orderQuantityMin') + (this.bigOrder + 1)))
                             }
                             // this.onValidatorNum.call(this, item, index, callback);
                             callback()
@@ -369,7 +380,7 @@
                 ],
                 minPriceRules: [
                     {
-                        required: true, message: 'min不能为空', trigger: 'change',
+                        required: true, message: $t('dispatch.minPriceRules'), trigger: 'change',
                         validator: function (rule, value, callback) {
                             if (this.banValidate) {
                                 return callback();
@@ -384,7 +395,7 @@
                 ],
                 maxPriceRules: [
                     {
-                        required: true, message: 'max不能为空', trigger: 'change',
+                        required: true, message: $t('dispatch.maxPriceRules'), trigger: 'change',
                         validator: function (rule, value, callback) {
                             if (this.banValidate) {
                                 return callback();
@@ -402,12 +413,12 @@
                 modifyRules: {
                     minPrice: [
                         {
-                            required: true, message: 'min不能为空', trigger: 'change',
+                            required: true, message: $t('dispatch.minPriceRules'), trigger: 'change',
                         }
                     ],
                     maxPrice: [
                         {
-                            required: true, message: 'min不能为空', trigger: 'change',
+                            required: true, message: $t('dispatch.maxPriceRules'), trigger: 'change',
                         }
                     ],
                 },
@@ -420,6 +431,7 @@
             this.onInit();
         },
         methods: {
+            t: $t,
             onInit: function () {
                 this.onQiang();
                 this.onGetGroup(this.onQueryList);
@@ -454,7 +466,7 @@
                     if (!findItem) {
                         data.push({
                             key: key,
-                            name: '分组' + key,
+                            name: $t('dispatch.group') + key,
                             list: [item],
                         })
                     } else {
@@ -510,7 +522,8 @@
                     return false;
                 }
                 if (isRepeat(orders)) {
-                    layer.msg('单号不能重复！', {icon: 2});
+                    // 单号不能重复
+                    layer.msg($t('dispatch.orderRules'), {icon: 2});
                     cb(false);
                     return;
                 }
@@ -526,9 +539,9 @@
                     console.log('valid', valid);
                     if (valid) {
                         var fd = this.onGetCreateformData()
-                        console.log('fd', fd);
                         if (fd.length === 0) {
-                            layer.msg('请输入单号和价格', {icon: 2});
+                            // 请输入单号和价格
+                            layer.msg($t('dispatch.validateText1'), {icon: 2});
                             return;
                         }
                         this.submitLoading = true;
@@ -538,7 +551,7 @@
                             data: fd,
                             showLoading: true,
                             success: function (result) {
-                                layer.msg('创建派单成功', {icon: 1});
+                                layer.msg($t('dispatch.createSuccess'), {icon: 1});
                                 this.onCreateCancel();
                                 this.onInit();
                             }.bind(this),
@@ -706,7 +719,7 @@
                             return;
                         }
                         var options = (result.data || []).map((item) => {
-                            return { name: '分组' + item, value: item}
+                            return { name: $t('dispatch.group') + item, value: item}
                         });
                         // if (options.length) {
                         //     this.whichGroup = options[0].value;
@@ -734,7 +747,7 @@
 
                 this.$refs['modifyForm'].validate(function (valid) {
                     if (!valid) {
-                        layer.msg('请输入价格范围', {icon: 2});
+                        layer.msg($t('dispatch.validateText2'), {icon: 2});
                         callback(false);
                         return;
                     }
@@ -747,11 +760,11 @@
                             callback(true);
                         },
                         fail: function (fail) {
-                            layer.msg('请重新输入价格范围', {icon: 2});
+                            layer.msg($t('dispatch.validateText3'), {icon: 2});
                             callback(false);
                         }.bind(this),
                         error: function () {
-                            layer.msg('请重新输入价格范围', {icon: 2});
+                            layer.msg($t('dispatch.validateText3'), {icon: 2});
                             callback(false);
                         }.bind(this)
                     });
@@ -774,7 +787,8 @@
                         data: fd,
                         showLoading: true,
                         success: function (result) {
-                            layer.msg('修改价格成功', {icon: 1});
+                            // 修改价格成功
+                            layer.msg($t('dispatch.modifyPriceSuccess'), {icon: 1});
                             this.onModifyCancel();
                             this.onInit();
                         }.bind(this),
@@ -815,7 +829,8 @@
             createGroupOptions: function () {
                 var options = this.groupOptions.slice();
                 options.unshift({
-                    name: '创建新分组',
+                    // 创建新分组
+                    name: $t('dispatch.createANewGroup'),
                     value: this.newGroupId,
                 })
                 return options;
