@@ -1,6 +1,8 @@
 package my.fast.admin.cg.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.mapper.AppConveyMapper;
 import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppConveyService;
-import my.fast.admin.cg.vo.AppConveyDto;
+import my.fast.admin.cg.vo.AppConveyVo;
 
 /**
  * TODO
@@ -34,9 +36,25 @@ public class AppConveyServiceImpl implements AppConveyService {
     }
 
     @Override
-    public List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        return  appConveyMapper.selectUserConvey(appConveyParam);
+    public List<AppConveyVo> listConvey(AppConveyParam appConveyParam) {
+        PageHelper.startPage(appConveyParam.getPageNum(), appConveyParam.getPageSize());
+        List<AppConveyVo> appConveyVoArrayList = new ArrayList<>();
+        List<AppConvey> appConveys = appConveyMapper.selectByExample(new AppConveyExample());
+        List<Integer> collect = appConveys.stream()
+            .map(e -> e.getConveyType())
+            .distinct()
+            .collect(Collectors.toList());
+        for (Integer integer : collect) {
+            if (integer == 1) {
+                List<AppConveyVo> appConveyVoList = appConveyMapper.selectConveyInfo(appConveyParam);
+                appConveyVoArrayList.addAll(appConveyVoList);
+            }
+            if (integer == 2) {
+                List<AppConveyVo> appConveyVoList = appConveyMapper.selectConveyInfoByPd(appConveyParam);
+                appConveyVoArrayList.addAll(appConveyVoList);
+            }
+        }
+        return appConveyVoArrayList;
     }
 
     @Override

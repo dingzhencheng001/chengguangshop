@@ -60,28 +60,8 @@ public class AppConvey implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
-    @ApiModelProperty(value = "页码")
-    private Integer pageNum;
-
-    @ApiModelProperty(value = "分页数")
-    private Integer pageSize;
-
-
-    public Integer getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
+    @ApiModelProperty(value = "抢单类型1.传统订单2.指派订单")
+    private Integer conveyType;
 
     private static final long serialVersionUID = 1L;
 
@@ -229,6 +209,14 @@ public class AppConvey implements Serializable {
         this.channelId = channelId;
     }
 
+    public Integer getConveyType() {
+        return conveyType;
+    }
+
+    public void setConveyType(Integer conveyType) {
+        this.conveyType = conveyType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -253,6 +241,7 @@ public class AppConvey implements Serializable {
         sb.append(", max=").append(max);
         sb.append(", sign=").append(sign);
         sb.append(", channelId=").append(channelId);
+        sb.append(", conveyType=").append(conveyType);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

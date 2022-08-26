@@ -1245,6 +1245,66 @@ public class AppConveyExample {
             addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }
+
+        public Criteria andConveyTypeIsNull() {
+            addCriterion("convey_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeIsNotNull() {
+            addCriterion("convey_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeEqualTo(Integer value) {
+            addCriterion("convey_type =", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeNotEqualTo(Integer value) {
+            addCriterion("convey_type <>", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeGreaterThan(Integer value) {
+            addCriterion("convey_type >", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("convey_type >=", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeLessThan(Integer value) {
+            addCriterion("convey_type <", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("convey_type <=", value, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeIn(List<Integer> values) {
+            addCriterion("convey_type in", values, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeNotIn(List<Integer> values) {
+            addCriterion("convey_type not in", values, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeBetween(Integer value1, Integer value2) {
+            addCriterion("convey_type between", value1, value2, "conveyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andConveyTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("convey_type not between", value1, value2, "conveyType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

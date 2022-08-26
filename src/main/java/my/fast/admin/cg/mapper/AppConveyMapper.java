@@ -9,6 +9,7 @@ import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.vo.AppConveyDto;
+import my.fast.admin.cg.vo.AppConveyVo;
 
 public interface AppConveyMapper {
     long countByExample(AppConveyExample example);
@@ -40,4 +41,8 @@ public interface AppConveyMapper {
     List<AppConveyDto> selectUserConvey(AppConveyParam appConveyParam);
 
     List<AppConvey> selectFinishOrder(QiangNumParam qiangNumParam);
+
+    List<AppConveyVo> selectConveyInfo(AppConveyParam appConveyParam);
+
+    List<AppConveyVo>  selectConveyInfoByPd(AppConveyParam appConveyParam);
 }

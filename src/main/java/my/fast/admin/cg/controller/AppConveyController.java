@@ -23,6 +23,7 @@ import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppConveyService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.vo.AppConveyDto;
+import my.fast.admin.cg.vo.AppConveyVo;
 import my.fast.admin.framework.utils.TokenUtils;
 
 /**
@@ -54,9 +55,7 @@ public class AppConveyController {
     @ApiOperation(value = "根据条件获取订单分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppConveyDto>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize ,@RequestBody
+    public CommonResult<CommonPage<AppConveyVo>> getList(@RequestBody
         AppConveyParam appConveyParam,HttpServletRequest request) {
         
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
@@ -64,7 +63,8 @@ public class AppConveyController {
             return CommonResult.failed("812");
         }
         appConveyParam.setMemberId(appUserVO.getId());
-    	List<AppConveyDto> conveyList = appConveyService.listConvey(appConveyParam, pageNum, pageSize);
+        appConveyParam.setChannelId(appUserVO.getChannelId());
+        List<AppConveyVo> conveyList = appConveyService.listConvey(appConveyParam);
         return CommonResult.success(CommonPage.restPage(conveyList));
     }
 

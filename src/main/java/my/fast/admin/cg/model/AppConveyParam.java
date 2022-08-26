@@ -44,5 +44,12 @@ public class AppConveyParam {
     @ApiModelProperty(value = "会员手机号")
     private String phoneNumber;
 
-    
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
+    @ApiModelProperty(value = "抢单类型1.传统订单2.指派订单")
+    private Integer conveyType;
+
+
+
 }

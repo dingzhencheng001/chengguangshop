@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.vo.AppConveyDto;
+import my.fast.admin.cg.vo.AppConveyVo;
 
 /**
  * TODO
@@ -22,11 +23,8 @@ public interface AppConveyService {
 
     /**
      * 分页查询
-     * @param appConveyParam
-     * @param pageNum
-     * @param pageSize
      */
-    List<AppConveyDto> listConvey(AppConveyParam appConveyParam, Integer pageNum, Integer pageSize);
+    List<AppConveyVo> listConvey(AppConveyParam appConveyParam);
 
     /**
      * 删除订单
