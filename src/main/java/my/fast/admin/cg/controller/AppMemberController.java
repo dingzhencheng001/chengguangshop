@@ -119,6 +119,7 @@ public class AppMemberController {
         if (memberInfo == null) {
             return CommonResult.failed("813");
         }
+        memberInfo.setId(appUserVO.getId());
         return CommonResult.success(memberInfo);
     }
 

@@ -17,7 +17,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class AppMemberDto {
-
+	
+	@ApiModelProperty(value = "会员id")
+	private Long id; 
+	
     @ApiModelProperty(value = "会员等级id")
     private Long memberLevelId;
 
