@@ -1,4 +1,4 @@
-package my.fast.admin.app.service;
+package my.fast.admin.cg.service;
 
 import java.util.List;
 

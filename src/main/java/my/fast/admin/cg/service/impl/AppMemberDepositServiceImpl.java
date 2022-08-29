@@ -8,11 +8,10 @@ import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 
-import my.fast.admin.app.service.AppMemberDepositService;
+import my.fast.admin.cg.service.AppMemberDepositService;
 import my.fast.admin.cg.entity.AppMemberDeposit;
 import my.fast.admin.cg.entity.AppMemberDepositExample;
 import my.fast.admin.cg.mapper.AppMemberDepositMapper;
-import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.model.ListDepositParam;
 
 /**
