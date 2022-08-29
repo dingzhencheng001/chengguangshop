@@ -89,7 +89,7 @@ public class AppMemberController {
     }
 
     @ApiOperation(value = "会员信息")
-    @RequestMapping(value = "/memberInfo", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/member/information", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public CommonResult memberInfo(HttpServletRequest request) {
 
