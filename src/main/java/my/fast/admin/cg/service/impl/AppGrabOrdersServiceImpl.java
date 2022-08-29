@@ -185,6 +185,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setcStatus("1");
         //设置卡不卡单
         appConvey.setSign("0");
+        //抢单类型
+        appConvey.setConveyType(1);
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -278,6 +280,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setcStatus("1");
         //设置卡不卡单
         appConvey.setSign("0");
+        //抢单类型
+        appConvey.setConveyType(2);
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
@@ -362,6 +366,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setcStatus("2");
         //设置卡不卡单
         appConvey.setSign("1");
+        //抢单类型
+        appConvey.setConveyType(2);
         //设置会员收货地址id
         AppMemberAddress appMemberAddress = appMemberAddressMapper.selectByMemberId(memberId);
         if (!StringUtils.isEmpty(appMemberAddress)) {
