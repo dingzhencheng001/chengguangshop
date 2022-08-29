@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMemberLevel;
+import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 /**
  * TODO
@@ -24,5 +26,13 @@ public interface AppMemberWithdrawalService {
      */
    @Transactional(rollbackFor = Exception.class)
    int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum) throws Exception;
+
+
+    /**
+     * 分页查询
+     */
+    List<AppMemberWithdrawalVo> findPage(Long channelId, MemberWithdrawalParam withdrawal);
+
+
 
 }

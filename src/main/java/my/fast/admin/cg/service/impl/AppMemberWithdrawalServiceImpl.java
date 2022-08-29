@@ -3,10 +3,13 @@ package my.fast.admin.cg.service.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.github.pagehelper.PageHelper;
 
 import my.fast.admin.cg.entity.AppControl;
 import my.fast.admin.cg.entity.AppMember;
@@ -18,7 +21,9 @@ import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberBankMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
+import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.AppMemberWithdrawalService;
+import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 import my.fast.admin.framework.utils.DateFormat;
 
 /**
@@ -97,6 +102,12 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         } else {
             throw new Exception("828");
         }
+    }
+
+    @Override
+    public List<AppMemberWithdrawalVo> findPage(Long channelId, MemberWithdrawalParam memberWithdrawalParam) {
+        PageHelper.startPage(memberWithdrawalParam.getPageNum(), memberWithdrawalParam.getPageSize());
+        return appMemberWithdrawalMapper.selectWithdrawalList(channelId, memberWithdrawalParam);
     }
 
     /**

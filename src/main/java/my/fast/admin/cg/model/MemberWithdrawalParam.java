@@ -33,4 +33,10 @@ public class MemberWithdrawalParam {
 
     @ApiModelProperty(value = "操作金额")
     private BigDecimal operaMount;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum;
+
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
 }
