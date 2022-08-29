@@ -58,7 +58,7 @@ public class AppMemberController {
         AppMemberVo reVo = new AppMemberVo();
         AppMember voInfo = appMemberService.selectAppMemberByUserId(appUserVO.getId());
         if (voInfo == null) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         BeanUtils.copyProperties(voInfo, reVo);
         //首页设置余额

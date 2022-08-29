@@ -48,7 +48,7 @@ public class AppNoticeController {
         @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         Long memberId = appUserVO.getId();
         List<SysNotice> noticeList = appNoticeService.getMemberNoticeList(pageNum, pageSize,memberId);

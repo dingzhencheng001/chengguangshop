@@ -201,9 +201,9 @@ public class AppLoginController {
         int  row =  this.appMemberService.createMember(tbAppUser); 
         log.info(System.currentTimeMillis() + "完成注册：", tbAppUser.getUserAccount());
         if (row > 0) {
-        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"用户注册成功!当前登录手机号为:"+tbAppUser.getPhoneNumber()+ " 渠道编号为："+tbAppUser.getChannelId());
+        	return CommonResult.success("SUCCESS", tbAppUser.getUserAccount()+"User registration succeeded! The current login mobile phone number is::"+tbAppUser.getPhoneNumber()+ " Channel number:："+tbAppUser.getChannelId());
         } else {
-        	return CommonResult.failed( "注册失败，请联系管理员...");
+        	return CommonResult.failed( "Registration failed, please contact the Administrator");
         }
     }
 
@@ -223,15 +223,15 @@ public class AppLoginController {
     	//APP已登录用户 需带token 访问；根据token 获取用户信息 再做业务逻辑操作
     	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if(appUserVO==null || StringUtils.isEmpty(appUserVO.getUserAccount())){
-        	return CommonResult.failed("用户信息不存在");
+        	return CommonResult.failed("813");
         }
-    	Assert.isTrue(StringUtils.isNotBlank(oldPwd), "请输入旧密码");
-        Assert.isTrue(StringUtils.isNotBlank(newPwd), "请输入新密码");
-        Assert.isTrue(!oldPwd.equals(newPwd), "新旧密码一致");
-        Assert.isTrue(newPwd.matches("[a-zA-Z0-9]+"), "请输入8-32位数字、字母组合");
-        Assert.isTrue(newPwd.length() >= 8 && newPwd.length() <= 32, "请输入8-32位数字、字母组合");
-        Assert.isTrue(newPwd.length() >= 6 && newPwd.length() <= 32, "请输入6-32位密码");
-        Assert.isTrue(newPwd.length() >= 6, "密码不能少于6位，请重新输入");
+    	Assert.isTrue(StringUtils.isNotBlank(oldPwd), "Please enter your old password");
+        Assert.isTrue(StringUtils.isNotBlank(newPwd), "Please enter a new password");
+        Assert.isTrue(!oldPwd.equals(newPwd), "The old and new passwords are consistent");
+        Assert.isTrue(newPwd.matches("[a-zA-Z0-9]+"), "Please enter a combination of 8-32 digits and letters");
+        Assert.isTrue(newPwd.length() >= 8 && newPwd.length() <= 32, "Please enter a combination of 8-32 digits and letters");
+        Assert.isTrue(newPwd.length() >= 6 && newPwd.length() <= 32, "Please enter a 6-32-bit password");
+        Assert.isTrue(newPwd.length() >= 6, "Password cannot be less than 6 digits, please re-enter");
 //        if (!CommonUtils.matchesPassword(oldPwd, appUserVO.getPassword())) {
 //            return CommonResult.failed("811");
 //        }
@@ -241,9 +241,9 @@ public class AppLoginController {
         appUserVO.setPassword(newPwd);
         int  row =  appMemberService.updateMember(appUserVO.getId(), appUserVO);
         if (row > 0) {
-        	return CommonResult.success("SUCCESS", "密码修改完成");
+        	return CommonResult.success("SUCCESS", "Password modification completed");
         } else {
-        	return CommonResult.failed("密码修改失败，请联系管理员...");
+        	return CommonResult.failed("Password modification failed, please contact administrator");
         }
         
     }

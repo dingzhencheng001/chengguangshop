@@ -49,7 +49,7 @@ public class AppGrabOrdersController {
     public CommonResult randomOrders(HttpServletRequest request) throws Exception {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -83,7 +83,7 @@ public class AppGrabOrdersController {
         CommonResult commonResult;
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
-            return CommonResult.failed("用户信息不存在");
+            return CommonResult.failed("813");
         }
         Long memberId = appUserVO.getId();
         //根据域名获取渠道号
