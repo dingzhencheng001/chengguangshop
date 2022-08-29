@@ -68,7 +68,7 @@ public class AppMemberBankController {
 
     
     @ApiOperation(value = "查询会员银行卡信息")
-    @RequestMapping(value = "/getmemberbank/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getMemberBank(@PathVariable("id") Long id,HttpServletRequest request) {
     	if (id==null) {

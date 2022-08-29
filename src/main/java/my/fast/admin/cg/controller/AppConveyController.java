@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
@@ -22,7 +22,6 @@ import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.service.AppConveyService;
 import my.fast.admin.cg.service.AppMemberService;
-import my.fast.admin.cg.vo.AppConveyDto;
 import my.fast.admin.cg.vo.AppConveyVo;
 import my.fast.admin.framework.utils.TokenUtils;
 
@@ -37,13 +36,13 @@ import my.fast.admin.framework.utils.TokenUtils;
 @Api(tags = "AppConveyController", description = "APP交易订单管理")
 @RequestMapping("/app/convey")
 public class AppConveyController {
-	
+
     @Autowired
     private AppConveyService appConveyService;
 
-	@Autowired
-	private AppMemberService appMemberService;
-    
+    @Autowired
+    private AppMemberService appMemberService;
+
     @ApiOperation("获取交易订单列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
@@ -55,10 +54,9 @@ public class AppConveyController {
     @ApiOperation(value = "根据条件获取订单分页列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppConveyVo>> getList(@RequestBody
-        AppConveyParam appConveyParam,HttpServletRequest request) {
-        
-    	AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+    public CommonResult<CommonPage<AppConveyVo>> getList(@RequestBody AppConveyParam appConveyParam,
+        HttpServletRequest request) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("812");
         }
@@ -68,11 +66,14 @@ public class AppConveyController {
         return CommonResult.success(CommonPage.restPage(conveyList));
     }
 
-    
     @ApiOperation(value = "删除交易订单")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult delete(@PathVariable("id") Long id) {
+    public CommonResult delete(@PathVariable("id") Long id, HttpServletRequest request) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
         int count = appConveyService.deleteConveyById(id);
         if (count == 1) {
             return CommonResult.success(null);
@@ -84,8 +85,13 @@ public class AppConveyController {
     @ApiOperation(value = "更新交易订单")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable("id") Long id,@RequestBody AppConvey appConvey) {
+    public CommonResult update(@PathVariable("id") Long id, @RequestBody AppConvey appConvey,
+        HttpServletRequest request) {
         CommonResult commonResult;
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
         int count = appConveyService.updateConvey(id, appConvey);
         if (count == 1) {
             commonResult = CommonResult.success(count);
@@ -98,8 +104,12 @@ public class AppConveyController {
     @ApiOperation(value = "添加交易订单")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public CommonResult create(@RequestBody AppConvey appConvey) {
+    public CommonResult create(@RequestBody AppConvey appConvey,HttpServletRequest request) {
         CommonResult commonResult;
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
         int count = appConveyService.createConvey(appConvey);
         if (count == 1) {
             commonResult = CommonResult.success(count);
