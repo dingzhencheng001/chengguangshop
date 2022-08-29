@@ -180,7 +180,6 @@ public class AppMemberServiceImpl implements AppMemberService {
 		AppMemberParam appMemberParam = new AppMemberParam();
 		BeanUtils.copyProperties(appMember, appMemberParam);
 		AppMember info = appMemberMapper.selectAppMemberByUserPhone(appMemberParam);
-        
         return info;
 	}
 	
