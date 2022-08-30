@@ -320,7 +320,7 @@
             task_group     = #{taskGroup,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <select id="randomOrders" resultMap="BaseResultMap">
+    <select id="randomOrders" resultType="my.fast.admin.cg.entity.AppGoods">
         SELECT t.*
         FROM (SELECT *
               FROM app_goods g

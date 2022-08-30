@@ -120,15 +120,17 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
             //会员等级获取商品价格比例
-            BigDecimal mateMin = appMemberLevel.getMateMin();
-            BigDecimal mateMax = appMemberLevel.getMateMax();
+            BigDecimal mateMin = appMemberLevel.getMateMin()
+                .divide(new BigDecimal(100));
+            BigDecimal mateMax = appMemberLevel.getMateMax()
+                .divide(new BigDecimal(100));
             //获取会员佣金比例
             BigDecimal commission = appMemberLevel.getCommission();
             BigDecimal mateMinGoodsPrice = mateMin.multiply(balance);
             BigDecimal mateMaxGoodsPrice = mateMax.multiply(balance);
-            appGoods = appGoodsMapper.randomOrders(mateMinGoodsPrice,mateMaxGoodsPrice);
-            if(!StringUtils.isEmpty(appGoods)){
-                BeanUtils.copyProperties(appGoods,appGoodsVo);
+            appGoods = appGoodsMapper.randomOrders(mateMinGoodsPrice, mateMaxGoodsPrice);
+            if (!StringUtils.isEmpty(appGoods)) {
+                BeanUtils.copyProperties(appGoods, appGoodsVo);
                 appGoodsVo.setGoodsAddTime(DateFormat.getNowDate());
                 appGoodsVo.setCommission(commission.multiply(appGoods.getGoodsPrice()));
                 BigDecimal goodsPrice = appGoods.getGoodsPrice();
@@ -137,8 +139,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 if (flag >= 0) {
                     throw new Exception("832");
                 }
+            } else {
+                throw new Exception("No matching items");
             }
-            throw new Exception("No matching items");
         }
         return appGoodsVo;
     }
