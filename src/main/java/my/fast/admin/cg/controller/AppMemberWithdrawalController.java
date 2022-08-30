@@ -77,7 +77,7 @@ public class AppMemberWithdrawalController {
         }
         Long channelId = sysChannel.getChannelId();
         BigDecimal withdrawalNum = memberWithdrawalParam.getOperaMount();
-        int count = appMemberWithdrawalService.withdrawal(channelId, memberId, withdrawalNum);
+        int count = appMemberWithdrawalService.withdrawal(channelId, memberId, withdrawalNum,appUserVO);
         if (count == 1) {
             commonResult = CommonResult.success(count);
         } else {

@@ -676,7 +676,7 @@ function I18n (options) {
             829: 'The assigned commodity price does not exist in the commodity library, please re-enter the price range',
             830: 'Submission failed, duplicate doc No',
             831: 'Insufficient balance, unable to deduct',
-            832: 'Insufficient available balance',
+            834: 'Withdrawal amount is not within the range of member level',
         },
 
     };
@@ -1364,6 +1364,7 @@ function I18n (options) {
             830: '提交失败,单号重复',
             831: '余额不足，无法扣减',
             832: '可用余额不足',
+            834: '提现金额不在会员等级范围内',
         },
 
     };

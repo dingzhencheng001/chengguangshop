@@ -31,13 +31,13 @@ public class AppMemberLevel implements Serializable {
     private Integer withdrawalTimes;
 
     @ApiModelProperty(value = "提现最小金额")
-    private Integer withdrawalMin;
+    private BigDecimal withdrawalMin;
 
     @ApiModelProperty(value = "提现最大金额")
-    private Integer withdrawalMax;
+    private BigDecimal withdrawalMax;
 
     @ApiModelProperty(value = "最小余额")
-    private Integer numMin;
+    private Long numMin;
 
     @ApiModelProperty(value = "提现最少完成订单数")
     private Integer withdrawalNimOrder;
@@ -53,34 +53,16 @@ public class AppMemberLevel implements Serializable {
 
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
-    
+
     @ApiModelProperty(value = "最小匹配区间")
     private BigDecimal mateMin;
-    
+
     @ApiModelProperty(value = "最大匹配区间")
     private BigDecimal mateMax;
-    
 
     private static final long serialVersionUID = 1L;
 
-    
-    public BigDecimal getMateMin() {
-		return mateMin;
-	}
-
-	public void setMateMin(BigDecimal mateMin) {
-		this.mateMin = mateMin;
-	}
-
-	public BigDecimal getMateMax() {
-		return mateMax;
-	}
-
-	public void setMateMax(BigDecimal mateMax) {
-		this.mateMax = mateMax;
-	}
-
-	public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -144,27 +126,27 @@ public class AppMemberLevel implements Serializable {
         this.withdrawalTimes = withdrawalTimes;
     }
 
-    public Integer getWithdrawalMin() {
+    public BigDecimal getWithdrawalMin() {
         return withdrawalMin;
     }
 
-    public void setWithdrawalMin(Integer withdrawalMin) {
+    public void setWithdrawalMin(BigDecimal withdrawalMin) {
         this.withdrawalMin = withdrawalMin;
     }
 
-    public Integer getWithdrawalMax() {
+    public BigDecimal getWithdrawalMax() {
         return withdrawalMax;
     }
 
-    public void setWithdrawalMax(Integer withdrawalMax) {
+    public void setWithdrawalMax(BigDecimal withdrawalMax) {
         this.withdrawalMax = withdrawalMax;
     }
 
-    public Integer getNumMin() {
+    public Long getNumMin() {
         return numMin;
     }
 
-    public void setNumMin(Integer numMin) {
+    public void setNumMin(Long numMin) {
         this.numMin = numMin;
     }
 
@@ -206,6 +188,22 @@ public class AppMemberLevel implements Serializable {
 
     public void setChannelId(Long channelId) {
         this.channelId = channelId;
+    }
+
+    public BigDecimal getMateMin() {
+        return mateMin;
+    }
+
+    public void setMateMin(BigDecimal mateMin) {
+        this.mateMin = mateMin;
+    }
+
+    public BigDecimal getMateMax() {
+        return mateMax;
+    }
+
+    public void setMateMax(BigDecimal mateMax) {
+        this.mateMax = mateMax;
     }
 
     @Override

@@ -10,9 +10,9 @@
     <result column="commission" jdbcType="DECIMAL" property="commission" />
     <result column="members_level" jdbcType="INTEGER" property="membersLevel" />
     <result column="withdrawal_times" jdbcType="INTEGER" property="withdrawalTimes" />
-    <result column="withdrawal_min" jdbcType="INTEGER" property="withdrawalMin" />
-    <result column="withdrawal_max" jdbcType="INTEGER" property="withdrawalMax" />
-    <result column="num_min" jdbcType="INTEGER" property="numMin" />
+    <result column="withdrawal_min" jdbcType="DECIMAL" property="withdrawalMin" />
+    <result column="withdrawal_max" jdbcType="DECIMAL" property="withdrawalMax" />
+    <result column="num_min" jdbcType="DECIMAL" property="numMin" />
     <result column="withdrawal_nim_order" jdbcType="INTEGER" property="withdrawalNimOrder" />
     <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
     <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
@@ -126,8 +126,8 @@
       mate_min, mate_max)
     values (#{membersName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
       #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=DECIMAL}, #{membersLevel,jdbcType=INTEGER}, 
-      #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=INTEGER}, #{withdrawalMax,jdbcType=INTEGER}, 
-      #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
+      #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=DECIMAL}, #{withdrawalMax,jdbcType=DECIMAL}, 
+      #{numMin,jdbcType=DECIMAL}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
       #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT}, 
       #{mateMin,jdbcType=DECIMAL}, #{mateMax,jdbcType=DECIMAL})
   </insert>
@@ -212,13 +212,13 @@
         #{withdrawalTimes,jdbcType=INTEGER},
       </if>
       <if test="withdrawalMin != null">
-        #{withdrawalMin,jdbcType=INTEGER},
+        #{withdrawalMin,jdbcType=DECIMAL},
       </if>
       <if test="withdrawalMax != null">
-        #{withdrawalMax,jdbcType=INTEGER},
+        #{withdrawalMax,jdbcType=DECIMAL},
       </if>
       <if test="numMin != null">
-        #{numMin,jdbcType=INTEGER},
+        #{numMin,jdbcType=DECIMAL},
       </if>
       <if test="withdrawalNimOrder != null">
         #{withdrawalNimOrder,jdbcType=INTEGER},
@@ -277,13 +277,13 @@
         withdrawal_times = #{row.withdrawalTimes,jdbcType=INTEGER},
       </if>
       <if test="row.withdrawalMin != null">
-        withdrawal_min = #{row.withdrawalMin,jdbcType=INTEGER},
+        withdrawal_min = #{row.withdrawalMin,jdbcType=DECIMAL},
       </if>
       <if test="row.withdrawalMax != null">
-        withdrawal_max = #{row.withdrawalMax,jdbcType=INTEGER},
+        withdrawal_max = #{row.withdrawalMax,jdbcType=DECIMAL},
       </if>
       <if test="row.numMin != null">
-        num_min = #{row.numMin,jdbcType=INTEGER},
+        num_min = #{row.numMin,jdbcType=DECIMAL},
       </if>
       <if test="row.withdrawalNimOrder != null">
         withdrawal_nim_order = #{row.withdrawalNimOrder,jdbcType=INTEGER},
@@ -321,9 +321,9 @@
       commission = #{row.commission,jdbcType=DECIMAL},
       members_level = #{row.membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{row.withdrawalTimes,jdbcType=INTEGER},
-      withdrawal_min = #{row.withdrawalMin,jdbcType=INTEGER},
-      withdrawal_max = #{row.withdrawalMax,jdbcType=INTEGER},
-      num_min = #{row.numMin,jdbcType=INTEGER},
+      withdrawal_min = #{row.withdrawalMin,jdbcType=DECIMAL},
+      withdrawal_max = #{row.withdrawalMax,jdbcType=DECIMAL},
+      num_min = #{row.numMin,jdbcType=DECIMAL},
       withdrawal_nim_order = #{row.withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{row.autoVipXuNum,jdbcType=INTEGER},
       service_charge = #{row.serviceCharge,jdbcType=DECIMAL},
@@ -360,13 +360,13 @@
         withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
       </if>
       <if test="withdrawalMin != null">
-        withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
+        withdrawal_min = #{withdrawalMin,jdbcType=DECIMAL},
       </if>
       <if test="withdrawalMax != null">
-        withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
+        withdrawal_max = #{withdrawalMax,jdbcType=DECIMAL},
       </if>
       <if test="numMin != null">
-        num_min = #{numMin,jdbcType=INTEGER},
+        num_min = #{numMin,jdbcType=DECIMAL},
       </if>
       <if test="withdrawalNimOrder != null">
         withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
@@ -401,9 +401,9 @@
       commission = #{commission,jdbcType=DECIMAL},
       members_level = #{membersLevel,jdbcType=INTEGER},
       withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
-      withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
-      withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
-      num_min = #{numMin,jdbcType=INTEGER},
+      withdrawal_min = #{withdrawalMin,jdbcType=DECIMAL},
+      withdrawal_max = #{withdrawalMax,jdbcType=DECIMAL},
+      num_min = #{numMin,jdbcType=DECIMAL},
       withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
       service_charge = #{serviceCharge,jdbcType=DECIMAL},

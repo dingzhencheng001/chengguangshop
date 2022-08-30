@@ -15,10 +15,12 @@ import my.fast.admin.cg.entity.AppControl;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberBank;
+import my.fast.admin.cg.entity.AppMemberLevel;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.mapper.AppControlMapper;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberBankMapper;
+import my.fast.admin.cg.mapper.AppMemberLevelMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
@@ -46,9 +48,21 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
     private AppMemberWithdrawalMapper appMemberWithdrawalMapper;
     @Autowired
     private AppControlMapper controlMapper;
+    @Autowired
+    private AppMemberLevelMapper appMemberLevelMapper;
 
     @Override
-    public int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum) throws Exception {
+    public int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum, AppMember appUserVO)
+    throws Exception {
+        AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appUserVO.getMemberLevelId());
+        BigDecimal withdrawalMin = appMemberLevel.getWithdrawalMin();
+        BigDecimal withdrawalMax = appMemberLevel.getWithdrawalMax();
+        if (withdrawalNum.intValue() < withdrawalMin.intValue()) {
+            throw new Exception("834");
+        }
+        if (withdrawalNum.intValue() > withdrawalMax.intValue()) {
+            throw new Exception("834");
+        }
         AppMemberBank appMemberBank = appMemberBankMapper.selectByMemberId(memberId);
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
         String orderSn = generateOrderSn();

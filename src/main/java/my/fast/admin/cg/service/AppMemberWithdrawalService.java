@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import my.fast.admin.cg.entity.AppMemberLevel;
+import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
@@ -23,9 +23,10 @@ public interface AppMemberWithdrawalService {
      * @param channelId
      * @param memberId
      * @param withdrawalNum
+     * @param appUserVO
      */
    @Transactional(rollbackFor = Exception.class)
-   int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum) throws Exception;
+   int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum, AppMember appUserVO) throws Exception;
 
 
     /**
