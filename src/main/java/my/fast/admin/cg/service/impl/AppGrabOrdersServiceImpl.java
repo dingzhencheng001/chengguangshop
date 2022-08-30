@@ -96,17 +96,22 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     public Object getObject(AppRandomOrderParam appRandomOrderParam, AppMember appMember, AppMemberLevel appMemberLevel)
     throws Exception {
         List<AppAssignGoods> assignGoodsList = appAssignGoodsMapper.assignGoodsList(appRandomOrderParam);
+        AppGoodsVo appGoodsVo = new AppGoodsVo();
+        //获取会员佣金比例
+        BigDecimal commission = appMemberLevel.getCommission();
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
             AppAssignGoods appAssignGoods = assignGoodsList.get(0);
             appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
             BigDecimal goodsPrice = appAssignGoods.getGoodsPrice();
             BigDecimal balance = appMember.getBalance();
             BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+            BeanUtils.copyProperties(appAssignGoods, appGoodsVo);
+            appGoodsVo.setCommission(commission.multiply(appAssignGoods.getGoodsPrice()));
             int flag = goodsPrice.compareTo(disposalAmount);
             if (flag >= 0) {
                 throw new Exception("832");
             }
-            return appAssignGoods;
+            return appGoodsVo;
         } else {
             //商品表直接随机生成返回用户
             return randomGoods(appMember, appMemberLevel);
@@ -115,7 +120,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
 
     //随机生成订单
     public Object randomGoods(AppMember appMember, AppMemberLevel appMemberLevel) throws Exception {
-        AppGoods appGoods = new AppGoods();
+        AppGoods appGoods;
         AppGoodsVo appGoodsVo = new AppGoodsVo();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
