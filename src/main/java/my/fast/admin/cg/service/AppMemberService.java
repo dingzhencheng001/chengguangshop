@@ -104,7 +104,16 @@ public interface AppMemberService {
     /**
      * 获取会员个人信息
      */
-    AppMemberDto selectAppMemberCountByPrimary(Long id);
+    AppMemberDto selectAppMemberCountByPrimary(Long id,Long channelId);
 
+    /**
+     * 查询接单限制
+     */
+    int selectMemberLevel(Long memberId, Long channelId);
+
+    /**
+     * 获取会员当日抢单数量
+     */
+    int getMemberOrderNum(Long memberId, Long channelId);
 
 }

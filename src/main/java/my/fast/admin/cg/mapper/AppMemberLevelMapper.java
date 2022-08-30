@@ -35,4 +35,8 @@ public interface AppMemberLevelMapper {
     int updateByPrimaryKeyWithBLOBs(AppMemberLevel record);
 
     int updateByPrimaryKey(AppMemberLevel record);
+
+    int selectMemberOrderLimit();
+
+
 }

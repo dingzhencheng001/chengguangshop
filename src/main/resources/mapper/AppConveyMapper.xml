@@ -290,7 +290,15 @@
     <select id="selectConvey" resultType="my.fast.admin.cg.entity.AppConvey">
         select *
         from app_convey
-        where TO_DAYS(addtime) = TO_DAYS(now());
+        where TO_DAYS(addtime) = TO_DAYS(now())
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+        and
+        channel_id = #{channelId,jdbcType=BIGINT}
+        </if>
     </select>
     <select id="selectUserConvey" resultType="my.fast.admin.cg.vo.AppConveyDto">
         select *
@@ -380,6 +388,20 @@
         <if test="status != null">
             and
             c.status = #{status,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+    <select id="selectQiang" resultType="my.fast.admin.cg.entity.AppConvey">
+        select *
+        from app_convey
+        where TO_DAYS(addtime) = TO_DAYS(now())
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
         </if>
 
     </select>

@@ -27,7 +27,6 @@ import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.framework.utils.TokenUtils;
 
 /**
- *
  * @author cgkj@cg.cn
  * @version V1.0
  * @since 2022/7/11 10:32
@@ -44,7 +43,6 @@ public class AppMemberController {
 
     @Autowired
     private AppAgentListService agentListService;
-
 
     @ApiOperation(value = "首页信息")
     @RequestMapping(value = "/homePage", method = RequestMethod.POST, produces = "application/json")
@@ -106,21 +104,31 @@ public class AppMemberController {
         return CommonResult.success(voInfo);
     }
 
-    @ApiOperation(value = "获取会员账户信息")
-    @RequestMapping(value = "/memberInfo", method = RequestMethod.GET)
+    @ApiOperation(value = "获取当日抢单数")
+    @RequestMapping(value = "/get/order", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult memberCountInfo(HttpServletRequest request) {
-
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("812");
         }
-        AppMemberDto memberInfo = appMemberService.selectAppMemberCountByPrimary(appUserVO.getId());
-        if (memberInfo == null) {
-            return CommonResult.failed("813");
-        }
-        memberInfo.setId(appUserVO.getId());
-        return CommonResult.success(memberInfo);
+        Long memberId = appUserVO.getId();
+        Long channelId = appUserVO.getChannelId();
+        int memberOrderNum = appMemberService.getMemberOrderNum(memberId, channelId);
+        return CommonResult.success(memberOrderNum);
     }
 
+    @ApiOperation(value = "查询抢单限制")
+    @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectMemberLevel(HttpServletRequest request) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
+        Long memberId = appUserVO.getId();
+        Long channelId = appUserVO.getChannelId();
+        int count = appMemberService.selectMemberLevel(memberId, channelId);
+        return CommonResult.success(count);
+    }
 }

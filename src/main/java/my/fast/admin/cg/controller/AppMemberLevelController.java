@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpServletRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
+import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.AppMemberLevel;
 import my.fast.admin.cg.service.AppMemberLevelService;
+import my.fast.admin.cg.service.AppMemberService;
+import my.fast.admin.framework.utils.TokenUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * TODO
@@ -32,6 +37,10 @@ public class AppMemberLevelController {
 
     @Autowired
     private AppMemberLevelService appMemberLevelService;
+
+    @Autowired
+    private AppMemberService appMemberService;
+
 
     @ApiOperation("获取会员列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
@@ -63,7 +72,7 @@ public class AppMemberLevelController {
         }
     }
 
-    @ApiOperation(value = "更新商品")
+    @ApiOperation(value = "更新会员等级")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable("id") Long id, @RequestBody AppMemberLevel appMemberLevel) {

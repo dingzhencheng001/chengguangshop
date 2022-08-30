@@ -690,7 +690,7 @@
     </update>
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
-        set balance = balance - #{goodsPrice,jdbcType=DECIMAL} + #{grabCommission,jdbcType=DECIMAL}
+        set balance = balance + #{grabCommission,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
@@ -883,7 +883,7 @@
         from app_member
         where
         where id = #{memberId,jdbcType=BIGINT}
-        and channel_Id = #{channelId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
 
     </select>
     <resultMap id="agentListInfo" type="my.fast.admin.cg.model.AppTeamReportInfo">
@@ -957,6 +957,13 @@
 
 
     </select>
+    <select id="selectMemberLevel" resultType="java.lang.Integer">
+        SELECT l.order_num
+        FROM app_member m
+        LEFT JOIN app_member_level l ON m.member_level_id = l.id
+        where m.id = #{memberId,jdbcType=BIGINT}
+        and m.channel_Id = #{channelId,jdbcType=BIGINT}
 
+    </select>
 
 </mapper>

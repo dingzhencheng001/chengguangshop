@@ -2,7 +2,6 @@ package my.fast.admin.cg.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +34,9 @@ import my.fast.admin.framework.utils.DateFormat;
 @Service
 public class AppMemberServiceImpl implements AppMemberService {
 
-	@Autowired
+    @Autowired
     private SysOperateLogMapper sysOperateLogMapper;
-    
+
     @Autowired
     private AppMemberMapper appMemberMapper;
 
@@ -50,21 +49,9 @@ public class AppMemberServiceImpl implements AppMemberService {
     }
 
     @Override
-    public  List<AppMemberVo> listMember(Long channelId, MemberParams memberParams, Integer pageNum, Integer pageSize) {
+    public List<AppMemberVo> listMember(Long channelId, MemberParams memberParams, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-       /* AppMemberExample appMemberExample = new AppMemberExample();
-        AppMemberExample.Criteria criteria = appMemberExample.createCriteria();
-        criteria.andChannelIdEqualTo(appMember.getChannelId());//查询范围为 当前渠道数据
-        if (!StringUtils.isEmpty(appMember.getStatus().toString())) {
-            criteria.equals(appMember.getStatus());
-        }
-        if (!StringUtils.isEmpty(appMember.getUserAccount())) {
-            criteria.andUserAccountLike("%" + appMember.getUserAccount() + "%");
-        }
-        if (!StringUtils.isEmpty(appMember.getPhoneNumber())) {
-            criteria.andPhoneNumberLike("%" + appMember.getPhoneNumber() + "%");
-        }*/
-        return appMemberMapper.selectPage(channelId,memberParams);
+        return appMemberMapper.selectPage(channelId, memberParams);
     }
 
     @Override
@@ -74,99 +61,96 @@ public class AppMemberServiceImpl implements AppMemberService {
 
     @Override
     public int createMember(AppMember appMemberParam) {
-    	AppMember appMember = new AppMember();
+        AppMember appMember = new AppMember();
         BeanUtils.copyProperties(appMemberParam, appMember);
         return appMemberMapper.insertSelective(appMember);
     }
 
     @Override
     public int updateMember(Long id, AppMember appMemberParam) {
-    	SysOperateLog  operateLog = new SysOperateLog();
-    	AppMember appMember = new AppMember();
+        SysOperateLog operateLog = new SysOperateLog();
+        AppMember appMember = new AppMember();
         BeanUtils.copyProperties(appMemberParam, appMember);
         appMember.setId(id);
-        
+
         //操作记录
         operateLog.setChannelId(appMember.getChannelId());
         operateLog.setTitle("会员信息修改");
-        operateLog.setOperateContent("账号为："+appMember.getUserAccount()+" 的会员，在"+DateFormat.getNowDate()+"被修改了信息。");
+        operateLog.setOperateContent(
+            "账号为：" + appMember.getUserAccount() + " 的会员，在" + DateFormat.getNowDate() + "被修改了信息。");
         operateLog.setCreateBy("admin");
         operateLog.setCreateTime(DateFormat.getNowDate());
-        operateLog.setRemark("会员ID为"+id);
+        operateLog.setRemark("会员ID为" + id);
         sysOperateLogMapper.insertSelective(operateLog);
-        
+
         return appMemberMapper.updateByPrimaryKeySelective(appMember);
 
     }
-    
+
     @Override
-    public AppMember selectAppMemberByUserId(Long id)
-    {
+    public AppMember selectAppMemberByUserId(Long id) {
         return appMemberMapper.selectByPrimaryKey(id);
     }
-    
+
     @Override
-    public AppMember selectAppMemberByUserAccount(String userAccount)
-    {
+    public AppMember selectAppMemberByUserAccount(String userAccount) {
         return appMemberMapper.selectAppMemberByUserAccount(userAccount);
     }
 
-	@Override
-	public AppMember selectAppMemberByCode(String code) {
-		
-		 return appMemberMapper.selectAppMemberByCode(code);
-	}
+    @Override
+    public AppMember selectAppMemberByCode(String code) {
 
-	
-	/**
+        return appMemberMapper.selectAppMemberByCode(code);
+    }
+
+    /**
      * 校验用户名是否唯一
      */
-	@Override
-	public String checkUserNameUnique(AppMember user) {
-		AppMemberParam appMemberParam = new AppMemberParam();
-		BeanUtils.copyProperties(user, appMemberParam);
-		int count = appMemberMapper.checkUserNameUnique(appMemberParam);
-        if (count > 0)
-        {
+    @Override
+    public String checkUserNameUnique(AppMember user) {
+        AppMemberParam appMemberParam = new AppMemberParam();
+        BeanUtils.copyProperties(user, appMemberParam);
+        int count = appMemberMapper.checkUserNameUnique(appMemberParam);
+        if (count > 0) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
-	}
-	
-	 
-	/**
+    }
+
+    /**
      * 校验手机号是否唯一
      */
-	@Override
-	public String checkPhoneUnique(AppMember user) {
-		Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
-		AppMemberParam appMemberParam = new AppMemberParam();
-		BeanUtils.copyProperties(user, appMemberParam);
-		AppMember info = appMemberMapper.checkPhoneUnique(appMemberParam);
-        if (CommonUtils.isNotNull(info) && info.getId().longValue() != userId.longValue())
-        {
+    @Override
+    public String checkPhoneUnique(AppMember user) {
+        Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
+        AppMemberParam appMemberParam = new AppMemberParam();
+        BeanUtils.copyProperties(user, appMemberParam);
+        AppMember info = appMemberMapper.checkPhoneUnique(appMemberParam);
+        if (CommonUtils.isNotNull(info) && info.getId()
+            .longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
-	}
-	/**
+    }
+
+    /**
      * 校验邮箱是否唯一
      */
-	@Override
-	public String checkEmailUnique(AppMember user) {
-		Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
-		AppMember info = appMemberMapper.checkEmailUnique(user.getEmail());
-        if (CommonUtils.isNotNull(info) && info.getId().longValue() != userId.longValue())
-        {
+    @Override
+    public String checkEmailUnique(AppMember user) {
+        Long userId = CommonUtils.isNull(user.getId()) ? -1L : user.getId();
+        AppMember info = appMemberMapper.checkEmailUnique(user.getEmail());
+        if (CommonUtils.isNotNull(info) && info.getId()
+            .longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
-	}
+    }
 
     @Override
-    public AppMemberDto selectAppMemberCountByPrimary(Long id) {
-        AppMemberDto memberDto = appMemberMapper.selectAppMemberCountByPrimary(id);
-        List<AppConvey> appConveys = appConveyMapper.selectConvey();
+    public AppMemberDto selectAppMemberCountByPrimary(Long memberId, Long channelId) {
+        AppMemberDto memberDto = appMemberMapper.selectAppMemberCountByPrimary(memberId);
+        List<AppConvey> appConveys = appConveyMapper.selectConvey(memberId, channelId);
         Long qiang = appConveys.stream()
             .map(e -> e.getQiang())
             .reduce(Long::max)
@@ -176,15 +160,29 @@ public class AppMemberServiceImpl implements AppMemberService {
     }
 
     @Override
-	public AppMember selectAppMemberByUserPhone(AppMember appMember) {
-		AppMemberParam appMemberParam = new AppMemberParam();
-		BeanUtils.copyProperties(appMember, appMemberParam);
-		AppMember info = appMemberMapper.selectAppMemberByUserPhone(appMemberParam);
+    public int selectMemberLevel(Long memberId, Long channelId) {
+        return appMemberMapper.selectMemberLevel(memberId, channelId);
+    }
+
+    @Override
+    public int getMemberOrderNum(Long memberId, Long channelId) {
+        List<AppConvey> appConveys = appConveyMapper.selectConvey(memberId, channelId);
+        if (appConveys.size() > 0) {
+            Long qiang = appConveys.stream()
+                .map(e -> e.getQiang())
+                .reduce(Long::max)
+                .get();
+            return qiang.intValue();
+        }
+        return 0;
+    }
+
+    @Override
+    public AppMember selectAppMemberByUserPhone(AppMember appMember) {
+        AppMemberParam appMemberParam = new AppMemberParam();
+        BeanUtils.copyProperties(appMember, appMemberParam);
+        AppMember info = appMemberMapper.selectAppMemberByUserPhone(appMemberParam);
         return info;
-	}
-	
-	
-	
-	
-    
+    }
+
 }

@@ -184,4 +184,9 @@ public interface AppMemberMapper {
      * 按照会员等级获取下级信息
      */
     List<AppTeamReportInfo> getAgentListInfoByLevelId(AppTeamParam appTeamParam);
+
+    /**
+     * 获取抢单限制
+     */
+    int selectMemberLevel(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
 }

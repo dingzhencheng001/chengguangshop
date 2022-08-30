@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.model.AppConveyParam;
+import my.fast.admin.cg.model.AppRandomOrderParam;
 import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 import my.fast.admin.cg.vo.AppConveyVo;
@@ -34,9 +35,10 @@ public interface AppConveyMapper {
 
     int updateByPrimaryKey(AppConvey record);
 
-    List<AppConvey>  selectConvey();
+    List<AppConvey> selectConvey(@Param("memberId") Long memberId,@Param("channelId")Long channelId);
 
-    List<AppConveyDto> selectByConveyByStatus(@Param("appConveyParam")AppConveyParam appConveyParam, @Param("channelId")Long channelId);
+    List<AppConveyDto> selectByConveyByStatus(@Param("appConveyParam") AppConveyParam appConveyParam,
+        @Param("channelId") Long channelId);
 
     List<AppConveyDto> selectUserConvey(AppConveyParam appConveyParam);
 
@@ -44,5 +46,7 @@ public interface AppConveyMapper {
 
     List<AppConveyVo> selectConveyInfo(AppConveyParam appConveyParam);
 
-    List<AppConveyVo>  selectConveyInfoByPd(AppConveyParam appConveyParam);
+    List<AppConveyVo> selectConveyInfoByPd(AppConveyParam appConveyParam);
+
+    List<AppConvey> selectQiang(AppRandomOrderParam appRandomOrderParam);
 }

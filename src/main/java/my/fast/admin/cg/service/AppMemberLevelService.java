@@ -40,4 +40,11 @@ public interface AppMemberLevelService {
      */
     int createLevels(AppMemberLevel appMemberLevel);
 
+    /**
+     * 查询接单限制
+     * @param memberLevelId
+     * @param channelId
+     */
+    int selectMemberLevel(Long memberLevelId, Long channelId);
+
 }
