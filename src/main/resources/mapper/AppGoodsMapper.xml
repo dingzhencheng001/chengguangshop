@@ -200,7 +200,8 @@
         values
         <foreach collection="list" separator="," item="item" index="index">
             (#{item.shopName,jdbcType=VARCHAR}, #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsInfo,jdbcType=VARCHAR},
-            #{item.goodsPrice,jdbcType=DECIMAL}, #{item.goodsPic,jdbcType=VARCHAR}, #{item.goodsAddTime,jdbcType=TIMESTAMP},
+            #{item.goodsPrice,jdbcType=DECIMAL}, #{item.goodsPic,jdbcType=VARCHAR},
+            #{item.goodsAddTime,jdbcType=TIMESTAMP},
             #{item.status,jdbcType=INTEGER}, #{item.goodsSortId,jdbcType=BIGINT}, #{item.channelId,jdbcType=BIGINT},
             #{item.taskGroup,jdbcType=INTEGER})
         </foreach>
@@ -319,14 +320,15 @@
             task_group     = #{taskGroup,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <select id="randomOrders" resultMap="BaseResultMap" parameterType="decimal">
+    <select id="randomOrders" resultMap="BaseResultMap">
         SELECT t.*
         FROM (SELECT *
               FROM app_goods g
-              WHERE g.goods_price &lt;= #{useBalance,jdbcType=DECIMAL}
+              WHERE g.goods_price between #{mateMinGoodsPrice,jdbcType=DECIMAL} and #{mateMaxGoodsPrice,jdbcType=DECIMAL}
                 and g.status = 1
-                AND NOT EXISTS(SELECT * FROM app_convey c WHERE g.id = c.goods_id)) t
-        ORDER BY RAND() LIMIT 0,1;
+                and NOT EXISTS(SELECT * FROM app_convey c WHERE g.id = c.goods_id)) t
+        ORDER BY RAND()
+        LIMIT 0,1;
     </select>
     <select id="selectByGoodsId" resultType="my.fast.admin.cg.entity.AppGoods">
         select *
@@ -342,6 +344,7 @@
                 and g.channel_id = #{channelId,jdbcType=BIGINT}
                 and g.status = 1
                 AND NOT EXISTS(SELECT * FROM app_convey c WHERE g.id = c.goods_id)) t
-        ORDER BY RAND() LIMIT 0,1;
+        ORDER BY RAND()
+        LIMIT 0,1;
     </select>
 </mapper>

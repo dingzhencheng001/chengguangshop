@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,7 @@ import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.model.AppMemberBalanceParam;
 import my.fast.admin.cg.model.AppRandomOrderParam;
 import my.fast.admin.cg.service.AppGrabOrdersService;
+import my.fast.admin.cg.vo.AppGoodsVo;
 import my.fast.admin.framework.utils.DateFormat;
 
 /**
@@ -114,23 +116,31 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     //随机生成订单
     public Object randomGoods(AppMember appMember, AppMemberLevel appMemberLevel) throws Exception {
         AppGoods appGoods = new AppGoods();
+        AppGoodsVo appGoodsVo = new AppGoodsVo();
         if (!StringUtils.isEmpty(appMember)) {
             BigDecimal balance = appMember.getBalance();
             //会员等级获取商品价格比例
             BigDecimal mateMin = appMemberLevel.getMateMin();
             BigDecimal mateMax = appMemberLevel.getMateMax();
+            //获取会员佣金比例
+            BigDecimal commission = appMemberLevel.getCommission();
             BigDecimal mateMinGoodsPrice = mateMin.multiply(balance);
             BigDecimal mateMaxGoodsPrice = mateMax.multiply(balance);
             appGoods = appGoodsMapper.randomOrders(mateMinGoodsPrice,mateMaxGoodsPrice);
-            appGoods.setGoodsAddTime(DateFormat.getNowDate());
-            BigDecimal goodsPrice = appGoods.getGoodsPrice();
-            BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
-            int flag = goodsPrice.compareTo(disposalAmount);
-            if (flag >= 0) {
-                throw new Exception("832");
+            if(!StringUtils.isEmpty(appGoods)){
+                BeanUtils.copyProperties(appGoods,appGoodsVo);
+                appGoodsVo.setGoodsAddTime(DateFormat.getNowDate());
+                appGoodsVo.setCommission(commission.multiply(appGoods.getGoodsPrice()));
+                BigDecimal goodsPrice = appGoods.getGoodsPrice();
+                BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+                int flag = goodsPrice.compareTo(disposalAmount);
+                if (flag >= 0) {
+                    throw new Exception("832");
+                }
             }
+            throw new Exception("No matching items");
         }
-        return appGoods;
+        return appGoodsVo;
     }
 
     @Override

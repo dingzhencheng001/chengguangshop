@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import my.fast.admin.cg.entity.AppGoods;
 import my.fast.admin.cg.entity.AppGoodsExample;
 import my.fast.admin.cg.model.DispatchOrderParam;
+import my.fast.admin.cg.vo.AppGoodsVo;
 
 public interface AppGoodsMapper {
     long countByExample(AppGoodsExample example);

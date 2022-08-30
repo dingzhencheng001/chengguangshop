@@ -16,12 +16,10 @@
     <result column="withdrawal_nim_order" jdbcType="INTEGER" property="withdrawalNimOrder" />
     <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
     <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
     <result column="mate_min" jdbcType="DECIMAL" property="mateMin" />
     <result column="mate_max" jdbcType="DECIMAL" property="mateMax" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.AppMemberLevel">
-    <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,37 +80,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, members_name, order_num, member_price, register_time, commission, members_level,
+    id, members_name, order_num, member_price, register_time, commission, members_level, 
     withdrawal_times, withdrawal_min, withdrawal_max, num_min, withdrawal_nim_order, 
-    auto_vip_xu_num, service_charge, channel_id,mate_min,mate_max
+    auto_vip_xu_num, service_charge, pic, channel_id, mate_min, mate_max
   </sql>
-  <sql id="Blob_Column_List">
-
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.cg.entity.AppMemberLevelExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from app_member_level
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="my.fast.admin.cg.entity.AppMemberLevelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from app_member_level
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -121,11 +98,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from app_member_level
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -147,13 +122,14 @@
       register_time, commission, members_level, 
       withdrawal_times, withdrawal_min, withdrawal_max, 
       num_min, withdrawal_nim_order, auto_vip_xu_num, 
-      service_charge, pic, channel_id,mate_min,mate_max)
+      service_charge, pic, channel_id, 
+      mate_min, mate_max)
     values (#{membersName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=DECIMAL}, #{membersLevel,jdbcType=INTEGER},
+      #{registerTime,jdbcType=TIMESTAMP}, #{commission,jdbcType=DECIMAL}, #{membersLevel,jdbcType=INTEGER}, 
       #{withdrawalTimes,jdbcType=INTEGER}, #{withdrawalMin,jdbcType=INTEGER}, #{withdrawalMax,jdbcType=INTEGER}, 
       #{numMin,jdbcType=INTEGER}, #{withdrawalNimOrder,jdbcType=INTEGER}, #{autoVipXuNum,jdbcType=INTEGER}, 
-      #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=LONGVARCHAR}, #{channelId,jdbcType=BIGINT}
-      , #{mateMin,jdbcType=FLOAT}, #{mateMax,jdbcType=FLOAT})
+      #{serviceCharge,jdbcType=DECIMAL}, #{pic,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT}, 
+      #{mateMin,jdbcType=DECIMAL}, #{mateMax,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="my.fast.admin.cg.entity.AppMemberLevel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -254,17 +230,17 @@
         #{serviceCharge,jdbcType=DECIMAL},
       </if>
       <if test="pic != null">
-        #{pic,jdbcType=LONGVARCHAR},
+        #{pic,jdbcType=VARCHAR},
       </if>
       <if test="channelId != null">
-          #{channelId,jdbcType=BIGINT},
+        #{channelId,jdbcType=BIGINT},
       </if>
       <if test="mateMin != null">
-          #{mateMin,jdbcType=FLOAT},
+        #{mateMin,jdbcType=DECIMAL},
       </if>
       <if test="mateMax != null">
-          #{mateMax,jdbcType=FLOAT},
-      </if>  
+        #{mateMax,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="my.fast.admin.cg.entity.AppMemberLevelExample" resultType="java.lang.Long">
@@ -276,109 +252,86 @@
   <update id="updateByExampleSelective" parameterType="map">
     update app_member_level
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=BIGINT},
       </if>
-      <if test="record.membersName != null">
-        members_name = #{record.membersName,jdbcType=VARCHAR},
+      <if test="row.membersName != null">
+        members_name = #{row.membersName,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderNum != null">
-        order_num = #{record.orderNum,jdbcType=INTEGER},
+      <if test="row.orderNum != null">
+        order_num = #{row.orderNum,jdbcType=INTEGER},
       </if>
-      <if test="record.memberPrice != null">
-        member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      <if test="row.memberPrice != null">
+        member_price = #{row.memberPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.registerTime != null">
-        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      <if test="row.registerTime != null">
+        register_time = #{row.registerTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.commission != null">
-        commission = #{record.commission,jdbcType=DECIMAL},
+      <if test="row.commission != null">
+        commission = #{row.commission,jdbcType=DECIMAL},
       </if>
-      <if test="record.membersLevel != null">
-        members_level = #{record.membersLevel,jdbcType=INTEGER},
+      <if test="row.membersLevel != null">
+        members_level = #{row.membersLevel,jdbcType=INTEGER},
       </if>
-      <if test="record.withdrawalTimes != null">
-        withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
+      <if test="row.withdrawalTimes != null">
+        withdrawal_times = #{row.withdrawalTimes,jdbcType=INTEGER},
       </if>
-      <if test="record.withdrawalMin != null">
-        withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
+      <if test="row.withdrawalMin != null">
+        withdrawal_min = #{row.withdrawalMin,jdbcType=INTEGER},
       </if>
-      <if test="record.withdrawalMax != null">
-        withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
+      <if test="row.withdrawalMax != null">
+        withdrawal_max = #{row.withdrawalMax,jdbcType=INTEGER},
       </if>
-      <if test="record.numMin != null">
-        num_min = #{record.numMin,jdbcType=INTEGER},
+      <if test="row.numMin != null">
+        num_min = #{row.numMin,jdbcType=INTEGER},
       </if>
-      <if test="record.withdrawalNimOrder != null">
-        withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
+      <if test="row.withdrawalNimOrder != null">
+        withdrawal_nim_order = #{row.withdrawalNimOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.autoVipXuNum != null">
-        auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
+      <if test="row.autoVipXuNum != null">
+        auto_vip_xu_num = #{row.autoVipXuNum,jdbcType=INTEGER},
       </if>
-      <if test="record.serviceCharge != null">
-        service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      <if test="row.serviceCharge != null">
+        service_charge = #{row.serviceCharge,jdbcType=DECIMAL},
       </if>
-      <if test="record.pic != null">
-        pic = #{record.pic,jdbcType=LONGVARCHAR},
+      <if test="row.pic != null">
+        pic = #{row.pic,jdbcType=VARCHAR},
       </if>
-      <if test="record.channelId != null">
-          channel_id = #{record.channelId,jdbcType=BIGINT},
+      <if test="row.channelId != null">
+        channel_id = #{row.channelId,jdbcType=BIGINT},
       </if>
-      <if test="record.mateMin != null">
-          mate_min = #{record.mateMin,jdbcType=FLOAT},
+      <if test="row.mateMin != null">
+        mate_min = #{row.mateMin,jdbcType=DECIMAL},
       </if>
-      <if test="record.mateMax != null">
-          mate_max = #{record.mateMax,jdbcType=FLOAT},
+      <if test="row.mateMax != null">
+        mate_max = #{row.mateMax,jdbcType=DECIMAL},
       </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update app_member_level
-    set id = #{record.id,jdbcType=BIGINT},
-      members_name = #{record.membersName,jdbcType=VARCHAR},
-      order_num = #{record.orderNum,jdbcType=INTEGER},
-      member_price = #{record.memberPrice,jdbcType=DECIMAL},
-      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
-      commission = #{record.commission,jdbcType=DECIMAL},
-      members_level = #{record.membersLevel,jdbcType=INTEGER},
-      withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
-      withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
-      withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
-      num_min = #{record.numMin,jdbcType=INTEGER},
-      withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
-      auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
-      service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      mate_min = #{record.mateMin,jdbcType=FLOAT},
-      mate_max = #{record.mateMax,jdbcType=FLOAT}
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update app_member_level
-    set id = #{record.id,jdbcType=BIGINT},
-      members_name = #{record.membersName,jdbcType=VARCHAR},
-      order_num = #{record.orderNum,jdbcType=INTEGER},
-      member_price = #{record.memberPrice,jdbcType=DECIMAL},
-      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
-      commission = #{record.commission,jdbcType=DECIMAL},
-      members_level = #{record.membersLevel,jdbcType=INTEGER},
-      withdrawal_times = #{record.withdrawalTimes,jdbcType=INTEGER},
-      withdrawal_min = #{record.withdrawalMin,jdbcType=INTEGER},
-      withdrawal_max = #{record.withdrawalMax,jdbcType=INTEGER},
-      num_min = #{record.numMin,jdbcType=INTEGER},
-      withdrawal_nim_order = #{record.withdrawalNimOrder,jdbcType=INTEGER},
-      auto_vip_xu_num = #{record.autoVipXuNum,jdbcType=INTEGER},
-      service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
-      pic = #{record.pic,jdbcType=VARCHAR},
-      channel_id = #{record.channelId,jdbcType=BIGINT},
-      mate_min = #{record.mateMin,jdbcType=FLOAT},
-      mate_max = #{record.mateMax,jdbcType=FLOAT}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=BIGINT},
+      members_name = #{row.membersName,jdbcType=VARCHAR},
+      order_num = #{row.orderNum,jdbcType=INTEGER},
+      member_price = #{row.memberPrice,jdbcType=DECIMAL},
+      register_time = #{row.registerTime,jdbcType=TIMESTAMP},
+      commission = #{row.commission,jdbcType=DECIMAL},
+      members_level = #{row.membersLevel,jdbcType=INTEGER},
+      withdrawal_times = #{row.withdrawalTimes,jdbcType=INTEGER},
+      withdrawal_min = #{row.withdrawalMin,jdbcType=INTEGER},
+      withdrawal_max = #{row.withdrawalMax,jdbcType=INTEGER},
+      num_min = #{row.numMin,jdbcType=INTEGER},
+      withdrawal_nim_order = #{row.withdrawalNimOrder,jdbcType=INTEGER},
+      auto_vip_xu_num = #{row.autoVipXuNum,jdbcType=INTEGER},
+      service_charge = #{row.serviceCharge,jdbcType=DECIMAL},
+      pic = #{row.pic,jdbcType=VARCHAR},
+      channel_id = #{row.channelId,jdbcType=BIGINT},
+      mate_min = #{row.mateMin,jdbcType=DECIMAL},
+      mate_max = #{row.mateMax,jdbcType=DECIMAL}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
@@ -425,38 +378,18 @@
         service_charge = #{serviceCharge,jdbcType=DECIMAL},
       </if>
       <if test="pic != null">
-        pic = #{pic,jdbcType=LONGVARCHAR},
+        pic = #{pic,jdbcType=VARCHAR},
       </if>
       <if test="channelId != null">
-          channel_id = #{channelId,jdbcType=BIGINT},
+        channel_id = #{channelId,jdbcType=BIGINT},
       </if>
       <if test="mateMin != null">
-          mate_min = #{mateMin,jdbcType=FLOAT},
+        mate_min = #{mateMin,jdbcType=DECIMAL},
       </if>
       <if test="mateMax != null">
-          mate_max = #{mateMax,jdbcType=FLOAT},
+        mate_max = #{mateMax,jdbcType=DECIMAL},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.fast.admin.cg.entity.AppMemberLevel">
-    update app_member_level
-    set members_name = #{membersName,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=INTEGER},
-      member_price = #{memberPrice,jdbcType=DECIMAL},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      commission = #{commission,jdbcType=DECIMAL},
-      members_level = #{membersLevel,jdbcType=INTEGER},
-      withdrawal_times = #{withdrawalTimes,jdbcType=INTEGER},
-      withdrawal_min = #{withdrawalMin,jdbcType=INTEGER},
-      withdrawal_max = #{withdrawalMax,jdbcType=INTEGER},
-      num_min = #{numMin,jdbcType=INTEGER},
-      withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
-      auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
-      service_charge = #{serviceCharge,jdbcType=DECIMAL},
-      channel_id = #{channelId,jdbcType=BIGINT},
-      mate_min = #{record.mateMin,jdbcType=FLOAT},
-      mate_max = #{record.mateMax,jdbcType=FLOAT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="my.fast.admin.cg.entity.AppMemberLevel">
@@ -473,11 +406,11 @@
       num_min = #{numMin,jdbcType=INTEGER},
       withdrawal_nim_order = #{withdrawalNimOrder,jdbcType=INTEGER},
       auto_vip_xu_num = #{autoVipXuNum,jdbcType=INTEGER},
-      pic = #{pic,jdbcType=VARCHAR},
       service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      pic = #{pic,jdbcType=VARCHAR},
       channel_id = #{channelId,jdbcType=BIGINT},
-      mate_min = #{record.mateMin,jdbcType=FLOAT},
-      mate_max = #{record.mateMax,jdbcType=FLOAT}
+      mate_min = #{mateMin,jdbcType=DECIMAL},
+      mate_max = #{mateMax,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

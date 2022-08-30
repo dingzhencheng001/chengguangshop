@@ -14,29 +14,19 @@ public interface AppMemberLevelMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(AppMemberLevel record);
+    int insert(AppMemberLevel row);
 
-    int insertSelective(AppMemberLevel record);
-
-    List<AppMemberLevel> selectByExampleWithBLOBs(AppMemberLevelExample example);
+    int insertSelective(AppMemberLevel row);
 
     List<AppMemberLevel> selectByExample(AppMemberLevelExample example);
 
     AppMemberLevel selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") AppMemberLevel record, @Param("example") AppMemberLevelExample example);
+    int updateByExampleSelective(@Param("row") AppMemberLevel row, @Param("example") AppMemberLevelExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") AppMemberLevel record, @Param("example") AppMemberLevelExample example);
+    int updateByExample(@Param("row") AppMemberLevel row, @Param("example") AppMemberLevelExample example);
 
-    int updateByExample(@Param("record") AppMemberLevel record, @Param("example") AppMemberLevelExample example);
+    int updateByPrimaryKeySelective(AppMemberLevel row);
 
-    int updateByPrimaryKeySelective(AppMemberLevel record);
-
-    int updateByPrimaryKeyWithBLOBs(AppMemberLevel record);
-
-    int updateByPrimaryKey(AppMemberLevel record);
-
-
-
-
+    int updateByPrimaryKey(AppMemberLevel row);
 }
