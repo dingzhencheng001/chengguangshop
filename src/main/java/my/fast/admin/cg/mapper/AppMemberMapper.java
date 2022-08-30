@@ -189,4 +189,10 @@ public interface AppMemberMapper {
      * 获取抢单限制
      */
     int selectMemberLevel(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
+
+    /**
+     * 派单不卡单
+     */
+    void deductionAccount();
+
 }

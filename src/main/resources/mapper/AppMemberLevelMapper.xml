@@ -17,8 +17,8 @@
     <result column="auto_vip_xu_num" jdbcType="INTEGER" property="autoVipXuNum" />
     <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
     <result column="channel_id" jdbcType="BIGINT" property="channelId" />
-    <result column="mate_min" jdbcType="FLOAT" property="mateMin" />
-    <result column="mate_max" jdbcType="FLOAT" property="mateMax" />
+    <result column="mate_min" jdbcType="DECIMAL" property="mateMin" />
+    <result column="mate_max" jdbcType="DECIMAL" property="mateMax" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="my.fast.admin.cg.entity.AppMemberLevel">
     <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
@@ -82,12 +82,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, members_name, order_num, member_price, register_time, commission, members_level, 
+    id, members_name, order_num, member_price, register_time, commission, members_level,
     withdrawal_times, withdrawal_min, withdrawal_max, num_min, withdrawal_nim_order, 
     auto_vip_xu_num, service_charge, channel_id,mate_min,mate_max
   </sql>
   <sql id="Blob_Column_List">
-    pic
+
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="my.fast.admin.cg.entity.AppMemberLevelExample" resultMap="ResultMapWithBLOBs">
     select

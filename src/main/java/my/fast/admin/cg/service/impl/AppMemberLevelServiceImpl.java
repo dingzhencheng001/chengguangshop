@@ -53,9 +53,4 @@ public class AppMemberLevelServiceImpl implements AppMemberLevelService {
         return appMemberLevelMapper.insertSelective(appMemberLevel);
     }
 
-    @Override
-    public int selectMemberLevel(Long memberLevelId, Long channelId) {
-        return appMemberLevelMapper.selectMemberOrderLimit();
-
-    }
 }

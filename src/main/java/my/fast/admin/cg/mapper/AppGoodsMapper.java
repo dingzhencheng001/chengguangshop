@@ -32,7 +32,7 @@ public interface AppGoodsMapper {
 
     int updateByPrimaryKey(AppGoods record);
 
-    AppGoods randomOrders(BigDecimal useBalance);
+    AppGoods randomOrders(@Param("mateMinGoodsPrice")BigDecimal mateMinGoodsPrice, @Param("mateMaxGoodsPrice")BigDecimal mateMaxGoodsPrice);
 
     AppGoods selectByGoodsId(@Param("id")Long id, @Param("channelId")Long channelId);
 

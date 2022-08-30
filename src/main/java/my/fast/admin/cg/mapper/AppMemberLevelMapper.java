@@ -36,7 +36,7 @@ public interface AppMemberLevelMapper {
 
     int updateByPrimaryKey(AppMemberLevel record);
 
-    int selectMemberOrderLimit();
+
 
 
 }

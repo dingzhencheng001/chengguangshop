@@ -55,28 +55,28 @@ public class AppMemberLevel implements Serializable {
     private Long channelId;
     
     @ApiModelProperty(value = "最小匹配区间")
-    private Float mateMin;
+    private BigDecimal mateMin;
     
     @ApiModelProperty(value = "最大匹配区间")
-    private Float mateMax;
+    private BigDecimal mateMax;
     
 
     private static final long serialVersionUID = 1L;
 
     
-    public Float getMateMin() {
+    public BigDecimal getMateMin() {
 		return mateMin;
 	}
 
-	public void setMateMin(Float mateMin) {
+	public void setMateMin(BigDecimal mateMin) {
 		this.mateMin = mateMin;
 	}
 
-	public Float getMateMax() {
+	public BigDecimal getMateMax() {
 		return mateMax;
 	}
 
-	public void setMateMax(Float mateMax) {
+	public void setMateMax(BigDecimal mateMax) {
 		this.mateMax = mateMax;
 	}
 
