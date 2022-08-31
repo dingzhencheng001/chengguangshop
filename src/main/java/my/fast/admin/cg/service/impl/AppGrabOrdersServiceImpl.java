@@ -262,7 +262,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     private int submitDistributionGoods(AppAssignGoods appGoods, Long memberId, Long channelId, String orderSn)
     throws Exception {
         //如果不是卡单
-        if (appGoods.getHinder() == 0) {
+        if (appGoods.getHinder() == 2) {
             return smooth(appGoods, memberId, channelId, orderSn);
         }
         //如果是卡单
@@ -625,7 +625,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 return commission;
             }
         }
-        return null;
+        return new BigDecimal(0);
     }
 
     /**
