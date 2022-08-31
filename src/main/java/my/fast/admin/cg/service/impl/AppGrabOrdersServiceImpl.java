@@ -138,6 +138,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 BeanUtils.copyProperties(appGoods, appGoodsVo);
                 appGoodsVo.setGoodsAddTime(DateFormat.getNowDate());
                 appGoodsVo.setCommission(commission.multiply(appGoods.getGoodsPrice()));
+                appGoodsVo.setGoodsFlag(2);
                 BigDecimal goodsPrice = appGoods.getGoodsPrice();
                 BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
                 int flag = goodsPrice.compareTo(disposalAmount);
@@ -155,8 +156,9 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
     public int submitOrders(Object goods, Long memberId, Long channelId) throws Exception {
         //判断商品类型
         JSONObject json = (JSONObject) JSON.toJSON(goods);
-        boolean goodsFlag = json.containsKey("goodsFlag");
-        if (goodsFlag) {
+        //boolean goodsFlag = json.containsKey("goodsFlag");
+        Object goodsFlag = json.get("goodsFlag");
+        if (goodsFlag.equals(1)) {
             //指派订单
             AppAssignGoods appAssignGoods = JSON.parseObject(JSON.toJSONString(goods), AppAssignGoods.class);
             //生成订单号
@@ -386,51 +388,46 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         BigDecimal GrabCommission = goodsPrice.multiply(commission);
         appConvey.setCommission(GrabCommission);
         //判断是否是卡单的最后一单
+        BigDecimal balance = appMember.getBalance();
+        BigDecimal subtract = balance.subtract(goodsPrice);
         if (appGoods.getLastOrder() == 1 && appGoods.getLastOrder() != null) {
-            int exchange = exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
-            if (exchange > 0) {
-                Integer whichGroup = appGoods.getWhichGroup();
-                Date goodsAddTime = appGoods.getGoodsAddTime();
-                String date = DateFormat.dateToStr(goodsAddTime);
-                //找出当前组的商品
-                List<AppAssignGoods> appAssignGoods = appAssignGoodsMapper.selectGroupAssignGoods(whichGroup, date,
-                    memberId, channelId);
-                //释放冻结金额
-                BigDecimal total = new BigDecimal(0);
-                for (AppAssignGoods appAssignGood : appAssignGoods) {
-                    BigDecimal single = appAssignGood.getGoodsPrice()
-                        .multiply(commission);
-                    total = total.add(single);
-                }
-                //更新账户金额
-                appMemberMapper.updateBalanceByCommission(memberId, channelId, total);
-                //插入账变信息
-                insertAccountChange(memberId, channelId, orderSn, appMember, goodsPrice);
-                //获取上下级代理佣金比例
-                AppControl appControl = controlMapper.selectByChannelId(channelId);
-                appMemberMapper.selectParent();
-                List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
-                //更新代理账户
-                updateParentBalanceByCommission(appAssignGoods, memberId, channelId, appControl, appMembers, orderSn);
-                //更新派单商品状态
-                appGoods.setIsConsumed(1);
-                appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
-                setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
-                //设置订单状态
-                appConvey.setStatus("1");
-                appConveyMapper.insertSelective(appConvey);
-            }
-        } else {
+            //卡单最后一单
             //判断用户余额是否够扣
-            BigDecimal balance = appMember.getBalance();
-            BigDecimal subtract = balance.subtract(goodsPrice);
             //账户余额够扣
             if (subtract.intValue() >= 0) {
-                exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
-                setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
-                //设置订单状态
-                appConvey.setStatus("5");
-                //更新派单商品状态
+                int exchange = exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
+                if (exchange > 0) {
+                    Integer whichGroup = appGoods.getWhichGroup();
+                    Date goodsAddTime = appGoods.getGoodsAddTime();
+                    String date = DateFormat.dateToStr(goodsAddTime);
+                    //找出当前组的商品
+                    List<AppAssignGoods> appAssignGoods = appAssignGoodsMapper.selectGroupAssignGoods(whichGroup, date,
+                        memberId, channelId);
+                    //释放冻结金额
+                    BigDecimal total = new BigDecimal(0);
+                    for (AppAssignGoods appAssignGood : appAssignGoods) {
+                        BigDecimal single = appAssignGood.getGoodsPrice()
+                            .multiply(commission);
+                        total = total.add(single);
+                    }
+                    //更新账户金额
+                    appMemberMapper.updateBalanceByCommission(memberId, channelId, total);
+                    //插入账变信息
+                    insertAccountChange(memberId, channelId, orderSn, appMember, goodsPrice);
+                    //获取上下级代理佣金比例
+                    AppControl appControl = controlMapper.selectByChannelId(channelId);
+                    appMemberMapper.selectParent();
+                    List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
+                    //更新代理账户
+                    updateParentBalanceByCommission(appAssignGoods, memberId, channelId, appControl, appMembers,
+                        orderSn);
+                    //更新派单商品状态
+                    appGoods.setIsConsumed(1);
+                    appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
+                    setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
+                    //设置订单状态
+                    appConvey.setStatus("1");
+                }
             } else {
                 //更新派单商品状态
                 appGoods.setIsConsumed(1);
@@ -438,7 +435,22 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
                 //设置订单状态
                 appConvey.setStatus("0");
+            }
+        } else {
+            //判断用户余额是否够扣
+            //账户余额够扣
+            if (subtract.intValue() >= 0) {
+                exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
+                setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
+                //设置订单状态
+                appConvey.setStatus("5");
+            } else {
                 //更新派单商品状态
+                appGoods.setIsConsumed(1);
+                appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
+                setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
+                //设置订单状态
+                appConvey.setStatus("0");
             }
             appGoods.setIsConsumed(1);
             appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
