@@ -7,13 +7,16 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SysNotice implements Serializable {
     @ApiModelProperty(value = "公告ID")
-    private Long noticeId;
+    private Long id;
 
     @ApiModelProperty(value = "公告标题")
     private String noticeTitle;
 
     @ApiModelProperty(value = "公告类型（1通知 2公告）")
     private String noticeType;
+
+    @ApiModelProperty(value = "公告内容")
+    private String noticeContent;
 
     @ApiModelProperty(value = "公告状态（0正常 1关闭）")
     private String status;
@@ -42,17 +45,14 @@ public class SysNotice implements Serializable {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
-    @ApiModelProperty(value = "公告内容")
-    private String noticeContent;
-
     private static final long serialVersionUID = 1L;
 
-    public Long getNoticeId() {
-        return noticeId;
+    public Long getId() {
+        return id;
     }
 
-    public void setNoticeId(Long noticeId) {
-        this.noticeId = noticeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNoticeTitle() {
@@ -69,6 +69,14 @@ public class SysNotice implements Serializable {
 
     public void setNoticeType(String noticeType) {
         this.noticeType = noticeType;
+    }
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
     }
 
     public String getStatus() {
@@ -143,17 +151,16 @@ public class SysNotice implements Serializable {
         this.channelId = channelId;
     }
 
-   
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", noticeId=").append(noticeId);
+        sb.append(", id=").append(id);
         sb.append(", noticeTitle=").append(noticeTitle);
         sb.append(", noticeType=").append(noticeType);
+        sb.append(", noticeContent=").append(noticeContent);
         sb.append(", status=").append(status);
         sb.append(", createBy=").append(createBy);
         sb.append(", createTime=").append(createTime);
@@ -163,17 +170,8 @@ public class SysNotice implements Serializable {
         sb.append(", memberId=").append(memberId);
         sb.append(", noticeClasses=").append(noticeClasses);
         sb.append(", channelId=").append(channelId);
-        sb.append(", noticeContent=").append(noticeContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }
-
-	public String getNoticeContent() {
-		return noticeContent;
-	}
-
-	public void setNoticeContent(String noticeContent) {
-		this.noticeContent = noticeContent;
-	}
 }

@@ -3,6 +3,7 @@ package my.fast.admin.cg.service;
 import java.util.List;
 
 import my.fast.admin.cg.entity.SysNotice;
+import my.fast.admin.cg.model.SysNoticeParam;
 
 /**
  * TODO
@@ -38,5 +39,7 @@ public interface AppNoticeService {
     /**
      * 获取个人消息通知
      */
-    List<SysNotice> getMemberNoticeList(Integer pageNum, Integer pageSize, Long memberId);
+    List<SysNotice> getMemberNoticeList(SysNoticeParam sysNoticeParam);
+
+
 }

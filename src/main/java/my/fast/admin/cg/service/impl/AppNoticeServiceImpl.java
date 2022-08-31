@@ -1,5 +1,6 @@
 package my.fast.admin.cg.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import my.fast.admin.cg.entity.SysNotice;
 import my.fast.admin.cg.entity.SysNoticeExample;
 import my.fast.admin.cg.mapper.SysNoticeMapper;
+import my.fast.admin.cg.model.SysNoticeParam;
 import my.fast.admin.cg.service.AppNoticeService;
 
 /**
@@ -25,7 +27,6 @@ public class AppNoticeServiceImpl implements AppNoticeService {
     @Autowired
     private SysNoticeMapper sysNoticeMapper;
 
-
     @Override
     public List<SysNotice> getNoticeList(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -40,7 +41,7 @@ public class AppNoticeServiceImpl implements AppNoticeService {
 
     @Override
     public int updateNotice(Long id, SysNotice sysNotice) {
-        sysNotice.setNoticeId(id);
+        sysNotice.setId(id);
         return sysNoticeMapper.updateByPrimaryKeySelective(sysNotice);
     }
 
@@ -50,8 +51,17 @@ public class AppNoticeServiceImpl implements AppNoticeService {
     }
 
     @Override
-    public List<SysNotice> getMemberNoticeList(Integer pageNum, Integer pageSize, Long memberId) {
-        PageHelper.startPage(pageNum, pageSize);
-        return sysNoticeMapper.getMemberNoticeList(memberId);
+    public List<SysNotice> getMemberNoticeList(SysNoticeParam sysNoticeParam) {
+        PageHelper.startPage(sysNoticeParam.getPageNum(), sysNoticeParam.getPageSize());
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(1);
+        integers.add(2);
+        SysNoticeExample sysNoticeExample = new SysNoticeExample();
+        sysNoticeExample.createCriteria()
+            .andStatusEqualTo("1")
+            .andMemberIdEqualTo(sysNoticeParam.getMemberId())
+            .andChannelIdEqualTo(sysNoticeParam.getChannelId())
+            .andNoticeClassesIn(integers);
+        return sysNoticeMapper.selectByExample(sysNoticeExample);
     }
 }

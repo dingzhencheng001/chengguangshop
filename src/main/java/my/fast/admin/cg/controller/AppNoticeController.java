@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
@@ -18,6 +18,7 @@ import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.entity.SysNotice;
+import my.fast.admin.cg.model.SysNoticeParam;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.AppNoticeService;
 import my.fast.admin.framework.utils.TokenUtils;
@@ -41,17 +42,17 @@ public class AppNoticeController {
     private AppMemberService appMemberService;
 
     @ApiOperation(value = "获取个人消息通知列表")
-    @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<SysNotice>> getMemberNoticeList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize, HttpServletRequest request) {
+    public CommonResult<CommonPage<SysNotice>> getMemberNoticeList(HttpServletRequest request,
+        @RequestBody SysNoticeParam sysNoticeParam) {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("813");
         }
-        Long memberId = appUserVO.getId();
-        List<SysNotice> noticeList = appNoticeService.getMemberNoticeList(pageNum, pageSize,memberId);
+        sysNoticeParam.setMemberId(appUserVO.getId());
+        sysNoticeParam.setChannelId(appUserVO.getChannelId());
+        List<SysNotice> noticeList = appNoticeService.getMemberNoticeList(sysNoticeParam);
         return CommonResult.success(CommonPage.restPage(noticeList));
     }
 

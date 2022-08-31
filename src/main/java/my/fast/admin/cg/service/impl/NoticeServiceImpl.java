@@ -42,7 +42,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public int updateNotice(Long id, SysNotice sysNotice) {
-        sysNotice.setNoticeId(id);
+        sysNotice.setId(id);
         return sysNoticeMapper.updateByPrimaryKeySelective(sysNotice);
     }
 

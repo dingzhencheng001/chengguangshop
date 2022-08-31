@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import my.fast.admin.cg.entity.SysNotice;
 import my.fast.admin.cg.entity.SysNoticeExample;
+import my.fast.admin.cg.model.SysNoticeParam;
 
 public interface SysNoticeMapper {
     long countByExample(SysNoticeExample example);
@@ -14,27 +15,21 @@ public interface SysNoticeMapper {
 
     int deleteByPrimaryKey(Long noticeId);
 
-    int insert(SysNotice record);
+    int insert(SysNotice row);
 
-    int insertSelective(SysNotice record);
-
-    List<SysNotice> selectByExampleWithBLOBs(SysNoticeExample example);
+    int insertSelective(SysNotice row);
 
     List<SysNotice> selectByExample(SysNoticeExample example);
 
     SysNotice selectByPrimaryKey(Long noticeId);
 
-    int updateByExampleSelective(@Param("record") SysNotice record, @Param("example") SysNoticeExample example);
+    int updateByExampleSelective(@Param("row") SysNotice row, @Param("example") SysNoticeExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") SysNotice record, @Param("example") SysNoticeExample example);
+    int updateByExample(@Param("row") SysNotice row, @Param("example") SysNoticeExample example);
 
-    int updateByExample(@Param("record") SysNotice record, @Param("example") SysNoticeExample example);
+    int updateByPrimaryKeySelective(SysNotice row);
 
-    int updateByPrimaryKeySelective(SysNotice record);
+    int updateByPrimaryKey(SysNotice row);
 
-    int updateByPrimaryKeyWithBLOBs(SysNotice record);
-
-    int updateByPrimaryKey(SysNotice record);
-
-    List<SysNotice> getMemberNoticeList(Long memberId);
+    List<SysNotice> selectMemberNotice(SysNoticeParam sysNoticeParam);
 }
