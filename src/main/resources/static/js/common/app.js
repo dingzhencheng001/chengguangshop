@@ -277,3 +277,23 @@ $.dateFormat = function (date, format) {
     var _format = format || 'yyyy-MM-dd';
     return layui.util.toDateString(_date, _format)
 }
+
+
+/**
+ * 渲染Select
+ * @param select
+ * @param options
+ */
+$.renderSelect = function (select, options) {
+    if (!select) {
+        console.warn('[renderSelect]', select)
+        return;
+    }
+    select.innerHtml = '';
+    options.forEach(function (item) {
+        var option = document.createElement('option');
+        option.setAttribute('value', item.value);
+        option.innerText = item.name;
+        select.append(option);
+    });
+}

@@ -23,12 +23,12 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label" data-locale="addSwiper.selectPictureType">选择图片类型</label>
 					<div class="layui-input-block">
-						<select name="pictureType" lay-filter="pictureType" lay-verify="required">
+						<select class="pictureTypeSelect1" name="pictureType" lay-filter="pictureType" lay-verify="required">
 							<option value=""></option>
-							<option value="1" data-locale="addSwiper.pictureType1">首页展示</option>
-							<option value="2" data-locale="addSwiper.pictureType2">底部展示</option>
-							<option value="3" data-locale="addSwiper.pictureType3">LOGO</option>
-							<option value="4" data-locale="addSwiper.pictureType4">其他</option>
+							<!--							<option value="1" data-locale="addSwiper.pictureType1">首页展示</option>-->
+							<!--							<option value="2" data-locale="addSwiper.pictureType2">底部展示</option>-->
+							<!--							<option value="3" data-locale="addSwiper.pictureType3">LOGO</option>-->
+							<!--							<option value="4" data-locale="addSwiper.pictureType4">其他</option>-->
 						</select>
 					</div>
 				</div>
@@ -83,12 +83,12 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label" data-locale="addSwiper.selectPictureType">选择图片类型</label>
 					<div class="layui-input-block">
-						<select name="pictureType" lay-verify="required">
-							<option value=""></option>
-							<option value="1" data-locale="addSwiper.pictureType1">首页展示</option>
-							<option value="2" data-locale="addSwiper.pictureType2">底部展示</option>
-							<option value="3" data-locale="addSwiper.pictureType3">LOGO</option>
-							<option value="4" data-locale="addSwiper.pictureType4">其他</option>
+						<select class="pictureTypeSelect2" name="pictureType" lay-verify="required">
+							<!--							<option value=""></option>-->
+							<!--							<option value="1" data-locale="addSwiper.pictureType1">首页展示</option>-->
+							<!--							<option value="2" data-locale="addSwiper.pictureType2">底部展示</option>-->
+							<!--							<option value="3" data-locale="addSwiper.pictureType3">LOGO</option>-->
+							<!--							<option value="4" data-locale="addSwiper.pictureType4">其他</option>-->
 						</select>
 					</div>
 				</div>
@@ -211,6 +211,20 @@
 		var $t = i18n.$t;
 		window.i18n = i18n;
 		window.$t = $t;
+
+		var pictureTypeOptions = [
+			{
+				name: '',
+				value: '',
+			},
+			{
+				name: $t('addSwiper.pictureType1'),
+				value: 1,
+			},
+		];
+		$.renderSelect(document.querySelector('.pictureTypeSelect1'), pictureTypeOptions);
+		$.renderSelect(document.querySelector('.pictureTypeSelect2'), pictureTypeOptions);
+		form.render('select');
 
 		layedit.set({
 			//暴露layupload参数设置接口 --详细查看layupload参数说明
