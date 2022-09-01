@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class AppPicture implements Serializable {
     private Long id;
 
-    @ApiModelProperty(value = "图片类型 1.正文 2.头像3.公告")
+    @ApiModelProperty(value = "图片类型 1.首页banner")
     private Integer pictureType;
 
     @ApiModelProperty(value = "文字说明")

@@ -521,7 +521,7 @@ INSERT INTO `app_member_withdrawal` VALUES (6, 'TX20220727532151', 2, 'wx_user1'
 DROP TABLE IF EXISTS `app_picture`;
 CREATE TABLE `app_picture`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `picture_type` int(0) DEFAULT NULL COMMENT '图片类型 1.正文 2.头像3.公告',
+  `picture_type` int(0) DEFAULT NULL COMMENT '图片类型 1.首页banner',
   `content` varchar(5000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文字说明',
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   `last_edit` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后编辑',

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class PictureParam {
 
-    @ApiModelProperty(value = "图片类型 1.正文 2.头像3.公告")
+    @ApiModelProperty(value = "图片类型 1.首页banner")
     private Integer pictureType;
 
     @ApiModelProperty(value = "展示类型 1.app展示 2.app不展示")
