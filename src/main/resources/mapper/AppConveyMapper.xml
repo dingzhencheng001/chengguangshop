@@ -296,8 +296,8 @@
             member_id = #{memberId,jdbcType=BIGINT}
         </if>
         <if test="channelId != null">
-        and
-        channel_id = #{channelId,jdbcType=BIGINT}
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
         </if>
     </select>
     <select id="selectUserConvey" resultType="my.fast.admin.cg.vo.AppConveyDto">
@@ -404,6 +404,13 @@
             channel_id = #{channelId,jdbcType=BIGINT}
         </if>
 
+    </select>
+    <select id="selectMemberConvey" resultType="my.fast.admin.cg.entity.AppConvey">
+        select *
+        from app_convey
+        where status = 0
+          and member_id = #{memberId,jdbcType=BIGINT}
+          and channel_id = #{channelId,jdbcType=BIGINT}
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_convey

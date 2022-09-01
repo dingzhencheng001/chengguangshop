@@ -8,6 +8,7 @@ import my.fast.admin.cg.entity.AppConvey;
 import my.fast.admin.cg.entity.AppConveyExample;
 import my.fast.admin.cg.model.AppConveyParam;
 import my.fast.admin.cg.model.AppRandomOrderParam;
+import my.fast.admin.cg.model.MemberDepositParam;
 import my.fast.admin.cg.model.QiangNumParam;
 import my.fast.admin.cg.vo.AppConveyDto;
 import my.fast.admin.cg.vo.AppConveyVo;
@@ -49,4 +50,6 @@ public interface AppConveyMapper {
     List<AppConveyVo> selectConveyInfoByPd(AppConveyParam appConveyParam);
 
     List<AppConvey> selectQiang(AppRandomOrderParam appRandomOrderParam);
+
+    List<AppConvey> selectMemberConvey(MemberDepositParam depositParam);
 }
