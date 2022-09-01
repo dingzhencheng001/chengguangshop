@@ -160,50 +160,65 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         deposit.setIsDelete(0);
         depositMapper.insertSelective(deposit);
         //充值成功后,付未支付的订单
+        payment(depositParam, appMember);
+        return 1;
+    }
+
+    private int payment(MemberDepositParam depositParam, AppMember appMember) {
+        //充值成功后,付未支付的订单
         List<AppConvey> appConveys = appConveyMapper.selectMemberConvey(depositParam);
         if (appConveys.size() > 0) {
+            BigDecimal balance = appMember.getBalance();
             //如果有未支付,則完成交易
             for (AppConvey appConvey : appConveys) {
-                String orderSn = generateOrderSn();
-                BigDecimal goodsPrice = appConvey.getAmount();
-                Long memberId = depositParam.getMemberId();
-                Long channelId = depositParam.getChannelId();
-                BigDecimal commission = appConvey.getCommission();
-                AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
-                appMemberBalanceParam.setMemberId(memberId);
-                appMemberBalanceParam.setGoodsPrice(goodsPrice);
-                appMemberBalanceParam.setBalance(appMember.getBalance());
-                appMemberBalanceParam.setGrabCommission(commission);
-                appMemberBalanceParam.setChannelId(channelId);
-                appMemberMapper.updateMemberBalance(appMemberBalanceParam);
-                //查询parentAgent
-                appMemberMapper.selectParent();
-                List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
-                //获取上下级代理佣金比例
-                AppControl appControl = controlMapper.selectByChannelId(depositParam.getChannelId());
-                //更新parentAgentBalance
-                calculateCommission(appMembers, goodsPrice, appControl);
-                //插入账目变动表信息
-                AppMemberAccountChange accountChange = new AppMemberAccountChange();
-                accountChange.setMemberId(memberId);
-                accountChange.setOperaType(2);
-                accountChange.setPreOperaMount(appMember.getBalance());
-                accountChange.setOperaMount(goodsPrice);
-                //获取更新后的金额
-                AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
-                accountChange.setTotalMount(appMemberOpera.getBalance());
-                accountChange.setCreateBy(appMemberOpera.getUserAccount());
-                accountChange.setCreateTime(DateFormat.getNowDate());
-                accountChange.setChannelId(channelId);
-                accountChange.setOrderNo(orderSn);
-                appMemberAccountChangeMapper.insertSelective(accountChange);
-                //设置订单状态
-                appConvey.setStatus("1");
-                //设置订单状态
-                appConvey.setcStatus("1");
-                //设置交易完成时间
-                appConvey.setEndtime(DateFormat.getNowDate());
-                return  appConveyMapper.updateByPrimaryKey(appConvey);
+                BigDecimal subtract = balance.subtract(appConvey.getAmount());
+                //判断用户余额是否够扣
+                //账户余额够扣
+                if (subtract.intValue() >= 0) {
+                    String orderSn = generateOrderSn();
+                    BigDecimal goodsPrice = appConvey.getAmount();
+                    Long memberId = depositParam.getMemberId();
+                    Long channelId = depositParam.getChannelId();
+                    BigDecimal commission = appConvey.getCommission();
+                    AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
+                    appMemberBalanceParam.setMemberId(memberId);
+                    appMemberBalanceParam.setGoodsPrice(goodsPrice);
+                    appMemberBalanceParam.setBalance(appMember.getBalance());
+                    appMemberBalanceParam.setGrabCommission(commission);
+                    appMemberBalanceParam.setChannelId(channelId);
+                    appMemberMapper.updateMemberBalance(appMemberBalanceParam);
+                    //查询parentAgent
+                    appMemberMapper.selectParent();
+                    List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
+                    //获取上下级代理佣金比例
+                    AppControl appControl = controlMapper.selectByChannelId(depositParam.getChannelId());
+                    //更新parentAgentBalance
+                    calculateCommission(appMembers, goodsPrice, appControl);
+                    //插入账目变动表信息
+                    AppMemberAccountChange accountChange = new AppMemberAccountChange();
+                    accountChange.setMemberId(memberId);
+                    accountChange.setOperaType(2);
+                    accountChange.setPreOperaMount(appMember.getBalance());
+                    accountChange.setOperaMount(goodsPrice);
+                    //获取更新后的金额
+                    AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
+                    accountChange.setTotalMount(appMemberOpera.getBalance());
+                    accountChange.setCreateBy(appMemberOpera.getUserAccount());
+                    accountChange.setCreateTime(DateFormat.getNowDate());
+                    accountChange.setChannelId(channelId);
+                    accountChange.setOrderNo(orderSn);
+                    appMemberAccountChangeMapper.insertSelective(accountChange);
+                    //设置订单状态
+                    appConvey.setStatus("1");
+                    //设置订单状态
+                    appConvey.setcStatus("1");
+                    //设置交易完成时间
+                    appConvey.setEndtime(DateFormat.getNowDate());
+                    appConveyMapper.updateByPrimaryKey(appConvey);
+                } else {
+                    //不够扣
+                    return 1;
+                }
             }
         }
         return 1;
