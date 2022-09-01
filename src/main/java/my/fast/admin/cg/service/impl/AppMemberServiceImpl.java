@@ -1,5 +1,6 @@
 package my.fast.admin.cg.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,7 @@ import my.fast.admin.cg.model.AppMemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberIncomeVo;
 import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.framework.utils.CommonUtils;
 import my.fast.admin.framework.utils.DateFormat;
@@ -175,6 +177,17 @@ public class AppMemberServiceImpl implements AppMemberService {
             return qiang.intValue();
         }
         return 0;
+    }
+
+    @Override
+    public AppMemberIncomeVo selectMemberIncome(Long memberId, Long channelId) {
+        AppMemberIncomeVo appMemberIncomeVo = appMemberMapper.selectMemberIncome(memberId, channelId);
+        BigDecimal todayCommission = appConveyMapper.selectTodayCommission(memberId, channelId);
+        if (todayCommission==null){
+            appMemberIncomeVo.setTodayCommission(new BigDecimal(0));
+        }
+        appMemberIncomeVo.setTodayCommission(todayCommission);
+        return appMemberIncomeVo;
     }
 
     @Override

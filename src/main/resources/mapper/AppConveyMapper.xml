@@ -412,6 +412,25 @@
           and member_id = #{memberId,jdbcType=BIGINT}
           and channel_id = #{channelId,jdbcType=BIGINT}
     </select>
+    <select id="selectTodayCommission" resultType="java.math.BigDecimal">
+        SELECT
+        SUM(commission)
+        FROM
+        app_convey
+        WHERE
+        TO_DAYS( endtime ) = TO_DAYS(
+        now())
+        AND c_status =1
+        <if test="memberId != null">
+            and
+            member_id = #{memberId,jdbcType=BIGINT}
+        </if>
+        <if test="channelId != null">
+            and
+            channel_id = #{channelId,jdbcType=BIGINT}
+        </if>
+
+    </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_convey
         <set>

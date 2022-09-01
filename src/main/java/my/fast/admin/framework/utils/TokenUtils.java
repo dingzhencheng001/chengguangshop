@@ -23,9 +23,9 @@ public class TokenUtils {
         String token = request.getHeader("token");
         Assert.isTrue(StringUtils.isNotBlank(token), "812");
         String[] split = token.split("-");
-        Assert.isTrue(split.length == 3, "请重新登录");
+        Assert.isTrue(split.length == 3, "Please log in again");
         String userId = split[0];
-        Assert.notNull(userId, "用户信息为空");
+        Assert.notNull(userId, "User information is empty");
         return Long.parseLong(String.valueOf(userId));
     }
 

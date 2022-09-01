@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import my.fast.admin.cg.entity.AppMember;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberIncomeVo;
 import my.fast.admin.cg.vo.AppMemberVo;
 
 /**
@@ -116,4 +117,8 @@ public interface AppMemberService {
      */
     int getMemberOrderNum(Long memberId, Long channelId);
 
+    /**
+     * 查询会员总收益及当日佣金
+     */
+    AppMemberIncomeVo selectMemberIncome(Long memberId, Long channelId);
 }

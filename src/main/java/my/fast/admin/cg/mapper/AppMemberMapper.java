@@ -14,6 +14,7 @@ import my.fast.admin.cg.model.AppTeamReportInfo;
 import my.fast.admin.cg.model.MemberParam;
 import my.fast.admin.cg.model.MemberParams;
 import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberIncomeVo;
 import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.cg.vo.AppTeamReportVo;
 
@@ -191,8 +192,8 @@ public interface AppMemberMapper {
     int selectMemberLevel(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
 
     /**
-     * 派单不卡单
+     * 获取会员收入信息
      */
-    void deductionAccount();
+    AppMemberIncomeVo selectMemberIncome(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
 
 }

@@ -882,10 +882,8 @@
     <select id="selectMemberByIdAndChannelId" resultType="my.fast.admin.cg.entity.AppMember">
         select *
         from app_member
-        where
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
-
     </select>
     <resultMap id="agentListInfo" type="my.fast.admin.cg.model.AppTeamReportInfo">
         <result column="phone_number" property="phoneNumber"/>
@@ -965,6 +963,16 @@
         where m.id = #{memberId,jdbcType=BIGINT}
           and m.channel_Id = #{channelId,jdbcType=BIGINT}
 
+    </select>
+
+    <resultMap id="memberIncome" type="my.fast.admin.cg.vo.AppMemberIncomeVo">
+        <result column="total_commission" property="totalCommission"/>
+    </resultMap>
+    <select id="selectMemberIncome" resultMap="memberIncome">
+        select total_commission
+        from app_member
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
     </select>
 
 </mapper>

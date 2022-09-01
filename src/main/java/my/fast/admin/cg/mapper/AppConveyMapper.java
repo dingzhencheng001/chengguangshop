@@ -1,5 +1,6 @@
 package my.fast.admin.cg.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -52,4 +53,12 @@ public interface AppConveyMapper {
     List<AppConvey> selectQiang(AppRandomOrderParam appRandomOrderParam);
 
     List<AppConvey> selectMemberConvey(MemberDepositParam depositParam);
+
+    /**
+     * 查询当日佣金
+     * @param memberId
+     * @param channelId
+     */
+    BigDecimal selectTodayCommission(@Param("memberId") Long memberId,@Param("channelId")Long channelId);
+
 }

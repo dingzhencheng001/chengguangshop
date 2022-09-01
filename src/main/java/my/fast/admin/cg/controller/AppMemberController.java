@@ -22,7 +22,7 @@ import my.fast.admin.cg.entity.SysAgentList;
 import my.fast.admin.cg.service.AppAgentListService;
 import my.fast.admin.cg.service.AppMemberLevelService;
 import my.fast.admin.cg.service.AppMemberService;
-import my.fast.admin.cg.vo.AppMemberDto;
+import my.fast.admin.cg.vo.AppMemberIncomeVo;
 import my.fast.admin.cg.vo.AppMemberVo;
 import my.fast.admin.framework.utils.TokenUtils;
 
@@ -130,5 +130,19 @@ public class AppMemberController {
         Long channelId = appUserVO.getChannelId();
         int count = appMemberService.selectMemberLevel(memberId, channelId);
         return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询会员总佣金及今日收益")
+    @RequestMapping(value = "/income", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectMemberIncome(HttpServletRequest request) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
+        Long memberId = appUserVO.getId();
+        Long channelId = appUserVO.getChannelId();
+        AppMemberIncomeVo appMemberIncomeVo = appMemberService.selectMemberIncome(memberId, channelId);
+        return CommonResult.success(appMemberIncomeVo);
     }
 }
