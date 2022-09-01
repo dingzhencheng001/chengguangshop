@@ -1035,6 +1035,35 @@ INSERT INTO `sys_user` VALUES ('af0f2dac9a5c4af5bf0c8c65294f5ac8', '11', '11', '
 INSERT INTO `sys_user` VALUES ('e6802c17c52646479f7d1427bc6d5b48', 'test1', '测试', 'd913d97d61c423d85b813757f59b9358', 'FmYuAUYx4YRaYdXj', '10103', '11111111111', '111@qq.com', NULL, '1', NULL, '2018-07-03', 'admin', '1', NULL);
 
 -- ----------------------------
+-- Table structure for app_show
+-- ----------------------------
+DROP TABLE IF EXISTS `app_show`;
+CREATE TABLE `app_show`  (
+                             `id` bigint(0) NOT NULL AUTO_INCREMENT,
+                             `user_account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户账号',
+                             `total_commission` decimal(16, 2) NULL DEFAULT 0.00 COMMENT '今日收益',
+                             `show_type` int(0) NULL DEFAULT 1 COMMENT '展示类型0:不展示1:展示',
+                             PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '会员收入展示表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of app_show
+-- ----------------------------
+INSERT INTO `app_show` VALUES (1, 'xiaoming', 500.00, 1);
+INSERT INTO `app_show` VALUES (2, 'wangwu', 1200.00, 1);
+INSERT INTO `app_show` VALUES (3, 'tangsan', 1436.00, 1);
+INSERT INTO `app_show` VALUES (4, 'qinadaoliu', 5689.00, 1);
+INSERT INTO `app_show` VALUES (5, 'qianrenxue', 33669.00, 1);
+INSERT INTO `app_show` VALUES (6, 'baigujing', 1899.00, 1);
+INSERT INTO `app_show` VALUES (7, 'wangwei', 10000.00, 1);
+INSERT INTO `app_show` VALUES (8, 'libai', 12000.00, 1);
+INSERT INTO `app_show` VALUES (9, 'ruzhisheng', 6999.00, 1);
+INSERT INTO `app_show` VALUES (10, 'caocao', 7896.00, 1);
+INSERT INTO `app_show` VALUES (11, 'coco', 36.00, 1);
+INSERT INTO `app_show` VALUES (12, 'baozi', 7896.00, 1);
+INSERT INTO `app_show` VALUES (13, 'wangtianyi', 231.10, 1);
+
+-- ----------------------------
 -- Function structure for getDicText
 -- ----------------------------
 DROP FUNCTION IF EXISTS `getDicText`;
