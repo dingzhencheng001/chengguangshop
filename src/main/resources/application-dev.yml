@@ -21,9 +21,9 @@ spring:
       max-open-prepared-statements: 20
   redis:
     database: 1
-    host: 110.173.49.106
+    host: 119.3.204.184
     port: 6379
-    password: itchengguang
+#    password: itchengguang
   servlet:
     multipart:
       max-file-size: 1000MB
