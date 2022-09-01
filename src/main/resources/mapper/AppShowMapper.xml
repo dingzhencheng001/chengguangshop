@@ -150,7 +150,7 @@
             id >= ( SELECT floor( RAND() * ( SELECT MAX( id ) FROM app_show ) ) )
         ORDER BY
             total_commission DESC
-        LIMIT 10;
+        LIMIT 6;
     </select>
 
     <update id="updateByExampleSelective" parameterType="map">
