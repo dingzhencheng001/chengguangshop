@@ -321,6 +321,10 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
             //设置订单状态
             appConvey.setStatus("1");
+            //设置佣金发放状态
+            appConvey.setcStatus("1");
+            //设置订单完成时间
+            appConvey.setEndtime(DateFormat.getNowDate());
             return appConveyMapper.insertSelective(appConvey);
         }
         //更新派单商品状态
@@ -329,6 +333,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
         //设置订单状态
         appConvey.setStatus("0");
+        //设置佣金发放状态
+        appConvey.setcStatus("2");
         return appConveyMapper.insertSelective(appConvey);
     }
 
@@ -346,8 +352,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appConvey.setAmount(appGoods.getGoodsPrice());
         //设置下单时间
         appConvey.setAddtime(DateFormat.getNowDate());
-        //设置完成时间
-        appConvey.setEndtime(DateFormat.getNowDate());
         //设置佣金发放状态
         appConvey.setcStatus("1");
         //设置卡不卡单
@@ -427,6 +431,10 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                     setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
                     //设置订单状态
                     appConvey.setStatus("1");
+                    //设置佣金发放状态
+                    appConvey.setcStatus("1");
+                    //设置完成时间
+                    appConvey.setEndtime(DateFormat.getNowDate());
                 }
             } else {
                 //更新派单商品状态
@@ -435,6 +443,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
                 //设置订单状态
                 appConvey.setStatus("0");
+                //设置佣金发放状态
+                appConvey.setcStatus("2");
             }
         } else {
             //判断用户余额是否够扣
@@ -444,6 +454,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
                 //设置订单状态
                 appConvey.setStatus("5");
+                //设置佣金发放状态
+                appConvey.setcStatus("2");
             } else {
                 //更新派单商品状态
                 appGoods.setIsConsumed(1);
@@ -451,6 +463,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 setOrder(appGoods, memberId, channelId, orderSn, appConvey, appMember, GrabCommission);
                 //设置订单状态
                 appConvey.setStatus("0");
+                //设置佣金发放状态
+                appConvey.setcStatus("2");
             }
             appGoods.setIsConsumed(1);
             appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);

@@ -199,7 +199,11 @@ public class MemberDepositServiceImpl implements MemberDepositService {
                 appMemberAccountChangeMapper.insertSelective(accountChange);
                 //设置订单状态
                 appConvey.setStatus("1");
-                return  appConveyMapper.insertSelective(appConvey);
+                //设置订单状态
+                appConvey.setcStatus("1");
+                //设置交易完成时间
+                appConvey.setEndtime(DateFormat.getNowDate());
+                return  appConveyMapper.updateByPrimaryKey(appConvey);
             }
         }
         return 1;

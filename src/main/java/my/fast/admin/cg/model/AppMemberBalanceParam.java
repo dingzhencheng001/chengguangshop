@@ -37,4 +37,6 @@ public class AppMemberBalanceParam {
     private Long channelId;
 
 
+
+
 }
