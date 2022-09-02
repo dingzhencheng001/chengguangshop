@@ -35,7 +35,6 @@ public interface AppMemberAddressService {
    
    /**
     * 新增会员地址
-    * @param appMemberAddressPram
     */
    int createAddress(AppMemberAddress appMemberAddress);
    

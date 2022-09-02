@@ -44,26 +44,17 @@ public class AppMemberBankController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("812");
         }
-        CommonResult commonResult;
         //先根据ID查询无则新增有则更新
         AppMemberBank  tempBank = appMemberBankService.getMemberBank(appUserVO.getId());
         appMemberBank.setChannelId(appUserVO.getChannelId());//设置渠道ID
+        appMemberBank.setMemberId(appUserVO.getMemberLevelId());//设置会员ID
+        int count;
         if(tempBank == null){
-        	int count = appMemberBankService.createBanks(appMemberBank);
-            if (count == 1) {
-                commonResult = CommonResult.success(count);
-            } else {
-                commonResult = CommonResult.failed();
-            }
+            count = appMemberBankService.createBanks(appMemberBank);
         }else{
-        	int count = appMemberBankService.updateBanks(appMemberBank);
-            if (count == 1) {
-                commonResult = CommonResult.success(count);
-            } else {
-                commonResult = CommonResult.failed();
-            }
+            count = appMemberBankService.updateBanks(appMemberBank);
         }
-        return commonResult;
+        return CommonResult.success(count);
     }
 
     

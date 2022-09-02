@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sun.org.apache.regexp.internal.RE;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonResult;
@@ -43,26 +46,17 @@ public class AppMemberAddressController {
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("812");
         }
-        CommonResult commonResult;
         //先根据ID查询无则新增有则更新
         AppMemberAddress tempAddress = appMemberAddressService.getMemberAddress(appUserVO.getId());
         appMemberAddress.setChannelId(appUserVO.getChannelId());//设置渠道ID
+        appMemberAddress.setMemberId(appUserVO.getId());//设置会员ID
+        int count;
         if(tempAddress == null){
-        	int count = appMemberAddressService.createAddress(appMemberAddress);
-            if (count == 1) {
-                commonResult = CommonResult.success(count);
-            } else {
-                commonResult = CommonResult.failed();
-            }
+            count = appMemberAddressService.createAddress(appMemberAddress);
         }else{
-        	int count = appMemberAddressService.updateAddress(appMemberAddress);
-            if (count == 1) {
-                commonResult = CommonResult.success(count);
-            } else {
-                commonResult = CommonResult.failed();
-            }
+            count = appMemberAddressService.updateAddress(appMemberAddress);
         }
-        return commonResult;
+        return CommonResult.success(count);
     }
 
     @ApiOperation(value = "查询会员地址信息")
