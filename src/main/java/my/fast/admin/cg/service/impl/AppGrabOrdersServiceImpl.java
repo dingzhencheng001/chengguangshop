@@ -241,19 +241,26 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
         //更新parentAgentBalance
         calculateCommission(appMembers, goodsPrice, appControl);
-        //插入账目变动表信息
+        //插入账目变动表信息(减去抢单商品金额)
         AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         appMemberAccountChange.setMemberId(memberId);
         appMemberAccountChange.setOperaType(2);
         appMemberAccountChange.setPreOperaMount(appMember.getBalance());
-        appMemberAccountChange.setOperaMount(goodsPrice);
+        appMemberAccountChange.setOperaMount(goodsPrice.negate());
         //获取更新后的金额
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
-        appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
+        BigDecimal balance = appMember.getBalance();
+        appMemberAccountChange.setTotalMount(balance.subtract(goodsPrice));
         appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
         appMemberAccountChange.setOrderNo(orderSn);
+        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+        //返佣时的账变
+        appMemberAccountChange.setOperaType(5);
+        appMemberAccountChange.setOperaMount(goodsPrice.add(GrabCommission));
+        appMemberAccountChange.setPreOperaMount(balance.subtract(goodsPrice));
+        appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
         return appConveyMapper.insertSelective(appConvey);
     }
@@ -301,19 +308,26 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             AppControl appControl = controlMapper.selectByChannelId(channelId);
             //更新parentAgentBalance
             calculateCommission(appMembers, goodsPrice, appControl);
-            //插入账目变动表信息
+            //插入账目变动表信息(减去抢单商品金额)
             AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
             appMemberAccountChange.setMemberId(memberId);
             appMemberAccountChange.setOperaType(2);
             appMemberAccountChange.setPreOperaMount(appMember.getBalance());
-            appMemberAccountChange.setOperaMount(goodsPrice);
+            appMemberAccountChange.setOperaMount(goodsPrice.negate());
             //获取更新后的金额
             AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
-            appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
+            BigDecimal uBalance = appMember.getBalance();
+            appMemberAccountChange.setTotalMount(uBalance.subtract(goodsPrice));
             appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
             appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
             appMemberAccountChange.setChannelId(channelId);
             appMemberAccountChange.setOrderNo(orderSn);
+            appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
+            //返佣时的账变
+            appMemberAccountChange.setOperaType(5);
+            appMemberAccountChange.setOperaMount(goodsPrice.add(GrabCommission));
+            appMemberAccountChange.setPreOperaMount(balance.subtract(goodsPrice));
+            appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
             appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
             //更新派单商品状态
             appGoods.setIsConsumed(1);
@@ -401,7 +415,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             if (subtract.intValue() >= 0) {
                 int exchange = exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
                 //更新个人账户信息
-                appMemberMapper.updateOwnAccount(memberId, channelId,goodsPrice,GrabCommission);
+                //appMemberMapper.updateOwnAccount(memberId, channelId,goodsPrice,GrabCommission);
                 if (exchange > 0) {
                     Integer whichGroup = appGoods.getWhichGroup();
                     Date goodsAddTime = appGoods.getGoodsAddTime();
@@ -484,7 +498,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         return 1;
     }
 
-    private void insertAccountChange(Long memberId, Long channelId, String orderSn, AppMember appMember,
+    public void insertAccountChange(Long memberId, Long channelId, String orderSn, AppMember appMember,
         BigDecimal goodsPrice) {
         //插入账目变动表信息
         AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
@@ -555,6 +569,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberBalanceParam.setBalance(appMember.getBalance());
         appMemberBalanceParam.setGrabCommission(GrabCommission);
         appMemberBalanceParam.setChannelId(channelId);
+        //冻结用户佣金
         appMemberMapper.freezeBalance(appMemberBalanceParam);
         //查询parentAgent
         appMemberMapper.selectParent();
@@ -562,13 +577,13 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //获取上下级代理佣金比例
         AppControl appControl = controlMapper.selectByChannelId(channelId);
         //-------冻结上级代理佣金
-        BigDecimal ParentAgentCommission = freezeParentAgentBalance(appMembers, goodsPrice, appControl);
+        BigDecimal parentAgentCommission = freezeParentAgentBalance(appMembers, goodsPrice, appControl);
         //插入账目变动表信息
         AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
         appMemberAccountChange.setMemberId(memberId);
         appMemberAccountChange.setOperaType(3);
         appMemberAccountChange.setPreOperaMount(appMember.getBalance());
-        appMemberAccountChange.setOperaMount(ParentAgentCommission);
+        appMemberAccountChange.setOperaMount(parentAgentCommission);
         //获取更新后的金额
         AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
         appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
@@ -599,6 +614,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
                 appMemberBalanceParam.setGrabCommission(commission);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 appMemberMapper.updateAgentGrabCommission(appMemberBalanceParam);
                 return commission;
@@ -610,6 +626,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
                 appMemberBalanceParam.setGrabCommission(commission);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 appMemberMapper.updateAgentGrabCommission(appMemberBalanceParam);
                 return commission;
@@ -622,6 +639,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
                 appMemberBalanceParam.setGrabCommission(commission);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 appMemberMapper.updateAgentGrabCommission(appMemberBalanceParam);
                 return commission;
@@ -634,6 +652,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
                 appMemberBalanceParam.setGrabCommission(commission);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 appMemberMapper.updateAgentGrabCommission(appMemberBalanceParam);
                 return commission;
@@ -646,6 +665,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
                 appMemberBalanceParam.setGrabCommission(commission);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
                 appMemberMapper.updateAgentGrabCommission(appMemberBalanceParam);
                 return commission;
@@ -662,43 +682,83 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             Long id = appMember.getId();
             Long memberLevelId = appMember.getMemberLevelId();
             BigDecimal balance = appMember.getBalance();
+            Long channelId = appMember.getChannelId();
             if (memberLevelId == 1L) {
-                appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpOneCommission())));
+                BigDecimal commission = goodsPrice.multiply(appControl.getUpOneCommission());
+                appMember.setBalance(balance.add(commission));
                 BigDecimal parentBalance = appMember.getBalance();
                 AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
+                //插入账变信息
+                insertParentAccountChange(id,channelId,appMember,commission);
             } else if (memberLevelId == 2L) {
-                appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpTwoCommission())));
+                BigDecimal commission = goodsPrice.multiply(appControl.getUpTwoCommission());
+                appMember.setBalance(balance.add(commission));
                 BigDecimal parentBalance = appMember.getBalance();
                 AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
+                //插入账变信息
+                insertParentAccountChange(id, channelId, appMember, commission);
             } else if (memberLevelId == 3L) {
-                appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpThreeCommission())));
+                BigDecimal commission = goodsPrice.multiply(appControl.getUpThreeCommission());
+                appMember.setBalance(balance.add(commission));
                 BigDecimal parentBalance = appMember.getBalance();
                 AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
+                //插入账变信息
+                insertParentAccountChange(id, channelId, appMember, commission);
             } else if (memberLevelId == 4L) {
-                appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpFourCommission())));
+                BigDecimal commission = goodsPrice.multiply(appControl.getUpFourCommission());
+                appMember.setBalance(balance.add(commission));
                 BigDecimal parentBalance = appMember.getBalance();
                 AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
+                //插入账变信息
+                insertParentAccountChange(id, channelId, appMember, commission);
             } else if (memberLevelId == 5L) {
-                appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpFiveCommission())));
+                BigDecimal commission = goodsPrice.multiply(appControl.getUpFiveCommission());
+                appMember.setBalance(balance.add(commission));
                 BigDecimal parentBalance = appMember.getBalance();
                 AppMemberBalanceParam appMemberBalanceParam = new AppMemberBalanceParam();
                 appMemberBalanceParam.setBalance(parentBalance);
                 appMemberBalanceParam.setMemberId(id);
+                appMemberBalanceParam.setChannelId(appMember.getChannelId());
                 appMemberMapper.updateAgentBalance(appMemberBalanceParam);
+                //插入账变信息
+                insertParentAccountChange(id, channelId, appMember, commission);
             }
         }
+    }
+
+    private void insertParentAccountChange(Long memberId, Long channelId, AppMember appMember, BigDecimal commission) {
+        //插入账目变动表信息
+        AppMemberAccountChange appMemberAccountChange = new AppMemberAccountChange();
+        appMemberAccountChange.setMemberId(memberId);
+        appMemberAccountChange.setOperaType(5);
+        BigDecimal balance = appMember.getBalance();
+        BigDecimal preOperaMount = balance.subtract(commission);
+        appMemberAccountChange.setPreOperaMount(preOperaMount);
+        appMemberAccountChange.setOperaMount(commission);
+        //获取更新后的金额
+        AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
+        appMemberAccountChange.setTotalMount(appMemberOpera.getBalance());
+        appMemberAccountChange.setCreateBy(appMemberOpera.getUserAccount());
+        appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
+        appMemberAccountChange.setChannelId(channelId);
+        appMemberAccountChange.setOrderNo(generateOrderSn());
+        appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
     }
 
     /**
