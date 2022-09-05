@@ -33,4 +33,10 @@ public class AppPictureServiceImpl implements AppPictureService {
             .andShowTypeEqualTo(pictureParam.getShowType());
         return appPictureMapper.selectByExample(appPictureExample);
     }
+
+    @Override
+    public AppPicture selectPictureById(Long channelId, Long id) {
+        return appPictureMapper.selectPictureById(channelId,id);
+    }
+
 }

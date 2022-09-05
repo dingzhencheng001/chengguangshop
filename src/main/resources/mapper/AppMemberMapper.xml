@@ -691,7 +691,7 @@
     </update>
     <update id="updateMemberBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
-        set balance = balance + #{grabCommission,jdbcType=DECIMAL},
+        set balance          = balance + #{grabCommission,jdbcType=DECIMAL},
             total_commission = total_commission + #{grabCommission,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
@@ -725,9 +725,24 @@
     </update>
     <update id="updateBalanceByCommission">
         update app_member
-        set balance        = balance + #{total,jdbcType=DECIMAL},
-            freeze_balance = freeze_balance - #{total,jdbcType=DECIMAL},
-            total_commission = total_commission+#{total,jdbcType=DECIMAL}
+        set balance          = balance + #{total,jdbcType=DECIMAL},
+            freeze_balance   = freeze_balance - #{total,jdbcType=DECIMAL},
+            total_commission = total_commission + #{total,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
+    <update id="unfreezeIndividualAccount">
+        update app_member
+        set balance          = balance + #{total,jdbcType=DECIMAL} + #{totalGoodsPrice,jdbcType=DECIMAL},
+            freeze_balance   = freeze_balance - #{total,jdbcType=DECIMAL} - #{totalGoodsPrice,jdbcType=DECIMAL},
+            total_commission = total_commission + #{total,jdbcType=DECIMAL}
+        where id = #{memberId,jdbcType=BIGINT}
+          and channel_Id = #{channelId,jdbcType=BIGINT}
+    </update>
+    <update id="updateOwnAccount">
+        update app_member
+        set balance        = balance + #{goodsPrice,jdbcType=DECIMAL},
+            freeze_balance = freeze_balance + #{goodsPrice,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>

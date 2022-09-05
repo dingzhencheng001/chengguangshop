@@ -400,6 +400,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             //账户余额够扣
             if (subtract.intValue() >= 0) {
                 int exchange = exchange(memberId, channelId, orderSn, appMember, goodsPrice, GrabCommission);
+                //更新个人账户信息
+                appMemberMapper.updateOwnAccount(memberId, channelId,goodsPrice,GrabCommission);
                 if (exchange > 0) {
                     Integer whichGroup = appGoods.getWhichGroup();
                     Date goodsAddTime = appGoods.getGoodsAddTime();
@@ -408,14 +410,23 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                     List<AppAssignGoods> appAssignGoods = appAssignGoodsMapper.selectGroupAssignGoods(whichGroup, date,
                         memberId, channelId);
                     //释放冻结金额
-                    BigDecimal total = new BigDecimal(0);
+                    BigDecimal totalCommission = new BigDecimal(0);
+                    BigDecimal totalGoodsPrice = new BigDecimal(0);
                     for (AppAssignGoods appAssignGood : appAssignGoods) {
-                        BigDecimal single = appAssignGood.getGoodsPrice()
-                            .multiply(commission);
-                        total = total.add(single);
+                        if (appAssignGood.getHinder() == 1) {
+                            BigDecimal single = appAssignGood.getGoodsPrice()
+                                .multiply(commission);
+                            BigDecimal order = appAssignGood.getGoodsPrice();
+                            totalGoodsPrice = totalGoodsPrice.add(order);
+                            totalCommission = totalCommission.add(single);
+                        }
+                      /*  if (appAssignGood.getLastOrder()==1){
+                            BigDecimal price = appAssignGood.getGoodsPrice();
+                            totalGoodsPrice=totalGoodsPrice.subtract(price);
+                        }*/
                     }
-                    //更新账户金额
-                    appMemberMapper.updateBalanceByCommission(memberId, channelId, total);
+                    //解冻派单冻结的金额
+                    appMemberMapper.unfreezeIndividualAccount(memberId, channelId, totalCommission, totalGoodsPrice);
                     //插入账变信息
                     insertAccountChange(memberId, channelId, orderSn, appMember, goodsPrice);
                     //获取上下级代理佣金比例
@@ -423,7 +434,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                     appMemberMapper.selectParent();
                     List<AppMember> appMembers = appMemberMapper.selectAppMemberParentAgent(memberId);
                     //更新代理账户
-                    updateParentBalanceByCommission(appAssignGoods, memberId, channelId, appControl, appMembers,
+                    updateParentBalanceByCommission(appAssignGoods, appControl, appMembers,
                         orderSn);
                     //更新派单商品状态
                     appGoods.setIsConsumed(1);
@@ -491,14 +502,15 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
     }
 
-    private void updateParentBalanceByCommission(List<AppAssignGoods> appAssignGoods, Long memberId, Long channelId,
-        AppControl appControl, List<AppMember> appMembers, String orderSn) {
+    private void updateParentBalanceByCommission(List<AppAssignGoods> appAssignGoods, AppControl appControl, List<AppMember> appMembers, String orderSn) {
         BigDecimal upOneCommission = count(appAssignGoods, appControl.getUpOneCommission());
         BigDecimal upTwoCommission = count(appAssignGoods, appControl.getUpTwoCommission());
         BigDecimal upThreeCommission = count(appAssignGoods, appControl.getUpThreeCommission());
         BigDecimal upFourCommission = count(appAssignGoods, appControl.getUpFourCommission());
         BigDecimal upFiveCommission = count(appAssignGoods, appControl.getUpFiveCommission());
         for (AppMember appMember : appMembers) {
+            Long memberId = appMember.getId();
+            Long channelId = appMember.getChannelId();
             Long memberLevelId = appMember.getMemberLevelId();
             if (memberLevelId == 1L) {
                 appMemberMapper.updateBalanceByCommission(memberId, channelId, upOneCommission);

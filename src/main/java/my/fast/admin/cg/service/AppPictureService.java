@@ -19,6 +19,8 @@ public interface AppPictureService {
      * @param pictureParam
      */
     List<AppPicture> selectPicture(PictureParam pictureParam);
-
-
+    /**
+     * 获取app图片详情
+     */
+    AppPicture selectPictureById(Long channelId, Long id);
 }

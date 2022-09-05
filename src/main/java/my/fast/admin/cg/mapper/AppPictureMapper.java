@@ -29,4 +29,6 @@ public interface AppPictureMapper {
     int updateByPrimaryKeySelective(AppPicture record);
 
     int updateByPrimaryKey(AppPicture record);
+
+    AppPicture selectPictureById(@Param("channelId")Long channelId, @Param("id")Long id);
 }

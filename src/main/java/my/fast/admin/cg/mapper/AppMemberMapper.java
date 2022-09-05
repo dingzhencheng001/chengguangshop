@@ -196,4 +196,12 @@ public interface AppMemberMapper {
      */
     AppMemberIncomeVo selectMemberIncome(@Param("memberId")Long memberId, @Param("channelId")Long channelId);
 
+    /**
+     * 最后一单解冻
+     */
+    int unfreezeIndividualAccount(@Param("memberId")Long memberId, @Param("channelId")Long channelId, @Param("total")BigDecimal total, @Param("totalGoodsPrice")BigDecimal totalGoodsPrice);
+    /**
+     * 个人账户更新
+     */
+    int updateOwnAccount(@Param("memberId")Long memberId, @Param("channelId")Long channelId, @Param("goodsPrice")BigDecimal goodsPrice, @Param("grabCommission")BigDecimal grabCommission);
 }

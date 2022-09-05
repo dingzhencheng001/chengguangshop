@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,5 +56,21 @@ public class AppPictureController {
         return CommonResult.success(appPictures);
 
     }
+
+    @ApiOperation(value = "获取app图片详情")
+    @RequestMapping(value = "/select/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<AppPicture> selectPictureById(HttpServletRequest request ,
+        @PathVariable Long id) {
+        AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
+        if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
+            return CommonResult.failed("812");
+        }
+        Long channelId = appUserVO.getChannelId();
+        AppPicture appPicture = appPictureService.selectPictureById(channelId,id);
+        return CommonResult.success(appPicture);
+
+    }
+
 
 }
