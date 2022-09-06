@@ -106,7 +106,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             BigDecimal balance = appMember.getBalance();
             BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
             BeanUtils.copyProperties(appAssignGoods, appGoodsVo);
-            appGoodsVo.setCommission(commission.multiply(appAssignGoods.getGoodsPrice()));
+            BigDecimal returnCommission = commission.multiply(appAssignGoods.getGoodsPrice());
+            appGoodsVo.setCommission(returnCommission);
             int flag = goodsPrice.compareTo(disposalAmount);
             if (flag >= 0) {
                 throw new Exception("832");
@@ -413,8 +414,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             //判断用户余额是否够扣
             //账户余额够扣
             if (subtract.intValue() >= 0) {
+                //冻结个人所得和上级佣金
                 int exchange = exchange(memberId, channelId, appMember, goodsPrice, GrabCommission);
-                //更新个人账户信息
                 if (exchange > 0) {
                     Integer whichGroup = appGoods.getWhichGroup();
                     Date goodsAddTime = appGoods.getGoodsAddTime();
@@ -465,7 +466,6 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
                 //设置佣金发放状态
                 appConvey.setcStatus("2");
             }
-            return appConveyMapper.insertSelective(appConvey);
         } else {
             //判断用户余额是否够扣
             //账户余额够扣
@@ -492,8 +492,8 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             }
             appGoods.setIsConsumed(1);
             appAssignGoodsMapper.updateByPrimaryKeySelective(appGoods);
-            return appConveyMapper.insertSelective(appConvey);
         }
+        return appConveyMapper.insertSelective(appConvey);
     }
 
     public void insertOwnAccountChange(Long memberId, Long channelId, AppMember appMember, BigDecimal goodsPrice,
@@ -572,9 +572,11 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         //释放冻结金额
         BigDecimal total = new BigDecimal(0);
         for (AppAssignGoods appAssignGood : appAssignGoods) {
-            BigDecimal single = appAssignGood.getGoodsPrice()
-                .multiply(commission);
-            total = total.add(single);
+            if (appAssignGood.getHinder() == 1) {
+                BigDecimal single = appAssignGood.getGoodsPrice()
+                    .multiply(commission);
+                total = total.add(single);
+            }
         }
         return total;
     }
@@ -609,7 +611,7 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
             Long memberLevelId = appMember.getMemberLevelId();
             BigDecimal balance = appMember.getBalance();
             if (memberLevelId == 1L) {
-                //佣金比例
+                //佣金
                 BigDecimal commission = goodsPrice.multiply(appControl.getUpOneCommission());
                 //设置佣金
                 appMember.setBalance(balance.add(goodsPrice.multiply(appControl.getUpOneCommission())));

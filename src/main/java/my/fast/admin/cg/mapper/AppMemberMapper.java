@@ -172,7 +172,7 @@ public interface AppMemberMapper {
     void updateAgentGrabCommission(AppMemberBalanceParam appMemberBalanceParam);
 
     /**
-     * 佣金解冻
+     * 派单卡单上级佣金解冻
      */
     int updateBalanceByCommission(@Param("memberId")Long memberId, @Param("channelId")Long channelId, @Param("total")BigDecimal total);
 

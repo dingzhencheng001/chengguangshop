@@ -726,9 +726,7 @@
     </update>
     <update id="updateBalanceByCommission">
         update app_member
-        set balance          = balance + #{total,jdbcType=DECIMAL},
-            freeze_balance   = freeze_balance - #{total,jdbcType=DECIMAL},
-            total_commission = total_commission + #{total,jdbcType=DECIMAL}
+        set freeze_balance = freeze_balance - #{total,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
