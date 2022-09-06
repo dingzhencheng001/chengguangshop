@@ -699,7 +699,8 @@
 
     <update id="updateAgentBalance" parameterType="my.fast.admin.cg.model.AppMemberBalanceParam">
         update app_member
-        set balance = #{balance,jdbcType=DECIMAL}
+        set balance          = #{balance,jdbcType=DECIMAL},
+            total_commission = total_commission + #{totalCommission,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>

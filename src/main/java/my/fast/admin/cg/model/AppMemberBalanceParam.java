@@ -36,7 +36,8 @@ public class AppMemberBalanceParam {
     @ApiModelProperty(value = "渠道id")
     private Long channelId;
 
-
+    @ApiModelProperty(value = "会员个人总佣金")
+    private BigDecimal totalCommission;
 
 
 }

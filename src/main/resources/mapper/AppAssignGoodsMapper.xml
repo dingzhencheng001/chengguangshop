@@ -266,7 +266,7 @@
           and channel_id = #{channelId,jdbcType=BIGINT}
           and is_consumed = 0
           and status = 1
-          ORDER BY goods_add_time , order_quantity
+          ORDER BY order_quantity
     </select>
     <select id="selectGroupAssignGoods" resultType="my.fast.admin.cg.entity.AppAssignGoods">
         select *
