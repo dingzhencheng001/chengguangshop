@@ -20,6 +20,8 @@ import my.fast.admin.cg.entity.AppMember;
 @EqualsAndHashCode(callSuper = false)
 public class AppMemberWithdrawalVo {
 
+    private Long id;
+
     @ApiModelProperty(value = "交易订单号")
     private String orderNo;
 
