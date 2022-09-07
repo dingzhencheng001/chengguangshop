@@ -1,4 +1,5 @@
 
+
 layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 	var table = layui.table,
 		$ = layui.$,
@@ -200,6 +201,7 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 				content: $('#editId'),
 				success: function () {
 					form.val('editForm', data)
+					$('#update-img').attr('src', data.pic).show();
 					$('#editId').show()
 				},
 				cancel: function () {
@@ -223,8 +225,8 @@ layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 	table.render({
 		elem: '#level',
 		height: 312,
+		// url: 'http://localhost:8080/action/level/list', //数据接口
 		url: '/action/level/list', //数据接口
-		// url: '/levelaction/list?pageNum=1&pageSize=20', //数据接口
 		page: true, //开启分页
 		cellMinWidth: 100, //全局定义常规单元格的最小宽度
 		where: where,

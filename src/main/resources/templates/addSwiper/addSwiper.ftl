@@ -221,6 +221,14 @@
 				name: $t('addSwiper.pictureType1'),
 				value: 1,
 			},
+			{
+				name: $t('addSwiper.pictureType2'),
+				value: 2,
+			},
+			{
+				name: $t('addSwiper.pictureType3'),
+				value: 3,
+			},
 		];
 		$.renderSelect(document.querySelector('.pictureTypeSelect1'), pictureTypeOptions);
 		$.renderSelect(document.querySelector('.pictureTypeSelect2'), pictureTypeOptions);
