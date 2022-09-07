@@ -33,7 +33,6 @@ public interface MemberWithdrawalService {
     /**
      * 分页查询
      */
-    List<AppMemberWithdrawalVo> findPage(Integer pageNum, Integer pageSize, Long channelId,
-        MemberWithdrawalParam withdrawal);
+    List<AppMemberWithdrawalVo> findPage(MemberWithdrawalParam withdrawal);
 
 }

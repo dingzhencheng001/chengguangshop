@@ -80,7 +80,7 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
             throw new Exception("827");
         }
         if (startWithdraw.compareTo(stringDate) < 0 && endWithdraw.compareTo(stringDate) > 0) {
-            //修改账户余额并且冻结金额
+            //冻结金额提现金额
             appMemberMapper.updateBalance(channelId, memberId, withdrawalNum);
             BigDecimal nowBalance = appMemberMapper.selectByPrimaryKey(memberId)
                 .getBalance();
@@ -121,7 +121,7 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
     @Override
     public List<AppMemberWithdrawalVo> findPage(Long channelId, MemberWithdrawalParam memberWithdrawalParam) {
         PageHelper.startPage(memberWithdrawalParam.getPageNum(), memberWithdrawalParam.getPageSize());
-        return appMemberWithdrawalMapper.selectWithdrawalList(channelId, memberWithdrawalParam);
+        return appMemberWithdrawalMapper.selectWithdrawalList(memberWithdrawalParam);
     }
 
     /**

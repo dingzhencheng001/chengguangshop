@@ -26,4 +26,7 @@ public class AppWithdrawalParam {
 
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
+
+    @ApiModelProperty(value = "操作类型【1.待审核 2.已驳回 3.已打款 】")
+    private int status;
 }

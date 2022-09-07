@@ -706,8 +706,7 @@
     </update>
     <update id="updateBalance">
         update app_member
-        set balance        = balance - #{withdrawalNum,jdbcType=DECIMAL},
-            freeze_balance = freeze_balance + #{withdrawalNum,jdbcType=DECIMAL}
+        set freeze_balance = freeze_balance + #{withdrawalNum,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </update>
@@ -747,14 +746,14 @@
     </update>
     <insert id="changeBalance">
         update app_member
-        set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
-        where id = #{memberId,jdbcType=BIGINT}
-          and channel_Id = #{channelId,jdbcType=BIGINT}
+        set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL},
+            balance        = balance - #{withdrawalNum,jdbcType=DECIMAL}
+            where id = #{memberId,jdbcType=BIGINT}
+                and channel_Id = #{channelId,jdbcType=BIGINT}
     </insert>
     <insert id="rollbackBalance">
         update app_member
-        set balance        = balance + #{withdrawalNum,jdbcType=DECIMAL},
-            freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
+        set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL}
         where id = #{memberId,jdbcType=BIGINT}
           and channel_Id = #{channelId,jdbcType=BIGINT}
     </insert>

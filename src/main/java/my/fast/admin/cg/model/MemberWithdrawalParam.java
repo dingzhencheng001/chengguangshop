@@ -1,6 +1,5 @@
 package my.fast.admin.cg.model;
 
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -39,4 +38,8 @@ public class MemberWithdrawalParam {
 
     @ApiModelProperty(value = "分页数")
     private Integer pageSize;
+
+    @ApiModelProperty(value = "渠道id")
+    private Long channelId;
+
 }

@@ -76,7 +76,7 @@ public class MemberWithdrawalController {
         }
     }
 
-    @ApiOperation(value = "驳回提现信息")
+    @ApiOperation(value = "单个驳回提现信息")
     @RequestMapping(value = "/reject", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult rejectById(HttpServletRequest request, @RequestBody AppWithdrawalParam appWithdrawalParam) {
@@ -106,8 +106,6 @@ public class MemberWithdrawalController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-        @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
         @RequestBody MemberWithdrawalParam withdrawal, HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
@@ -122,8 +120,8 @@ public class MemberWithdrawalController {
             return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
-        List<AppMemberWithdrawalVo> appMemberWithdrawalVos = memberWithdrawalService.findPage(pageNum, pageSize,
-            channelId, withdrawal);
+        withdrawal.setChannelId(channelId);
+        List<AppMemberWithdrawalVo> appMemberWithdrawalVos = memberWithdrawalService.findPage(withdrawal);
         return CommonResult.success(CommonPage.restPage(appMemberWithdrawalVos));
     }
 

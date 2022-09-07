@@ -32,7 +32,6 @@ public interface AppMemberWithdrawalMapper {
 
     int updateByPrimaryKey(AppMemberWithdrawal record);
 
-    List<AppMemberWithdrawalVo> selectWithdrawalList(@Param("channelId") Long channelId,@Param("record")
-        MemberWithdrawalParam record);
+    List<AppMemberWithdrawalVo> selectWithdrawalList(MemberWithdrawalParam memberWithdrawalParam);
 
 }

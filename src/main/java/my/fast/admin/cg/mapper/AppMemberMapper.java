@@ -130,7 +130,7 @@ public interface AppMemberMapper {
     AppMember selectMemberByIdAndChannelId(@Param("channelId") Long channelId, @Param("memberId") Long memberId);
 
     /**
-     * 更改提现后的余额
+     * 冻结金额提现金额
      *
      * @param channelId
      * @param memberId

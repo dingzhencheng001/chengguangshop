@@ -34,6 +34,9 @@ public class MemberParams {
 
     @ApiModelProperty(value = "分页数")
     private Integer pageSize;
-    
+
+
+
+
 
 }

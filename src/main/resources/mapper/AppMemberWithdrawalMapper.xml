@@ -248,26 +248,27 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
+
     <select id="selectWithdrawalList" resultType="my.fast.admin.cg.vo.AppMemberWithdrawalVo">
         SELECT l.*,
-               b.bank_name,
-               b.bank_number
+               b.bank_name as bankName,
+               b.bank_number as bankNum
         FROM app_member_withdrawal l
                  LEFT JOIN app_member m ON l.member_id = m.id
                  LEFT JOIN app_member_bank b ON l.member_id = b.member_id
         where l.channel_Id = #{channelId,jdbcType=BIGINT}
-        <if test="record.orderNo != null">
+        <if test="orderNo != null">
             and
             l.order_no like concat('%',#{record.orderNo,jdbcType=VARCHAR},'%')
         </if>
 
-        <if test="record.userAccount != null">
+        <if test="userAccount != null">
             and
             l.user_account like concat('%',#{record.userAccount,jdbcType=VARCHAR},'%')
         </if>
-        <if test="record.selectBeginTime != null">
+        <if test="selectBeginTime != null">
             and
-            l.create_time BETWEEN #{record.selectBeginTime,jdbcType=TIMESTAMP} and #{record.selectEndTime,jdbcType=TIMESTAMP}
+            l.create_time BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
