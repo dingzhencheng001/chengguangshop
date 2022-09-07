@@ -166,7 +166,7 @@
                     title: $t('operationConfirmation'),
                     btn: [$t('confirm'), $t('cancel')],
                 }, function (index) {
-                    var ids = [data.orderNo]
+                    var ids = [data.id]
                     $.request({
                         url: '/action/withdrawal/approval/batch',
                         data: {
@@ -195,7 +195,7 @@
                         url: '/action/withdrawal/reject',
                         type: 'post',
                         data: {
-                            id: data.orderNo,
+                            id: data.id,
                             remark: value
                         },
                         showLoading: true,
@@ -214,7 +214,7 @@
         var onAgree = function () {
             var checkStatus = table.checkStatus(tableId);
             var ids = checkStatus.data.map(function (item) {
-                return item.orderNo;
+                return item.id;
             });
             if (ids.length === 0) {
                 layer.msg($t('pleaseSelectItem'), {icon: 2});
@@ -242,7 +242,7 @@
         var onRefuse = function () {
             var checkStatus = table.checkStatus(tableId);
             var ids = checkStatus.data.map(function (item) {
-                return item.orderNo;
+                return item.id;
             });
             if (ids.length === 0) {
                 layer.msg($t('pleaseSelectItem'), {icon: 2});
