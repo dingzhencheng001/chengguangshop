@@ -5,6 +5,8 @@
     <title>提现管理</title>
     <#include "../resource.ftl"/>
 </head>
+
+
 <body>
 <div class="layui-card layui-bg-gray">
     <div class="layui-card-body layui-anim layui-anim-upbit">
@@ -120,7 +122,7 @@
                 , {field: 'xxx', title: $t('withdrawal.orderStatus'), sort: true}
                 , {field: 'remark', title: $t('withdrawal.remark')}
                 , {
-                    field: 'operation', title: $t('operation'), templet: '#operation', width: 180
+                    field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 140
                 }
             ]],
             id: tableId, // 容器唯一ID
@@ -160,9 +162,18 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
             if (layEvent === 'adopt') { // 单个通过
-                layer.confirm($t('withdrawal.adoptConfirmation'), {title: $('operationConfirmation')}, function (index) {
+                layer.confirm($t('withdrawal.adoptConfirmation'), {
+                    title: $t('operationConfirmation'),
+                    btn: [$t('confirm'), $t('cancel')],
+                }, function (index) {
+                    var ids = [data.orderNo]
                     $.request({
-                        url: '/xxx',
+                        url: '/action/withdrawal/approval/batch',
+                        data: {
+                            ids: ids,
+                            // status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】
+                            status: 3,
+                        },
                         type: 'post',
                         showLoading: true,
                         success: function () {
@@ -181,9 +192,10 @@
                 }, function(value, index){
                     // layer.close(index);
                     $.request({
-                        url: '/xxx',
+                        url: '/action/withdrawal/reject',
                         type: 'post',
                         data: {
+                            id: data.orderNo,
                             remark: value
                         },
                         showLoading: true,
@@ -258,4 +270,5 @@
 
 </script>
 </body>
+
 </html>
