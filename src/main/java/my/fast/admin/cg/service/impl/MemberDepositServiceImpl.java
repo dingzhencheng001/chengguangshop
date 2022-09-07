@@ -118,9 +118,8 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         } else {//充值
             System.out.println("正数 充值");
         }
+        appMemberAccountChange.setTotalMount(appMember.getBalance().add(depositParam.getOperaMount()));
         appMember.setBalance(CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
-        appMemberAccountChange.setTotalMount(
-            CommonUtils.moneyAdd(appMember.getBalance(), depositParam.getOperaMount()));
         //更新会员表
         appMemberMapper.updateByPrimaryKey(appMember);
         //插入账变记录表
@@ -129,9 +128,8 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         appMemberAccountChange.setStatus(1);
         appMemberAccountChange.setMemberId(depositParam.getMemberId());
         appMemberAccountChange.setChannelId(depositParam.getChannelId());
-        appMemberAccountChange.setPreOperaMount(appMember.getBalance());
+        appMemberAccountChange.setPreOperaMount(appMember.getBalance().subtract(depositParam.getOperaMount()));
         appMemberAccountChange.setOperaMount(depositParam.getOperaMount());
-        //设置操作后金额
         appMemberAccountChange.setOperaType(type); //1 充值 2 减少
         appMemberAccountChange.setCreateBy("admin");
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
@@ -197,10 +195,11 @@ public class MemberDepositServiceImpl implements MemberDepositService {
                     //插入账目变动表信息
                     AppMemberAccountChange accountChange = new AppMemberAccountChange();
                     accountChange.setMemberId(memberId);
-                    accountChange.setOperaType(2);
+                    accountChange.setOperaType(5);
                     accountChange.setStatus(1);
                     accountChange.setPreOperaMount(appMember.getBalance());
-                    accountChange.setOperaMount(goodsPrice);
+                    BigDecimal operaMount = goodsPrice.add(commission);
+                    accountChange.setOperaMount(operaMount);
                     //获取更新后的金额
                     AppMember appMemberOpera = appMemberMapper.selectByPrimaryKey(memberId);
                     accountChange.setTotalMount(appMemberOpera.getBalance());
@@ -331,6 +330,8 @@ public class MemberDepositServiceImpl implements MemberDepositService {
         appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
         appMemberAccountChange.setChannelId(channelId);
         appMemberAccountChange.setOrderNo(generateOrderSn());
+        appMemberAccountChange.setUserAccount(appMemberOpera.getUserAccount());
+        appMemberAccountChange.setStatus(5);
         appMemberAccountChangeMapper.insertSelective(appMemberAccountChange);
     }
 }
