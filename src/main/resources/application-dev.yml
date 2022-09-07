@@ -2,8 +2,10 @@
 spring:
   datasource:
     url: jdbc:mysql://110.173.49.106:3306/fast?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8&useSSL=false
+#    url: jdbc:mysql://192.168.50.66:3306/fast?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8&useSSL=false
     username: root
     password: ITchengugang%
+#    password: itfeiyue
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       filters: stat

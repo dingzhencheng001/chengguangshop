@@ -8,11 +8,7 @@
 </head>
 
 <body>
-<style>
-	body {
-		margin: 0 20px;
-	}
-</style>
+<div class="layui-fluid">
 <!--新建会员等级表单-->
 <div id="createId" style="display: none">
 	<form class="layui-form layui-card" lay-filter="addForm">
@@ -116,7 +112,7 @@
 					<button type="button" class="layui-btn" id="updatePic" data-locale="level.uploadPic">
 						<i class="layui-icon">&#xe67c;</i>上传图片
 					</button>
-					<img name="pic" id="update-img" style="display: none; width: 150px;margin-left: 12px;" src="">
+					<img name="pic" id="update-img" style="display: none; width: 100px;margin-left: 12px;" src="">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -189,6 +185,8 @@
 </div>
 
 <table id="level" lay-filter="level" style="margin-top: 5px"></table>
+
+</div>
 
 <script type="text/html" id="operation">
 	<a class="layui-btn layui-btn-xs" style="background-color: green;" lay-event="edit">{{$t('edit')}}</a>

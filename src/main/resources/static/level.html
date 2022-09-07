@@ -24,6 +24,7 @@
 	<!-- 全局属性 -->
 	<script src="js/common/setting.js"></script>
 	<script src="js/common/app.js"></script>
+	<script src="lang/index.js"></script>
 	<!-- css -->
 	<link rel="stylesheet" href="css/app.css" />
 	<!-- 加载formSelects -->
@@ -33,99 +34,90 @@
 </head>
 
 <body>
-	<style>
-		body {
-			margin: 0 20px;
-		}
-	</style>
+<div class="layui-fluid">
+
 	<!--新建会员等级表单-->
 	<div id="createId" style="display: none">
 		<form class="layui-form layui-card" lay-filter="addForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">名称</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.membersName">名称</label>
 					<div class="layui-input-block">
-						<input name="membersName" lay-filter="membersName" lay-verify="required" required placeholder="请输入名称"
-							value="" class="layui-input" />
+						<input name="membersName" lay-filter="membersName" lay-verify="required" required data-placeholder="请输入名称" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">图标</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.icon">图标</label>
 					<div>
-						<button type="button" class="layui-btn" id="uploadPic">
+						<button type="button" class="layui-btn" id="uploadPic" data-locale="level.uploadPic">
 							<i class="layui-icon">&#xe67c;</i>上传图标
 						</button>
-						<img name="pic" id="upload-img" lay-filter="pic" style="display: none; width: 150px;margin-left: 12px;"
-							src="">
+						<img name="pic" id="upload-img" lay-filter="pic" style="display: none; width: 150px;margin-left: 12px;" src="">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">会员价格</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.memberPrice">会员价格</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" lay-filter="memberPrice" lay-verify="required|number" required
-							placeholder="请输入会员价格" value="" class="layui-input" />
+						<input name="memberPrice" lay-filter="memberPrice" lay-verify="required|number" required data-placeholder="level.petMemberPrice" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">佣金比例</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.commission">佣金比例</label>
 					<div class="layui-input-block">
-						<input name="commission" lay-filter="commission" lay-verify="required|number" type="number" min="0"
-							step='0.001' required placeholder="请输入佣金比例" value="" class="layui-input" />
+						<input name="commission" lay-filter="commission" lay-verify="required|number" type="number" min="0" step='0.001' required
+							   data-placeholder="level.petCommission" value=""
+							   class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">最小余额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.numMin">最小余额</label>
 					<div class="layui-input-block">
-						<input name="numMin" lay-filter="numMin" lay-verify="required|number" type="number" min="0" required
-							placeholder="请输入最小余额" value="" class="layui-input" />
+						<input name="numMin" lay-filter="numMin" lay-verify="required|number" type="number" min="0" required data-placeholder="level.petNumMin" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">接单次数</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.orderNum">接单次数</label>
 					<div class="layui-input-block">
-						<input name="orderNum" lay-filter="orderNum" lay-verify="required|number" required placeholder="请输入接单次数"
-							class="layui-input" />
+						<input name="orderNum" lay-filter="orderNum" lay-verify="required|number" required data-placeholder="level.petOrderNum" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现次数</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalTimes">提现次数</label>
 					<div class="layui-input-block">
 						<input name="withdrawalTimes" lay-filter="withdrawalTimes" lay-verify="required|number" required
-							placeholder="请输入提现次数" value="" class="layui-input" />
+							   data-placeholder="level.petWithdrawalTimes" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">匹配区间</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.mate">匹配区间</label>
 					<div class="layui-input-inline" style="width: 100px; margin-right: 4px">
-						<input type="number" name="mateMin" min="0" placeholder="请输入匹配最小值" lay-verify="required|number"
-							class="layui-input">
+						<input type="number" name="mateMin" min="0" data-placeholder="level.petMateMin" lay-verify="required|number" class="layui-input">
 					</div>
 					<div class="layui-form-mid layui-word-aux">%</div>
 					<div class="layui-form-mid">-</div>
 					<div class="layui-input-inline" style="width: 100px; margin-right: 4px">
-						<input type="number" name="mateMax" min="0" placeholder="请输入匹配最大值" lay-verify="required|number"
-							class="layui-input">
+						<input type="number" name="mateMax" min="0" data-placeholder="level.petMateMax" lay-verify="required|number" class="layui-input">
 					</div>
 					<div class="layui-form-mid layui-word-aux">%</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalMin">提现最小金额</label>
 					<div class="layui-input-block">
 						<input name="withdrawalMin" lay-filter="withdrawalMin" lay-verify="required|number" required
-							placeholder="请输入提现最小金额" value="" class="layui-input" />
+							   data-placeholder="level.petWithdrawalMin" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalMax">提现最大金额</label>
 					<div class="layui-input-block">
 						<input name="withdrawalMax" lay-filter="withdrawalMax" lay-verify="required|number" required
-							placeholder="请输入提现最大金额" value="" class="layui-input" />
+							   data-placeholder="level.petWithdrawalMax" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button type="button" class="layui-btn" lay-submit lay-filter="createSubmit">提交</button>
-					<button type="button" class="layui-btn layui-btn-danger" id="createCancel">取消</button>
+					<button type="button" class="layui-btn" lay-submit lay-filter="createSubmit" data-locale="submit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="createCancel" data-locale="cancel">取消</button>
 				</div>
 			</div>
 		</form>
@@ -136,86 +128,79 @@
 		<form class="layui-form layui-card" lay-filter="editForm">
 			<div class="layui-card-body">
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">名称</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.membersName">名称</label>
 					<div class="layui-input-block">
-						<input name="membersName" required placeholder="请输入名称" lay-verify="required" value="" class="layui-input" />
+						<input name="membersName" required data-placeholder="level.petMembersName" lay-verify="required" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">图片</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.icon">图片</label>
 					<div>
-						<button type="button" class="layui-btn" id="updatePic">
+						<button type="button" class="layui-btn" id="updatePic" data-locale="level.uploadPic">
 							<i class="layui-icon">&#xe67c;</i>上传图片
 						</button>
-						<img name="pic" id="update-img" style="display: none; width: 150px;margin-left: 12px;" src="">
+						<img name="pic" id="update-img" style="display: none; width: 100px;margin-left: 12px;" src="">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">会员价格</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.memberPrice">会员价格</label>
 					<div class="layui-input-block">
-						<input name="memberPrice" lay-verify="required|number" required placeholder="请输入会员价格" value=""
-							class="layui-input" />
+						<input name="memberPrice" lay-verify="required|number" required data-placeholder="level.petMemberPrice" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">佣金比例</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.commission">佣金比例</label>
 					<div class="layui-input-block">
-						<input name="commission" lay-verify="required|number" type="number" min="0" required placeholder="请输入佣金比例"
-							value="" class="layui-input" />
+						<input name="commission" lay-verify="required|number" type="number" min="0" required data-placeholder="level.petCommission" value=""
+							   class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">最小余额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.numMin">最小余额</label>
 					<div class="layui-input-block">
-						<input name="numMin" lay-verify="required|number" type="number" min="0" required placeholder="请输入最小余额"
-							value="" class="layui-input" />
+						<input name="numMin" lay-verify="required|number" type="number" min="0" required data-placeholder="level.petNumMin" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">接单次数</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.orderNum">接单次数</label>
 					<div class="layui-input-block">
-						<input name="orderNum" lay-verify="required|number" required placeholder="请输入接单次数" class="layui-input" />
+						<input name="orderNum"   lay-verify="required|number" required data-placeholder="level.petOrderNum" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现次数</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalTimes">提现次数</label>
 					<div class="layui-input-block">
-						<input name="withdrawalTimes" lay-verify="required|number" required placeholder="请输入提现次数" value=""
-							class="layui-input" />
+						<input name="withdrawalTimes" lay-verify="required|number" required data-placeholder="level.petWithdrawalTimes" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">匹配区间</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.mate">匹配区间</label>
 					<div class="layui-input-inline" style="width: 100px; margin-right: 4px">
-						<input type="number" name="mateMin" min="0" placeholder="请输入匹配最小值" lay-verify="required|number"
-							class="layui-input">
+						<input type="number" name="mateMin" min="0" data-placeholder="level.petMateMin" lay-verify="required|number" class="layui-input">
 					</div>
 					<div class="layui-form-mid layui-word-aux">%</div>
 					<div class="layui-form-mid">-</div>
 					<div class="layui-input-inline" style="width: 100px; margin-right: 4px">
-						<input type="number" name="mateMax" min="0" placeholder="请输入匹配最大值" lay-verify="required|number"
-							class="layui-input">
+						<input type="number" name="mateMax" min="0" data-placeholder="level.petMateMax" lay-verify="required|number" class="layui-input">
 					</div>
 					<div class="layui-form-mid layui-word-aux">%</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最小金额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalMin">提现最小金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMin" lay-verify="required|number" required placeholder="请输入提现最小金额" value=""
-							class="layui-input" />
+						<input name="withdrawalMin" lay-verify="required|number" required data-placeholder="level.petWithdrawalMin" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next">提现最大金额</label>
+					<label class="layui-form-label label-required label-required-next" data-locale="level.withdrawalMax">提现最大金额</label>
 					<div class="layui-input-block">
-						<input name="withdrawalMax" lay-verify="required|number" required placeholder="请输入提现最大金额" value=""
-							class="layui-input" />
+						<input name="withdrawalMax" lay-verify="required|number" required data-placeholder="level.petWithdrawalMax" value="" class="layui-input" />
 					</div>
 				</div>
 				<div class="hr-line-dashed"></div>
 				<div class="layui-form-item text-center">
-					<button class="layui-btn" lay-submit lay-filter="editSubmit">提交</button>
-					<button type="button" class="layui-btn layui-btn-danger" id="editCancel">取消</button>
+					<button class="layui-btn" lay-submit lay-filter="editSubmit" data-locale="submit">提交</button>
+					<button type="button" class="layui-btn layui-btn-danger" id="editCancel" data-locale="cancel">取消</button>
 				</div>
 			</div>
 		</form>
@@ -223,25 +208,26 @@
 
 
 	<div class="layui-btn-container" style="margin-top: 20px;">
-		<button class="layui-btn" id="createBtn">添加会员等级</button>
+		<button class="layui-btn" id="createBtn" data-locale="level.add">添加会员等级</button>
 	</div>
 
 	<table id="level" lay-filter="level" style="margin-top: 5px"></table>
+</div>
 
-	<script type="text/html" id="operation">
-	<a class="layui-btn layui-btn-xs" style="background-color: green;" lay-event="edit">编辑</a>
-	<a class="layui-btn layui-btn-xs" style="background-color: red;" lay-event="delete">删除</a>
+<script type="text/html" id="operation">
+	<a class="layui-btn layui-btn-xs" style="background-color: green;" lay-event="edit">{{$t('edit')}}</a>
+	<a class="layui-btn layui-btn-xs" style="background-color: red;" lay-event="delete">{{$t('delete')}}</a>
 </script>
 
-	<!--注册信息-->
-	<script type="text/html" id="register">
+<!--注册信息-->
+<script type="text/html" id="register">
 	<div>
 		<p>{{ layui.util.toDateString(d.registerTime, 'yyyy-MM-dd HH:mm:ss')}}</p>
 		<p>{{ d.registerCountry}}</p>
 	</div>
 </script>
 
-	<script type="text/html" id="pic">
+<script type="text/html" id="pic">
 	<div>
 		<img src='{{d.pic}}' alt="">
 	</div>
@@ -250,12 +236,17 @@
 	<script>
 		layui.use(['table', 'form', 'util', 'element', 'laydate'], function () {
 			var table = layui.table,
-				$ = layui.$,
-				form = layui.form,
-				util = layui.util,
-				upload = layui.upload
+					$ = layui.$,
+					form = layui.form,
+					util = layui.util,
+					upload = layui.upload
 
-			var editIndex
+			var editIndex;
+
+			var i18n = new I18n();
+			var $t = i18n.$t;
+			window.i18n = i18n;
+			window.$t = $t;
 
 			// 表格当前选择项
 			var tableCurrentItem = {}
@@ -280,7 +271,7 @@
 					var path = data[0].path
 					var fileFullPath = $.getFileFullPath(path)
 					$('#upload-img').attr('src', fileFullPath).show()
-					layer.msg('上传成功', { icon: 1 })
+					layer.msg($t('level.uploadSucceeded'), { icon: 1 })
 					//上传完毕回调
 				},
 				error: function (err) {
@@ -307,7 +298,7 @@
 					var path = data[0].path
 					var fileFullPath = $.getFileFullPath(path)
 					$('#update-img').attr('src', fileFullPath).show()
-					layer.msg('上传成功', { icon: 1 })
+					layer.msg($t('level.uploadSucceeded'), { icon: 1 })
 					//上传完毕回调
 				},
 				error: function (err) {
@@ -363,7 +354,7 @@
 						success: function (result, status, xhr) {
 							if (result.code === 200) {
 								actions.onReloadData()
-								layer.msg('操作成功', { icon: 1 })
+								layer.msg($t('operationSucceeded'), { icon: 1 })
 								_options.success && _options.success(result, status, xhr)
 							} else {
 								layer.msg(result.msg, { icon: 2 })
@@ -372,7 +363,7 @@
 							_options.complete && _options.complete(status, xhr)
 						},
 						error: function (xhr, status, error) {
-							layer.msg('操作失败', { icon: 2 })
+							layer.msg($t('operationFailed'), { icon: 2 })
 							_options.error && _options.error(xhr, status, error)
 						}
 					})
@@ -385,7 +376,7 @@
 						success: function (result, status, xhr) {
 							if (result.code === 200) {
 								actions.onReloadData()
-								layer.msg('删除会员等级成功', { icon: 1 })
+								layer.msg($t('deleteSucceeded'), { icon: 1 })
 								_options.success && _options.success(result, status, xhr)
 							} else {
 								layer.msg(result.msg, { icon: 2 })
@@ -394,7 +385,7 @@
 							_options.complete && _options.complete(status, xhr)
 						},
 						error: function (xhr, status, error) {
-							layer.msg('删除会员等级失败', { icon: 2 })
+							layer.msg($t('deleteFailed'), { icon: 2 })
 							_options.error && _options.error(xhr, status, error)
 						}
 					})
@@ -409,7 +400,7 @@
 						success: function (result, status, xhr) {
 							if (result.code === 200) {
 								actions.onReloadData()
-								layer.msg('创建会员成功', { icon: 1 })
+								layer.msg($t('createSucceeded'), { icon: 1 })
 								_options.success && _options.success(result, status, xhr)
 							} else {
 								layer.msg(result.msg, { icon: 2 })
@@ -418,7 +409,7 @@
 							_options.complete && _options.complete(status, xhr)
 						},
 						error: function (xhr, status, error) {
-							layer.msg('创建会员失败', { icon: 2 })
+							layer.msg($t('createFailed'), { icon: 2 })
 							_options.error && _options.error(xhr, status, error)
 						}
 					})
@@ -439,11 +430,12 @@
 					// 编辑菜单
 					editIndex = layer.open({
 						type: 1,
-						title: '编辑菜单',
+						title: $t('edit'),
 						area: '800px',
 						content: $('#editId'),
 						success: function () {
 							form.val('editForm', data)
+							$('#update-img').attr('src', data.pic).show();
 							$('#editId').show()
 						},
 						cancel: function () {
@@ -452,7 +444,7 @@
 					})
 				} else if (layEvent === 'delete') {
 					// 删除
-					layer.confirm('确定要删除吗?', { title: '操作确认' }, function (index) {
+					layer.confirm($t('deleteConfirmation'), { title: $t('operationConfirmation') }, function (index) {
 						actions.onDelete(data.id, {
 							success: function () {
 								layer.close(index)
@@ -466,9 +458,9 @@
 			//第一个实例
 			table.render({
 				elem: '#level',
-				// height: 312,
+				height: 312,
 				url: 'http://localhost:8080/action/level/list', //数据接口
-				// url: '/levelaction/list?pageNum=1&pageSize=20', //数据接口
+				// url: '/action/level/list', //数据接口
 				page: true, //开启分页
 				cellMinWidth: 100, //全局定义常规单元格的最小宽度
 				where: where,
@@ -481,17 +473,17 @@
 					[
 						//表头
 						{ field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-						{ field: 'membersName', title: '名称', width: 120 },
-						{ field: 'pic', title: '图标', templet: '#pic', width: 100 },
-						{ field: 'memberPrice', title: '会员价格', width: 80 },
-						{ field: 'commission', title: '佣金比例', width: 80 },
-						{ field: 'numMin', title: '最小余额', width: 80 },
-						{ field: 'orderNum', title: '接单次数', width: 80 },
-						{ field: 'withdrawalTimes', title: '提现次数', width: 100 },
-						{ field: 'withdrawalMin', title: '提现最小金额', width: 120 },
-						{ field: 'withdrawalMax', title: '提现最大金额', width: 120 },
-						{ field: 'registerTime', title: '注册时间', templet: '#register', minWidth: 160 },
-						{ field: 'operation', title: '操作', templet: '#operation', fixed: 'right', width: 120 }
+						{ field: 'membersName', title: $t('level.membersName'), width: 120 },
+						{ field: 'pic', title: $t('level.icon'), templet: '#pic', width: 100 },
+						{ field: 'memberPrice', title: $t('level.memberPrice'), width: 80 },
+						{ field: 'commission', title: $t('level.commission'), width: 80 },
+						{ field: 'numMin', title: $t('level.numMin'), width: 80 },
+						{ field: 'orderNum', title: $t('level.orderNum'), width: 80 },
+						{ field: 'withdrawalTimes', title: $t('level.withdrawalTimes'), width: 100 },
+						{ field: 'withdrawalMin', title: $t('level.withdrawalMin'), width: 120 },
+						{ field: 'withdrawalMax', title: $t('level.withdrawalMax'), width: 120 },
+						{ field: 'registerTime', title: $t('level.registerTime'), templet: '#register', minWidth: 160 },
+						{ field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 336 }
 					]
 				],
 				parseData: parseData,
@@ -501,13 +493,13 @@
 			// 请求回调选项
 			var requestDefOptions = {
 				// 请求成功，并且code等于200
-				success: function (result, status, xhr) { },
+				success: function (result, status, xhr) {},
 				// 请求成功，并且code不等于200
-				fail: function (result, status, xhr) { },
+				fail: function (result, status, xhr) {},
 				// 请求失败
-				error: function (xhr, status, error) { },
+				error: function (xhr, status, error) {},
 				// 请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）。
-				complete: function (xhr, status) { }
+				complete: function (xhr, status) {}
 			}
 
 			// 编辑-提交
@@ -533,7 +525,7 @@
 			$('#createBtn').click(function () {
 				createIndex = layer.open({
 					type: 1,
-					title: '新建会员等级',
+					title: $t('level.addTitle'),
 					area: '800px',
 					content: $('#createId'),
 					success: function () {
