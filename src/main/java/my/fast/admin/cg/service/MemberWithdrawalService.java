@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import my.fast.admin.cg.model.AppApprovalParam;
+import my.fast.admin.cg.model.AppWithdrawalParam;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
@@ -16,22 +18,22 @@ import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
  */
 public interface MemberWithdrawalService {
 
-
     /**
      * 批量审核
      */
     @Transactional(rollbackFor = Exception.class)
-    int approval(List<Long> ids, Integer type, Long channelId);
+    int approval(AppApprovalParam appApprovalParam);
 
     /**
      * 驳回
      */
     @Transactional(rollbackFor = Exception.class)
-    int rejectById(Long id, String remark, Long channelId);
+    int rejectById(AppWithdrawalParam appWithdrawalParam);
 
     /**
      * 分页查询
      */
     List<AppMemberWithdrawalVo> findPage(Integer pageNum, Integer pageSize, Long channelId,
         MemberWithdrawalParam withdrawal);
+
 }

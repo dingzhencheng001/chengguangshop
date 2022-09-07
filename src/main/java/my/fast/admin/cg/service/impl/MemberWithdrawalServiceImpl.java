@@ -17,6 +17,8 @@ import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
 import my.fast.admin.cg.mapper.SysOperateLogMapper;
+import my.fast.admin.cg.model.AppApprovalParam;
+import my.fast.admin.cg.model.AppWithdrawalParam;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
 import my.fast.admin.cg.service.MemberWithdrawalService;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
@@ -43,25 +45,25 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
     private AppMemberAccountChangeMapper appMemberAccountChangeMapper;
 
     @Override
-    public int approval(List<Long> ids, Integer type, Long channelId) {
+    public int approval(AppApprovalParam appApprovalParam) {
         //通过
-        if (type == 1) {
+        if (appApprovalParam.getStatus() == 1) {
             AppMemberWithdrawal record = new AppMemberWithdrawal();
-            record.setOperaType(type);
+            record.setOperaType(appApprovalParam.getStatus());
             AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
             example.createCriteria()
-                .andIdIn(ids);
+                .andIdIn(appApprovalParam.getIds());
             appMemberWithdrawalMapper.updateByExampleSelective(record, example);
             //更新用户账户金额和修改冻结金额
             example.createCriteria()
-                .andChannelIdIn(ids);
+                .andChannelIdIn(appApprovalParam.getIds());
             List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
             for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
             	SysOperateLog  operateLog = new SysOperateLog();
                 Long memberId = appMemberWithdrawal.getMemberId();
                 AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);
                 BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
-                appMemberMapper.changeBalance(channelId, memberId, operaMount);
+                appMemberMapper.changeBalance(appApprovalParam.getChannelId(), memberId, operaMount);
                 //操作记录
                 operateLog.setChannelId(appMember.getChannelId());
                 operateLog.setTitle("提现通过");
@@ -78,7 +80,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
                 appMemberAccountChange.setCreateBy(appMember.getUserAccount());
                 appMemberAccountChange.setUserAccount(appMember.getUserAccount());
                 appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
-                appMemberAccountChange.setChannelId(channelId);
+                appMemberAccountChange.setChannelId(appApprovalParam.getChannelId());
                 appMemberAccountChange.setPreOperaMount(appMember.getBalance());
                 appMemberAccountChange.setTotalMount(appMember.getBalance());
                 appMemberAccountChange.setStatus(1);
@@ -87,16 +89,16 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
             }
         }
         //拒绝
-        if (type == 2) {
+        if (appApprovalParam.getStatus() == 2) {
             AppMemberWithdrawal record = new AppMemberWithdrawal();
-            record.setOperaType(type);
+            record.setOperaType(appApprovalParam.getStatus());
             AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
             example.createCriteria()
-                .andIdIn(ids);
+                .andIdIn(appApprovalParam.getIds());
             appMemberWithdrawalMapper.updateByExampleSelective(record, example);
             //更新用户账户金额和修改冻结金额
             example.createCriteria()
-                .andChannelIdIn(ids);
+                .andChannelIdIn(appApprovalParam.getIds());
             List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
             for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
             	SysOperateLog  operateLog = new SysOperateLog();
@@ -105,7 +107,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
                 BigDecimal balance = appMember.getBalance()
                     .subtract(appMemberWithdrawal.getOperaMount());
                 BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
-                appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+                appMemberMapper.rollbackBalance(appApprovalParam.getChannelId(), memberId, operaMount);
                 //操作记录
                 operateLog.setChannelId(appMember.getChannelId());
                 operateLog.setTitle("提现拒绝");
@@ -122,7 +124,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
                 appMemberAccountChange.setCreateBy(appMember.getUserAccount());
                 appMemberAccountChange.setUserAccount(appMember.getUserAccount());
                 appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
-                appMemberAccountChange.setChannelId(channelId);
+                appMemberAccountChange.setChannelId(appApprovalParam.getChannelId());
                 appMemberAccountChange.setPreOperaMount(balance);
                 appMemberAccountChange.setTotalMount(appMember.getBalance());
                 appMemberAccountChange.setStatus(1);
@@ -134,17 +136,17 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
     }
 
     @Override
-    public int rejectById(Long id, String remark, Long channelId) {
+    public int rejectById(AppWithdrawalParam appWithdrawalParam) {
         AppMemberWithdrawal record = new AppMemberWithdrawal();
         record.setStatus(2);
-        record.setRemark(remark);
+        record.setRemark(appWithdrawalParam.getRemark());
         AppMemberWithdrawalExample example = new AppMemberWithdrawalExample();
         example.createCriteria()
-            .andIdEqualTo(id);
+            .andIdEqualTo(appWithdrawalParam.getId());
         appMemberWithdrawalMapper.updateByExampleSelective(record, example);
         //更新用户账户金额和修改冻结金额
         example.createCriteria()
-            .andIdEqualTo(id);
+            .andIdEqualTo(appWithdrawalParam.getId());
         List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalMapper.selectByExample(example);
         for (AppMemberWithdrawal appMemberWithdrawal : appMemberWithdrawalList) {
         	SysOperateLog  operateLog = new SysOperateLog();
@@ -153,7 +155,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
             BigDecimal balance = appMember.getBalance()
                 .subtract(appMemberWithdrawal.getOperaMount());
             BigDecimal operaMount = appMemberWithdrawal.getOperaMount();
-            appMemberMapper.rollbackBalance(channelId, memberId, operaMount);
+            appMemberMapper.rollbackBalance(appWithdrawalParam.getChannelId(), memberId, operaMount);
             //操作记录
             operateLog.setChannelId(appMember.getChannelId());
             operateLog.setTitle("驳回提现");
@@ -170,7 +172,7 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
             appMemberAccountChange.setCreateBy(appMember.getUserAccount());
             appMemberAccountChange.setUserAccount(appMember.getUserAccount());
             appMemberAccountChange.setCreateTime(DateFormat.getNowDate());
-            appMemberAccountChange.setChannelId(channelId);
+            appMemberAccountChange.setChannelId(appWithdrawalParam.getChannelId());
             appMemberAccountChange.setPreOperaMount(balance);
             appMemberAccountChange.setTotalMount(appMember.getBalance());
             appMemberAccountChange.setStatus(1);

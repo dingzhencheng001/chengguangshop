@@ -102,16 +102,16 @@ public class AppGrabOrdersServiceImpl implements AppGrabOrdersService {
         if (assignGoodsList != null && assignGoodsList.size() > 0) {
             AppAssignGoods appAssignGoods = assignGoodsList.get(0);
             appAssignGoods.setGoodsAddTime(DateFormat.getNowDate());
-            BigDecimal goodsPrice = appAssignGoods.getGoodsPrice();
+            //BigDecimal goodsPrice = appAssignGoods.getGoodsPrice();
             BigDecimal balance = appMember.getBalance();
-            BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
+            //BigDecimal disposalAmount = balance.subtract(appMember.getFreezeBalance());
             BeanUtils.copyProperties(appAssignGoods, appGoodsVo);
             BigDecimal returnCommission = commission.multiply(appAssignGoods.getGoodsPrice());
             appGoodsVo.setCommission(returnCommission);
-            int flag = goodsPrice.compareTo(disposalAmount);
-            if (flag >= 0) {
-                throw new Exception("832");
-            }
+            //int flag = goodsPrice.compareTo(disposalAmount);
+            //if (flag >= 0) {
+               // throw new Exception("832");
+           // }
             return appGoodsVo;
         } else {
             //商品表直接随机生成返回用户
