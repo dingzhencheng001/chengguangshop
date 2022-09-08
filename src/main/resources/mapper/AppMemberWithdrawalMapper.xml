@@ -259,12 +259,12 @@
         where l.channel_Id = #{channelId,jdbcType=BIGINT}
         <if test="orderNo != null">
             and
-            l.order_no like concat('%',#{record.orderNo,jdbcType=VARCHAR},'%')
+            l.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
         </if>
 
         <if test="userAccount != null">
             and
-            l.user_account like concat('%',#{record.userAccount,jdbcType=VARCHAR},'%')
+            l.user_account like concat('%',#{userAccount,jdbcType=VARCHAR},'%')
         </if>
         <if test="selectBeginTime != null">
             and
