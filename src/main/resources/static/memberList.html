@@ -447,19 +447,28 @@
         window.i18n = i18n;
         window.$t = $t;
 
-        var memberLevelOptions = [
-            {name: '普通会员', value: 1},
-            {name: '黄金会员', value: 2},
-            {name: '铂金会员', value: 3},
-            {name: '钻石会员', value: 4},
-            {name: '至尊会员', value: 5},
-        ];
-        memberLevelOptions.forEach(function (item) {
-            var option = document.createElement('option');
-            option.setAttribute('value', item.value);
-            option.innerText = item.name;
-            $('#memberLevelSelect').append(option);
-        });
+        var memberLevelOptions = [];
+        var onRenderLeveL = function () {
+            $.request({
+                url: '/action/level/list',
+                success: function (result) {
+                    memberLevelOptions = (result.data.list).map(function (item) {
+                        return {
+                            name: item.membersName,
+                            value: item.id,
+                        }
+                    });
+                    $('#memberLevelSelect').innerHTML = '';
+                    memberLevelOptions.forEach(function (item) {
+                        var option = document.createElement('option');
+                        option.setAttribute('value', item.value);
+                        option.innerText = item.name;
+                        $('#memberLevelSelect').append(option);
+                    });
+                }
+            })
+        }
+        onRenderLeveL();
 
         // 渲染日期
         laydate.render({
