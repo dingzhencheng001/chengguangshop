@@ -95,21 +95,23 @@
                 { field: 'id', type: 'checkbox'}
                 , {field: 'orderNo', title: $t('withdrawal.orderNo'), sort: true}
                 , {field: 'userAccount', title: $t('withdrawal.withdrawalUser')}
-                , {field: 'xxx', title: $t('withdrawal.superiorUser')}
+                // , {field: 'xxx', title: $t('withdrawal.superiorUser')}
                 , {field: 'operaMount', title: $t('withdrawal.operaMount'), templet: function (d) {
                         return $.financial(d.operaMount)
                     },}
-                , {field: 'withdrawalTimes', width: 120, title: $t('withdrawal.withdrawalTimes')}
-                , {field: 'xxx', title: $t('withdrawal.serviceCharge')}
-                , {field: 'xxx', title: $t('withdrawal.actualArrival'), sort: true}
-                , {field: 'xxx', title: $t('withdrawal.collectionInfo'), sort: true}
+                // , {field: 'withdrawalTimes', width: 120, title: $t('withdrawal.withdrawalTimes')}
+                // , {field: 'xxx', title: $t('withdrawal.serviceCharge')}
+                // , {field: 'xxx', title: $t('withdrawal.actualArrival'), sort: true}
+                // , {field: 'xxx', title: $t('withdrawal.collectionInfo'), sort: true}
                 , {field: 'phoneNumber', title: $t('withdrawal.phoneNumber'), sort: true}
                 , {field: 'createTime', title: $t('withdrawal.startTime'), width: 180, templet: function (d) {
                         return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')
                     }}
-                , {field: 'dealTime', title: $t('withdrawal.dealTime'), width: 180, templet: function (d) {
-                        return layui.util.toDateString(d.dealTime, 'yyyy-MM-dd日 HH:mm:ss')
-                    }}
+                // ,
+                // {field: 'dealTime', title: $t('withdrawal.dealTime'), width: 180, templet: function (d) {
+                //         return layui.util.toDateString(d.dealTime, 'yyyy-MM-dd日 HH:mm:ss')
+                //     }}
+
                 , {field: 'status', title: $t('withdrawal.status'), templet: function (d) {
                         // status	integer($int32) 操作类型【1.待审核 2.已驳回 3.已打款 】
                         var map = {
@@ -119,7 +121,7 @@
                         }
                         return map[d.status] || ''
                     }}
-                , {field: 'xxx', title: $t('withdrawal.orderStatus'), sort: true}
+                // , {field: 'xxx', title: $t('withdrawal.orderStatus'), sort: true}
                 , {field: 'remark', title: $t('withdrawal.remark')}
                 , {
                     field: 'operation', title: $t('operation'), templet: '#operation', fixed: 'right', width: 140
