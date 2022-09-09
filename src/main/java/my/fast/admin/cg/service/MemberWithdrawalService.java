@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import my.fast.admin.cg.model.AppApprovalParam;
 import my.fast.admin.cg.model.AppWithdrawalParam;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
+import my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 /**
@@ -34,5 +36,11 @@ public interface MemberWithdrawalService {
      * 分页查询
      */
     List<AppMemberWithdrawalVo> findPage(MemberWithdrawalParam withdrawal);
+
+    /**
+     * 查询提现信息
+     */
+    AppMemberWithdrawalInfoVo getWithdrawalInfo(WithdrawalParam withdrawalParam);
+
 
 }

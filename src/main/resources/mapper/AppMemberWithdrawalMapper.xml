@@ -251,11 +251,11 @@
 
     <select id="selectWithdrawalList" resultType="my.fast.admin.cg.vo.AppMemberWithdrawalVo">
         SELECT l.*,
-               b.bank_name as bankName,
-               b.bank_number as bankNum
+        b.bank_name as bankName,
+        b.bank_number as bankNum
         FROM app_member_withdrawal l
-                 LEFT JOIN app_member m ON l.member_id = m.id
-                 LEFT JOIN app_member_bank b ON l.member_id = b.member_id
+        LEFT JOIN app_member m ON l.member_id = m.id
+        LEFT JOIN app_member_bank b ON l.member_id = b.member_id
         where l.channel_Id = #{channelId,jdbcType=BIGINT}
         <if test="orderNo != null">
             and
@@ -270,6 +270,28 @@
             and
             l.create_time BETWEEN #{selectBeginTime,jdbcType=TIMESTAMP} and #{selectEndTime,jdbcType=TIMESTAMP}
         </if>
+    </select>
+    <select id="selectWithdrawalInfo" resultType="my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo">
+        SELECT IFNULL(SUM( opera_mount ),0)  AS totalWithdrawal,
+               COUNT(1)         AS totalWithdrawalTimes
+        FROM app_member_withdrawal
+        WHERE member_id = #{memberId,jdbcType=BIGINT}
+          AND channel_id = #{channelId,jdbcType=BIGINT}
+          AND is_delete = 0
+          AND opera_type = 4
+          AND status = 3
+    </select>
+    <select id="selectWithdrawalDayInfo" resultType="my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo">
+        SELECT IFNULL(SUM( opera_mount ),0)  AS dayWithdrawal,
+               COUNT(1)         AS dayWithdrawalTimes
+        FROM app_member_withdrawal
+        WHERE member_id = #{memberId,jdbcType=BIGINT}
+          AND channel_id = #{channelId,jdbcType=BIGINT}
+          AND is_delete = 0
+          AND opera_type = 4
+          AND status = 3
+          AND to_days(create_time) = to_days(
+                now())
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update app_member_withdrawal
