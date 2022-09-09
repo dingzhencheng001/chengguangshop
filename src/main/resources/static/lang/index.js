@@ -207,7 +207,7 @@ function I18n (options) {
             userAccount: 'account number',
             memberLevelId: 'Membership level',
             balance: 'Account balance',
-            depositNum: 'Withdrawal',
+            depositNum: 'Total withdrawal',
             freezeBalance: 'Frozen amount',
             parentUserName: 'Superior user',
             inviteCode: 'Invitation code',
@@ -680,6 +680,7 @@ function I18n (options) {
             830: 'Submission failed, duplicate doc No',
             831: 'Insufficient balance, unable to deduct',
             834: 'Withdrawal amount is not within the range of member level',
+            835: 'Daily withdrawal times exceed the limit of member level',
         },
 
     };
@@ -875,7 +876,7 @@ function I18n (options) {
             memberLevelId: '会员等级',
             balance: '账户余额',
             petBalance: '请输入账户余额',
-            depositNum: '提现',
+            depositNum: '提现合计',
             freezeBalance: '冻结金额',
             petFreezeBalance: '冻结金额',
             parentUserName: '上级用户',
@@ -1371,6 +1372,7 @@ function I18n (options) {
             831: '余额不足，无法扣减',
             832: '可用余额不足',
             834: '提现金额不在会员等级范围内',
+            835: '日提现次数超过会员等级限制次数',
         },
 
     };
