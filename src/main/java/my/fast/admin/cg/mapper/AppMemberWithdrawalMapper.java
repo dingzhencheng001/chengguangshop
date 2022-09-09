@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.AppMemberWithdrawalExample;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
+import my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 public interface AppMemberWithdrawalMapper {
@@ -33,5 +35,9 @@ public interface AppMemberWithdrawalMapper {
     int updateByPrimaryKey(AppMemberWithdrawal record);
 
     List<AppMemberWithdrawalVo> selectWithdrawalList(MemberWithdrawalParam memberWithdrawalParam);
+
+    AppMemberWithdrawalInfoVo selectWithdrawalInfo(WithdrawalParam withdrawalParam);
+
+    AppMemberWithdrawalInfoVo selectWithdrawalDayInfo(WithdrawalParam withdrawalParam);
 
 }

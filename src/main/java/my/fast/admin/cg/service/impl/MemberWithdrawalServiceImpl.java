@@ -20,7 +20,9 @@ import my.fast.admin.cg.mapper.SysOperateLogMapper;
 import my.fast.admin.cg.model.AppApprovalParam;
 import my.fast.admin.cg.model.AppWithdrawalParam;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
 import my.fast.admin.cg.service.MemberWithdrawalService;
+import my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 import my.fast.admin.framework.utils.DateFormat;
 
@@ -191,5 +193,17 @@ public class MemberWithdrawalServiceImpl implements MemberWithdrawalService {
     public List<AppMemberWithdrawalVo> findPage(MemberWithdrawalParam memberWithdrawalParam) {
         PageHelper.startPage(memberWithdrawalParam.getPageNum(), memberWithdrawalParam.getPageSize());
         return appMemberWithdrawalMapper.selectWithdrawalList(memberWithdrawalParam);
+    }
+
+    @Override
+    public AppMemberWithdrawalInfoVo getWithdrawalInfo(WithdrawalParam withdrawalParam) {
+        //总数
+        AppMemberWithdrawalInfoVo appMemberWithdrawalInfoVo = appMemberWithdrawalMapper.selectWithdrawalInfo(
+            withdrawalParam);
+        //当日
+        AppMemberWithdrawalInfoVo selectWithdrawalDayInfo = appMemberWithdrawalMapper.selectWithdrawalDayInfo(withdrawalParam);
+        appMemberWithdrawalInfoVo.setDayWithdrawal(selectWithdrawalDayInfo.getDayWithdrawal());
+        appMemberWithdrawalInfoVo.setDayWithdrawalTimes(selectWithdrawalDayInfo.getDayWithdrawalTimes());
+        return appMemberWithdrawalInfoVo;
     }
 }

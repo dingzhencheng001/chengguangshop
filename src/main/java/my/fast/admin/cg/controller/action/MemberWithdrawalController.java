@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,8 +20,10 @@ import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.AppApprovalParam;
 import my.fast.admin.cg.model.AppWithdrawalParam;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.MemberWithdrawalService;
+import my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 /**
@@ -105,8 +106,8 @@ public class MemberWithdrawalController {
     @ApiOperation(value = "获取提现分页列表信息")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(
-        @RequestBody MemberWithdrawalParam withdrawal, HttpServletRequest request) {
+    public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(@RequestBody MemberWithdrawalParam withdrawal,
+        HttpServletRequest request) {
         //根据域名获取渠道号
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI()
@@ -125,4 +126,26 @@ public class MemberWithdrawalController {
         return CommonResult.success(CommonPage.restPage(appMemberWithdrawalVos));
     }
 
+    @ApiOperation(value = "查询用户提现次数和提现金额")
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<AppMemberWithdrawalInfoVo> getInfo(@RequestBody WithdrawalParam withdrawalParam,
+        HttpServletRequest request) {
+        //根据域名获取渠道号
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI()
+                .length(), url.length())
+            .append(request.getServletContext()
+                .getContextPath())
+            .append("/")
+            .toString();
+        SysChannel sysChannel = appChannelService.getChannelInfoByAppDns(tempContextUrl);
+        if (sysChannel == null || sysChannel.getChannelId() == null) {
+            return CommonResult.failed("801");
+        }
+        Long channelId = sysChannel.getChannelId();
+        withdrawalParam.setChannelId(channelId);
+        AppMemberWithdrawalInfoVo withdrawalInfo = memberWithdrawalService.getWithdrawalInfo(withdrawalParam);
+        return CommonResult.success(withdrawalInfo);
+    }
 }
