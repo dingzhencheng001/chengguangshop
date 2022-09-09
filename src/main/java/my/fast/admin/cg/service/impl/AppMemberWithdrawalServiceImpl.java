@@ -24,7 +24,9 @@ import my.fast.admin.cg.mapper.AppMemberLevelMapper;
 import my.fast.admin.cg.mapper.AppMemberMapper;
 import my.fast.admin.cg.mapper.AppMemberWithdrawalMapper;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
 import my.fast.admin.cg.service.AppMemberWithdrawalService;
+import my.fast.admin.cg.vo.AppMemberWithdrawalInfoVo;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 import my.fast.admin.framework.utils.DateFormat;
 
@@ -50,6 +52,8 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
     private AppControlMapper controlMapper;
     @Autowired
     private AppMemberLevelMapper appMemberLevelMapper;
+    @Autowired
+    private MemberWithdrawalServiceImpl memberWithdrawalService;
 
     @Override
     public int withdrawal(Long channelId, Long memberId, BigDecimal withdrawalNum, AppMember appUserVO)
@@ -57,11 +61,21 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
         AppMemberLevel appMemberLevel = appMemberLevelMapper.selectByPrimaryKey(appUserVO.getMemberLevelId());
         BigDecimal withdrawalMin = appMemberLevel.getWithdrawalMin();
         BigDecimal withdrawalMax = appMemberLevel.getWithdrawalMax();
+        //查询日提现次数
+        WithdrawalParam withdrawalParam = new WithdrawalParam();
+        withdrawalParam.setMemberId(memberId);
+        withdrawalParam.setChannelId(channelId);
+        AppMemberWithdrawalInfoVo withdrawalInfo = memberWithdrawalService.getWithdrawalInfo(withdrawalParam);
+        Integer dayWithdrawalTimes = withdrawalInfo.getDayWithdrawalTimes();
+        Integer withdrawalTimes = appMemberLevel.getWithdrawalTimes();
         if (withdrawalNum.intValue() < withdrawalMin.intValue()) {
             throw new Exception("834");
         }
         if (withdrawalNum.intValue() > withdrawalMax.intValue()) {
             throw new Exception("834");
+        }
+        if (withdrawalTimes < dayWithdrawalTimes) {
+            throw new Exception("835");
         }
         AppMemberBank appMemberBank = appMemberBankMapper.selectByMemberId(memberId);
         AppMember appMember = appMemberMapper.selectByPrimaryKey(memberId);

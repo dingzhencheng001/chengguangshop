@@ -747,7 +747,8 @@
     <insert id="changeBalance">
         update app_member
         set freeze_balance = freeze_balance - #{withdrawalNum,jdbcType=DECIMAL},
-            balance        = balance - #{withdrawalNum,jdbcType=DECIMAL}
+            balance        = balance - #{withdrawalNum,jdbcType=DECIMAL},
+            deposit_num = deposit_num + #{withdrawalNum,jdbcType=DECIMAL}
             where id = #{memberId,jdbcType=BIGINT}
                 and channel_Id = #{channelId,jdbcType=BIGINT}
     </insert>
