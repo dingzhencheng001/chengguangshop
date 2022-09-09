@@ -35,21 +35,18 @@ public class AppMemberAccountChangeServiceImpl implements AppMemberAccountChange
     @Override
     public List<AppMemberAccountChange> listAccountChange(Integer type, Long memberId, Integer pageNum,
         Integer pageSize) {
-
-        List<AppMemberAccountChange> appMemberAccountChanges = appMemberAccountChangeMapper.selectMemberAccountChange(
-            type, memberId);
         PageHelper.startPage(pageNum, pageSize);
-        return appMemberAccountChanges;
+        return appMemberAccountChangeMapper.selectMemberAccountChange(type, memberId);
     }
 
     @Override
-    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize,Long memberId) {
+    public List<AppMemberAccountChange> getMemberList(Integer pageNum, Integer pageSize, Long memberId) {
         PageHelper.startPage(pageNum, pageSize);
         AppMemberAccountChangeExample appMemberAccountChangeExample = new AppMemberAccountChangeExample();
         AppMemberAccountChangeExample.Criteria criteria = appMemberAccountChangeExample.createCriteria();
-	    if (!StringUtils.isEmpty(memberId)) {
-	        criteria.andMemberIdEqualTo(memberId);
-	    }
+        if (!StringUtils.isEmpty(memberId)) {
+            criteria.andMemberIdEqualTo(memberId);
+        }
         return appMemberAccountChangeMapper.selectByExample(appMemberAccountChangeExample);
 
     }

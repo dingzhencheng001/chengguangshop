@@ -249,6 +249,7 @@
             and
             opera_type = #{type,jdbcType=INTEGER}
         </if>
+        ORDER BY create_time DESC
     </select>
     <select id="getMemberList" resultType="my.fast.admin.cg.entity.AppMemberAccountChange"></select>
     <update id="updateByExampleSelective" parameterType="map">
