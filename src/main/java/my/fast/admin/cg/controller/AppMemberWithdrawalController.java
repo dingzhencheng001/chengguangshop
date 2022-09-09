@@ -86,7 +86,7 @@ public class AppMemberWithdrawalController {
         return commonResult;
     }
     @ApiOperation(value = "app获取提现列表")
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/withdrawal/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(@RequestBody
         MemberWithdrawalParam withdrawal, HttpServletRequest request) {
