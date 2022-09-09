@@ -19,8 +19,10 @@ import io.swagger.annotations.ApiOperation;
 import my.fast.admin.cg.common.constant.CommonPage;
 import my.fast.admin.cg.common.constant.CommonResult;
 import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.entity.SysChannel;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
 import my.fast.admin.cg.service.AppChannelService;
 import my.fast.admin.cg.service.AppMemberService;
 import my.fast.admin.cg.service.AppMemberWithdrawalService;
@@ -88,8 +90,7 @@ public class AppMemberWithdrawalController {
     @ApiOperation(value = "app获取提现列表")
     @RequestMapping(value = "/withdrawal/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AppMemberWithdrawalVo>> getList(@RequestBody
-        MemberWithdrawalParam withdrawal, HttpServletRequest request) {
+    public CommonResult<CommonPage<AppMemberWithdrawal>> getList(@RequestBody WithdrawalParam withdrawalParam, HttpServletRequest request) {
         AppMember appUserVO = appMemberService.selectAppMemberByUserId(TokenUtils.getUserId(request)); //获取登录用户信息
         if (appUserVO == null || StringUtils.isEmpty(appUserVO.getUserAccount())) {
             return CommonResult.failed("812");
@@ -102,8 +103,10 @@ public class AppMemberWithdrawalController {
             return CommonResult.failed("801");
         }
         Long channelId = sysChannel.getChannelId();
-        List<AppMemberWithdrawalVo> appMemberWithdrawalVos = appMemberWithdrawalService.findPage(channelId,withdrawal);
-        return CommonResult.success(CommonPage.restPage(appMemberWithdrawalVos));
+        withdrawalParam.setChannelId(channelId);
+        withdrawalParam.setMemberId(appUserVO.getId());
+        List<AppMemberWithdrawal> appMemberWithdrawalList = appMemberWithdrawalService.selectPage(withdrawalParam);
+        return CommonResult.success(CommonPage.restPage(appMemberWithdrawalList));
     }
 
 }

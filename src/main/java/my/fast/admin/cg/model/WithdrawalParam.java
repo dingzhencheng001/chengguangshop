@@ -21,4 +21,10 @@ public class WithdrawalParam {
     @ApiModelProperty(value = "会员id")
     private Long memberId;
 
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum;
+
+    @ApiModelProperty(value = "分页数")
+    private Integer pageSize;
+
 }

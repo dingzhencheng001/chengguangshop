@@ -17,6 +17,7 @@ import my.fast.admin.cg.entity.AppMemberAccountChange;
 import my.fast.admin.cg.entity.AppMemberBank;
 import my.fast.admin.cg.entity.AppMemberLevel;
 import my.fast.admin.cg.entity.AppMemberWithdrawal;
+import my.fast.admin.cg.entity.AppMemberWithdrawalExample;
 import my.fast.admin.cg.mapper.AppControlMapper;
 import my.fast.admin.cg.mapper.AppMemberAccountChangeMapper;
 import my.fast.admin.cg.mapper.AppMemberBankMapper;
@@ -136,6 +137,14 @@ public class AppMemberWithdrawalServiceImpl implements AppMemberWithdrawalServic
     public List<AppMemberWithdrawalVo> findPage(Long channelId, MemberWithdrawalParam memberWithdrawalParam) {
         PageHelper.startPage(memberWithdrawalParam.getPageNum(), memberWithdrawalParam.getPageSize());
         return appMemberWithdrawalMapper.selectWithdrawalList(memberWithdrawalParam);
+    }
+
+    @Override
+    public List<AppMemberWithdrawal> selectPage(WithdrawalParam withdrawalParam) {
+        PageHelper.startPage(withdrawalParam.getPageNum(), withdrawalParam.getPageSize());
+        AppMemberWithdrawalExample appMemberWithdrawalExample = new AppMemberWithdrawalExample();
+        appMemberWithdrawalExample.createCriteria().andChannelIdEqualTo(withdrawalParam.getChannelId()).andMemberIdEqualTo(withdrawalParam.getMemberId());
+        return appMemberWithdrawalMapper.selectByExample(appMemberWithdrawalExample);
     }
 
     /**

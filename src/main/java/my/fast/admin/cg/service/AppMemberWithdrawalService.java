@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.fast.admin.cg.entity.AppMember;
+import my.fast.admin.cg.entity.AppMemberWithdrawal;
 import my.fast.admin.cg.model.MemberWithdrawalParam;
+import my.fast.admin.cg.model.WithdrawalParam;
 import my.fast.admin.cg.vo.AppMemberWithdrawalVo;
 
 /**
@@ -34,6 +36,8 @@ public interface AppMemberWithdrawalService {
      */
     List<AppMemberWithdrawalVo> findPage(Long channelId, MemberWithdrawalParam withdrawal);
 
-
-
+    /**
+     * app提现分页查询
+     */
+    List<AppMemberWithdrawal> selectPage(WithdrawalParam withdrawalParam);
 }
