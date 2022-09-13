@@ -149,7 +149,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label label-required label-required-next" data-locale="addSwiper.addTextarea">文本描述</label>
 					<div class="layui-input-block">
-						<textarea class="layui-textarea" data-placeholder="addSwiper.petAddTextarea" name="content" ></textarea>
+						<textarea  id="addTextarea" class="layui-textarea" data-placeholder="addSwiper.petAddTextarea" name="content" ></textarea>
 					</div>
 				</div>
 
@@ -157,33 +157,6 @@
 				<div class="layui-form-item text-center">
 					<button type="button" class="layui-btn" lay-submit lay-filter="createTextSubmit" data-locale="submit">提交</button>
 					<button type="button" class="layui-btn layui-btn-danger" id="createTextCancel" data-locale="cancel">取消</button>
-				</div>
-			</div>
-		</form>
-	</div>
-
-	<div id="editTextId" style="display: none;height:380px">
-		<form class="layui-form layui-card" lay-filter="editTextForm">
-			<div class="layui-card-body">
-
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next" data-locale="addSwiper.textTitle">文本标题</label>
-					<div class="layui-input-block">
-						<input name="title" lay-filter="title" required data-placeholder="addSwiper.petTextTitle" value="" lay-verify="required" class="layui-input" />
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label label-required label-required-next" data-locale="addSwiper.addTextarea">文本描述</label>
-					<div class="layui-input-block">
-						<textarea class="layui-textarea" data-placeholder="addSwiper.petAddTextarea" name="content" ></textarea>
-					</div>
-				</div>
-
-				<div class="hr-line-dashed"></div>
-				<div class="layui-form-item text-center">
-					<button type="button" class="layui-btn" lay-submit lay-filter="editTextSubmit" data-locale="submit">提交</button>
-					<button type="button" class="layui-btn layui-btn-danger" id="editTextCancel" data-locale="cancel">取消</button>
 				</div>
 			</div>
 		</form>
@@ -468,6 +441,7 @@
 							success: function () {
 								form.val('addTextForm', data)
 								addeditor = layedit.build('addTextarea', {})
+								console.log('data', data);
 								$('#addTextarea').html(data.content)
 								$('#createTextId').show()
 							},
@@ -482,6 +456,7 @@
 							area: '800px',
 							content: $('#editId'),
 							success: function () {
+								$('#update-img').show().attr('src', data.picturePath);
 								form.val('editForm', data)
 								$('#editId').show()
 							},
@@ -565,7 +540,11 @@
 
 			// 编辑-提交
 			form.on('submit(editSubmit)', function (data) {
-				actions.onUpdateItem(tableCurrentItem.id, data.field, function () {
+				var picturePath = $('#update-img').attr('src');
+				var fd = Object.assign({}, data.field, {
+					picturePath: picturePath
+				})
+				actions.onUpdateItem(tableCurrentItem.id, fd, function () {
 					console.log('success')
 					layer.close(editIndex)
 					$('#editId').hide()
@@ -650,7 +629,8 @@
 					return false
 				} else {
 					data.field.pictureType = '5'
-					data.field.content = layedit.getContent(addeditor)
+					var content = layedit.getContent(addeditor)
+					console.log('content', content);
 					actions.onCreate(data.field, function () {
 						layer.close(createTextIndex)
 						form.val('addTextForm', {

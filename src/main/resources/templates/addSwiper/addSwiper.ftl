@@ -461,6 +461,7 @@
 						area: '800px',
 						content: $('#editId'),
 						success: function () {
+							$('#update-img').show().attr('src', data.picturePath);
 							form.val('editForm', data)
 							$('#editId').show()
 						},
@@ -544,7 +545,11 @@
 
 		// 编辑-提交
 		form.on('submit(editSubmit)', function (data) {
-			actions.onUpdateItem(tableCurrentItem.id, data.field, function () {
+			var picturePath = $('#update-img').attr('src');
+			var fd = Object.assign({}, data.field, {
+				picturePath: picturePath
+			})
+			actions.onUpdateItem(tableCurrentItem.id, fd, function () {
 				console.log('success')
 				layer.close(editIndex)
 				$('#editId').hide()
